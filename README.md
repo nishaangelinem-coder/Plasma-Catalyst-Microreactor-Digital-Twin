@@ -15,9 +15,6 @@ It contains
   baselines, plus ablations;
 * experiment scripts that write every reading to `results/` and every figure to `figures/`.
 
-The full write-up (literature review, research gap, method, set-up, results, limitations)
-is in **[`docs/RESEARCH_REPORT.md`](docs/RESEARCH_REPORT.md)**.
-
 ## Reproduce
 
 ```bash
