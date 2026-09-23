@@ -1,0 +1,37 @@
+comparison,metric,mean_diff,proposed_better,wilcoxon_p,n
+PC-HDT (proposed) vs Static physics,MAPE_NH3_pct,-45.97517247524866,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Static physics,RMSE_T_K,-11.695712065228898,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Static physics,RMSE_P_W,-0.9268586913855935,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Static physics,PICP95_NH3,0.9761718749999999,True,8.378218840902654e-05,20
+PC-HDT (proposed) vs Batch recalibration,MAPE_NH3_pct,-4.5587241043477915,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Batch recalibration,RMSE_T_K,-2.9639142802313114,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Batch recalibration,RMSE_P_W,-0.14598082056038908,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Batch recalibration,PICP95_NH3,0.06953124999999993,True,8.69545403378786e-05,20
+PC-HDT (proposed) vs RSM (static),MAPE_NH3_pct,-25.749005526785425,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs RSM (static),RMSE_T_K,-1.1646340195452711,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs RSM (static),RMSE_P_W,-0.5004134779048045,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs RSM (static),PICP95_NH3,0.71953125,True,8.844915021211901e-05,20
+PC-HDT (proposed) vs ANN (static),MAPE_NH3_pct,-34.63642802000499,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs ANN (static),RMSE_T_K,-10.069864719070075,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs ANN (static),RMSE_P_W,-8.851050569129585,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs ANN (static),PICP95_NH3,0.4175781249999999,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs GPR (static),MAPE_NH3_pct,-25.464614253025502,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs GPR (static),RMSE_T_K,-1.12998512874168,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs GPR (static),RMSE_P_W,-0.4978204400935816,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs GPR (static),PICP95_NH3,0.77734375,True,8.844915021211901e-05,20
+PC-HDT (proposed) vs GPR (sliding window),MAPE_NH3_pct,-2.4836949304313993,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs GPR (sliding window),RMSE_T_K,-0.050836483013624534,True,0.023950576782226562,20
+PC-HDT (proposed) vs GPR (sliding window),RMSE_P_W,-0.06331829075756379,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs GPR (sliding window),PICP95_NH3,0.09661458333333339,True,8.769942375590214e-05,20
+PC-HDT (proposed) vs Ablation: no residual,MAPE_NH3_pct,-3.428414214366855,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Ablation: no residual,RMSE_T_K,-3.280640143502404,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Ablation: no residual,RMSE_P_W,-0.13917451005468806,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Ablation: no residual,PICP95_NH3,0.025260416666666785,True,8.621447994652249e-05,20
+PC-HDT (proposed) vs Ablation: no adaptive inflation,MAPE_NH3_pct,-0.04752646241805181,True,0.000850677490234375,20
+PC-HDT (proposed) vs Ablation: no adaptive inflation,RMSE_T_K,0.07910042458325428,False,1.9073486328125e-06,20
+PC-HDT (proposed) vs Ablation: no adaptive inflation,RMSE_P_W,-0.004186669261113551,True,0.013616561889648438,20
+PC-HDT (proposed) vs Ablation: no adaptive inflation,PICP95_NH3,0.0010416666666667185,True,0.2046537194751077,20
+PC-HDT (proposed) vs Ablation: no deactivation drift,MAPE_NH3_pct,-0.02594708443398641,True,1.9073486328125e-06,20
+PC-HDT (proposed) vs Ablation: no deactivation drift,RMSE_T_K,-0.0014074150912675165,True,0.1230926513671875,20
+PC-HDT (proposed) vs Ablation: no deactivation drift,RMSE_P_W,-2.3193125717746454e-05,True,0.6742229461669922,20
+PC-HDT (proposed) vs Ablation: no deactivation drift,PICP95_NH3,0.0010416666666667185,True,0.1937078863636159,20

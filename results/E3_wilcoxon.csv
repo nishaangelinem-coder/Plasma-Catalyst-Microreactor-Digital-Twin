@@ -1,0 +1,29 @@
+comparison,metric,mean_diff,proposed_better,wilcoxon_p,n
+PC-HDT optimiser (proposed) vs Fixed set-point (DoE optimum),NH3_total_g,1.0628051091913413,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Fixed set-point (DoE optimum),EY_g_per_kWh,0.06724235849732985,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Fixed set-point (DoE optimum),T_violation_h,0.0,False,,20
+PC-HDT optimiser (proposed) vs Fixed set-point (DoE optimum),final_activity,-0.03658081513628664,False,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Thermal PI (max-load),NH3_total_g,0.8483174071536972,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Thermal PI (max-load),EY_g_per_kWh,0.06128915065268481,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Thermal PI (max-load),T_violation_h,0.0,False,,20
+PC-HDT optimiser (proposed) vs Thermal PI (max-load),final_activity,-0.01263467668823004,False,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Static-model optimiser,NH3_total_g,0.2620223464871856,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Static-model optimiser,EY_g_per_kWh,0.07384207975199297,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Static-model optimiser,T_violation_h,-20.5,True,8.819870204194453e-05,20
+PC-HDT optimiser (proposed) vs Static-model optimiser,final_activity,0.06716217421768378,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Recalibrated-model optimiser,NH3_total_g,0.2844128588850747,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Recalibrated-model optimiser,EY_g_per_kWh,0.05915693428202129,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Recalibrated-model optimiser,T_violation_h,-7.075,True,8.745059215649785e-05,20
+PC-HDT optimiser (proposed) vs Recalibrated-model optimiser,final_activity,0.045940879359507414,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Ablation: deterministic PC-HDT,NH3_total_g,-0.05971339074971027,False,0.0031528472900390625,20
+PC-HDT optimiser (proposed) vs Ablation: deterministic PC-HDT,EY_g_per_kWh,0.024332884925516884,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Ablation: deterministic PC-HDT,T_violation_h,-1.375,True,0.0002573926624386499,20
+PC-HDT optimiser (proposed) vs Ablation: deterministic PC-HDT,final_activity,0.03997540175046044,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Ablation: no degradation cost,NH3_total_g,-0.05203311281727707,False,0.0042209625244140625,20
+PC-HDT optimiser (proposed) vs Ablation: no degradation cost,EY_g_per_kWh,0.019987822930312316,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Ablation: no degradation cost,T_violation_h,0.0,False,,20
+PC-HDT optimiser (proposed) vs Ablation: no degradation cost,final_activity,0.03204023354919128,True,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Ablation: no chance constraint,NH3_total_g,-0.02574376268663059,False,1.9073486328125e-06,20
+PC-HDT optimiser (proposed) vs Ablation: no chance constraint,EY_g_per_kWh,-0.00042088230260617365,False,1.9073486328125e-05,20
+PC-HDT optimiser (proposed) vs Ablation: no chance constraint,T_violation_h,-0.325,True,0.025596805385948558,20
+PC-HDT optimiser (proposed) vs Ablation: no chance constraint,final_activity,0.002553845987357417,True,1.9073486328125e-06,20
