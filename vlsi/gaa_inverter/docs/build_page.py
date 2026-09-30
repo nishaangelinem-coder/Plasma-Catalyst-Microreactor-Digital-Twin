@@ -103,6 +103,7 @@ LISTINGS = [
     ("19", "spectre/gaa_sram6t_tb.scs", "Spectre testbench: 6T bitcell butterfly, write, read, leakage, supply sweep", False),
     ("20", "layout/gen_gaa_sram6t_gds.py", "SRAM6T_GAA_HD thin-cell GDSII generator", True),
     ("21", "spectre/sram6t.py", "6T bitcell reference analysis (SNM, write trip, read current)", True),
+    ("22", "docs/gen_schematics.py", "Schematic symbol library and the four schematics of Fig. 2", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -218,7 +219,9 @@ sub = {
     **ro_sub(),
     **nand_sub(),
     **sram_sub(),
-    "FIG_DEVICE": device_svg(), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
+    "FIG_DEVICE": device_svg(),
+    "SCH_INV": rd("docs/figures/schematic_inv_page.svg"), "SCH_NAND2": rd("docs/figures/schematic_nand2_page.svg"),
+    "SCH_RO11": rd("docs/figures/schematic_ro11_page.svg"), "SCH_SRAM": rd("docs/figures/schematic_sram6t_page.svg"), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
     "FIG_IDVG": rd("spectre/fig_idvg.svg"), "FIG_VTC": rd("spectre/fig_vtc.svg"),
     "FIG_GAIN": rd("spectre/fig_gain.svg"), "FIG_TRAN": rd("spectre/fig_tran.svg"),
     "LISTINGS": "\n".join(listing(*l) for l in LISTINGS),
