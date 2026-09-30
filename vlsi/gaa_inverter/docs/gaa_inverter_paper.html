@@ -136,7 +136,7 @@ pre.mermaid{margin:0;display:flex;justify-content:center}
     </div>
     <div class="abstract">
       <div class="eyebrow">Abstract</div>
-      <p>Gate-all-around (GAA) nanosheet transistors replace the FinFET at the 3-nm node because a gate that fully wraps a stack of thin channels restores electrostatic control at gate lengths near 14 nm and lets the designer tune drive current continuously through sheet width. This paper reports a complete, reproducible cell-to-chip design of a GAA nanosheet CMOS inverter (INV_GAA_X1) using the Cadence design platform running inside a VMware Workstation guest. The device is modelled with the industry-standard BSIM-CMG multi-gate compact model at a generic 3-nm-class rule set (gate length 14 nm, contacted gate pitch 48 nm, three 5-nm sheets, 6-track 168-nm cell). Schematic and transient characterisation use Virtuoso and Spectre; the physical cell is built in Virtuoso Layout and streamed to Calma GDSII; and the same cell is carried through a register-transfer-level (RTL) to GDSII flow with Genus synthesis and Innovus place-and-route. A dependency-free GDSII stream writer and a calibrated reference compact model, both released with the paper, let the layout and the electrical figures be regenerated and checked outside the licensed tools. At <var>V</var><sub>DD</sub> = 0.7 V the reference model gives a switching threshold of 350 mV, a maximum voltage gain of 28, noise margins of 255/266 mV, a fan-out-of-4 propagation delay of 5.77 ps and 0.84 fJ per cycle in a 0.0161 µm² footprint. The resulting GDSII passes independent read-back with 32 boundaries on 11 layers and four pin texts. The methodology is intended as a reference for research groups adopting GAA technology in academic environments where the EDA tools run on virtualised infrastructure.</p>
+      <p>Gate-all-around (GAA) nanosheet transistors replace the FinFET at the 3-nm node because a gate that fully wraps a stack of thin channels restores electrostatic control at gate lengths near 14 nm and lets the designer tune drive current continuously through sheet width. This paper reports a complete, reproducible cell-to-chip design of a GAA nanosheet CMOS inverter (INV_GAA_X1) using the Cadence design platform running inside a VMware Workstation guest. The device is modelled with the industry-standard BSIM-CMG multi-gate compact model at a generic 3-nm-class rule set (gate length 14 nm, contacted gate pitch 48 nm, three 5-nm sheets, 6-track 168-nm cell). Schematic and transient characterisation use Virtuoso and Spectre; the physical cell is built in Virtuoso Layout and streamed to Calma GDSII; and the same cell is carried through a register-transfer-level (RTL) to GDSII flow with Genus synthesis and Innovus place-and-route. A dependency-free GDSII stream writer and a calibrated reference compact model, both released with the paper, let the layout and the electrical figures be regenerated and checked outside the licensed tools. At <var>V</var><sub>DD</sub> = 0.7 V the reference model gives a switching threshold of 350 mV, a maximum voltage gain of 28, noise margins of 255/266 mV, a fan-out-of-4 propagation delay of 5.77 ps and 0.84 fJ per cycle in a 0.0161 µm² footprint, a 16 % delay and 17 % area reduction over a 5-nm-class FinFET inverter evaluated with the same model. The resulting GDSII passes independent read-back with 32 boundaries on 11 layers and four pin texts. The methodology is intended as a reference for research groups adopting GAA technology in academic environments where the EDA tools run on virtualised infrastructure.</p>
       <div class="terms"><b>Index terms:</b> gate-all-around, nanosheet FET, BSIM-CMG, CMOS inverter, GDSII, RTL-to-GDSII, Cadence Virtuoso, Genus, Innovus, VMware Workstation, 3-nm technology node.</div>
     </div>
   </section>
@@ -610,9 +610,44 @@ flowchart LR
         </table>
       </div>
 
+
+      <h3><span class="num">E.</span>Comparison with a FinFET inverter</h3>
+      <p>To quantify what the change of device brings, the same reference model, testbench and cell template were re-run with a 5-nm-class FinFET calibration: an 18-nm gate, 50-nm-tall and 6-nm-wide fins at a 27-nm fin pitch, two fins per device in a 6-track 180-nm cell at a 54-nm contacted gate pitch, with subthreshold swings of 72/74 mV/dec and the higher drain-induced barrier lowering of a tri-gate channel [2], [4], [6]. Table V sets the two side by side. Because a fin adds drive only in whole-fin steps, the FinFET PMOS is limited to the same two fins as the NMOS and so delivers only 148 µA against 191 µA, which shows up as a 1.24-ps rise/fall skew and a 335-mV switching threshold; the GAA cell tunes the P sheet to 45 nm and balances the edges to within 0.01 ps. The three wrapped 30-nm sheets fit a 210-nm effective width into a 30-nm footprint, where two fins need 54 nm of pitch for 212 nm. The result is a 16 % lower FO4 delay and a 17 % smaller cell for essentially the same energy per cycle, since the switched capacitance is set by the load and the parasitics rather than by the channel.</p>
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table V.</b> FinFET versus GAA nanosheet inverter: structure, device and cell-level figures. Electrical rows from the reference model with each technology's calibration at <var>V</var><sub>DD</sub> = 0.7 V, FO4 load, 12-ps input slew, 300 K.</caption>
+          <thead><tr><th>Property</th><th class="n">5-nm-class FinFET</th><th class="n">3-nm-class GAA nanosheet (this work)</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td colspan="4" style="font-weight:600;background:var(--bg-3)">Device structure</td></tr>
+            <tr><td>Channel geometry</td><td class="n">vertical fin, gate on 3 sides</td><td class="n">3 stacked sheets, gate on 4 sides</td><td>[1], [2]</td></tr>
+            <tr><td>Gate length <var>L</var><sub>g</sub></td><td class="n">18 nm</td><td class="n">14 nm</td><td>[4]</td></tr>
+            <tr><td>Channel critical dimension</td><td class="n">fin width 6 nm × height 50 nm</td><td class="n">sheet 5 nm thick × 30 / 45 nm wide</td><td>N / P</td></tr>
+            <tr><td>Effective width per device, eq. (1)</td><td class="n">2 × 106 = 212 nm</td><td class="n">210 nm (N) / 300 nm (P)</td><td>2 fins vs 3 sheets</td></tr>
+            <tr><td>Footprint of the channel (gate direction)</td><td class="n">54 nm (2 × 27-nm fin pitch)</td><td class="n">30 nm (N) / 45 nm (P)</td><td>width per footprint</td></tr>
+            <tr><td>Drive-strength tuning</td><td class="n">integer fin count</td><td class="n">continuous sheet width</td><td>[1], [3]</td></tr>
+            <tr><td>Subthreshold swing (N / P)</td><td class="n">72 / 74 mV/dec</td><td class="n">68 / 70 mV/dec</td><td>calibration</td></tr>
+            <tr><td>Output-conductance parameter <var>λ</var> (N / P)</td><td class="n">0.18 / 0.20 V⁻¹</td><td class="n">0.12 / 0.14 V⁻¹</td><td>DIBL-like</td></tr>
+            <tr><td colspan="4" style="font-weight:600;background:var(--bg-3)">Device figures (reference model)</td></tr>
+            <tr><td><var>I</var><sub>ON</sub> (N / P)</td><td class="n">191 / 148 µA</td><td class="n">210 / 225 µA</td><td>at <var>V</var><sub>GS</sub> = <var>V</var><sub>DS</sub> = 0.7 V</td></tr>
+            <tr><td><var>I</var><sub>OFF</sub> (N / P)</td><td class="n">2.4 / 1.4 nA</td><td class="n">2.8 / 2.1 nA</td><td></td></tr>
+            <tr><td>P/N on-current ratio</td><td class="n">0.78</td><td class="n">1.07</td><td>balance</td></tr>
+            <tr><td colspan="4" style="font-weight:600;background:var(--bg-3)">Inverter cell (reference model)</td></tr>
+            <tr><td>Cell size (6-track)</td><td class="n">108 × 180 nm = 0.0194 µm²</td><td class="n">96 × 168 nm = 0.0161 µm²</td><td>−17 %</td></tr>
+            <tr><td>Switching threshold <var>V</var><sub>M</sub></td><td class="n">335 mV</td><td class="n">350 mV</td><td><var>V</var><sub>DD</sub>/2 = 350 mV</td></tr>
+            <tr><td>Maximum gain</td><td class="n">28</td><td class="n">28</td><td></td></tr>
+            <tr><td>Noise margins NM<sub>L</sub> / NM<sub>H</sub></td><td class="n">251 / 285 mV</td><td class="n">255 / 266 mV</td><td></td></tr>
+            <tr><td><var>t</var><sub>pHL</sub> / <var>t</var><sub>pLH</sub> (FO4)</td><td class="n">6.22 / 7.47 ps</td><td class="n">5.77 / 5.76 ps</td><td>skew 1.24 vs 0.01 ps</td></tr>
+            <tr><td>Propagation delay <var>t</var><sub>pd</sub> (FO4)</td><td class="n">6.85 ps</td><td class="n">5.77 ps</td><td>−16 %</td></tr>
+            <tr><td>Energy per cycle (FO4)</td><td class="n">0.80 fJ</td><td class="n">0.84 fJ</td><td>+5 %</td></tr>
+            <tr><td>Static power</td><td class="n">1.32 nW</td><td class="n">1.74 nW</td><td>SVT flavour</td></tr>
+            <tr><td>Energy–delay product (FO4)</td><td class="n">5.49 fJ·ps</td><td class="n">4.85 fJ·ps</td><td>−12 %</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <h2 id="s5"><span class="num">V.</span>Discussion</h2>
       <p><b>Position against the roadmap.</b> The geometry of Table I matches the IRDS 2023 "3-nm" logic node (14–16-nm gate length, 45–48-nm contacted gate pitch, 24–28-nm minimum metal pitch, 0.7-V supply) [4], and the FO4 delay and energy of Table III are in the range reported for early GAA nanosheet ring oscillators and inverters [1], [3]. The 6-track cell height of 168 nm is at the roadmap value; the 96-nm width is the minimum for a single-gate cell with shared diffusion breaks.</p>
-      <p><b>What GAA changes in the cell.</b> Compared with a FinFET inverter at the same pitch, the layout has no fin grid: drive is set by the height of the nanosheet band, which the layout engineer can choose per device within the design-rule window, and the N/P sheet-width ratio replaces the fin-count ratio. The stack-count marker and the gate-cut layer are new; the rest of the metallisation is unchanged, which is why the RTL-to-GDSII flow needed no modification beyond pointing at the GAA library.</p>
+      <p><b>What GAA changes in the cell.</b> Table V makes the trade explicit. Compared with a FinFET inverter at the same pitch, the layout has no fin grid: drive is set by the height of the nanosheet band, which the layout engineer can choose per device within the design-rule window, and the N/P sheet-width ratio replaces the fin-count ratio. The stack-count marker and the gate-cut layer are new; the rest of the metallisation is unchanged, which is why the RTL-to-GDSII flow needed no modification beyond pointing at the GAA library.</p>
       <p><b>Limitations.</b> The rule set is generic; a foundry 3-nm GAA PDK has different layer numbering, an additional buried power rail or backside power option, and considerably tighter and more numerous rules, so the layout here should be treated as a topology, not as tape-out ready. The results section reports reference-model values that must be replaced by the Spectre/BSIM-CMG and post-layout Innovus figures once the flow is executed in the licensed environment; the model was calibrated to the same targets so the two are expected to agree within the calibration tolerance, but extraction will add parasitic capacitance that the 0.35-fF lumped estimate only approximates. Variability (sheet-thickness and work-function variation) and self-heating in the stacked, dielectrically isolated channel were not analysed and are natural next steps.</p>
       <p><b>Reproducibility.</b> Every script referenced in this paper is listed in the Appendix and released in the project repository under <code>vlsi/gaa_inverter/</code>. The GDSII file, the SVG rendering of its polygons and the reference-model results are regenerated by two Python commands with no dependencies beyond the standard library.</p>
 
@@ -1263,7 +1298,7 @@ module inverter_tb;
     end
 endmodule
 </pre></details>
-<details class="listing" id="lst10"><summary><span>Listing 10. Reference compact model and figure generator · <code>spectre/ref_model.py</code></span></summary><div class="bar"><span>232 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+<details class="listing" id="lst10"><summary><span>Listing 10. Reference compact model and figure generator · <code>spectre/ref_model.py</code></span></summary><div class="bar"><span>245 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;
 ref_model.py -- dependency-free reference simulation of the GAA nanosheet inverter.
 
@@ -1273,7 +1308,7 @@ IRDS-2023 3-nm-class nanosheet targets. It reproduces the metrics that the
 Spectre/BSIM-CMG testbench `gaa_inv_tb.scs` extracts, so results can be checked
 before/after running Cadence in the VMware guest.  Writes results.json and SVG plots.
 &quot;&quot;&quot;
-import json, math
+import json, math, os
 
 PHI_T = 0.02585                 # kT/q at 300 K
 VDD = 0.70
@@ -1286,6 +1321,16 @@ DEV = {
     &quot;n&quot;: dict(vth=0.24, ss=0.068, alpha=1.25, lam=0.12, jon=1.00e-3, weff=w_eff(TECH[&quot;NS_W_N&quot;]), sgn=+1),
     &quot;p&quot;: dict(vth=0.26, ss=0.070, alpha=1.25, lam=0.14, jon=0.75e-3, weff=w_eff(TECH[&quot;NS_W_P&quot;]), sgn=-1),
 }
+FINFET = os.environ.get(&quot;GAA_TECH&quot;, &quot;gaa&quot;) == &quot;finfet&quot;
+if FINFET:
+    # 5-nm-class FinFET reference: Lg 18 nm, fin H 50 nm / W 6 nm, 2 fins per device (drive
+    # is quantised: the N/P ratio cannot be tuned continuously), SS ~72/74 mV/dec, higher DIBL.
+    TECH = dict(FIN_N=2, FIN_H=50e-9, FIN_W=6e-9, LG=18e-9, EOT=0.9e-9)
+    def w_eff_fin(): return TECH[&quot;FIN_N&quot;] * (2 * TECH[&quot;FIN_H&quot;] + TECH[&quot;FIN_W&quot;])
+    DEV = {
+        &quot;n&quot;: dict(vth=0.26, ss=0.072, alpha=1.25, lam=0.18, jon=0.90e-3, weff=w_eff_fin(), sgn=+1),
+        &quot;p&quot;: dict(vth=0.28, ss=0.074, alpha=1.25, lam=0.20, jon=0.70e-3, weff=w_eff_fin(), sgn=-1),
+    }
 for d in DEV.values():
     d[&quot;n_ss&quot;] = d[&quot;ss&quot;] / (PHI_T * math.log(10.0))
     d[&quot;ion&quot;] = d[&quot;jon&quot;] * d[&quot;weff&quot;] * 1e6        # A  (jon in A/um, weff in m)
@@ -1437,8 +1482,9 @@ def svg_chart(w, h, series, xlab, ylab, xlim, ylim, log=False, extra=&quot;&quot
 if __name__ == &quot;__main__&quot;:
     curve = vtc()
     st = metrics_static(curve)
-    fo1 = transient(cl=0.32e-15)
-    fo4 = transient(cl=4 * 0.32e-15)
+    cin = 0.30e-15 if FINFET else 0.32e-15
+    fo1 = transient(cl=cin, cpar=0.40e-15 if FINFET else 0.35e-15)
+    fo4 = transient(cl=4 * cin, cpar=0.40e-15 if FINFET else 0.35e-15)
     ioff_n, ioff_p = i_n(0.0, VDD), i_p(VDD, 0.0)
     res = dict(
         VDD=VDD, tech=TECH,
@@ -1451,12 +1497,14 @@ if __name__ == &quot;__main__&quot;:
         fo4={k: v for k, v in fo4.items() if k != &quot;wave&quot;},
         P_static_pW=0.5 * (ioff_n + ioff_p) * VDD * 1e12,
         P_dyn_uW_at_1GHz=fo4[&quot;E_cycle&quot;] * 1e9 * 1e6,
-        area_um2=0.096 * 0.168,
+        area_um2=(0.108 * 0.180) if FINFET else (0.096 * 0.168),   # 5-nm FinFET: CPP 54, 6T x 30 nm
     )
-    json.dump(res, open(&quot;results.json&quot;, &quot;w&quot;), indent=1)
+    json.dump(res, open(&quot;results_finfet.json&quot; if FINFET else &quot;results.json&quot;, &quot;w&quot;), indent=1)
     for k, v in res.items():
         if k not in (&quot;tech&quot;,): print(k, &quot;=&quot;, json.dumps(v, default=lambda o: round(o, 6)) if isinstance(v, dict) else v)
 
+    if FINFET:
+        raise SystemExit(0)
     # ---- figures
     g = st[&quot;gain&quot;]
     gain_xy = [(curve[i][0], -g[i]) for i in range(1, len(curve) - 1)]

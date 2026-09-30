@@ -8,7 +8,7 @@ IRDS-2023 3-nm-class nanosheet targets. It reproduces the metrics that the
 Spectre/BSIM-CMG testbench `gaa_inv_tb.scs` extracts, so results can be checked
 before/after running Cadence in the VMware guest.  Writes results.json and SVG plots.
 """
-import json, math
+import json, math, os
 
 PHI_T = 0.02585                 # kT/q at 300 K
 VDD = 0.70
@@ -21,6 +21,16 @@ DEV = {
     "n": dict(vth=0.24, ss=0.068, alpha=1.25, lam=0.12, jon=1.00e-3, weff=w_eff(TECH["NS_W_N"]), sgn=+1),
     "p": dict(vth=0.26, ss=0.070, alpha=1.25, lam=0.14, jon=0.75e-3, weff=w_eff(TECH["NS_W_P"]), sgn=-1),
 }
+FINFET = os.environ.get("GAA_TECH", "gaa") == "finfet"
+if FINFET:
+    # 5-nm-class FinFET reference: Lg 18 nm, fin H 50 nm / W 6 nm, 2 fins per device (drive
+    # is quantised: the N/P ratio cannot be tuned continuously), SS ~72/74 mV/dec, higher DIBL.
+    TECH = dict(FIN_N=2, FIN_H=50e-9, FIN_W=6e-9, LG=18e-9, EOT=0.9e-9)
+    def w_eff_fin(): return TECH["FIN_N"] * (2 * TECH["FIN_H"] + TECH["FIN_W"])
+    DEV = {
+        "n": dict(vth=0.26, ss=0.072, alpha=1.25, lam=0.18, jon=0.90e-3, weff=w_eff_fin(), sgn=+1),
+        "p": dict(vth=0.28, ss=0.074, alpha=1.25, lam=0.20, jon=0.70e-3, weff=w_eff_fin(), sgn=-1),
+    }
 for d in DEV.values():
     d["n_ss"] = d["ss"] / (PHI_T * math.log(10.0))
     d["ion"] = d["jon"] * d["weff"] * 1e6        # A  (jon in A/um, weff in m)
@@ -172,8 +182,9 @@ def svg_chart(w, h, series, xlab, ylab, xlim, ylim, log=False, extra=""):
 if __name__ == "__main__":
     curve = vtc()
     st = metrics_static(curve)
-    fo1 = transient(cl=0.32e-15)
-    fo4 = transient(cl=4 * 0.32e-15)
+    cin = 0.30e-15 if FINFET else 0.32e-15
+    fo1 = transient(cl=cin, cpar=0.40e-15 if FINFET else 0.35e-15)
+    fo4 = transient(cl=4 * cin, cpar=0.40e-15 if FINFET else 0.35e-15)
     ioff_n, ioff_p = i_n(0.0, VDD), i_p(VDD, 0.0)
     res = dict(
         VDD=VDD, tech=TECH,
@@ -186,12 +197,14 @@ if __name__ == "__main__":
         fo4={k: v for k, v in fo4.items() if k != "wave"},
         P_static_pW=0.5 * (ioff_n + ioff_p) * VDD * 1e12,
         P_dyn_uW_at_1GHz=fo4["E_cycle"] * 1e9 * 1e6,
-        area_um2=0.096 * 0.168,
+        area_um2=(0.108 * 0.180) if FINFET else (0.096 * 0.168),   # 5-nm FinFET: CPP 54, 6T x 30 nm
     )
-    json.dump(res, open("results.json", "w"), indent=1)
+    json.dump(res, open("results_finfet.json" if FINFET else "results.json", "w"), indent=1)
     for k, v in res.items():
         if k not in ("tech",): print(k, "=", json.dumps(v, default=lambda o: round(o, 6)) if isinstance(v, dict) else v)
 
+    if FINFET:
+        raise SystemExit(0)
     # ---- figures
     g = st["gain"]
     gain_xy = [(curve[i][0], -g[i]) for i in range(1, len(curve) - 1)]

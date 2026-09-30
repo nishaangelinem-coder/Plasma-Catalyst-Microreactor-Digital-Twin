@@ -4,6 +4,7 @@ import html, json, os
 R = os.path.dirname(os.path.abspath(__file__)); B = os.path.dirname(R)
 def rd(p): return open(os.path.join(B, p), encoding="utf-8").read()
 res = json.load(open(os.path.join(B, "spectre/results.json")))
+fin = json.load(open(os.path.join(B, "spectre/results_finfet.json")))
 tpl = rd("docs/template.html")
 
 # ---------------- Fig. 1: device cross-sections (hand-drawn SVG, theme tokens) ----------------
@@ -92,6 +93,30 @@ def listing(num, path, title, collapsed):
                 f'<div class="bar"><span>{len(code.splitlines())} lines</span><button type="button" data-copy>Copy</button></div><pre>{code}</pre></details>')
     return f'<div class="listing" id="lst{num}">{bar}<pre>{code}</pre></div>'
 
+# ---------------- FinFET comparison numbers ----------------
+def finfet_sub():
+    fd, fs, ff4 = fin["device"], fin["static"], fin["fo4"]
+    g4 = res["fo4"]
+    skew_f = abs(ff4["tpHL"] - ff4["tpLH"]) * 1e12
+    skew_g = abs(g4["tpHL"] - g4["tpLH"]) * 1e12
+    edp_f = ff4["E_cycle"] * 1e15 * ff4["tpd"] * 1e12
+    edp_g = g4["E_cycle"] * 1e15 * g4["tpd"] * 1e12
+    de = (g4["E_cycle"] - ff4["E_cycle"]) / ff4["E_cycle"] * 100
+    return {
+        "F_IONN": f"{fd['n']['Ion_uA']:.0f}", "F_IONP": f"{fd['p']['Ion_uA']:.0f}",
+        "F_IOFFN": f"{fd['n']['Ioff_nA']:.1f}", "F_IOFFP": f"{fd['p']['Ioff_nA']:.1f}",
+        "F_PN": f"{fd['p']['Ion_uA']/fd['n']['Ion_uA']:.2f}", "G_PN": f"{res['device']['p']['Ion_uA']/res['device']['n']['Ion_uA']:.2f}",
+        "F_VM": f"{fs['VM']*1e3:.0f}", "F_GAIN": f"{-fs['gain_max']:.0f}",
+        "F_NML": f"{fs['NML']*1e3:.0f}", "F_NMH": f"{fs['NMH']*1e3:.0f}",
+        "F_TPHL4": f"{ff4['tpHL']*1e12:.2f}", "F_TPLH4": f"{ff4['tpLH']*1e12:.2f}", "F_TPD4": f"{ff4['tpd']*1e12:.2f}",
+        "F_ECYC4": f"{ff4['E_cycle']*1e15:.2f}", "F_PSTAT": f"{fin['P_static_pW']/1e3:.2f}",
+        "F_SKEW": f"{skew_f:.2f}", "G_SKEW": f"{skew_g:.2f}",
+        "F_EDP": f"{edp_f:.2f}", "G_EDP": f"{edp_g:.2f}",
+        "TPD_GAIN": f"{(1 - g4['tpd']/ff4['tpd'])*100:.0f}", "AREA_GAIN": f"{(1 - res['area_um2']/fin['area_um2'])*100:.0f}",
+        "EDP_GAIN": f"{(1 - edp_g/edp_f)*100:.0f}",
+        "E_DELTA": (f"+{de:.0f} %" if de >= 0 else f"−{-de:.0f} %"),
+    }
+
 # ---------------- numbers ----------------
 d, st, f1, f4 = res["device"], res["static"], res["fo1"], res["fo4"]
 mv = lambda v: f"{v*1e3:.0f}"
@@ -108,6 +133,7 @@ sub = {
     "TPHL4": ps(f4["tpHL"]), "TPLH4": ps(f4["tpLH"]), "TPD4": ps(f4["tpd"]), "TF4": ps(f4["tfall"]), "TR4": ps(f4["trise"]), "ECYC4": fj(f4["E_cycle"]),
     "PDYN1": f"{f1['E_cycle']*1e9*1e6:.2f}", "PDYN4": f"{f4['E_cycle']*1e9*1e6:.2f}",
     "PSTAT": f"{res['P_static_pW']/1e3:.2f}", "DYNSTAT": f"{f4['E_cycle']*1e9/(res['P_static_pW']*1e-12):.0f}",
+    **finfet_sub(),
     "FIG_DEVICE": device_svg(), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
     "FIG_IDVG": rd("spectre/fig_idvg.svg"), "FIG_VTC": rd("spectre/fig_vtc.svg"),
     "FIG_GAIN": rd("spectre/fig_gain.svg"), "FIG_TRAN": rd("spectre/fig_tran.svg"),

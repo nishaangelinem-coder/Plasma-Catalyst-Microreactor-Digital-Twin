@@ -38,6 +38,7 @@ and read back with `gdstk`.
 ```bash
 cd spectre && spectre gaa_inv_tb.scs +log spectre.log       # BSIM-CMG nanosheet models
 python3 ref_model.py                                        # reference metrics for cross-check
+GAA_TECH=finfet python3 ref_model.py                        # 5-nm-class FinFET baseline (Table V)
 ```
 In Virtuoso: `File > Import > Stream` the GDS in `layout/` (layer map
 `layout/gaa3.layermap`) to obtain the `INV_GAA_X1 layout` cellview, run DRC/LVS,
