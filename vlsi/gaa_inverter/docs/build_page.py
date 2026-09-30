@@ -105,7 +105,8 @@ LISTINGS = [
     ("21", "spectre/sram6t.py", "6T bitcell reference analysis (SNM, write trip, read current)", True),
     ("22", "docs/gen_schematics.py", "Schematic symbol library and the four schematics of Fig. 2", True),
     ("23", "docs/gen_schematics_virtuoso.py", "Virtuoso-convention schematic renderings of Fig. 3", True),
-    ("24", "docs/render_pngs.py", "PNG rendering of all schematics and layouts (headless Chromium)", True),
+    ("24", "docs/render_pngs.py", "PNG rendering of all schematics, waveforms and layouts (headless Chromium)", True),
+    ("25", "docs/gen_viva.py", "ViVA-convention waveform panels of Fig. 9", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -225,7 +226,10 @@ sub = {
     "SCH_INV": rd("docs/figures/schematic_inv_page.svg"), "SCH_NAND2": rd("docs/figures/schematic_nand2_page.svg"),
     "SCH_RO11": rd("docs/figures/schematic_ro11_page.svg"), "SCH_SRAM": rd("docs/figures/schematic_sram6t_page.svg"),
     "VS_INV": rd("docs/figures/virtuoso_inv.svg"), "VS_NAND2": rd("docs/figures/virtuoso_nand2.svg"),
-    "VS_RO11": rd("docs/figures/virtuoso_ro11.svg"), "VS_SRAM": rd("docs/figures/virtuoso_sram6t.svg"), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
+    "VS_RO11": rd("docs/figures/virtuoso_ro11.svg"), "VS_SRAM": rd("docs/figures/virtuoso_sram6t.svg"),
+    "VV_INV_DC": rd("docs/figures/viva_inv_dc.svg"), "VV_INV_TRAN": rd("docs/figures/viva_inv_tran.svg"),
+    "VV_NAND2_TRAN": rd("docs/figures/viva_nand2_tran.svg"), "VV_RO11_TRAN": rd("docs/figures/viva_ro11_tran.svg"),
+    "VV_SRAM": rd("docs/figures/viva_sram_butterfly.svg"), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
     "FIG_IDVG": rd("spectre/fig_idvg.svg"), "FIG_VTC": rd("spectre/fig_vtc.svg"),
     "FIG_GAIN": rd("spectre/fig_gain.svg"), "FIG_TRAN": rd("spectre/fig_tran.svg"),
     "LISTINGS": "\n".join(listing(*l) for l in LISTINGS),
