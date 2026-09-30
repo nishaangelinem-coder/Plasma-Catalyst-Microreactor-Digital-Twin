@@ -1,0 +1,44 @@
+// gaa_inv_tb.scs -- Spectre testbench: GAA nanosheet inverter, BSIM-CMG (multi-gate) models
+// Run: spectre gaa_inv_tb.scs +log spectre.log  (Virtuoso ADE: import as netlist)
+simulator lang=spectre
+global 0 vdd!
+
+// ---- BSIM-CMG nanosheet model cards (generic 3-nm-class calibration) --------
+// GEOMOD=0 (double-gate) with NFIN = number of sheets and effective width via
+// TFIN (sheet thickness) & HFIN (sheet width): W_eff = NFIN * 2 * (HFIN + TFIN)
+model nsheet_n bsimcmg type=n  version=110.0 bulkmod=0 geomod=0 devtype=1 \
+      l=14e-9 tfin=5e-9 hfin=30e-9 nfin=3 eot=0.9e-9 toxp=1.2e-9 \
+      phig=4.36 nbody=1e22 u0=0.030 vsat=1.2e5 rdsw=90 \
+      dvt0=1.2 dvt1=0.45 eta0=0.06 cit=1e-4 cgso=1.2e-10 cgdo=1.2e-10
+model nsheet_p bsimcmg type=p  version=110.0 bulkmod=0 geomod=0 devtype=0 \
+      l=14e-9 tfin=5e-9 hfin=45e-9 nfin=3 eot=0.9e-9 toxp=1.2e-9 \
+      phig=4.86 nbody=1e22 u0=0.022 vsat=1.0e5 rdsw=110 \
+      dvt0=1.2 dvt1=0.45 eta0=0.07 cit=1e-4 cgso=1.3e-10 cgdo=1.3e-10
+
+// ---- inverter subcircuit (matches INV_GAA_X1 layout) --------------------------
+subckt INV_GAA_X1 (A Y VDD VSS)
+    MP (Y A VDD VDD) nsheet_p
+    MN (Y A VSS VSS) nsheet_n
+    CparY (Y VSS) capacitor c=0.35f          // drain/contact parasitics (pre-extraction)
+ends INV_GAA_X1
+
+// ---- stimulus -----------------------------------------------------------------
+parameters vsup=0.70 tslew=12p cload=1.28f  // cload = FO4 (4 x 0.32 fF)
+Vdd (vdd! 0) vsource dc=vsup
+Vin (in 0)   vsource type=pwl wave=[0 0 10p 0 25p vsup 45p vsup 60p 0 80p 0]
+X1  (in out vdd! 0) INV_GAA_X1
+CL  (out 0) capacitor c=cload
+
+// ---- analyses -----------------------------------------------------------------
+dcvtc  dc dev=Vin param=dc start=0 stop=vsup step=5m
+tran   tran stop=80p step=2f errpreset=conservative
+leak   dc dev=Vin param=dc values=[0 vsup]
+
+// ---- measurements (Spectre .measure equivalents via 'export'/MDL) -----------
+export vm    = value( v(out), v(in) == v(out) )
+export tpHL  = cross(sig=v(out) dir='fall n=1 thresh=vsup/2) - cross(sig=v(in) dir='rise n=1 thresh=vsup/2)
+export tpLH  = cross(sig=v(out) dir='rise n=1 thresh=vsup/2) - cross(sig=v(in) dir='fall n=1 thresh=vsup/2)
+export Ecyc  = integ(-i(Vdd)*vsup, from=0, to=80p)
+export Pstat = -i(Vdd) * vsup
+
+saveOptions options save=allpub

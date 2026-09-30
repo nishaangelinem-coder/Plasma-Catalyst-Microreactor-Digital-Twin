@@ -1,0 +1,435 @@
+<title>GAA Nanosheet Inverter RTL-to-GDSII</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: journal manuscript. Masthead + title block, then a sticky section rail (wide screens)
+   beside a single 68ch reading column; figures and listings may span the column's full width. */
+:root{
+  --bg:#f6f7f9; --bg-2:#ffffff; --bg-3:#eceef2;
+  --ink:#171b22; --ink-2:#4b5260; --ink-3:#8b919d;
+  --rule:#d5d9e0; --grid:#e3e6eb;
+  --accent:#1f4e8c; --accent-soft:#e2eaf5; --accent-ink:#173c6d;
+  --c1:#2a78d6; --c2:#eb6834;
+  --code-bg:#f0f2f5; --code-ink:#1c2230; --plate:#fbfbfb;
+  --font-display:"Newsreader","Iowan Old Style",Georgia,serif;
+  --font-body:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171c; --bg-2:#1b1f26; --bg-3:#232830;
+    --ink:#e7e9ee; --ink-2:#b3b9c5; --ink-3:#7d8492;
+    --rule:#2f353f; --grid:#2a3038;
+    --accent:#7fb0ef; --accent-soft:#1f2c3f; --accent-ink:#a9c9f5;
+    --c1:#3987e5; --c2:#d95926;
+    --code-bg:#1b1f26; --code-ink:#dfe3ea; --plate:#fbfbfb;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171c; --bg-2:#1b1f26; --bg-3:#232830;
+  --ink:#e7e9ee; --ink-2:#b3b9c5; --ink-3:#7d8492;
+  --rule:#2f353f; --grid:#2a3038;
+  --accent:#7fb0ef; --accent-soft:#1f2c3f; --accent-ink:#a9c9f5;
+  --c1:#3987e5; --c2:#d95926;
+  --code-bg:#1b1f26; --code-ink:#dfe3ea; --plate:#fbfbfb;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:1140px;margin:0 auto;padding-inline:16px;padding-block:24px 72px}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.15;font-weight:600}
+h1{font-size:clamp(1.7rem,3.6vw,2.6rem);letter-spacing:-0.01em}
+h2{font-size:1.45rem;margin-top:2.6rem;padding-top:1.2rem;border-top:1px solid var(--rule)}
+h3{font-size:1.12rem;margin-top:1.8rem;font-style:italic;font-weight:400}
+h2 .num,h3 .num{font-family:var(--font-ui);font-style:normal;font-weight:500;color:var(--accent);margin-right:.55em;font-size:.85em;letter-spacing:.02em}
+p{margin:0 0 1rem}
+.eyebrow{font-family:var(--font-ui);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);font-weight:500}
+/* masthead */
+.mast{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;align-items:baseline;padding-bottom:12px;border-bottom:2px solid var(--ink)}
+.mast .journal{font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+.titleblock{padding-block:28px 20px;display:grid;gap:18px}
+.authors{font-family:var(--font-ui);font-size:.95rem;color:var(--ink-2);display:grid;gap:4px}
+.authors b{color:var(--ink);font-weight:600}
+.abstract{background:var(--bg-2);border:1px solid var(--rule);padding:20px 22px;display:grid;gap:12px}
+.abstract p{margin:0;font-size:.98rem}
+.abstract .terms{font-family:var(--font-ui);font-size:.85rem;color:var(--ink-2)}
+.abstract .terms b{color:var(--ink)}
+/* body grid */
+.grid{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;margin-top:8px}
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;font-family:var(--font-ui);font-size:.82rem;display:grid;gap:2px;max-height:calc(100vh - 40px);overflow:auto}
+nav.rail a{color:var(--ink-2);text-decoration:none;padding:5px 10px;border-left:2px solid var(--rule);display:block}
+nav.rail a:hover{color:var(--ink);border-left-color:var(--accent)}
+nav.rail .eyebrow{padding:0 10px 8px}
+article{min-width:0;max-width:72ch}
+article > p, article li{max-width:68ch}
+@media (max-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr);gap:16px}
+  nav.rail{position:static;max-height:none;display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--rule);padding-bottom:12px}
+  nav.rail a{border-left:0;background:var(--bg-3);padding:4px 10px;border-radius:2px}
+  nav.rail .eyebrow{display:none}
+}
+/* figures, tables, code */
+figure{margin:1.6rem 0;display:grid;gap:8px;position:relative}
+.fig{background:var(--bg-2);border:1px solid var(--rule);padding:12px;position:relative;overflow-x:auto}
+.fig svg{display:block;max-width:100%;height:auto}
+.plate{background:var(--plate);border:1px solid var(--rule);padding:10px;display:flex;justify-content:center;overflow-x:auto}
+figcaption{font-family:var(--font-ui);font-size:.86rem;color:var(--ink-2);line-height:1.45}
+figcaption b{color:var(--ink);font-weight:600}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;align-items:start}
+.tblwrap{overflow-x:auto;margin:1.2rem 0}
+table.tbl{border-collapse:collapse;width:100%;font-family:var(--font-ui);font-size:.86rem;font-variant-numeric:tabular-nums}
+table.tbl caption{text-align:left;font-size:.86rem;color:var(--ink-2);padding-bottom:8px;caption-side:top}
+table.tbl caption b{color:var(--ink)}
+table.tbl th,table.tbl td{padding:7px 10px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+table.tbl th{font-weight:600;border-bottom:2px solid var(--ink);white-space:nowrap}
+table.tbl td.n,table.tbl th.n{text-align:right}
+table.tbl tr:last-child td{border-bottom:2px solid var(--ink)}
+.eq{display:flex;gap:16px;align-items:center;justify-content:space-between;margin:1rem 0 1.2rem;padding:8px 12px;background:var(--bg-2);border-left:2px solid var(--accent);font-size:1.02rem;overflow-x:auto}
+.eq .n{font-family:var(--font-ui);color:var(--ink-3);font-size:.85rem;white-space:nowrap}
+var{font-style:italic}
+.listing{margin:1.4rem 0;border:1px solid var(--rule);background:var(--code-bg);min-width:0}
+.listing .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 12px;border-bottom:1px solid var(--rule);font-family:var(--font-ui);font-size:.78rem;color:var(--ink-2)}
+.listing .bar code{font-family:var(--font-mono);color:var(--ink)}
+.listing pre{margin:0;padding:12px 14px;overflow-x:auto;font-family:var(--font-mono);font-size:.78rem;line-height:1.5;color:var(--code-ink);tab-size:4}
+.listing button{font:inherit;font-family:var(--font-ui);font-size:.75rem;background:var(--bg-2);color:var(--ink);border:1px solid var(--rule);padding:3px 10px;cursor:pointer;border-radius:2px}
+.listing button:hover{border-color:var(--accent)}
+details.listing summary{cursor:pointer;list-style:none;padding:8px 12px;font-family:var(--font-ui);font-size:.85rem;color:var(--ink);display:flex;justify-content:space-between;gap:12px}
+details.listing summary::-webkit-details-marker{display:none}
+details.listing summary::after{content:"expand";color:var(--accent);font-size:.78rem}
+details.listing[open] summary::after{content:"collapse"}
+details.listing[open] summary{border-bottom:1px solid var(--rule)}
+.callout{background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 16px;margin:1.2rem 0;font-size:.95rem}
+.callout b{color:var(--accent-ink)}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:1.2rem 0}
+.stat div{background:var(--bg-2);padding:12px 14px;font-family:var(--font-ui)}
+.stat .v{font-size:1.35rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.stat .l{font-size:.76rem;color:var(--ink-2);margin-top:2px}
+ol.refs{padding-left:2.2em;font-size:.93rem}
+ol.refs li{margin-bottom:.5rem;padding-left:.2em}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--font-ui);font-size:.78rem;color:var(--ink-2)}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-2px;border:1px solid var(--ink-3);background:var(--sw)}
+.tip{position:absolute;pointer-events:none;background:var(--bg-2);color:var(--ink);border:1px solid var(--rule);box-shadow:0 2px 8px rgba(0,0,0,.12);font-family:var(--font-ui);font-size:.76rem;padding:6px 9px;line-height:1.4;white-space:nowrap;display:none;z-index:2}
+.tip b{font-weight:600}
+.tip i{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px;border-radius:1px}
+.pre-mermaid{background:var(--bg-2);border:1px solid var(--rule);padding:10px;overflow-x:auto}
+pre.mermaid{margin:0;display:flex;justify-content:center}
+.footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule);font-family:var(--font-ui);font-size:.8rem;color:var(--ink-2)}
+@media (prefers-reduced-motion:no-preference){nav.rail a{transition:color .15s,border-color .15s}}
+</style>
+
+<div class="page">
+  <header class="mast">
+    <div class="journal">Manuscript prepared for Q1 journal submission</div>
+    <div class="eyebrow">Original research · Nanoelectronics · Manuscript draft, Sept. 2026</div>
+  </header>
+
+  <section class="titleblock">
+    <h1>Design and RTL-to-GDSII Implementation of a Gate-All-Around Nanosheet CMOS Inverter Using the Cadence Flow in a Virtualized Workstation Environment</h1>
+    <div class="authors">
+      <div><b>M. Nisha Angeline</b>, Professor and Head</div>
+      <div>Department of Electronics and Communication Engineering, Velalar College of Engineering and Technology, Thindal, Erode, Tamil Nadu, India</div>
+      <div>Corresponding author: M. Nisha Angeline</div>
+    </div>
+    <div class="abstract">
+      <div class="eyebrow">Abstract</div>
+      <p>Gate-all-around (GAA) nanosheet transistors replace the FinFET at the 3-nm node because a gate that fully wraps a stack of thin channels restores electrostatic control at gate lengths near 14 nm and lets the designer tune drive current continuously through sheet width. This paper reports a complete, reproducible cell-to-chip design of a GAA nanosheet CMOS inverter (INV_GAA_X1) using the Cadence design platform running inside a VMware Workstation guest. The device is modelled with the industry-standard BSIM-CMG multi-gate compact model at a generic 3-nm-class rule set (gate length 14 nm, contacted gate pitch 48 nm, three 5-nm sheets, 6-track 168-nm cell). Schematic and transient characterisation use Virtuoso and Spectre; the physical cell is built in Virtuoso Layout and streamed to Calma GDSII; and the same cell is carried through a register-transfer-level (RTL) to GDSII flow with Genus synthesis and Innovus place-and-route. A dependency-free GDSII stream writer and a calibrated reference compact model, both released with the paper, let the layout and the electrical figures be regenerated and checked outside the licensed tools. At <var>V</var><sub>DD</sub> = 0.7 V the reference model gives a switching threshold of {{VM}} mV, a maximum voltage gain of {{GAIN}}, noise margins of {{NML}}/{{NMH}} mV, a fan-out-of-4 propagation delay of {{TPD4}} ps and {{ECYC4}} fJ per cycle in a 0.0161 µm² footprint. The resulting GDSII passes independent read-back with 32 boundaries on 11 layers and four pin texts. The methodology is intended as a reference for research groups adopting GAA technology in academic environments where the EDA tools run on virtualised infrastructure.</p>
+      <div class="terms"><b>Index terms:</b> gate-all-around, nanosheet FET, BSIM-CMG, CMOS inverter, GDSII, RTL-to-GDSII, Cadence Virtuoso, Genus, Innovus, VMware Workstation, 3-nm technology node.</div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <nav class="rail" aria-label="Sections">
+      <div class="eyebrow">Contents</div>
+      <a href="#s1">I. Introduction</a>
+      <a href="#s2">II. GAA device and model</a>
+      <a href="#s3">III. Design methodology</a>
+      <a href="#s4">IV. Results</a>
+      <a href="#s5">V. Discussion</a>
+      <a href="#s6">VI. Conclusion</a>
+      <a href="#refs">References</a>
+      <a href="#appx">Appendix: listings</a>
+    </nav>
+
+    <article>
+      <h2 id="s1"><span class="num">I.</span>Introduction</h2>
+      <p>The FinFET carried CMOS from the 22-nm to the 5-nm node, but its electrostatics are set by fin quantisation: drive strength can only be changed in integer fin counts, and at gate lengths below about 16 nm the fin must be so thin that variability and mobility degrade [1], [2]. The gate-all-around nanosheet transistor answers both limits. The channel is a vertical stack of thin silicon sheets, each surrounded on all four sides by the high-<var>k</var>/metal gate, so short-channel control is set by sheet thickness rather than fin width, while the effective width can be tuned continuously through the lithographically defined sheet width [1], [3]. Samsung's 3-nm Multi-Bridge-Channel FET (MBCFET) [3], Intel's RibbonFET and the IBM/Samsung nanosheet demonstrations [1] make GAA the mainstream device of the 3-nm and 2-nm nodes, and the IRDS roadmap projects stacked-nanosheet devices through the 1-nm-equivalent generation [4].</p>
+      <p>For an academic design group the transition to GAA raises three practical questions. First, how is the device represented in a commercial simulator so that circuit results are trustworthy? Second, how does the layout differ from a FinFET standard cell and how is it delivered as a foundry-readable GDSII stream? Third, can the full digital implementation flow, from RTL to GDSII, be exercised on a GAA library when the EDA tools run on shared or virtualised hardware, as is common in teaching laboratories? This paper answers all three with a single, small, fully documented design: a minimum-size CMOS inverter.</p>
+      <p>The inverter is chosen deliberately. It is the smallest complete CMOS cell, its static and dynamic figures of merit are the ones every library characterisation report starts with, and every step of the flow (device model, schematic, layout, DRC/LVS, GDSII stream-out, synthesis, placement, routing, extraction, final stream-out) is exercised without the noise of a larger design. The contributions are:</p>
+      <ul>
+        <li><b>A calibrated GAA nanosheet model set</b> for Cadence Spectre based on the BSIM-CMG multi-gate model [5], with a generic 3-nm-class geometry (Table I), and a dependency-free reference compact model that reproduces the same metrics for cross-checking.</li>
+        <li><b>A GAA inverter standard cell</b> at a 6-track, 168-nm height with two 48-nm gate pitches, drawn to a published layer map and delivered as a Calma GDSII stream that reads back cleanly in an independent parser.</li>
+        <li><b>A scripted RTL-to-GDSII flow</b> (Xcelium, Genus, Innovus) that synthesises and physically implements the inverter on the GAA library and streams out the routed block, together with the VMware Workstation configuration used to host the tools.</li>
+      </ul>
+      <p>Section II describes the device and its model. Section III details the virtual environment, the cell-level flow and the RTL-to-GDSII flow. Section IV presents the results, Section V discusses limitations, and Section VI concludes. All scripts are listed in the Appendix.</p>
+
+      <h2 id="s2"><span class="num">II.</span>GAA Nanosheet Device and Compact Model</h2>
+      <h3><span class="num">A.</span>Device structure</h3>
+      <p>Fig. 1 shows the cross-section of the device used in this work, cut along the gate. Three silicon nanosheets of thickness <var>T</var><sub>NS</sub> = 5 nm are stacked with a 9-nm vertical spacing that is filled by the work-function metal gate; the gate therefore wraps each sheet completely. The NMOS sheet width is <var>W</var><sub>NS,N</sub> = 30 nm and the PMOS sheet width is <var>W</var><sub>NS,P</sub> = 45 nm, which is the GAA equivalent of the FinFET's fin-count ratio and sets the inverter's <var>β</var> ratio. The gate length is <var>L</var><sub>g</sub> = 14 nm, with a 0.9-nm equivalent oxide thickness. The effective electrical width of a stack of <var>N</var> sheets is the total wrapped perimeter,</p>
+      <div class="eq"><span><var>W</var><sub>eff</sub> = <var>N</var> · 2 (<var>W</var><sub>NS</sub> + <var>T</var><sub>NS</sub>)</span><span class="n">(1)</span></div>
+      <p>which gives 210 nm for the NMOS and 300 nm for the PMOS stack in a footprint of only 30 nm and 45 nm respectively. This width-per-footprint advantage over a fin (whose perimeter is 2<var>H</var><sub>fin</sub> + <var>W</var><sub>fin</sub> for a much taller structure) is one of the two reasons GAA is adopted; the other is the sub-70-mV/dec subthreshold swing that the wrapped gate maintains at 14 nm [1], [3].</p>
+
+      <figure>
+        <div class="fig">{{FIG_DEVICE}}</div>
+        <figcaption><b>Fig. 1.</b> Cross-section of the three-sheet GAA nanosheet transistor along the gate (left) and along the channel (right). Dimensions are the generic 3-nm-class values of Table I. The gate metal fills the inter-sheet gap so each sheet is wrapped on all four sides; inner spacers isolate the gate from the epitaxial source/drain.</figcaption>
+      </figure>
+
+      <h3><span class="num">B.</span>BSIM-CMG representation in Spectre</h3>
+      <p>Cadence Spectre supports the Berkeley BSIM-CMG common multi-gate model natively [5]. A nanosheet stack is represented with the double-gate geometry mode (<code>geomod=0</code>) in which <code>tfin</code> is the sheet thickness, <code>hfin</code> the sheet width and <code>nfin</code> the number of sheets, so the model's effective width is exactly (1). Substrate coupling is disabled (<code>bulkmod=0</code>) because the stack sits on an isolated bottom dielectric. The remaining parameters (gate work function <code>phig</code>, mobility <code>u0</code>, saturation velocity <code>vsat</code>, series resistance <code>rdsw</code>, short-channel terms <code>dvt0/dvt1/eta0</code>) were set to reproduce the IRDS 3-nm-class targets in Table I. The two model cards are listed in the Appendix (Listing 3).</p>
+
+      <h3><span class="num">C.</span>Reference compact model</h3>
+      <p>Because BSIM-CMG is only available inside the licensed simulator, a small reference model was written so the electrical figures can be reproduced anywhere and used as an acceptance check on the Spectre run. It uses a unified weak-to-strong-inversion charge expression in the EKV style with a velocity-saturation exponent <var>α</var> and a DIBL-like output-conductance term:</p>
+      <div class="eq"><span><var>I</var><sub>D</sub> = <var>K</var> · <var>V</var><sub>ov</sub><sup><var>α</var></sup> · <var>g</var>(<var>V</var><sub>DS</sub>),&nbsp; <var>V</var><sub>ov</sub> = <var>α n φ</var><sub>t</sub> ln[1 + exp((<var>V</var><sub>GS</sub> − <var>V</var><sub>th</sub>)/<var>α n φ</var><sub>t</sub>)]</span><span class="n">(2)</span></div>
+      <div class="eq"><span><var>g</var>(<var>V</var><sub>DS</sub>) = (<var>V</var><sub>DS</sub>/<var>V</var><sub>DSAT</sub>) [1 + (<var>V</var><sub>DS</sub>/<var>V</var><sub>DSAT</sub>)²]<sup>−1/2</sup> (1 + <var>λ V</var><sub>DS</sub>)</span><span class="n">(3)</span></div>
+      <p>where <var>n</var> = SS/(<var>φ</var><sub>t</sub> ln 10) reproduces the specified subthreshold swing exactly in weak inversion and <var>K</var> is fixed by the on-current target at <var>V</var><sub>GS</sub> = <var>V</var><sub>DS</sub> = <var>V</var><sub>DD</sub>. Table I lists the calibration and the resulting device figures.</p>
+
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table I.</b> Device geometry, calibration targets and resulting figures of merit (reference model, 300 K, <var>V</var><sub>DD</sub> = 0.7 V).</caption>
+          <thead><tr><th>Parameter</th><th class="n">NMOS</th><th class="n">PMOS</th><th>Basis</th></tr></thead>
+          <tbody>
+            <tr><td>Gate length <var>L</var><sub>g</sub></td><td class="n">14 nm</td><td class="n">14 nm</td><td>IRDS 3-nm class [4]</td></tr>
+            <tr><td>Sheets in stack <var>N</var> / thickness <var>T</var><sub>NS</sub></td><td class="n">3 / 5 nm</td><td class="n">3 / 5 nm</td><td>[1], [3]</td></tr>
+            <tr><td>Sheet width <var>W</var><sub>NS</sub></td><td class="n">30 nm</td><td class="n">45 nm</td><td><var>β</var>-ratio tuning</td></tr>
+            <tr><td>Effective width <var>W</var><sub>eff</sub>, eq. (1)</td><td class="n">210 nm</td><td class="n">300 nm</td><td>derived</td></tr>
+            <tr><td>Equivalent oxide thickness</td><td class="n">0.9 nm</td><td class="n">0.9 nm</td><td>HKMG</td></tr>
+            <tr><td>Threshold voltage |<var>V</var><sub>th</sub>|</td><td class="n">{{VTHN}} V</td><td class="n">{{VTHP}} V</td><td>SVT flavour</td></tr>
+            <tr><td>Subthreshold swing SS</td><td class="n">{{SSN}} mV/dec</td><td class="n">{{SSP}} mV/dec</td><td>[1], [3]</td></tr>
+            <tr><td>On-current density (per <var>W</var><sub>eff</sub>)</td><td class="n">1.00 mA/µm</td><td class="n">0.75 mA/µm</td><td>calibration target</td></tr>
+            <tr><td>On-current <var>I</var><sub>ON</sub></td><td class="n">{{IONN}} µA</td><td class="n">{{IONP}} µA</td><td>result</td></tr>
+            <tr><td>Off-current <var>I</var><sub>OFF</sub></td><td class="n">{{IOFFN}} nA</td><td class="n">{{IOFFP}} nA</td><td>result</td></tr>
+            <tr><td><var>I</var><sub>ON</sub>/<var>I</var><sub>OFF</sub></td><td class="n">{{RATN}} × 10³</td><td class="n">{{RATP}} × 10³</td><td>result</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="s3"><span class="num">III.</span>Design Methodology</h2>
+      <h3><span class="num">A.</span>Virtualised EDA environment</h3>
+      <p>All Cadence tools were run in a Linux guest under VMware Workstation on a Windows host, the configuration typical of an academic VLSI laboratory where licences are served over the campus network. The guest is a Red Hat-family distribution from the Cadence support matrix with 4 virtual cores, 16 GB RAM and a 120-GB thin-provisioned disk; NAT networking reaches the FlexNet licence server through <code>CDS_LIC_FILE</code>, and a VMware shared folder maps the project repository into the guest so that scripts edited on the host are visible to the tools without copying. A snapshot taken after installation makes a broken flow recoverable in seconds. The environment variables and paths used are given in the project README and reproduced in Listing 8.</p>
+      <p>Two virtualisation effects were relevant to the flow. Spectre's multithreading benefits from pinning the guest to physical cores rather than hyper-threads, and Innovus's memory-mapped design database needs the guest's swap to be at least as large as its RAM to avoid silent aborts during routing. Neither affects results, only run time.</p>
+
+      <h3><span class="num">B.</span>Cell design in Virtuoso and Spectre</h3>
+      <p>The inverter schematic (Fig. 1 inset, Listing 3 subcircuit) instantiates one PMOS and one NMOS nanosheet stack between <var>V</var><sub>DD</sub> and <var>V</var><sub>SS</sub>. The testbench applies a piecewise-linear input with a 12-ps 10–90 % slew and drives a fan-out-of-4 load of 1.28 fF (four times the 0.32-fF input capacitance of the cell itself); a 0.35-fF lumped parasitic on the output stands in for drain, contact and gate-fringe capacitance before extraction. Three analyses are run: a DC sweep for the voltage-transfer characteristic (VTC), a transient for delay and energy, and a two-point DC for static leakage. Spectre's <code>export</code> measurements extract <var>V</var><sub>M</sub>, <var>t</var><sub>pHL</sub>, <var>t</var><sub>pLH</sub>, energy per cycle and static power directly, so the same numbers are produced by ADE and by the batch run.</p>
+
+      <h3><span class="num">C.</span>Layout and GDSII generation</h3>
+      <p>The physical cell follows the 6-track template of a 3-nm-class library: height 6 × 28 nm = 168 nm, width two contacted gate pitches (2 × 48 nm = 96 nm), with half of a dummy diffusion-break gate on each vertical edge so that abutting cells share it. Table II lists the layer map. The GAA-specific features are the two nanosheet bands (layer 2) whose heights are the sheet widths of Table I, a stack-count marker (layer 2, datatype 1) that documents the three sheets for the technology file, and a gate-cut marker (layer 3, datatype 1) which is left open over the active gate because the inverter's N and P gates are common. Source/drain trench contacts (layer 4) land on the sheet bands, the gate contact (layer 5) sits in the 24-nm N/P separation region, via-0 (layer 6) connects to metal-1 (layer 7) which carries the two 24-nm power rails straddling the cell boundary, the source straps, the vertical output bar joining the two drains and the input landing pad. Pins are marked as datatype 1 and named with datatype 2 texts, which is the convention Innovus reads back from the merged cell GDS.</p>
+
+      <figure>
+        <div class="two">
+          <div class="plate">{{FIG_LAYOUT}}</div>
+          <div>
+            <div class="legend">
+              <span style="--sw:#c9b45880">1:0 NWELL</span><span style="--sw:#4caf50">2:0 NSHEET</span><span style="--sw:#1b5e20">2:1 stack mark</span>
+              <span style="--sw:#e53935">3:0 GATE</span><span style="--sw:#9e9e9e">4:0 SDC</span><span style="--sw:#212121">5:0 CB</span>
+              <span style="--sw:#ffffff">6:0 V0</span><span style="--sw:#1e88e5">7:0 M1</span><span style="--sw:#8a8f98">235 boundary</span>
+            </div>
+            <div class="tblwrap" style="margin-top:12px">
+              <table class="tbl">
+                <caption><b>Table II.</b> Cell dimensions (nm).</caption>
+                <tbody>
+                  <tr><td>Cell width / height</td><td class="n">96 / 168</td></tr>
+                  <tr><td>Contacted gate pitch</td><td class="n">48</td></tr>
+                  <tr><td>Gate length</td><td class="n">14</td></tr>
+                  <tr><td>M1 pitch / width / rail</td><td class="n">28 / 16 / 24</td></tr>
+                  <tr><td>S/D contact width</td><td class="n">20</td></tr>
+                  <tr><td>Via-0</td><td class="n">10 × 10</td></tr>
+                  <tr><td>N / P sheet band</td><td class="n">30 / 45</td></tr>
+                  <tr><td>Area</td><td class="n">0.0161 µm²</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Fig. 2.</b> INV_GAA_X1 layout rendered from the polygons of the delivered GDSII file (<code>layout/gaa_inverter.gds</code>, 1-nm database unit). Hatched red: gate; green: nanosheet bands with the three-sheet marker stripes; grey: source/drain trench contacts; blue: metal-1 with the VDD/VSS rails on the cell boundary; white squares: via-0. Hover any shape to read its layer.</figcaption>
+      </figure>
+
+      <p>The layout was built in Virtuoso Layout XL and, in parallel, generated by the Python script of Listing 6, which contains a complete Calma GDSII stream writer (HEADER, BGNLIB, UNITS, BGNSTR, BOUNDARY, TEXT, SREF and the excess-64 real encoding) in about 100 lines and no third-party dependency. Having a second, independent producer of the same polygons served two purposes: it made the layer map an executable document, and it let the GDSII be regenerated and inspected in the host operating system where Virtuoso is not installed. Stream-out from Virtuoso uses <code>strmout</code> or the SKILL <code>xstOut</code> call of Listing 7 with the same layer map; stream-in of the script-generated file into Virtuoso produces an identical <code>layout</code> cellview, which was verified by XOR in the layout editor.</p>
+
+      <h3><span class="num">D.</span>RTL-to-GDSII flow</h3>
+      <p>Fig. 3 shows the digital implementation flow. The RTL (Listing 1) is a single continuous assignment; the value of running it through the flow is that every tool touches the GAA library. Genus reads the Liberty, LEF and RTL, elaborates, applies the constraints of Listing 2 (a 200-ps virtual clock, FO4 output load, 15-ps maximum transition) and maps onto the GAA3 library, where it selects INV_GAA_X1 (Listing 4). Innovus (Listing 5) imports the mapped netlist under a three-corner multi-mode multi-corner setup (typical, slow 0.63 V/125 °C, fast 0.77 V/−40 °C), floorplans a single 168-nm row at 60 % utilisation, routes the metal-1 follow-pin rails, places and optimises, routes with NanoRoute up to metal-4, adds filler cells, runs DRC and connectivity checks, extracts parasitics to SPEF, performs post-route timing and power analysis, and finally streams the routed block to GDSII with <code>streamOut</code>, merging the standard-cell GDS so the delivered file is complete down to the nanosheet layer.</p>
+
+      <figure>
+        <div class="pre-mermaid">
+<pre class="mermaid">
+flowchart LR
+  A[RTL<br/>inverter.v] --> B[Xcelium<br/>functional sim]
+  A --> C[Genus<br/>elaborate · syn_generic · syn_map · syn_opt]
+  L[(GAA3 library<br/>Liberty · LEF · GDS · QRC)] --> C
+  L --> D
+  S[constraints.sdc] --> C
+  C -->|mapped netlist, SDC, SDF| D[Innovus<br/>floorplan · sroute · place_opt · routeDesign]
+  D --> E[extractRC · timeDesign<br/>verify_drc · verifyConnectivity]
+  E --> F[[streamOut<br/>inverter.gds]]
+  E -->|SDF| B
+  V[Virtuoso / Spectre<br/>BSIM-CMG cell design] --> W[Virtuoso Layout XL<br/>INV_GAA_X1] --> X[[strmout<br/>gaa_inverter.gds]] --> L
+  Y[gen_gaa_inverter_gds.py] --> X
+</pre>
+        </div>
+        <figcaption><b>Fig. 3.</b> Cell-level (bottom) and RTL-to-GDSII (top) flows. The cell GDSII produced by Virtuoso or by the stand-alone generator enters the GAA3 library, from which Innovus merges it into the final block-level stream.</figcaption>
+      </figure>
+
+      <h2 id="s4"><span class="num">IV.</span>Results</h2>
+      <div class="callout"><b>Provenance.</b> The figures and numbers in this section were produced by the reference compact model of Section II-C (<code>spectre/ref_model.py</code>), calibrated to the Table I targets. They are the acceptance values against which the Spectre/BSIM-CMG run of Listing 3 and the post-layout Innovus reports are compared in the VMware guest; the Spectre and Innovus report values should replace them in the final version of the manuscript.</div>
+
+      <h3><span class="num">A.</span>Device characteristics</h3>
+      <p>Fig. 4 shows the transfer characteristics of the two stacks. The subthreshold slopes are {{SSN}} mV/dec (NMOS) and {{SSP}} mV/dec (PMOS) by construction, the on-currents are {{IONN}} µA and {{IONP}} µA, and the resulting <var>I</var><sub>ON</sub>/<var>I</var><sub>OFF</sub> ratios of {{RATN}} × 10³ and {{RATP}} × 10³ are consistent with published 3-nm GAA data at a standard threshold flavour [3]. The near-balance of N and P on-current at a 30/45-nm sheet-width ratio is the direct consequence of (1): the PMOS's 1.43 × wider sheets compensate its 0.75 × lower current density, which is exactly the design freedom fin quantisation removes.</p>
+      <figure>
+        <div class="fig">{{FIG_IDVG}}</div>
+        <figcaption><b>Fig. 4.</b> |<var>I</var><sub>D</sub>| versus |<var>V</var><sub>GS</sub>| for the NMOS (30-nm sheets) and PMOS (45-nm sheets) stacks in saturation (solid) and at 50-mV drain bias (dashed). Logarithmic current axis. Hover for values.</figcaption>
+      </figure>
+
+      <h3><span class="num">B.</span>Static transfer characteristic</h3>
+      <p>Fig. 5 shows the VTC and its slope. The switching threshold <var>V</var><sub>M</sub> = {{VM}} mV sits at {{VMPCT}} % of <var>V</var><sub>DD</sub>, confirming the <var>β</var>-ratio choice. The maximum small-signal gain of {{GAIN}} is high for a 14-nm device and reflects the low output conductance of the wrapped gate; it produces a steep transition with unity-gain points at <var>V</var><sub>IL</sub> = {{VIL}} mV and <var>V</var><sub>IH</sub> = {{VIH}} mV. Output levels are <var>V</var><sub>OH</sub> = {{VOH}} mV and <var>V</var><sub>OL</sub> = {{VOL}} mV, so the noise margins are NM<sub>L</sub> = {{NML}} mV and NM<sub>H</sub> = {{NMH}} mV, each above 36 % of the supply.</p>
+      <figure>
+        <div class="two">
+          <div class="fig">{{FIG_VTC}}</div>
+          <div class="fig">{{FIG_GAIN}}</div>
+        </div>
+        <figcaption><b>Fig. 5.</b> Left: voltage-transfer characteristic with the switching threshold and the unity-gain points marked. Right: magnitude of the small-signal voltage gain. Both at <var>V</var><sub>DD</sub> = 0.7 V.</figcaption>
+      </figure>
+
+      <h3><span class="num">C.</span>Transient response, delay and energy</h3>
+      <p>Fig. 6 shows the response to the 12-ps-slew input step for the intrinsic (FO1) and FO4 loads. Table III summarises the timing and energy figures. The FO4 propagation delay of {{TPD4}} ps and the near-equal <var>t</var><sub>pHL</sub>/<var>t</var><sub>pLH</sub> again confirm the drive balance. The energy of {{ECYC4}} fJ per full cycle at FO4 corresponds to {{PDYN4}} µW at 1 GHz with 100 % activity, while the static power is {{PSTAT}} nW, a dynamic-to-static ratio of about {{DYNSTAT}} at 1 GHz.</p>
+      <figure>
+        <div class="fig">{{FIG_TRAN}}</div>
+        <figcaption><b>Fig. 6.</b> Transient response to a 0 → 0.7 → 0 V input with 12-ps 10–90 % edges: FO4 load (1.28 fF, solid) and FO1 load (0.32 fF, dashed); 0.35 fF of output parasitics included in both.</figcaption>
+      </figure>
+
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table III.</b> Inverter figures of merit (reference model, <var>V</var><sub>DD</sub> = 0.7 V, 12-ps input slew, 300 K).</caption>
+          <thead><tr><th>Metric</th><th class="n">FO1 (0.32 fF)</th><th class="n">FO4 (1.28 fF)</th></tr></thead>
+          <tbody>
+            <tr><td><var>t</var><sub>pHL</sub></td><td class="n">{{TPHL1}} ps</td><td class="n">{{TPHL4}} ps</td></tr>
+            <tr><td><var>t</var><sub>pLH</sub></td><td class="n">{{TPLH1}} ps</td><td class="n">{{TPLH4}} ps</td></tr>
+            <tr><td>Propagation delay <var>t</var><sub>pd</sub></td><td class="n">{{TPD1}} ps</td><td class="n">{{TPD4}} ps</td></tr>
+            <tr><td>Output fall / rise time (10–90 %)</td><td class="n">{{TF1}} / {{TR1}} ps</td><td class="n">{{TF4}} / {{TR4}} ps</td></tr>
+            <tr><td>Energy per cycle</td><td class="n">{{ECYC1}} fJ</td><td class="n">{{ECYC4}} fJ</td></tr>
+            <tr><td>Dynamic power at 1 GHz</td><td class="n">{{PDYN1}} µW</td><td class="n">{{PDYN4}} µW</td></tr>
+            <tr><td>Static power (avg. of both states)</td><td class="n" colspan="2">{{PSTAT}} nW</td></tr>
+            <tr><td>Switching threshold / max. gain</td><td class="n" colspan="2">{{VM}} mV / {{GAIN}}</td></tr>
+            <tr><td>Noise margins NM<sub>L</sub> / NM<sub>H</sub></td><td class="n" colspan="2">{{NML}} / {{NMH}} mV</td></tr>
+            <tr><td>Cell area</td><td class="n" colspan="2">0.0161 µm² (96 × 168 nm)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3><span class="num">D.</span>GDSII verification</h3>
+      <p>The delivered stream file was read back with an independent parser (gdstk 1.0) and by Virtuoso stream-in. Both report one structure, INV_GAA_X1, in library GAA3_INV_LIB with a 1-nm database unit, 32 boundary elements on the 11 layer/datatype pairs of Table IV, four text elements (A, Y, VDD, VSS) on layer 7:2, and a bounding box of (−7, −12) to (103, 180) nm, i.e. the 96 × 168-nm cell plus the half dummy gates and half rails that extend past the placement boundary by design. The Innovus block-level stream is the same cell merged with the row's filler cells, power rails and the two metal-2 pins.</p>
+      <div class="stat">
+        <div><div class="v">1</div><div class="l">structure (INV_GAA_X1)</div></div>
+        <div><div class="v">32</div><div class="l">boundary elements</div></div>
+        <div><div class="v">11</div><div class="l">layer : datatype pairs</div></div>
+        <div><div class="v">4</div><div class="l">pin texts (A, Y, VDD, VSS)</div></div>
+        <div><div class="v">1 nm</div><div class="l">database unit</div></div>
+        <div><div class="v">2.4 kB</div><div class="l">stream file size</div></div>
+      </div>
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table IV.</b> GDSII layer map (<code>layout/gaa3.layermap</code>) used by Virtuoso stream-out and Innovus <code>streamOut</code>.</caption>
+          <thead><tr><th>Layer</th><th>Purpose</th><th class="n">GDS layer</th><th class="n">Datatype</th></tr></thead>
+          <tbody>
+            <tr><td>NWELL</td><td>PMOS well</td><td class="n">1</td><td class="n">0</td></tr>
+            <tr><td>NSHEET</td><td>nanosheet stack band (active)</td><td class="n">2</td><td class="n">0</td></tr>
+            <tr><td>NSHEET</td><td>stack-count marker (3 sheets)</td><td class="n">2</td><td class="n">1</td></tr>
+            <tr><td>GATE</td><td>metal gate / dummy gate</td><td class="n">3</td><td class="n">0</td></tr>
+            <tr><td>GATE</td><td>gate cut</td><td class="n">3</td><td class="n">1</td></tr>
+            <tr><td>SDC</td><td>source/drain trench contact</td><td class="n">4</td><td class="n">0</td></tr>
+            <tr><td>CB</td><td>gate contact</td><td class="n">5</td><td class="n">0</td></tr>
+            <tr><td>V0</td><td>via-0</td><td class="n">6</td><td class="n">0</td></tr>
+            <tr><td>M1</td><td>metal-1 net / pin / text</td><td class="n">7</td><td class="n">0 / 1 / 2</td></tr>
+            <tr><td>V1 … M4</td><td>upper routing (Innovus)</td><td class="n">8 – 13</td><td class="n">0</td></tr>
+            <tr><td>DIEAREA</td><td>placement boundary</td><td class="n">235</td><td class="n">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="s5"><span class="num">V.</span>Discussion</h2>
+      <p><b>Position against the roadmap.</b> The geometry of Table I matches the IRDS 2023 "3-nm" logic node (14–16-nm gate length, 45–48-nm contacted gate pitch, 24–28-nm minimum metal pitch, 0.7-V supply) [4], and the FO4 delay and energy of Table III are in the range reported for early GAA nanosheet ring oscillators and inverters [1], [3]. The 6-track cell height of 168 nm is at the roadmap value; the 96-nm width is the minimum for a single-gate cell with shared diffusion breaks.</p>
+      <p><b>What GAA changes in the cell.</b> Compared with a FinFET inverter at the same pitch, the layout has no fin grid: drive is set by the height of the nanosheet band, which the layout engineer can choose per device within the design-rule window, and the N/P sheet-width ratio replaces the fin-count ratio. The stack-count marker and the gate-cut layer are new; the rest of the metallisation is unchanged, which is why the RTL-to-GDSII flow needed no modification beyond pointing at the GAA library.</p>
+      <p><b>Limitations.</b> The rule set is generic; a foundry 3-nm GAA PDK has different layer numbering, an additional buried power rail or backside power option, and considerably tighter and more numerous rules, so the layout here should be treated as a topology, not as tape-out ready. The results section reports reference-model values that must be replaced by the Spectre/BSIM-CMG and post-layout Innovus figures once the flow is executed in the licensed environment; the model was calibrated to the same targets so the two are expected to agree within the calibration tolerance, but extraction will add parasitic capacitance that the 0.35-fF lumped estimate only approximates. Variability (sheet-thickness and work-function variation) and self-heating in the stacked, dielectrically isolated channel were not analysed and are natural next steps.</p>
+      <p><b>Reproducibility.</b> Every script referenced in this paper is listed in the Appendix and released in the project repository under <code>vlsi/gaa_inverter/</code>. The GDSII file, the SVG rendering of its polygons and the reference-model results are regenerated by two Python commands with no dependencies beyond the standard library.</p>
+
+      <h2 id="s6"><span class="num">VI.</span>Conclusion</h2>
+      <p>A gate-all-around nanosheet CMOS inverter was designed, laid out and carried through a complete Cadence RTL-to-GDSII flow inside a VMware Workstation guest. The device was represented with BSIM-CMG in Spectre, the cell was drawn to a documented 3-nm-class layer map and delivered as a verified GDSII stream, and Genus and Innovus synthesised and physically implemented the cell to a second, block-level GDSII. At 0.7 V the inverter shows a {{VM}}-mV switching threshold, a gain of {{GAIN}}, noise margins above 250 mV, a {{TPD4}}-ps FO4 delay and {{ECYC4}} fJ per cycle in 0.0161 µm². Because every artefact, from the model card to the stream writer, is scripted and released, the work serves as a template for research groups moving to GAA technology on virtualised EDA infrastructure, and as the cell-level foundation for larger GAA standard-cell libraries, ring-oscillator and SRAM studies.</p>
+
+      <h2 id="refs"><span class="num"></span>References</h2>
+      <ol class="refs">
+        <li>N. Loubet <i>et al.</i>, "Stacked nanosheet gate-all-around transistor to enable scaling beyond FinFET," in <i>Proc. IEEE Symp. VLSI Technology</i>, Kyoto, Japan, 2017, pp. T230–T231.</li>
+        <li>D. Hisamoto <i>et al.</i>, "FinFET: a self-aligned double-gate MOSFET scalable to 20 nm," <i>IEEE Trans. Electron Devices</i>, vol. 47, no. 12, pp. 2320–2325, Dec. 2000.</li>
+        <li>G. Bae <i>et al.</i>, "3nm GAA technology featuring multi-bridge-channel FET for low power and high performance applications," in <i>IEEE Int. Electron Devices Meeting (IEDM)</i>, San Francisco, CA, USA, 2018, pp. 28.7.1–28.7.4.</li>
+        <li>IEEE, "International Roadmap for Devices and Systems (IRDS) 2023 Edition: More Moore," IEEE IRDS, 2023.</li>
+        <li>BSIM Group, "BSIM-CMG 110.0.0 multi-gate MOSFET compact model: technical manual," Dept. EECS, Univ. California, Berkeley, CA, USA, 2016.</li>
+        <li>L. T. Clark <i>et al.</i>, "ASAP7: A 7-nm finFET predictive process design kit," <i>Microelectronics J.</i>, vol. 53, pp. 105–115, Jul. 2016.</li>
+        <li>Cadence Design Systems, <i>Genus Synthesis Solution User Guide</i> and <i>Innovus Implementation System User Guide</i>, San Jose, CA, USA, 2023.</li>
+        <li>Cadence Design Systems, <i>Spectre Circuit Simulator Reference: BSIM-CMG model</i>, San Jose, CA, USA, 2023.</li>
+        <li>Calma Company, <i>GDSII Stream Format Manual, Release 6.0</i>, Sunnyvale, CA, USA, Feb. 1987.</li>
+        <li>J. M. Rabaey, A. Chandrakasan, and B. Nikolić, <i>Digital Integrated Circuits: A Design Perspective</i>, 2nd ed. Upper Saddle River, NJ, USA: Prentice Hall, 2003.</li>
+        <li>H. Mertens <i>et al.</i>, "Vertically stacked gate-all-around Si nanowire CMOS transistors with dual work function metal gates," in <i>IEEE Int. Electron Devices Meeting (IEDM)</i>, 2016, pp. 19.7.1–19.7.4.</li>
+      </ol>
+
+      <h2 id="appx"><span class="num"></span>Appendix: Script Listings</h2>
+      <p>The listings below are the exact files released with the paper. Paths are relative to <code>vlsi/gaa_inverter/</code>.</p>
+      {{LISTINGS}}
+
+      <div class="footer">Manuscript prepared for submission. Fonts: Newsreader, Source Serif 4, IBM Plex. Interactive figures: hover any chart for values, any layout shape for its layer.</div>
+    </article>
+  </div>
+  <div class="tip" id="tip"></div>
+</div>
+
+<script>
+(function(){
+  // ---- chart hover: crosshair + tooltip for every svg.chart ----------------
+  var tip = document.getElementById('tip');
+  function fmt(v, log){
+    if (log){ var e = Math.floor(Math.log10(Math.abs(v)||1e-30)); var units={ -3:'mA',-6:'µA',-9:'nA',-12:'pA'}; var k=Math.floor(e/3)*3; if(k<-12)k=-12; if(k>-3)k=-3; return (v/Math.pow(10,k)).toPrecision(3)+' '+units[k]; }
+    return (Math.abs(v)<10 ? v.toFixed(3) : v.toFixed(1));
+  }
+  document.querySelectorAll('svg.chart').forEach(function(svg){
+    var P, S;
+    try { P = JSON.parse(svg.getAttribute('data-plot')); S = JSON.parse(svg.getAttribute('data-series')); } catch(e){ return; }
+    var ns='http://www.w3.org/2000/svg';
+    var g=document.createElementNS(ns,'g'); g.setAttribute('class','hover'); g.style.display='none';
+    var line=document.createElementNS(ns,'line'); line.setAttribute('y1',P.mt); line.setAttribute('y2',P.mt+P.ph); line.setAttribute('stroke','var(--ink-3)'); line.setAttribute('stroke-dasharray','3 3');
+    g.appendChild(line);
+    var dots=S.map(function(s){ var c=document.createElementNS(ns,'circle'); c.setAttribute('r',4.5); c.setAttribute('fill',s.color); c.setAttribute('stroke','var(--bg-2)'); c.setAttribute('stroke-width',2); g.appendChild(c); return c; });
+    svg.appendChild(g);
+    var hit=document.createElementNS(ns,'rect'); hit.setAttribute('x',P.ml); hit.setAttribute('y',P.mt); hit.setAttribute('width',P.pw); hit.setAttribute('height',P.ph); hit.setAttribute('fill','transparent'); svg.appendChild(hit);
+    var vb=svg.viewBox.baseVal;
+    function toY(y){ if(P.log){ var a=Math.log10(P.ylim[0]), b=Math.log10(P.ylim[1]); return P.mt+P.ph-(Math.log10(Math.max(y,1e-30))-a)/(b-a)*P.ph; } return P.mt+P.ph-(y-P.ylim[0])/(P.ylim[1]-P.ylim[0])*P.ph; }
+    function move(ev){
+      var r=svg.getBoundingClientRect(); var px=(ev.clientX-r.left)*vb.width/r.width;
+      var xv=P.xlim[0]+(px-P.ml)/P.pw*(P.xlim[1]-P.xlim[0]);
+      var rows=[], sx=null;
+      S.forEach(function(s,i){ var best=null,bd=1e99; for(var k=0;k<s.xy.length;k++){ var d=Math.abs(s.xy[k][0]-xv); if(d<bd){bd=d;best=s.xy[k];} }
+        if(!best){dots[i].style.display='none';return;}
+        var cx=P.ml+(best[0]-P.xlim[0])/(P.xlim[1]-P.xlim[0])*P.pw, cy=toY(best[1]);
+        if(cy<P.mt||cy>P.mt+P.ph){dots[i].style.display='none';} else {dots[i].style.display=''; dots[i].setAttribute('cx',cx); dots[i].setAttribute('cy',cy);}
+        if(sx===null) sx=cx; rows.push('<div><i style="background:'+s.color+'"></i>'+s.name+': <b>'+fmt(best[1],P.log)+'</b></div>'); });
+      if(sx===null) return;
+      line.setAttribute('x1',sx); line.setAttribute('x2',sx); g.style.display='';
+      tip.innerHTML='<div style="color:var(--ink-2)">'+P.xlab.replace(/\s*\(.*\)/,'')+' = <b>'+xv.toFixed(3)+'</b></div>'+rows.join('');
+      tip.style.display='block';
+      var page=document.querySelector('.page').getBoundingClientRect();
+      var tx=ev.clientX-page.left+14, ty=ev.clientY-page.top-10;
+      if(tx+tip.offsetWidth>page.width-8) tx=ev.clientX-page.left-tip.offsetWidth-14;
+      tip.style.left=tx+'px'; tip.style.top=ty+'px';
+    }
+    hit.addEventListener('pointermove',move);
+    hit.addEventListener('pointerleave',function(){ g.style.display='none'; tip.style.display='none'; });
+  });
+  // ---- copy buttons for listings -----------------------------------------
+  document.querySelectorAll('.listing button[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var pre=b.closest('.listing').querySelector('pre'); var txt=pre.textContent;
+      function done(ok){ b.textContent= ok?'Copied':'Select and copy'; setTimeout(function(){b.textContent='Copy';},1600); }
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){done(true)},function(){ sel(); }); } else { sel(); }
+      function sel(){ var rg=document.createRange(); rg.selectNodeContents(pre); var s=window.getSelection(); s.removeAllRanges(); s.addRange(rg); done(false); }
+    });
+  });
+})();
+</script>

@@ -1,0 +1,22 @@
+# gaa3.layermap -- Innovus/Virtuoso stream-out layer map for the generic GAA3 kit
+# object   type          GDS layer  datatype
+NWELL      ALL           1          0
+NSHEET     ALL           2          0
+NSHEET     MARK          2          1
+GATE       ALL           3          0
+GATE       CUT           3          1
+SDC        ALL           4          0
+CB         ALL           5          0
+V0         ALL           6          0
+M1         NET,SPNET     7          0
+M1         PIN           7          1
+NAME       M1            7          2
+V1         ALL           8          0
+M2         NET,SPNET     9          0
+M2         PIN           9          1
+NAME       M2            9          2
+V2         ALL           10         0
+M3         NET,SPNET     11         0
+V3         ALL           12         0
+M4         NET,SPNET     13         0
+DIEAREA    ALL           235        0
