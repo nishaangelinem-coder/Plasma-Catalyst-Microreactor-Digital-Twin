@@ -1,0 +1,48 @@
+// gaa_sram6t_tb.scs -- Spectre testbench: 6T GAA nanosheet SRAM bitcell (SRAM6T_GAA_HD)
+// Hold/read butterfly curves, write trip point, read current and leakage.  BSIM-CMG cards
+// with SRAM sheet widths: PD 36 nm, PG 24 nm, PU 20 nm (beta = 1.41, gamma = 1.55).
+simulator lang=spectre
+global 0 vdd!
+include "gaa_inv_tb.scs" section=models
+
+model ns_pd bsimcmg type=n version=110.0 bulkmod=0 geomod=0 devtype=1 l=14e-9 tfin=5e-9 hfin=36e-9 nfin=3 \
+      eot=0.9e-9 toxp=1.2e-9 phig=4.36 nbody=1e22 u0=0.030 vsat=1.2e5 rdsw=90 dvt0=1.2 dvt1=0.45 eta0=0.06 cit=1e-4
+model ns_pg bsimcmg type=n version=110.0 bulkmod=0 geomod=0 devtype=1 l=14e-9 tfin=5e-9 hfin=24e-9 nfin=3 \
+      eot=0.9e-9 toxp=1.2e-9 phig=4.36 nbody=1e22 u0=0.030 vsat=1.2e5 rdsw=90 dvt0=1.2 dvt1=0.45 eta0=0.06 cit=1e-4
+model ns_pu bsimcmg type=p version=110.0 bulkmod=0 geomod=0 devtype=0 l=14e-9 tfin=5e-9 hfin=20e-9 nfin=3 \
+      eot=0.9e-9 toxp=1.2e-9 phig=4.86 nbody=1e22 u0=0.022 vsat=1.0e5 rdsw=110 dvt0=1.2 dvt1=0.45 eta0=0.07 cit=1e-4
+
+subckt SRAM6T_GAA_HD (BL BLB WL Q QB VDD VSS)
+    MPU1 (Q  QB VDD VDD) ns_pu      MPU2 (QB Q  VDD VDD) ns_pu
+    MPD1 (Q  QB VSS VSS) ns_pd      MPD2 (QB Q  VSS VSS) ns_pd
+    MPG1 (BL WL Q   VSS) ns_pg      MPG2 (BLB WL QB VSS) ns_pg
+ends SRAM6T_GAA_HD
+
+parameters vsup=0.70
+Vdd (vdd! 0) vsource dc=vsup
+Vbl  (bl 0)  vsource dc=vsup
+Vblb (blb 0) vsource dc=vsup
+Vwl  (wl 0)  vsource dc=0
+// butterfly: break the loop with an ideal voltage source at QB and sweep it, measure Q
+Vqb  (qb_drv 0) vsource dc=0
+Xcell (bl blb wl q qb vdd! 0) SRAM6T_GAA_HD
+Ebreak (qb 0 qb_drv 0) vcvs gain=1          // forces QB = swept value (remove for write/read tran)
+
+holdVTC dc dev=Vqb param=dc start=0 stop=vsup step=5m                 // WL = 0
+altWL   alter dev=Vwl param=dc value=vsup
+readVTC dc dev=Vqb param=dc start=0 stop=vsup step=5m                 // WL = VDD, BL = BLB = VDD
+// read current / read-disturb: QB = VDD (node Q = 0), BL = WL = VDD
+altQB   alter dev=Vqb param=dc value=vsup
+readI   dc
+export Iread   = i(Xcell.MPG1:d)
+export Vdist   = v(q)
+// write trip point: hold Q = 1, sweep BL down with WL = BLB = VDD (needs Ebreak removed: set gain=0 and ic)
+altQB0  alter dev=Vqb param=dc value=0
+writeVTC dc dev=Vbl param=dc start=vsup stop=0 step=-5m
+// leakage in hold (WL = 0, BL = BLB = VDD)
+altWL0  alter dev=Vwl param=dc value=0
+leak dc
+export Ileak = -i(Vdd)
+// SNM vs VDD
+vddSweep sweep param=vsup start=0.4 stop=0.8 step=0.05 { snmHold dc dev=Vqb param=dc start=0 stop=vsup step=5m }
+saveOptions options save=allpub

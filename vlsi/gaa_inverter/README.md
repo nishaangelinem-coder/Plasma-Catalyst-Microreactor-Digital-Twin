@@ -11,6 +11,7 @@ Design and implementation of a gate-all-around (GAA) nanosheet CMOS inverter
 | Synthesis | Genus | `genus/synth.tcl`, `genus/constraints.sdc` | mapped netlist, SDF |
 | Place & route | Innovus | `innovus/pnr.tcl`, `innovus/mmmc.tcl` | DEF, SPEF, **`inverter.gds`** |
 | NAND2 cell | Spectre, Genus/Innovus, Python | `spectre/gaa_nand2_tb.scs`, `rtl/nand2.v`, `spectre/nand2.py`, `layout/gen_gaa_nand2_gds.py` | `results_nand2*.json`, `layout/gaa_nand2.gds` |
+| 6T SRAM bitcell | Spectre, Python | `spectre/gaa_sram6t_tb.scs`, `spectre/sram6t.py`, `layout/gen_gaa_sram6t_gds.py` | `results_sram6t*.json`, `layout/gaa_sram6t.gds` |
 | Reference check | Python (no deps) | `spectre/ref_model.py` | `results.json`, SVG figures |
 | Ring oscillator | Spectre, Genus, Python | `spectre/gaa_ro11_tb.scs`, `rtl/ring_osc.v`, `genus/synth_ro.tcl`, `spectre/ro.py`, `layout/gen_gaa_ro_gds.py` | `results_ro*.json`, `layout/gaa_ro11.gds` |
 
@@ -46,6 +47,8 @@ spectre gaa_ro11_tb.scs +log ro.log                         # RO11 in Spectre
 python3 nand2.py && GAA_TECH=finfet python3 nand2.py       # NAND2 static/transient/leakage (Table VII)
 cd ../layout && python3 gen_gaa_ro_gds.py                   # hierarchical RO11 GDSII
 python3 gen_gaa_nand2_gds.py                                # NAND2_GAA_X1 GDSII
+python3 gen_gaa_sram6t_gds.py                               # SRAM6T_GAA_HD GDSII
+cd ../spectre && GAA_TECH=finfet python3 sram6t.py && python3 sram6t.py   # SRAM SNM / write / read (Table VIII)
 ```
 In Virtuoso: `File > Import > Stream` the GDS in `layout/` (layer map
 `layout/gaa3.layermap`) to obtain the `INV_GAA_X1 layout` cellview, run DRC/LVS,

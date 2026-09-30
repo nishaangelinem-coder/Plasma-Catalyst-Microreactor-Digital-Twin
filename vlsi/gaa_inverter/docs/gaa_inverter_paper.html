@@ -136,7 +136,7 @@ pre.mermaid{margin:0;display:flex;justify-content:center}
     </div>
     <div class="abstract">
       <div class="eyebrow">Abstract</div>
-      <p>Gate-all-around (GAA) nanosheet transistors replace the FinFET at the 3-nm node because a gate that fully wraps a stack of thin channels restores electrostatic control at gate lengths near 14 nm and lets the designer tune drive current continuously through sheet width. This paper reports a complete, reproducible cell-to-chip design of a GAA nanosheet CMOS inverter (INV_GAA_X1) using the Cadence design platform running inside a VMware Workstation guest. The device is modelled with the industry-standard BSIM-CMG multi-gate compact model at a generic 3-nm-class rule set (gate length 14 nm, contacted gate pitch 48 nm, three 5-nm sheets, 6-track 168-nm cell). Schematic and transient characterisation use Virtuoso and Spectre; the physical cell is built in Virtuoso Layout and streamed to Calma GDSII; and the same cell is carried through a register-transfer-level (RTL) to GDSII flow with Genus synthesis and Innovus place-and-route. A dependency-free GDSII stream writer and a calibrated reference compact model, both released with the paper, let the layout and the electrical figures be regenerated and checked outside the licensed tools. At <var>V</var><sub>DD</sub> = 0.7 V the reference model gives a switching threshold of 350 mV, a maximum voltage gain of 28, noise margins of 255/266 mV, a fan-out-of-4 propagation delay of 5.77 ps and 0.84 fJ per cycle in a 0.0161 µm² footprint, a 16 % delay and 17 % area reduction over a 5-nm-class FinFET inverter evaluated with the same model, and an 11-stage fan-out-of-3 ring oscillator built from the cell runs at 25.3 GHz (1.80 ps per stage). A NAND2 cell built with the N and P sheet widths swapped balances its series stack in a 3-pitch, 0.0242 µm² footprint with a 7.60-ps worst-case FO4 delay. The resulting GDSII passes independent read-back with 32 boundaries on 11 layers and four pin texts. The methodology is intended as a reference for research groups adopting GAA technology in academic environments where the EDA tools run on virtualised infrastructure.</p>
+      <p>Gate-all-around (GAA) nanosheet transistors replace the FinFET at the 3-nm node because a gate that fully wraps a stack of thin channels restores electrostatic control at gate lengths near 14 nm and lets the designer tune drive current continuously through sheet width. This paper reports a complete, reproducible cell-to-chip design of a GAA nanosheet CMOS inverter (INV_GAA_X1) using the Cadence design platform running inside a VMware Workstation guest. The device is modelled with the industry-standard BSIM-CMG multi-gate compact model at a generic 3-nm-class rule set (gate length 14 nm, contacted gate pitch 48 nm, three 5-nm sheets, 6-track 168-nm cell). Schematic and transient characterisation use Virtuoso and Spectre; the physical cell is built in Virtuoso Layout and streamed to Calma GDSII; and the same cell is carried through a register-transfer-level (RTL) to GDSII flow with Genus synthesis and Innovus place-and-route. A dependency-free GDSII stream writer and a calibrated reference compact model, both released with the paper, let the layout and the electrical figures be regenerated and checked outside the licensed tools. At <var>V</var><sub>DD</sub> = 0.7 V the reference model gives a switching threshold of 350 mV, a maximum voltage gain of 28, noise margins of 255/266 mV, a fan-out-of-4 propagation delay of 5.77 ps and 0.84 fJ per cycle in a 0.0161 µm² footprint, a 16 % delay and 17 % area reduction over a 5-nm-class FinFET inverter evaluated with the same model, and an 11-stage fan-out-of-3 ring oscillator built from the cell runs at 25.3 GHz (1.80 ps per stage). A NAND2 cell built with the N and P sheet widths swapped balances its series stack in a 3-pitch, 0.0242 µm² footprint with a 7.60-ps worst-case FO4 delay, and a 0.0207 µm² six-transistor SRAM bitcell whose sheet-width ratios raise the read static noise margin to 105 mV against 94 mV for a one-fin FinFET cell of the same area. The resulting GDSII passes independent read-back with 32 boundaries on 11 layers and four pin texts. The methodology is intended as a reference for research groups adopting GAA technology in academic environments where the EDA tools run on virtualised infrastructure.</p>
       <div class="terms"><b>Index terms:</b> gate-all-around, nanosheet FET, BSIM-CMG, CMOS inverter, GDSII, RTL-to-GDSII, Cadence Virtuoso, Genus, Innovus, VMware Workstation, 3-nm technology node.</div>
     </div>
   </section>
@@ -163,6 +163,7 @@ pre.mermaid{margin:0;display:flex;justify-content:center}
         <li><b>A calibrated GAA nanosheet model set</b> for Cadence Spectre based on the BSIM-CMG multi-gate model [5], with a generic 3-nm-class geometry (Table I), and a dependency-free reference compact model that reproduces the same metrics for cross-checking.</li>
         <li><b>A GAA inverter standard cell</b> at a 6-track, 168-nm height with two 48-nm gate pitches, drawn to a published layer map and delivered as a Calma GDSII stream that reads back cleanly in an independent parser.</li>
         <li><b>A NAND2 standard cell</b> that exploits the nanosheet width freedom by swapping the N and P band widths to balance the series stack in the minimum 3-pitch footprint, with its GDSII, testbench and a FinFET comparison.</li>
+        <li><b>A 6T SRAM bitcell</b> in the thin-cell topology whose cell and pull-up ratios are set by sheet width (36 / 24 / 20 nm) in a 0.0207 µm² high-density footprint, with GDSII, testbench, and static noise margin, write and read analysis against a 1-1-1 FinFET cell.</li>
         <li><b>A ring-oscillator study</b>: an 11-stage FO3 ring built from the cell as a Spectre testbench, as synthesisable RTL with preserved stages, and as a hierarchical GDSII, characterised over supply voltage against the FinFET baseline.</li>
         <li><b>A scripted RTL-to-GDSII flow</b> (Xcelium, Genus, Innovus) that synthesises and physically implements the inverter on the GAA library and streams out the routed block, together with the VMware Workstation configuration used to host the tools.</li>
       </ul>
@@ -1346,14 +1347,208 @@ flowchart LR
         <figcaption><b>Fig. 10.</b> Left: NAND2 transfer curves for the tied-input case and for each input switching with the other held at <var>V</var><sub>DD</sub>. Right: FO4 transient response for the A arc (B = 1) and the B arc (A = 1) to the 12-ps input edges. GAA cell, 0.7 V, reference model; hover for values.</figcaption>
       </figure>
 
+
+      <h3><span class="num">H.</span>Six-transistor SRAM bitcell</h3>
+      <p>SRAM is where the nanosheet's continuous width matters most, because a bitcell's stability and writability are set by two ratios that a FinFET high-density cell cannot tune: the cell ratio <var>β</var> = <var>I</var><sub>PD</sub>/<var>I</var><sub>PG</sub> that limits the read disturb, and the pull-up ratio <var>γ</var> = <var>I</var><sub>PG</sub>/<var>I</var><sub>PU</sub> that sets the write trip point. A 1-fin-per-device FinFET cell has <var>β</var> = 1 by construction and can only reach <var>β</var> = 2 by adding a whole fin to the pull-down, which is the high-performance cell with roughly a third more area. The GAA bitcell of Fig. 11, SRAM6T_GAA_HD, keeps the thin-cell topology [12] at two gate pitches of height (96 nm) and 216 nm of width (0.0207 µm², in line with the 0.020–0.021 µm² high-density cells reported at 3 nm [3], [4]) and sets the ratios by sheet width alone: the NMOS stripe is jogged so the pull-down uses 36-nm sheets and the access transistor 24-nm sheets, and the pull-up uses 20-nm sheets, chosen so that the write trip point matches the FinFET cell. The two inverters are cross-coupled through butted contacts that join the end of each gate row to the opposite storage node's PMOS drain; bit lines, supply and ground run vertically on metal-2 and the word line horizontally on metal-3. Listing 19 is the Spectre testbench (butterfly curves with the loop broken by a controlled source, write sweep, read current, leakage and a supply sweep) and Listing 20 the GDSII generator; Listing 21 is the reference analysis, which solves each storage node by bisection and extracts the static noise margin as the largest square that fits between a transfer curve and its mirror.</p>
+      <figure>
+        <div class="plate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 420" width="780" height="420" font-family="ui-monospace, monospace">
+<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#e53935" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="#b71c1c" stroke-width="1.5"/></pattern></defs>
+<polygon points="246.0,366.0 534.0,366.0 534.0,54.0 246.0,54.0" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 NWELL</title></polygon>
+<polygon points="96.0,246.0 204.0,246.0 204.0,54.0 96.0,54.0" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 N-left: PD1 (36 nm)</title></polygon>
+<polygon points="114.0,366.0 186.0,366.0 186.0,234.0 114.0,234.0" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 N-left: PG1 (24 nm)</title></polygon>
+<polygon points="282.0,294.0 342.0,294.0 342.0,54.0 282.0,54.0" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 P-left: PU1 (20 nm)</title></polygon>
+<polygon points="438.0,366.0 498.0,366.0 498.0,126.0 438.0,126.0" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 P-right: PU2 (20 nm)</title></polygon>
+<polygon points="576.0,366.0 684.0,366.0 684.0,174.0 576.0,174.0" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 N-right: PD2 (36 nm)</title></polygon>
+<polygon points="594.0,186.0 666.0,186.0 666.0,54.0 594.0,54.0" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 N-right: PG2 (24 nm)</title></polygon>
+<polygon points="66.0,159.0 402.0,159.0 402.0,117.0 66.0,117.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 gate A: PD1+PU1 (driven by QB)</title></polygon>
+<polygon points="546.0,159.0 714.0,159.0 714.0,117.0 546.0,117.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 gate PG2 (WL)</title></polygon>
+<polygon points="378.0,303.0 714.0,303.0 714.0,261.0 378.0,261.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 gate B: PU2+PD2 (driven by Q)</title></polygon>
+<polygon points="66.0,303.0 234.0,303.0 234.0,261.0 66.0,261.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 gate PG1 (WL)</title></polygon>
+<polygon points="402.0,165.0 546.0,165.0 546.0,111.0 402.0,111.0" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 gate cut</title></polygon>
+<polygon points="234.0,309.0 378.0,309.0 378.0,255.0 234.0,255.0" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 gate cut</title></polygon>
+<polygon points="114.0,372.0 186.0,372.0 186.0,330.0 114.0,330.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 BL contact</title></polygon>
+<polygon points="96.0,90.0 204.0,90.0 204.0,48.0 96.0,48.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 VSS contact</title></polygon>
+<polygon points="96.0,231.0 204.0,231.0 204.0,189.0 96.0,189.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 Q node (N)</title></polygon>
+<polygon points="594.0,90.0 666.0,90.0 666.0,48.0 594.0,48.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 BLB contact</title></polygon>
+<polygon points="576.0,372.0 684.0,372.0 684.0,330.0 576.0,330.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 VSS contact</title></polygon>
+<polygon points="576.0,231.0 684.0,231.0 684.0,189.0 576.0,189.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 QB node (N)</title></polygon>
+<polygon points="282.0,102.0 342.0,102.0 342.0,48.0 282.0,48.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 VDD contact</title></polygon>
+<polygon points="438.0,372.0 498.0,372.0 498.0,318.0 438.0,318.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 VDD contact</title></polygon>
+<polygon points="282.0,294.0 342.0,294.0 342.0,189.0 282.0,189.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 Q node (P drain)</title></polygon>
+<polygon points="282.0,294.0 408.0,294.0 408.0,252.0 282.0,252.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 butted: Q -> gate B</title></polygon>
+<polygon points="438.0,231.0 498.0,231.0 498.0,126.0 438.0,126.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 QB node (P drain)</title></polygon>
+<polygon points="372.0,168.0 498.0,168.0 498.0,126.0 372.0,126.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 butted: QB -> gate A</title></polygon>
+<polygon points="372.0,303.0 408.0,303.0 408.0,261.0 372.0,261.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 CB gate B end</title></polygon>
+<polygon points="372.0,159.0 408.0,159.0 408.0,117.0 372.0,117.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 CB gate A end</title></polygon>
+<polygon points="66.0,303.0 96.0,303.0 96.0,261.0 66.0,261.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 CB PG1 (WL)</title></polygon>
+<polygon points="684.0,159.0 714.0,159.0 714.0,117.0 684.0,117.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 CB PG2 (WL)</title></polygon>
+<polygon points="126.0,231.0 354.0,231.0 354.0,189.0 126.0,189.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 Q strap</title></polygon>
+<polygon points="426.0,231.0 654.0,231.0 654.0,189.0 426.0,189.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 QB strap</title></polygon>
+<polygon points="138.0,366.0 186.0,366.0 186.0,318.0 138.0,318.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 BL pad</title></polygon>
+<polygon points="594.0,102.0 642.0,102.0 642.0,54.0 594.0,54.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 BLB pad</title></polygon>
+<polygon points="96.0,102.0 264.0,102.0 264.0,54.0 96.0,54.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VSS pad</title></polygon>
+<polygon points="516.0,366.0 684.0,366.0 684.0,318.0 516.0,318.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VSS pad</title></polygon>
+<polygon points="306.0,102.0 414.0,102.0 414.0,54.0 306.0,54.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VDD pad</title></polygon>
+<polygon points="366.0,366.0 486.0,366.0 486.0,318.0 366.0,318.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VDD pad</title></polygon>
+<polygon points="57.0,303.0 105.0,303.0 105.0,261.0 57.0,261.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 WL pad</title></polygon>
+<polygon points="675.0,159.0 723.0,159.0 723.0,117.0 675.0,117.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 WL pad</title></polygon>
+<polygon points="135.0,225.0 165.0,225.0 165.0,195.0 135.0,195.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="297.0,225.0 327.0,225.0 327.0,195.0 297.0,195.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="453.0,225.0 483.0,225.0 483.0,195.0 453.0,195.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="615.0,225.0 645.0,225.0 645.0,195.0 615.0,195.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="147.0,357.0 177.0,357.0 177.0,327.0 147.0,327.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="603.0,93.0 633.0,93.0 633.0,63.0 603.0,63.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="135.0,93.0 165.0,93.0 165.0,63.0 135.0,63.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="615.0,357.0 645.0,357.0 645.0,327.0 615.0,327.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="303.0,93.0 333.0,93.0 333.0,63.0 303.0,63.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="453.0,357.0 483.0,357.0 483.0,327.0 453.0,327.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="66.0,297.0 96.0,297.0 96.0,267.0 66.0,267.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="684.0,153.0 714.0,153.0 714.0,123.0 684.0,123.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="66.0,354.0 714.0,354.0 714.0,66.0 66.0,66.0" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 prBoundary</title></polygon>
+<text x="162.0" y="178.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">BL</text>
+<text x="246.0" y="250.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">VSS</text>
+<text x="390.0" y="250.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">VDD</text>
+<text x="534.0" y="250.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">VSS</text>
+<text x="618.0" y="178.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">BLB</text>
+<text x="390.0" y="214.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">WL</text>
+<text x="150.0" y="214.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">Q</text>
+<text x="630.0" y="214.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">QB</text>
+</svg></div>
+        <figcaption><b>Fig. 11.</b> SRAM6T_GAA_HD thin-cell layout from <code>layout/gaa_sram6t.gds</code> (216 × 96 nm, 70 polygons, 13 layer/datatype pairs, 8 net texts). From left to right: jogged NMOS stripe (PD1 36 nm / PG1 24 nm), PU1 and PU2 stripes (20 nm) in the N-well, jogged NMOS stripe (PD2 / PG2). Gate rows at the 48-nm pitch; the butted contacts at the ends of gate A and gate B form the cross-coupling. Metal-2 (purple): BL, VSS, VDD, VSS, BLB; metal-3 (teal): WL. Contacts at the cell edges are shared with the neighbouring cells.</figcaption>
+      </figure>
+      <p>Table VIII and Fig. 12 give the results. The hold static noise margin, set by the two inverter transfer curves alone, is within 5 % of the FinFET cell's, since the GAA pull-up is deliberately its weakest device; the read margin is where the sizing pays: the GAA cell's <var>β</var> = 1.41 holds the '0' node to 135 mV during a read against 169 mV for the <var>β</var> = 1 FinFET cell, which lifts the read SNM from 94 mV to 105 mV. On the write side the pull-up width sets <var>γ</var> = 1.55, which puts the write trip voltage at 293 mV against 294 mV for the FinFET cell: the read-margin gain is obtained at unchanged writability, and a wider pull-up would trade it back for hold margin. The read current, which sets the bit-line discharge time and therefore the access time, is 112.1 µA against 51.4 µA. Fig. 12 (right) shows that the read margin scales with supply almost as steadily as the hold margin down to 0.4 V, which is the property that lets GAA SRAM lower its minimum operating voltage. The cost of the wider pull-down is visible in the leakage row; a production cell would use a high-threshold flavour of the same devices, which the SVT calibration of Table I does not represent.</p>
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table VIII.</b> 6T high-density bitcell figures (reference model, <var>V</var><sub>DD</sub> = 0.7 V, 300 K, SVT devices).</caption>
+          <thead><tr><th>Quantity</th><th class="n">FinFET HD (1-1-1 fins)</th><th class="n">GAA HD (36 / 24 / 20-nm sheets)</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td>Cell area</td><td class="n">0.0210 µm²</td><td class="n">0.0207 µm² (216 × 96 nm)</td><td>[3], [4]</td></tr>
+            <tr><td>Cell ratio <var>β</var> = <var>W</var><sub>PD</sub>/<var>W</var><sub>PG</sub></td><td class="n">1.00</td><td class="n">1.41</td><td>read stability</td></tr>
+            <tr><td>Pull-up ratio <var>γ</var> = <var>I</var><sub>PG</sub>/<var>I</var><sub>PU</sub></td><td class="n">1.29</td><td class="n">1.55</td><td>writability</td></tr>
+            <tr><td>Hold SNM</td><td class="n">266 mV</td><td class="n">254 mV</td><td>WL = 0</td></tr>
+            <tr><td>Read SNM</td><td class="n">94 mV</td><td class="n">105 mV</td><td>WL = BL = BLB = <var>V</var><sub>DD</sub></td></tr>
+            <tr><td>Read-disturb voltage on the '0' node</td><td class="n">169 mV</td><td class="n">135 mV</td><td></td></tr>
+            <tr><td>Write trip voltage (BL sweep)</td><td class="n">294 mV</td><td class="n">293 mV</td><td>higher is easier to write</td></tr>
+            <tr><td>Read current <var>I</var><sub>read</sub></td><td class="n">51.4 µA</td><td class="n">112.1 µA</td><td>through PG at read</td></tr>
+            <tr><td>Cell leakage (hold)</td><td class="n">3.08 nA</td><td class="n">6.70 nA</td><td>SVT flavour</td></tr>
+            <tr><td>Read SNM at 0.5 V / 0.4 V</td><td class="n">80 / 64 mV</td><td class="n">88 / 68 mV</td><td>from the sweep</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure>
+        <div class="two">
+          <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 420" role="img" class="chart" data-plot='{"ml": 52, "mt": 12, "pw": 492, "ph": 368, "xlim": [0, 0.7], "ylim": [0, 0.7], "log": false, "xlab": "V_QB (V)", "ylab": "V_Q (V)"}' data-series='[{"name": "read: Q = f(QB)", "xy": [[0.0, 0.7], [0.00583, 0.7], [0.01167, 0.7], [0.0175, 0.7], [0.02333, 0.7], [0.02917, 0.7], [0.035, 0.7], [0.04083, 0.7], [0.04667, 0.7], [0.0525, 0.7], [0.05833, 0.6999], [0.06417, 0.6999], [0.07, 0.6999], [0.07583, 0.6999], [0.08167, 0.6999], [0.0875, 0.6998], [0.09333, 0.6998], [0.09917, 0.6998], [0.105, 0.6997], [0.11083, 0.6996], [0.11667, 0.6996], [0.1225, 0.6995], [0.12833, 0.6993], [0.13417, 0.6992], [0.14, 0.699], [0.14583, 0.6988], [0.15167, 0.6985], [0.1575, 0.6982], [0.16333, 0.6978], [0.16917, 0.6974], [0.175, 0.6968], [0.18083, 0.6961], [0.18667, 0.6953], [0.1925, 0.6944], [0.19833, 0.6932], [0.20417, 0.6918], [0.21, 0.6902], [0.21583, 0.6883], [0.22167, 0.6861], [0.2275, 0.6835], [0.23333, 0.6805], [0.23917, 0.677], [0.245, 0.6729], [0.25083, 0.6682], [0.25667, 0.6627], [0.2625, 0.6562], [0.26833, 0.6485], [0.27417, 0.6391], [0.28, 0.6273], [0.28583, 0.6117], [0.29167, 0.5897], [0.2975, 0.5558], [0.30333, 0.5096], [0.30917, 0.4729], [0.315, 0.4481], [0.32083, 0.429], [0.32667, 0.4129], [0.3325, 0.3986], [0.33833, 0.3855], [0.34417, 0.3732], [0.35, 0.3615], [0.35583, 0.3504], [0.36167, 0.3397], [0.3675, 0.3293], [0.37333, 0.3194], [0.37917, 0.3098], [0.385, 0.3005], [0.39083, 0.2916], [0.39667, 0.283], [0.4025, 0.2747], [0.40833, 0.2669], [0.41417, 0.2593], [0.42, 0.2521], [0.42583, 0.2453], [0.43167, 0.2388], [0.4375, 0.2327], [0.44333, 0.2269], [0.44917, 0.2214], [0.455, 0.2162], [0.46083, 0.2114], [0.46667, 0.2068], [0.4725, 0.2025], [0.47833, 0.1985], [0.48417, 0.1947], [0.49, 0.1912], [0.49583, 0.1878], [0.50167, 0.1847], [0.5075, 0.1817], [0.51333, 0.1789], [0.51917, 0.1763], [0.525, 0.1738], [0.53083, 0.1714], [0.53667, 0.1692], [0.5425, 0.1671], [0.54833, 0.1651], [0.55417, 0.1632], [0.56, 0.1614], [0.56583, 0.1596], [0.57167, 0.158], [0.5775, 0.1565], [0.58333, 0.155], [0.58917, 0.1535], [0.595, 0.1522], [0.60083, 0.1509], [0.60667, 0.1496], [0.6125, 0.1485], [0.61833, 0.1473], [0.62417, 0.1462], [0.63, 0.1452], [0.63583, 0.1442], [0.64167, 0.1432], [0.6475, 0.1422], [0.65333, 0.1413], [0.65917, 0.1405], [0.665, 0.1396], [0.67083, 0.1388], [0.67667, 0.138], [0.6825, 0.1373], [0.68833, 0.1365], [0.69417, 0.1358], [0.7, 0.1352]], "color": "var(--c1)"}, {"name": "read: QB = f(Q)", "xy": [[0.13515, 0.7], [0.13584, 0.6942], [0.13655, 0.6883], [0.13728, 0.6825], [0.13804, 0.6767], [0.13882, 0.6708], [0.13963, 0.665], [0.14047, 0.6592], [0.14134, 0.6533], [0.14224, 0.6475], [0.14318, 0.6417], [0.14416, 0.6358], [0.14517, 0.63], [0.14622, 0.6242], [0.14732, 0.6183], [0.14846, 0.6125], [0.14965, 0.6067], [0.15089, 0.6008], [0.15219, 0.595], [0.15355, 0.5892], [0.15496, 0.5833], [0.15645, 0.5775], [0.15801, 0.5717], [0.15965, 0.5658], [0.16136, 0.56], [0.16317, 0.5542], [0.16507, 0.5483], [0.16707, 0.5425], [0.16919, 0.5367], [0.17142, 0.5308], [0.17377, 0.525], [0.17626, 0.5192], [0.1789, 0.5133], [0.1817, 0.5075], [0.18467, 0.5017], [0.18782, 0.4958], [0.19116, 0.49], [0.19472, 0.4842], [0.19851, 0.4783], [0.20254, 0.4725], [0.20683, 0.4667], [0.21139, 0.4608], [0.21624, 0.455], [0.22139, 0.4492], [0.22687, 0.4433], [0.23267, 0.4375], [0.23881, 0.4317], [0.24529, 0.4258], [0.25213, 0.42], [0.25932, 0.4142], [0.26686, 0.4083], [0.27475, 0.4025], [0.28299, 0.3967], [0.29158, 0.3908], [0.30051, 0.385], [0.30977, 0.3792], [0.31938, 0.3733], [0.32934, 0.3675], [0.33966, 0.3617], [0.35038, 0.3558], [0.36153, 0.35], [0.3732, 0.3442], [0.38549, 0.3383], [0.39862, 0.3325], [0.41292, 0.3267], [0.42899, 0.3208], [0.44806, 0.315], [0.47288, 0.3092], [0.50956, 0.3033], [0.55576, 0.2975], [0.58967, 0.2917], [0.61171, 0.2858], [0.62728, 0.28], [0.63909, 0.2742], [0.64849, 0.2683], [0.65621, 0.2625], [0.6627, 0.2567], [0.66821, 0.2508], [0.67294, 0.245], [0.677, 0.2392], [0.68051, 0.2333], [0.68352, 0.2275], [0.68612, 0.2217], [0.68834, 0.2158], [0.69023, 0.21], [0.69185, 0.2042], [0.69321, 0.1983], [0.69436, 0.1925], [0.69533, 0.1867], [0.69614, 0.1808], [0.69681, 0.175], [0.69737, 0.1692], [0.69784, 0.1633], [0.69822, 0.1575], [0.69854, 0.1517], [0.69881, 0.1458], [0.69902, 0.14], [0.6992, 0.1342], [0.69934, 0.1283], [0.69946, 0.1225], [0.69956, 0.1167], [0.69964, 0.1108], [0.69971, 0.105], [0.69976, 0.09917], [0.6998, 0.09333], [0.69984, 0.0875], [0.69987, 0.08167], [0.69989, 0.07583], [0.69991, 0.07], [0.69993, 0.06417], [0.69994, 0.05833], [0.69995, 0.0525], [0.69996, 0.04667], [0.69997, 0.04083], [0.69997, 0.035], [0.69998, 0.02917], [0.69998, 0.02333], [0.69999, 0.0175], [0.69999, 0.01167], [0.69999, 0.005833], [0.69999, 0.0]], "color": "var(--c1)"}, {"name": "hold: Q = f(QB)", "xy": [[0.0, 0.7], [0.00583, 0.7], [0.01167, 0.7], [0.0175, 0.7], [0.02333, 0.7], [0.02917, 0.7], [0.035, 0.7], [0.04083, 0.7], [0.04667, 0.7], [0.0525, 0.7], [0.05833, 0.6999], [0.06417, 0.6999], [0.07, 0.6999], [0.07583, 0.6999], [0.08167, 0.6999], [0.0875, 0.6998], [0.09333, 0.6998], [0.09917, 0.6998], [0.105, 0.6997], [0.11083, 0.6996], [0.11667, 0.6996], [0.1225, 0.6995], [0.12833, 0.6993], [0.13417, 0.6992], [0.14, 0.699], [0.14583, 0.6988], [0.15167, 0.6985], [0.1575, 0.6982], [0.16333, 0.6978], [0.16917, 0.6974], [0.175, 0.6968], [0.18083, 0.6961], [0.18667, 0.6953], [0.1925, 0.6944], [0.19833, 0.6932], [0.20417, 0.6918], [0.21, 0.6902], [0.21583, 0.6883], [0.22167, 0.6861], [0.2275, 0.6835], [0.23333, 0.6805], [0.23917, 0.677], [0.245, 0.6729], [0.25083, 0.6682], [0.25667, 0.6627], [0.2625, 0.6562], [0.26833, 0.6485], [0.27417, 0.639], [0.28, 0.6272], [0.28583, 0.6115], [0.29167, 0.5889], [0.2975, 0.5517], [0.30333, 0.4739], [0.30917, 0.2967], [0.315, 0.1627], [0.32083, 0.1121], [0.32667, 0.08666], [0.3325, 0.07074], [0.33833, 0.05951], [0.34417, 0.05099], [0.35, 0.04421], [0.35583, 0.03862], [0.36167, 0.0339], [0.3675, 0.02985], [0.37333, 0.02633], [0.37917, 0.02322], [0.385, 0.02048], [0.39083, 0.01804], [0.39667, 0.01585], [0.4025, 0.0139], [0.40833, 0.01216], [0.41417, 0.0106], [0.42, 0.00921], [0.42583, 0.007973], [0.43167, 0.006877], [0.4375, 0.005909], [0.44333, 0.005058], [0.44917, 0.004314], [0.455, 0.003665], [0.46083, 0.003104], [0.46667, 0.002619], [0.4725, 0.002204], [0.47833, 0.001849], [0.48417, 0.001547], [0.49, 0.001291], [0.49583, 0.001076], [0.50167, 0.0008942], [0.5075, 0.0007422], [0.51333, 0.0006152], [0.51917, 0.0005093], [0.525, 0.0004212], [0.53083, 0.0003481], [0.53667, 0.0002876], [0.5425, 0.0002374], [0.54833, 0.000196], [0.55417, 0.0001618], [0.56, 0.0001336], [0.56583, 0.0001104], [0.57167, 9.122e-05], [0.5775, 7.546e-05], [0.58333, 6.25e-05], [0.58917, 5.184e-05], [0.595, 4.307e-05], [0.60083, 3.586e-05], [0.60667, 2.994e-05], [0.6125, 2.507e-05], [0.61833, 2.106e-05], [0.62417, 1.777e-05], [0.63, 1.507e-05], [0.63583, 1.284e-05], [0.64167, 1.101e-05], [0.6475, 9.511e-06], [0.65333, 8.273e-06], [0.65917, 7.255e-06], [0.665, 6.417e-06], [0.67083, 5.726e-06], [0.67667, 5.157e-06], [0.6825, 4.687e-06], [0.68833, 4.3e-06], [0.69417, 3.98e-06], [0.7, 3.715e-06]], "color": "var(--c2)"}, {"name": "hold: QB = f(Q)", "xy": [[0.0, 0.7], [0.0, 0.6942], [0.0, 0.6883], [0.0, 0.6825], [1e-05, 0.6767], [1e-05, 0.6708], [1e-05, 0.665], [1e-05, 0.6592], [1e-05, 0.6533], [1e-05, 0.6475], [1e-05, 0.6417], [1e-05, 0.6358], [2e-05, 0.63], [2e-05, 0.6242], [2e-05, 0.6183], [3e-05, 0.6125], [3e-05, 0.6067], [4e-05, 0.6008], [4e-05, 0.595], [5e-05, 0.5892], [6e-05, 0.5833], [8e-05, 0.5775], [9e-05, 0.5717], [0.00011, 0.5658], [0.00013, 0.56], [0.00016, 0.5542], [0.0002, 0.5483], [0.00024, 0.5425], [0.00029, 0.5367], [0.00035, 0.5308], [0.00042, 0.525], [0.00051, 0.5192], [0.00062, 0.5133], [0.00074, 0.5075], [0.00089, 0.5017], [0.00108, 0.4958], [0.00129, 0.49], [0.00155, 0.4842], [0.00185, 0.4783], [0.0022, 0.4725], [0.00262, 0.4667], [0.0031, 0.4608], [0.00367, 0.455], [0.00431, 0.4492], [0.00506, 0.4433], [0.00591, 0.4375], [0.00688, 0.4317], [0.00797, 0.4258], [0.00921, 0.42], [0.0106, 0.4142], [0.01216, 0.4083], [0.0139, 0.4025], [0.01585, 0.3967], [0.01804, 0.3908], [0.02048, 0.385], [0.02322, 0.3792], [0.02633, 0.3733], [0.02985, 0.3675], [0.0339, 0.3617], [0.03862, 0.3558], [0.04421, 0.35], [0.05099, 0.3442], [0.05951, 0.3383], [0.07074, 0.3325], [0.08666, 0.3267], [0.11211, 0.3208], [0.16269, 0.315], [0.29674, 0.3092], [0.4739, 0.3033], [0.55173, 0.2975], [0.58891, 0.2917], [0.61147, 0.2858], [0.62717, 0.28], [0.63903, 0.2742], [0.64846, 0.2683], [0.6562, 0.2625], [0.66268, 0.2567], [0.6682, 0.2508], [0.67293, 0.245], [0.677, 0.2392], [0.6805, 0.2333], [0.68352, 0.2275], [0.68612, 0.2217], [0.68834, 0.2158], [0.69023, 0.21], [0.69185, 0.2042], [0.69321, 0.1983], [0.69436, 0.1925], [0.69533, 0.1867], [0.69614, 0.1808], [0.69681, 0.175], [0.69737, 0.1692], [0.69784, 0.1633], [0.69822, 0.1575], [0.69854, 0.1517], [0.6988, 0.1458], [0.69902, 0.14], [0.6992, 0.1342], [0.69934, 0.1283], [0.69946, 0.1225], [0.69956, 0.1167], [0.69964, 0.1108], [0.69971, 0.105], [0.69976, 0.09917], [0.6998, 0.09333], [0.69984, 0.0875], [0.69987, 0.08167], [0.69989, 0.07583], [0.69991, 0.07], [0.69993, 0.06417], [0.69994, 0.05833], [0.69995, 0.0525], [0.69996, 0.04667], [0.69997, 0.04083], [0.69997, 0.035], [0.69998, 0.02917], [0.69998, 0.02333], [0.69999, 0.0175], [0.69999, 0.01167], [0.69999, 0.005833], [0.69999, 0.0]], "color": "var(--c2)"}]' style="max-width:100%;height:auto;font-family:var(--font-ui);font-size:11px">
+<line x1="52.0" y1="12" x2="52.0" y2="380" stroke="var(--grid)" stroke-width="1"/>
+<text x="52.0" y="396" text-anchor="middle" fill="var(--ink-2)">0.0</text>
+<line x1="122.3" y1="12" x2="122.3" y2="380" stroke="var(--grid)" stroke-width="1"/>
+<text x="122.3" y="396" text-anchor="middle" fill="var(--ink-2)">0.1</text>
+<line x1="192.6" y1="12" x2="192.6" y2="380" stroke="var(--grid)" stroke-width="1"/>
+<text x="192.6" y="396" text-anchor="middle" fill="var(--ink-2)">0.2</text>
+<line x1="262.9" y1="12" x2="262.9" y2="380" stroke="var(--grid)" stroke-width="1"/>
+<text x="262.9" y="396" text-anchor="middle" fill="var(--ink-2)">0.3</text>
+<line x1="333.1" y1="12" x2="333.1" y2="380" stroke="var(--grid)" stroke-width="1"/>
+<text x="333.1" y="396" text-anchor="middle" fill="var(--ink-2)">0.4</text>
+<line x1="403.4" y1="12" x2="403.4" y2="380" stroke="var(--grid)" stroke-width="1"/>
+<text x="403.4" y="396" text-anchor="middle" fill="var(--ink-2)">0.5</text>
+<line x1="473.7" y1="12" x2="473.7" y2="380" stroke="var(--grid)" stroke-width="1"/>
+<text x="473.7" y="396" text-anchor="middle" fill="var(--ink-2)">0.6</text>
+<line x1="544.0" y1="12" x2="544.0" y2="380" stroke="var(--grid)" stroke-width="1"/>
+<text x="544.0" y="396" text-anchor="middle" fill="var(--ink-2)">0.7</text>
+<line x1="52" y1="380.0" x2="544" y2="380.0" stroke="var(--grid)"/>
+<text x="46" y="384.0" text-anchor="end" fill="var(--ink-2)">0</text>
+<line x1="52" y1="327.4" x2="544" y2="327.4" stroke="var(--grid)"/>
+<text x="46" y="331.4" text-anchor="end" fill="var(--ink-2)">0.1</text>
+<line x1="52" y1="274.9" x2="544" y2="274.9" stroke="var(--grid)"/>
+<text x="46" y="278.9" text-anchor="end" fill="var(--ink-2)">0.2</text>
+<line x1="52" y1="222.3" x2="544" y2="222.3" stroke="var(--grid)"/>
+<text x="46" y="226.3" text-anchor="end" fill="var(--ink-2)">0.3</text>
+<line x1="52" y1="169.7" x2="544" y2="169.7" stroke="var(--grid)"/>
+<text x="46" y="173.7" text-anchor="end" fill="var(--ink-2)">0.4</text>
+<line x1="52" y1="117.1" x2="544" y2="117.1" stroke="var(--grid)"/>
+<text x="46" y="121.1" text-anchor="end" fill="var(--ink-2)">0.5</text>
+<line x1="52" y1="64.6" x2="544" y2="64.6" stroke="var(--grid)"/>
+<text x="46" y="68.6" text-anchor="end" fill="var(--ink-2)">0.6</text>
+<line x1="52" y1="12.0" x2="544" y2="12.0" stroke="var(--grid)"/>
+<text x="46" y="16.0" text-anchor="end" fill="var(--ink-2)">0.7</text>
+<rect x="52" y="12" width="492" height="368" fill="none" stroke="var(--ink-3)"/>
+<polyline points="52.0,12.0 56.1,12.0 60.2,12.0 64.3,12.0 68.4,12.0 72.5,12.0 76.6,12.0 80.7,12.0 84.8,12.0 88.9,12.0 93.0,12.0 97.1,12.0 101.2,12.0 105.3,12.1 109.4,12.1 113.5,12.1 117.6,12.1 121.7,12.1 125.8,12.2 129.9,12.2 134.0,12.2 138.1,12.3 142.2,12.3 146.3,12.4 150.4,12.5 154.5,12.6 158.6,12.8 162.7,12.9 166.8,13.1 170.9,13.4 175.0,13.7 179.1,14.0 183.2,14.5 187.3,15.0 191.4,15.6 195.5,16.3 199.6,17.1 203.7,18.1 207.8,19.3 211.9,20.7 216.0,22.2 220.1,24.1 224.2,26.2 228.3,28.7 232.4,31.6 236.5,35.0 240.6,39.1 244.7,44.0 248.8,50.2 252.9,58.4 257.0,70.0 261.1,87.8 265.2,112.1 269.3,131.4 273.4,144.4 277.5,154.5 281.6,162.9 285.7,170.4 289.8,177.3 293.9,183.8 298.0,189.9 302.1,195.8 306.2,201.4 310.3,206.9 314.4,212.1 318.5,217.1 322.6,222.0 326.7,226.7 330.8,231.2 334.9,235.6 339.0,239.7 343.1,243.7 347.2,247.5 351.3,251.0 355.4,254.5 359.5,257.7 363.6,260.7 367.7,263.6 371.8,266.3 375.9,268.9 380.0,271.3 384.1,273.5 388.2,275.6 392.3,277.6 396.4,279.5 400.5,281.3 404.6,282.9 408.7,284.5 412.8,285.9 416.9,287.3 421.0,288.6 425.1,289.9 429.2,291.1 433.3,292.2 437.4,293.2 441.5,294.2 445.6,295.2 449.7,296.1 453.8,296.9 457.9,297.8 462.0,298.5 466.1,299.3 470.2,300.0 474.3,300.7 478.4,301.3 482.5,302.0 486.6,302.6 490.7,303.1 494.8,303.7 498.9,304.2 503.0,304.7 507.1,305.2 511.2,305.7 515.3,306.2 519.4,306.6 523.5,307.0 527.6,307.4 531.7,307.8 535.8,308.2 539.9,308.6 544.0,308.9" fill="none" stroke="var(--c1)" stroke-width="2"><title>read: Q = f(QB)</title></polyline>
+<polyline points="147.0,12.0 147.5,15.1 148.0,18.1 148.5,21.2 149.0,24.3 149.6,27.3 150.1,30.4 150.7,33.5 151.3,36.5 152.0,39.6 152.6,42.7 153.3,45.7 154.0,48.8 154.8,51.9 155.5,54.9 156.3,58.0 157.2,61.1 158.1,64.1 159.0,67.2 159.9,70.3 160.9,73.3 162.0,76.4 163.1,79.5 164.2,82.5 165.4,85.6 166.7,88.7 168.0,91.7 169.4,94.8 170.9,97.9 172.5,100.9 174.1,104.0 175.9,107.1 177.7,110.1 179.7,113.2 181.8,116.3 184.0,119.3 186.4,122.4 188.9,125.5 191.5,128.5 194.4,131.6 197.4,134.7 200.6,137.7 204.0,140.8 207.6,143.9 211.5,146.9 215.5,150.0 219.8,153.1 224.4,156.1 229.2,159.2 234.3,162.3 239.6,165.3 245.1,168.4 250.9,171.5 256.9,174.5 263.2,177.6 269.7,180.7 276.5,183.7 283.5,186.8 290.7,189.9 298.3,192.9 306.1,196.0 314.3,199.1 322.9,202.1 332.2,205.2 342.2,208.3 353.5,211.3 366.9,214.4 384.4,217.5 410.1,220.5 442.6,223.6 466.5,226.7 481.9,229.7 492.9,232.8 501.2,235.9 507.8,238.9 513.2,242.0 517.8,245.1 521.7,248.1 525.0,251.2 527.8,254.3 530.3,257.3 532.4,260.4 534.2,263.5 535.8,266.5 537.1,269.6 538.3,272.7 539.2,275.7 540.0,278.8 540.7,281.9 541.3,284.9 541.8,288.0 542.2,291.1 542.5,294.1 542.8,297.2 543.0,300.3 543.2,303.3 543.3,306.4 543.4,309.5 543.5,312.5 543.6,315.6 543.7,318.7 543.7,321.7 543.8,324.8 543.8,327.9 543.9,330.9 543.9,334.0 543.9,337.1 543.9,340.1 543.9,343.2 544.0,346.3 544.0,349.3 544.0,352.4 544.0,355.5 544.0,358.5 544.0,361.6 544.0,364.7 544.0,367.7 544.0,370.8 544.0,373.9 544.0,376.9 544.0,380.0" fill="none" stroke="var(--c1)" stroke-width="2" stroke-dasharray="5 4"><title>read: QB = f(Q)</title></polyline>
+<polyline points="52.0,12.0 56.1,12.0 60.2,12.0 64.3,12.0 68.4,12.0 72.5,12.0 76.6,12.0 80.7,12.0 84.8,12.0 88.9,12.0 93.0,12.0 97.1,12.0 101.2,12.0 105.3,12.1 109.4,12.1 113.5,12.1 117.6,12.1 121.7,12.1 125.8,12.2 129.9,12.2 134.0,12.2 138.1,12.3 142.2,12.3 146.3,12.4 150.4,12.5 154.5,12.6 158.6,12.8 162.7,12.9 166.8,13.1 170.9,13.4 175.0,13.7 179.1,14.0 183.2,14.5 187.3,15.0 191.4,15.6 195.5,16.3 199.6,17.1 203.7,18.1 207.8,19.3 211.9,20.7 216.0,22.2 220.1,24.1 224.2,26.2 228.3,28.7 232.4,31.6 236.5,35.0 240.6,39.1 244.7,44.1 248.8,50.3 252.9,58.5 257.0,70.4 261.1,89.9 265.2,130.9 269.3,224.0 273.4,294.5 277.5,321.1 281.6,334.4 285.7,342.8 289.8,348.7 293.9,353.2 298.0,356.8 302.1,359.7 306.2,362.2 310.3,364.3 314.4,366.2 318.5,367.8 322.6,369.2 326.7,370.5 330.8,371.7 334.9,372.7 339.0,373.6 343.1,374.4 347.2,375.2 351.3,375.8 355.4,376.4 359.5,376.9 363.6,377.3 367.7,377.7 371.8,378.1 375.9,378.4 380.0,378.6 384.1,378.8 388.2,379.0 392.3,379.2 396.4,379.3 400.5,379.4 404.6,379.5 408.7,379.6 412.8,379.7 416.9,379.7 421.0,379.8 425.1,379.8 429.2,379.8 433.3,379.9 437.4,379.9 441.5,379.9 445.6,379.9 449.7,379.9 453.8,380.0 457.9,380.0 462.0,380.0 466.1,380.0 470.2,380.0 474.3,380.0 478.4,380.0 482.5,380.0 486.6,380.0 490.7,380.0 494.8,380.0 498.9,380.0 503.0,380.0 507.1,380.0 511.2,380.0 515.3,380.0 519.4,380.0 523.5,380.0 527.6,380.0 531.7,380.0 535.8,380.0 539.9,380.0 544.0,380.0" fill="none" stroke="var(--c2)" stroke-width="2"><title>hold: Q = f(QB)</title></polyline>
+<polyline points="52.0,12.0 52.0,15.1 52.0,18.1 52.0,21.2 52.0,24.3 52.0,27.3 52.0,30.4 52.0,33.5 52.0,36.5 52.0,39.6 52.0,42.7 52.0,45.7 52.0,48.8 52.0,51.9 52.0,54.9 52.0,58.0 52.0,61.1 52.0,64.1 52.0,67.2 52.0,70.3 52.0,73.3 52.1,76.4 52.1,79.5 52.1,82.5 52.1,85.6 52.1,88.7 52.1,91.7 52.2,94.8 52.2,97.9 52.2,100.9 52.3,104.0 52.4,107.1 52.4,110.1 52.5,113.2 52.6,116.3 52.8,119.3 52.9,122.4 53.1,125.5 53.3,128.5 53.5,131.6 53.8,134.7 54.2,137.7 54.6,140.8 55.0,143.9 55.6,146.9 56.2,150.0 56.8,153.1 57.6,156.1 58.5,159.2 59.5,162.3 60.5,165.3 61.8,168.4 63.1,171.5 64.7,174.5 66.4,177.6 68.3,180.7 70.5,183.7 73.0,186.8 75.8,189.9 79.1,192.9 83.1,196.0 87.8,199.1 93.8,202.1 101.7,205.2 112.9,208.3 130.8,211.3 166.3,214.4 260.6,217.5 385.1,220.5 439.8,223.6 465.9,226.7 481.8,229.7 492.8,232.8 501.2,235.9 507.8,238.9 513.2,242.0 517.8,245.1 521.7,248.1 525.0,251.2 527.8,254.3 530.3,257.3 532.4,260.4 534.2,263.5 535.8,266.5 537.1,269.6 538.3,272.7 539.2,275.7 540.0,278.8 540.7,281.9 541.3,284.9 541.8,288.0 542.2,291.1 542.5,294.1 542.8,297.2 543.0,300.3 543.2,303.3 543.3,306.4 543.4,309.5 543.5,312.5 543.6,315.6 543.7,318.7 543.7,321.7 543.8,324.8 543.8,327.9 543.9,330.9 543.9,334.0 543.9,337.1 543.9,340.1 543.9,343.2 544.0,346.3 544.0,349.3 544.0,352.4 544.0,355.5 544.0,358.5 544.0,361.6 544.0,364.7 544.0,367.7 544.0,370.8 544.0,373.9 544.0,376.9 544.0,380.0" fill="none" stroke="var(--c2)" stroke-width="2" stroke-dasharray="5 4"><title>hold: QB = f(Q)</title></polyline>
+<text x="298" y="414" text-anchor="middle" fill="var(--ink)">V_QB (V)</text>
+<text transform="translate(14,196) rotate(-90)" text-anchor="middle" fill="var(--ink)">V_Q (V)</text>
+<line x1="62" y1="26" x2="80" y2="26" stroke="var(--c1)" stroke-width="2"/>
+<text x="86" y="30" fill="var(--ink)">read: Q = f(QB)</text>
+<line x1="62" y1="41" x2="80" y2="41" stroke="var(--c1)" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="86" y="45" fill="var(--ink)">read: QB = f(Q)</text>
+<line x1="62" y1="56" x2="80" y2="56" stroke="var(--c2)" stroke-width="2"/>
+<text x="86" y="60" fill="var(--ink)">hold: Q = f(QB)</text>
+<line x1="62" y1="71" x2="80" y2="71" stroke="var(--c2)" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="86" y="75" fill="var(--ink)">hold: QB = f(Q)</text>
+
+</svg></div>
+          <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 320" role="img" class="chart" data-plot='{"ml": 52, "mt": 12, "pw": 492, "ph": 268, "xlim": [0.4, 0.8], "ylim": [0, 350], "log": false, "xlab": "V_DD (V)", "ylab": "SNM (mV)"}' data-series='[{"name": "GAA read SNM", "xy": [[0.4, 67.66], [0.45, 78.38], [0.5, 87.65], [0.55, 94.63], [0.6, 100.1], [0.65, 103.2], [0.7, 105.0], [0.75, 105.2], [0.8, 104.9]], "color": "var(--c1)"}, {"name": "GAA hold SNM", "xy": [[0.4, 152.6], [0.45, 174.4], [0.5, 194.7], [0.55, 212.9], [0.6, 228.7], [0.65, 242.0], [0.7, 253.9], [0.75, 264.0], [0.8, 273.4]], "color": "var(--c1)"}, {"name": "FinFET read SNM", "xy": [[0.4, 63.58], [0.45, 72.47], [0.5, 79.88], [0.55, 85.62], [0.6, 89.87], [0.65, 92.43], [0.7, 93.74], [0.75, 93.99], [0.8, 93.34]], "color": "var(--c2)"}, {"name": "FinFET hold SNM", "xy": [[0.4, 154.2], [0.45, 177.2], [0.5, 198.9], [0.55, 218.9], [0.6, 237.0], [0.65, 252.7], [0.7, 266.4], [0.75, 278.0], [0.8, 288.5]], "color": "var(--c2)"}]' style="max-width:100%;height:auto;font-family:var(--font-ui);font-size:11px">
+<line x1="52.0" y1="12" x2="52.0" y2="280" stroke="var(--grid)" stroke-width="1"/>
+<text x="52.0" y="296" text-anchor="middle" fill="var(--ink-2)">0.4</text>
+<line x1="122.3" y1="12" x2="122.3" y2="280" stroke="var(--grid)" stroke-width="1"/>
+<text x="122.3" y="296" text-anchor="middle" fill="var(--ink-2)">0.5</text>
+<line x1="192.6" y1="12" x2="192.6" y2="280" stroke="var(--grid)" stroke-width="1"/>
+<text x="192.6" y="296" text-anchor="middle" fill="var(--ink-2)">0.5</text>
+<line x1="262.9" y1="12" x2="262.9" y2="280" stroke="var(--grid)" stroke-width="1"/>
+<text x="262.9" y="296" text-anchor="middle" fill="var(--ink-2)">0.6</text>
+<line x1="333.1" y1="12" x2="333.1" y2="280" stroke="var(--grid)" stroke-width="1"/>
+<text x="333.1" y="296" text-anchor="middle" fill="var(--ink-2)">0.6</text>
+<line x1="403.4" y1="12" x2="403.4" y2="280" stroke="var(--grid)" stroke-width="1"/>
+<text x="403.4" y="296" text-anchor="middle" fill="var(--ink-2)">0.7</text>
+<line x1="473.7" y1="12" x2="473.7" y2="280" stroke="var(--grid)" stroke-width="1"/>
+<text x="473.7" y="296" text-anchor="middle" fill="var(--ink-2)">0.7</text>
+<line x1="544.0" y1="12" x2="544.0" y2="280" stroke="var(--grid)" stroke-width="1"/>
+<text x="544.0" y="296" text-anchor="middle" fill="var(--ink-2)">0.8</text>
+<line x1="52" y1="280.0" x2="544" y2="280.0" stroke="var(--grid)"/>
+<text x="46" y="284.0" text-anchor="end" fill="var(--ink-2)">0</text>
+<line x1="52" y1="241.7" x2="544" y2="241.7" stroke="var(--grid)"/>
+<text x="46" y="245.7" text-anchor="end" fill="var(--ink-2)">50</text>
+<line x1="52" y1="203.4" x2="544" y2="203.4" stroke="var(--grid)"/>
+<text x="46" y="207.4" text-anchor="end" fill="var(--ink-2)">1e+02</text>
+<line x1="52" y1="165.1" x2="544" y2="165.1" stroke="var(--grid)"/>
+<text x="46" y="169.1" text-anchor="end" fill="var(--ink-2)">1.5e+02</text>
+<line x1="52" y1="126.9" x2="544" y2="126.9" stroke="var(--grid)"/>
+<text x="46" y="130.9" text-anchor="end" fill="var(--ink-2)">2e+02</text>
+<line x1="52" y1="88.6" x2="544" y2="88.6" stroke="var(--grid)"/>
+<text x="46" y="92.6" text-anchor="end" fill="var(--ink-2)">2.5e+02</text>
+<line x1="52" y1="50.3" x2="544" y2="50.3" stroke="var(--grid)"/>
+<text x="46" y="54.3" text-anchor="end" fill="var(--ink-2)">3e+02</text>
+<line x1="52" y1="12.0" x2="544" y2="12.0" stroke="var(--grid)"/>
+<text x="46" y="16.0" text-anchor="end" fill="var(--ink-2)">3.5e+02</text>
+<rect x="52" y="12" width="492" height="268" fill="none" stroke="var(--ink-3)"/>
+<polyline points="52.0,228.2 113.5,220.0 175.0,212.9 236.5,207.5 298.0,203.4 359.5,201.0 421.0,199.6 482.5,199.4 544.0,199.7" fill="none" stroke="var(--c1)" stroke-width="2"><title>GAA read SNM</title></polyline>
+<polyline points="52.0,163.2 113.5,146.5 175.0,130.9 236.5,117.0 298.0,104.9 359.5,94.7 421.0,85.6 482.5,77.8 544.0,70.6" fill="none" stroke="var(--c1)" stroke-width="2" stroke-dasharray="5 4"><title>GAA hold SNM</title></polyline>
+<polyline points="52.0,231.3 113.5,224.5 175.0,218.8 236.5,214.4 298.0,211.2 359.5,209.2 421.0,208.2 482.5,208.0 544.0,208.5" fill="none" stroke="var(--c2)" stroke-width="2"><title>FinFET read SNM</title></polyline>
+<polyline points="52.0,161.9 113.5,144.3 175.0,127.7 236.5,112.4 298.0,98.5 359.5,86.5 421.0,76.0 482.5,67.1 544.0,59.1" fill="none" stroke="var(--c2)" stroke-width="2" stroke-dasharray="5 4"><title>FinFET hold SNM</title></polyline>
+<text x="298" y="314" text-anchor="middle" fill="var(--ink)">V_DD (V)</text>
+<text transform="translate(14,146) rotate(-90)" text-anchor="middle" fill="var(--ink)">SNM (mV)</text>
+<line x1="62" y1="26" x2="80" y2="26" stroke="var(--c1)" stroke-width="2"/>
+<text x="86" y="30" fill="var(--ink)">GAA read SNM</text>
+<line x1="62" y1="41" x2="80" y2="41" stroke="var(--c1)" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="86" y="45" fill="var(--ink)">GAA hold SNM</text>
+<line x1="62" y1="56" x2="80" y2="56" stroke="var(--c2)" stroke-width="2"/>
+<text x="86" y="60" fill="var(--ink)">FinFET read SNM</text>
+<line x1="62" y1="71" x2="80" y2="71" stroke="var(--c2)" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="86" y="75" fill="var(--ink)">FinFET hold SNM</text>
+
+</svg></div>
+        </div>
+        <figcaption><b>Fig. 12.</b> Left: butterfly curves of the GAA bitcell at 0.7 V in hold (WL = 0) and read (WL = BL = BLB = <var>V</var><sub>DD</sub>); the largest square in a lobe is the static noise margin. Right: hold and read SNM versus supply for the GAA and FinFET cells. Reference model; hover for values.</figcaption>
+      </figure>
+
       <h2 id="s5"><span class="num">V.</span>Discussion</h2>
       <p><b>Position against the roadmap.</b> The geometry of Table I matches the IRDS 2023 "3-nm" logic node (14–16-nm gate length, 45–48-nm contacted gate pitch, 24–28-nm minimum metal pitch, 0.7-V supply) [4], and the FO4 delay and energy of Table III are in the range reported for early GAA nanosheet ring oscillators and inverters [1], [3]. The 6-track cell height of 168 nm is at the roadmap value; the 96-nm width is the minimum for a single-gate cell with shared diffusion breaks.</p>
-      <p><b>What GAA changes in the cell.</b> Table V makes the trade explicit for the inverter and Table VII for the NAND2, where the sheet-width swap replaces a fin-count change. Compared with a FinFET inverter at the same pitch, the layout has no fin grid: drive is set by the height of the nanosheet band, which the layout engineer can choose per device within the design-rule window, and the N/P sheet-width ratio replaces the fin-count ratio. The stack-count marker and the gate-cut layer are new; the rest of the metallisation is unchanged, which is why the RTL-to-GDSII flow needed no modification beyond pointing at the GAA library.</p>
+      <p><b>What GAA changes in the cell.</b> Table V makes the trade explicit for the inverter, Table VII for the NAND2, where the sheet-width swap replaces a fin-count change, and Table VIII for the SRAM bitcell, where three different sheet widths set the cell and pull-up ratios that a one-fin cell cannot adjust. Compared with a FinFET inverter at the same pitch, the layout has no fin grid: drive is set by the height of the nanosheet band, which the layout engineer can choose per device within the design-rule window, and the N/P sheet-width ratio replaces the fin-count ratio. The stack-count marker and the gate-cut layer are new; the rest of the metallisation is unchanged, which is why the RTL-to-GDSII flow needed no modification beyond pointing at the GAA library.</p>
       <p><b>Limitations.</b> The rule set is generic; a foundry 3-nm GAA PDK has different layer numbering, an additional buried power rail or backside power option, and considerably tighter and more numerous rules, so the layout here should be treated as a topology, not as tape-out ready. The results section reports reference-model values that must be replaced by the Spectre/BSIM-CMG and post-layout Innovus figures once the flow is executed in the licensed environment; the model was calibrated to the same targets so the two are expected to agree within the calibration tolerance, but extraction will add parasitic capacitance that the 0.35-fF lumped estimate only approximates. The ring-oscillator frequencies are optimistic for the same reason, since the model carries no Miller or gate-overlap capacitance and no interconnect load; the BSIM-CMG cards include <code>cgso/cgdo</code> and the Innovus SPEF adds the wiring, so the Spectre and post-layout RO frequencies will be lower. Variability (sheet-thickness and work-function variation) and self-heating in the stacked, dielectrically isolated channel were not analysed and are natural next steps.</p>
       <p><b>Reproducibility.</b> Every script referenced in this paper is listed in the Appendix and released in the project repository under <code>vlsi/gaa_inverter/</code>. The GDSII file, the SVG rendering of its polygons and the reference-model results are regenerated by two Python commands with no dependencies beyond the standard library.</p>
 
       <h2 id="s6"><span class="num">VI.</span>Conclusion</h2>
-      <p>A gate-all-around nanosheet CMOS inverter was designed, laid out and carried through a complete Cadence RTL-to-GDSII flow inside a VMware Workstation guest. The device was represented with BSIM-CMG in Spectre, the cell was drawn to a documented 3-nm-class layer map and delivered as a verified GDSII stream, and Genus and Innovus synthesised and physically implemented the cell to a second, block-level GDSII. At 0.7 V the inverter shows a 350-mV switching threshold, a gain of 28, noise margins above 250 mV, a 5.77-ps FO4 delay and 0.84 fJ per cycle in 0.0161 µm², and an 11-stage FO3 ring oscillator built from it runs at 25.3 GHz, 25 % faster than the FinFET ring. The NAND2 cell shows the design consequence of continuous width tuning: swapping the sheet widths of the two bands balances the series stack without the extra fin pitch a FinFET cell needs. Because every artefact, from the model card to the stream writer, is scripted and released, the work serves as a template for research groups moving to GAA technology on virtualised EDA infrastructure, and as the cell-level foundation for larger GAA standard-cell libraries and SRAM studies.</p>
+      <p>A gate-all-around nanosheet CMOS inverter was designed, laid out and carried through a complete Cadence RTL-to-GDSII flow inside a VMware Workstation guest. The device was represented with BSIM-CMG in Spectre, the cell was drawn to a documented 3-nm-class layer map and delivered as a verified GDSII stream, and Genus and Innovus synthesised and physically implemented the cell to a second, block-level GDSII. At 0.7 V the inverter shows a 350-mV switching threshold, a gain of 28, noise margins above 250 mV, a 5.77-ps FO4 delay and 0.84 fJ per cycle in 0.0161 µm², and an 11-stage FO3 ring oscillator built from it runs at 25.3 GHz, 25 % faster than the FinFET ring. The NAND2 cell shows the design consequence of continuous width tuning: swapping the sheet widths of the two bands balances the series stack without the extra fin pitch a FinFET cell needs, and the 6T bitcell turns the same freedom into a 12 % higher read margin at the same write trip point and equal area. Because every artefact, from the model card to the stream writer, is scripted and released, the work serves as a template for research groups moving to GAA technology on virtualised EDA infrastructure, and as the cell-level foundation for larger GAA standard-cell libraries and memory arrays.</p>
 
       <h2 id="refs"><span class="num"></span>References</h2>
       <ol class="refs">
@@ -1367,6 +1562,7 @@ flowchart LR
         <li>Cadence Design Systems, <i>Spectre Circuit Simulator Reference: BSIM-CMG model</i>, San Jose, CA, USA, 2023.</li>
         <li>Calma Company, <i>GDSII Stream Format Manual, Release 6.0</i>, Sunnyvale, CA, USA, Feb. 1987.</li>
         <li>J. M. Rabaey, A. Chandrakasan, and B. Nikolić, <i>Digital Integrated Circuits: A Design Perspective</i>, 2nd ed. Upper Saddle River, NJ, USA: Prentice Hall, 2003.</li>
+        <li>K. Osada <i>et al.</i>, "Universal-Vdd 0.65–2.0-V 32-kB cache using a voltage-adapted timing-generation scheme and a lithographically symmetrical cell," <i>IEEE J. Solid-State Circuits</i>, vol. 36, no. 11, pp. 1738–1744, Nov. 2001.</li>
         <li>H. Mertens <i>et al.</i>, "Vertically stacked gate-all-around Si nanowire CMOS transistors with dual work function metal gates," in <i>IEEE Int. Electron Devices Meeting (IEDM)</i>, 2016, pp. 19.7.1–19.7.4.</li>
       </ol>
 
@@ -1910,7 +2106,7 @@ V3         ALL           12         0
 M4         NET,SPNET     13         0
 DIEAREA    ALL           235        0
 </pre></details>
-<details class="listing" id="lst8"><summary><span>Listing 8. VMware Workstation guest set-up and run commands · <code>README.md</code></span></summary><div class="bar"><span>73 lines</span><button type="button" data-copy>Copy</button></div><pre># GAA Nanosheet Inverter: Cadence RTL-to-GDSII Flow
+<details class="listing" id="lst8"><summary><span>Listing 8. VMware Workstation guest set-up and run commands · <code>README.md</code></span></summary><div class="bar"><span>76 lines</span><button type="button" data-copy>Copy</button></div><pre># GAA Nanosheet Inverter: Cadence RTL-to-GDSII Flow
 
 Design and implementation of a gate-all-around (GAA) nanosheet CMOS inverter
 (`INV_GAA_X1`, 3-nm-class generic rules) with a complete Cadence flow:
@@ -1923,6 +2119,7 @@ Design and implementation of a gate-all-around (GAA) nanosheet CMOS inverter
 | Synthesis | Genus | `genus/synth.tcl`, `genus/constraints.sdc` | mapped netlist, SDF |
 | Place &amp; route | Innovus | `innovus/pnr.tcl`, `innovus/mmmc.tcl` | DEF, SPEF, **`inverter.gds`** |
 | NAND2 cell | Spectre, Genus/Innovus, Python | `spectre/gaa_nand2_tb.scs`, `rtl/nand2.v`, `spectre/nand2.py`, `layout/gen_gaa_nand2_gds.py` | `results_nand2*.json`, `layout/gaa_nand2.gds` |
+| 6T SRAM bitcell | Spectre, Python | `spectre/gaa_sram6t_tb.scs`, `spectre/sram6t.py`, `layout/gen_gaa_sram6t_gds.py` | `results_sram6t*.json`, `layout/gaa_sram6t.gds` |
 | Reference check | Python (no deps) | `spectre/ref_model.py` | `results.json`, SVG figures |
 | Ring oscillator | Spectre, Genus, Python | `spectre/gaa_ro11_tb.scs`, `rtl/ring_osc.v`, `genus/synth_ro.tcl`, `spectre/ro.py`, `layout/gen_gaa_ro_gds.py` | `results_ro*.json`, `layout/gaa_ro11.gds` |
 
@@ -1958,6 +2155,8 @@ spectre gaa_ro11_tb.scs +log ro.log                         # RO11 in Spectre
 python3 nand2.py &amp;&amp; GAA_TECH=finfet python3 nand2.py       # NAND2 static/transient/leakage (Table VII)
 cd ../layout &amp;&amp; python3 gen_gaa_ro_gds.py                   # hierarchical RO11 GDSII
 python3 gen_gaa_nand2_gds.py                                # NAND2_GAA_X1 GDSII
+python3 gen_gaa_sram6t_gds.py                               # SRAM6T_GAA_HD GDSII
+cd ../spectre &amp;&amp; GAA_TECH=finfet python3 sram6t.py &amp;&amp; python3 sram6t.py   # SRAM SNM / write / read (Table VIII)
 ```
 In Virtuoso: `File &gt; Import &gt; Stream` the GDS in `layout/` (layer map
 `layout/gaa3.layermap`) to obtain the `INV_GAA_X1 layout` cellview, run DRC/LVS,
@@ -2792,6 +2991,281 @@ if __name__ == &quot;__main__&quot;:
             &quot;time (ps)&quot;, &quot;voltage (V)&quot;, (0, 80), (0, rm.VDD))
         open(&quot;fig_nand2_tran.svg&quot;, &quot;w&quot;).write(s)
         print(&quot;NAND2 figures written&quot;)
+</pre></details>
+<div class="listing" id="lst19"><div class="bar"><span>Listing 19. Spectre testbench: 6T bitcell butterfly, write, read, leakage, supply sweep · <code>spectre/gaa_sram6t_tb.scs</code></span><button type="button" data-copy>Copy</button></div><pre>// gaa_sram6t_tb.scs -- Spectre testbench: 6T GAA nanosheet SRAM bitcell (SRAM6T_GAA_HD)
+// Hold/read butterfly curves, write trip point, read current and leakage.  BSIM-CMG cards
+// with SRAM sheet widths: PD 36 nm, PG 24 nm, PU 20 nm (beta = 1.41, gamma = 1.55).
+simulator lang=spectre
+global 0 vdd!
+include &quot;gaa_inv_tb.scs&quot; section=models
+
+model ns_pd bsimcmg type=n version=110.0 bulkmod=0 geomod=0 devtype=1 l=14e-9 tfin=5e-9 hfin=36e-9 nfin=3 \
+      eot=0.9e-9 toxp=1.2e-9 phig=4.36 nbody=1e22 u0=0.030 vsat=1.2e5 rdsw=90 dvt0=1.2 dvt1=0.45 eta0=0.06 cit=1e-4
+model ns_pg bsimcmg type=n version=110.0 bulkmod=0 geomod=0 devtype=1 l=14e-9 tfin=5e-9 hfin=24e-9 nfin=3 \
+      eot=0.9e-9 toxp=1.2e-9 phig=4.36 nbody=1e22 u0=0.030 vsat=1.2e5 rdsw=90 dvt0=1.2 dvt1=0.45 eta0=0.06 cit=1e-4
+model ns_pu bsimcmg type=p version=110.0 bulkmod=0 geomod=0 devtype=0 l=14e-9 tfin=5e-9 hfin=20e-9 nfin=3 \
+      eot=0.9e-9 toxp=1.2e-9 phig=4.86 nbody=1e22 u0=0.022 vsat=1.0e5 rdsw=110 dvt0=1.2 dvt1=0.45 eta0=0.07 cit=1e-4
+
+subckt SRAM6T_GAA_HD (BL BLB WL Q QB VDD VSS)
+    MPU1 (Q  QB VDD VDD) ns_pu      MPU2 (QB Q  VDD VDD) ns_pu
+    MPD1 (Q  QB VSS VSS) ns_pd      MPD2 (QB Q  VSS VSS) ns_pd
+    MPG1 (BL WL Q   VSS) ns_pg      MPG2 (BLB WL QB VSS) ns_pg
+ends SRAM6T_GAA_HD
+
+parameters vsup=0.70
+Vdd (vdd! 0) vsource dc=vsup
+Vbl  (bl 0)  vsource dc=vsup
+Vblb (blb 0) vsource dc=vsup
+Vwl  (wl 0)  vsource dc=0
+// butterfly: break the loop with an ideal voltage source at QB and sweep it, measure Q
+Vqb  (qb_drv 0) vsource dc=0
+Xcell (bl blb wl q qb vdd! 0) SRAM6T_GAA_HD
+Ebreak (qb 0 qb_drv 0) vcvs gain=1          // forces QB = swept value (remove for write/read tran)
+
+holdVTC dc dev=Vqb param=dc start=0 stop=vsup step=5m                 // WL = 0
+altWL   alter dev=Vwl param=dc value=vsup
+readVTC dc dev=Vqb param=dc start=0 stop=vsup step=5m                 // WL = VDD, BL = BLB = VDD
+// read current / read-disturb: QB = VDD (node Q = 0), BL = WL = VDD
+altQB   alter dev=Vqb param=dc value=vsup
+readI   dc
+export Iread   = i(Xcell.MPG1:d)
+export Vdist   = v(q)
+// write trip point: hold Q = 1, sweep BL down with WL = BLB = VDD (needs Ebreak removed: set gain=0 and ic)
+altQB0  alter dev=Vqb param=dc value=0
+writeVTC dc dev=Vbl param=dc start=vsup stop=0 step=-5m
+// leakage in hold (WL = 0, BL = BLB = VDD)
+altWL0  alter dev=Vwl param=dc value=0
+leak dc
+export Ileak = -i(Vdd)
+// SNM vs VDD
+vddSweep sweep param=vsup start=0.4 stop=0.8 step=0.05 { snmHold dc dev=Vqb param=dc start=0 stop=vsup step=5m }
+saveOptions options save=allpub
+</pre></div>
+<details class="listing" id="lst20"><summary><span>Listing 20. SRAM6T_GAA_HD thin-cell GDSII generator · <code>layout/gen_gaa_sram6t_gds.py</code></span></summary><div class="bar"><span>83 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+&quot;&quot;&quot;
+gen_gaa_sram6t_gds.py -- GDSII of a 6T GAA nanosheet SRAM bitcell (SRAM6T_GAA_HD).
+
+Thin-cell topology (Osada et al.): four vertical nanosheet stripes (N | P | P | N), two
+horizontal gate rows at the 48-nm contacted gate pitch, cross-coupling through butted
+(gate + S/D) contacts.  Cell: 216 x 96 nm = 0.0207 um^2 (3-nm-class high-density).
+GAA-specific: the NMOS stripe is jogged so PD uses 36-nm sheets and PG 24-nm sheets
+(beta = 1.41) while PU uses 20-nm sheets (gamma = 1.55); a FinFET HD cell is stuck at 1-1-1 fins.
+Metal: M1 local nets/pads, M2 BL / VSS / VDD / VSS / BLB vertical, M3 WL horizontal.
+&quot;&quot;&quot;
+import gen_gaa_inverter_gds as inv
+
+L = inv.L
+L_V1, L_M2, L_M2PIN, L_M2TXT = (8, 0), (9, 0), (9, 1), (9, 2)
+L_V2, L_M3, L_M3TXT = (10, 0), (11, 0), (11, 2)
+inv.STYLE.update({L_V1: (&quot;#ffeb3b&quot;, &quot;#8d6e00&quot;, 1.0), L_M2: (&quot;#8e24aa&quot;, &quot;#4a148c&quot;, 0.55), L_M2PIN: (&quot;none&quot;, &quot;#4a148c&quot;, 1.0),
+                  L_V2: (&quot;#ff7043&quot;, &quot;#bf360c&quot;, 1.0), L_M3: (&quot;#00897b&quot;, &quot;#004d40&quot;, 0.45)})
+CW, CH = 216, 96
+LG = 14
+
+def build_sram():
+    c = inv.GdsCell(&quot;SRAM6T_GAA_HD&quot;)
+    c.rect(*L[&quot;PRBOUND&quot;], 0, 0, CW, CH, &quot;prBoundary&quot;)
+    c.rect(*L[&quot;NWELL&quot;], 60, -4, 156, CH + 4, &quot;NWELL&quot;)
+    # ---- nanosheet stripes (x = along WL, y = along BL) --------------------------------
+    c.rect(*L[&quot;NSHEET&quot;], 10, 36, 46, CH + 4, &quot;N-left: PD1 (36 nm)&quot;)      # PD1 region + VSS
+    c.rect(*L[&quot;NSHEET&quot;], 16, -4, 40, 40, &quot;N-left: PG1 (24 nm)&quot;)           # PG1 region + BL
+    c.rect(*L[&quot;NSHEET&quot;], 72, 20, 92, CH + 4, &quot;P-left: PU1 (20 nm)&quot;)
+    c.rect(*L[&quot;NSHEET&quot;], 124, -4, 144, 76, &quot;P-right: PU2 (20 nm)&quot;)
+    c.rect(*L[&quot;NSHEET&quot;], 170, -4, 206, 60, &quot;N-right: PD2 (36 nm)&quot;)
+    c.rect(*L[&quot;NSHEET&quot;], 176, 56, 200, CH + 4, &quot;N-right: PG2 (24 nm)&quot;)
+    # ---- gate rows: upper y 65..79, lower y 17..31 --------------------------------------
+    c.rect(*L[&quot;GATE&quot;], 0, 65, 112, 79, &quot;gate A: PD1+PU1 (driven by QB)&quot;)
+    c.rect(*L[&quot;GATE&quot;], 160, 65, CW, 79, &quot;gate PG2 (WL)&quot;)
+    c.rect(*L[&quot;GATE&quot;], 104, 17, CW, 31, &quot;gate B: PU2+PD2 (driven by Q)&quot;)
+    c.rect(*L[&quot;GATE&quot;], 0, 17, 56, 31, &quot;gate PG1 (WL)&quot;)
+    c.rect(*L[&quot;GATE_CUT&quot;], 112, 63, 160, 81, &quot;gate cut&quot;); c.rect(*L[&quot;GATE_CUT&quot;], 56, 15, 104, 33, &quot;gate cut&quot;)
+    # ---- S/D and butted contacts ------------------------------------------------------------
+    c.rect(*L[&quot;SDC&quot;], 16, -6, 40, 8, &quot;BL contact&quot;);         c.rect(*L[&quot;SDC&quot;], 10, 88, 46, 102, &quot;VSS contact&quot;)
+    c.rect(*L[&quot;SDC&quot;], 10, 41, 46, 55, &quot;Q node (N)&quot;)
+    c.rect(*L[&quot;SDC&quot;], 176, 88, 200, 102, &quot;BLB contact&quot;);    c.rect(*L[&quot;SDC&quot;], 170, -6, 206, 8, &quot;VSS contact&quot;)
+    c.rect(*L[&quot;SDC&quot;], 170, 41, 206, 55, &quot;QB node (N)&quot;)
+    c.rect(*L[&quot;SDC&quot;], 72, 84, 92, 102, &quot;VDD contact&quot;);      c.rect(*L[&quot;SDC&quot;], 124, -6, 144, 12, &quot;VDD contact&quot;)
+    c.rect(*L[&quot;SDC&quot;], 72, 20, 92, 55, &quot;Q node (P drain)&quot;);  c.rect(*L[&quot;SDC&quot;], 72, 20, 114, 34, &quot;butted: Q -&gt; gate B&quot;)
+    c.rect(*L[&quot;SDC&quot;], 124, 41, 144, 76, &quot;QB node (P drain)&quot;); c.rect(*L[&quot;SDC&quot;], 102, 62, 144, 76, &quot;butted: QB -&gt; gate A&quot;)
+    c.rect(*L[&quot;CB&quot;], 102, 17, 114, 31, &quot;CB gate B end&quot;);    c.rect(*L[&quot;CB&quot;], 102, 65, 114, 79, &quot;CB gate A end&quot;)
+    c.rect(*L[&quot;CB&quot;], 0, 17, 10, 31, &quot;CB PG1 (WL)&quot;);        c.rect(*L[&quot;CB&quot;], 206, 65, CW, 79, &quot;CB PG2 (WL)&quot;)
+    v = 5
+    def via(layer, x, y, tag): c.rect(*layer, x - v, y - v, x + v, y + v, tag)
+    # ---- M1: node straps and pads ----------------------------------------------------------------
+    c.rect(*L[&quot;M1&quot;], 20, 41, 96, 55, &quot;Q strap&quot;);  via(L[&quot;V0&quot;], 28, 48, &quot;V0&quot;); via(L[&quot;V0&quot;], 82, 48, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], 120, 41, 196, 55, &quot;QB strap&quot;); via(L[&quot;V0&quot;], 134, 48, &quot;V0&quot;); via(L[&quot;V0&quot;], 188, 48, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], 24, -4, 40, 12, &quot;BL pad&quot;);   via(L[&quot;V0&quot;], 32, 4, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], 176, 84, 192, 100, &quot;BLB pad&quot;); via(L[&quot;V0&quot;], 184, 92, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], 10, 84, 66, 100, &quot;VSS pad&quot;);  via(L[&quot;V0&quot;], 28, 92, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], 150, -4, 206, 12, &quot;VSS pad&quot;); via(L[&quot;V0&quot;], 188, 4, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], 80, 84, 116, 100, &quot;VDD pad&quot;); via(L[&quot;V0&quot;], 84, 92, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], 100, -4, 140, 12, &quot;VDD pad&quot;); via(L[&quot;V0&quot;], 134, 4, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], -3, 17, 13, 31, &quot;WL pad&quot;);    via(L[&quot;V0&quot;], 5, 24, &quot;V0&quot;)
+    c.rect(*L[&quot;M1&quot;], 203, 65, 219, 79, &quot;WL pad&quot;);  via(L[&quot;V0&quot;], 211, 72, &quot;V0&quot;)
+    # ---- M2: BL / VSS / VDD / VSS / BLB vertical, WL stubs -----------------------------------------
+    for x, name in ((32, &quot;BL&quot;), (60, &quot;VSS&quot;), (108, &quot;VDD&quot;), (156, &quot;VSS&quot;), (184, &quot;BLB&quot;)):
+        c.rect(*L_M2, x - 8, -6, x + 8, CH + 6, f&quot;{name} (M2)&quot;)
+        c.label(*L_M2TXT, x, CH // 2 + (12 if name in (&quot;BL&quot;, &quot;BLB&quot;) else -12), name)
+    via(L_V1, 32, 4, &quot;V1 BL&quot;); via(L_V1, 184, 92, &quot;V1 BLB&quot;)
+    via(L_V1, 60, 92, &quot;V1 VSS&quot;); via(L_V1, 156, 4, &quot;V1 VSS&quot;)
+    via(L_V1, 108, 92, &quot;V1 VDD&quot;); via(L_V1, 108, 4, &quot;V1 VDD&quot;)
+    c.rect(*L_M2, -3, 17, 13, 56, &quot;WL stub&quot;); via(L_V1, 5, 24, &quot;V1 WL&quot;); via(L_V2, 5, 48, &quot;V2 WL&quot;)
+    c.rect(*L_M2, 203, 40, 219, 79, &quot;WL stub&quot;); via(L_V1, 211, 72, &quot;V1 WL&quot;); via(L_V2, 211, 48, &quot;V2 WL&quot;)
+    # ---- M3: word line ----------------------------------------------------------------------------------
+    c.rect(*L_M3, -6, 40, CW + 6, 56, &quot;WL (M3)&quot;); c.label(*L_M3TXT, CW // 2, 48, &quot;WL&quot;)
+    c.label(*L[&quot;M1_TEXT&quot;], 28, 48, &quot;Q&quot;); c.label(*L[&quot;M1_TEXT&quot;], 188, 48, &quot;QB&quot;)
+    return c
+
+if __name__ == &quot;__main__&quot;:
+    lib = inv.GdsLibrary(&quot;GAA3_INV_LIB&quot;)
+    cell = build_sram()
+    lib.cells.append(cell)
+    lib.write(&quot;gaa_sram6t.gds&quot;)
+    open(&quot;gaa_sram6t.svg&quot;, &quot;w&quot;).write(inv.to_svg(cell, pad=16, scale=3.0))
+    print(f&quot;wrote gaa_sram6t.gds  {cell.name}  {CW}x{CH} nm  {len(cell.polygons)} polygons  &quot;
+          f&quot;{len(cell.labels)} labels  area {CW*CH/1e6:.4f} um^2&quot;)
+</pre></details>
+<details class="listing" id="lst21"><summary><span>Listing 21. 6T bitcell reference analysis (SNM, write trip, read current) · <code>spectre/sram6t.py</code></span></summary><div class="bar"><span>141 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+&quot;&quot;&quot;
+sram6t.py -- 6T SRAM bitcell reference analysis with the compact model.
+
+    python3 sram6t.py                  -&gt; results_sram6t.json + fig_sram_butterfly.svg, fig_sram_snm_vdd.svg
+    GAA_TECH=finfet python3 sram6t.py  -&gt; results_sram6t_finfet.json
+
+Metrics: hold SNM, read SNM (butterfly, 45-degree method), write trip voltage (BL sweep),
+read current and read-disturb voltage, cell leakage.  GAA HD cell: PD 36-nm / PG 24-nm /
+PU 20-nm sheets (beta 1.41, gamma 1.55).  FinFET HD cell: 1-1-1 fins (beta 1.0).
+&quot;&quot;&quot;
+import json, math
+import ref_model as rm
+
+if rm.FINFET:
+    W_PD = W_PG = 1.0 / 2.0            # 1 fin each (ref calibration is 2 fins)
+    W_PU = 1.0 / 2.0
+else:
+    base_n, base_p = rm.w_eff(30e-9), rm.w_eff(45e-9)
+    W_PD, W_PG, W_PU = rm.w_eff(36e-9) / base_n, rm.w_eff(24e-9) / base_n, rm.w_eff(20e-9) / base_p
+BETA = W_PD / W_PG
+
+def i_n(w, vg, vs, vd):
+    if vd &gt;= vs: return w * rm.ids(&quot;n&quot;, vg - vs, vd - vs)
+    return -w * rm.ids(&quot;n&quot;, vg - vd, vs - vd)
+def i_pu(vg, vd):   return W_PU * rm.i_p(vg, vd)          # PMOS source at VDD
+
+def node(v_other, bl, wl, vdd):
+    &quot;&quot;&quot;DC voltage of a storage node driven by the other node (gate) with its access transistor
+    to bit line &#x27;bl&#x27; under word line &#x27;wl&#x27;. Bisection on the node voltage.&quot;&quot;&quot;
+    lo, hi = 0.0, vdd
+    for _ in range(60):
+        mid = 0.5 * (lo + hi)
+        # access transistor current into the node (positive when BL &gt; node)
+        i_pg = i_n(W_PG, wl, mid, bl) if bl &gt;= mid else -i_n(W_PG, wl, bl, mid)
+        i_in = i_pu(v_other, mid) + i_pg
+        i_out = i_n(W_PD, v_other, 0.0, mid)
+        if i_in &gt; i_out: lo = mid
+        else: hi = mid
+    return 0.5 * (lo + hi)
+
+def butterfly(mode, vdd, npts=121):
+    wl = vdd if mode == &quot;read&quot; else 0.0
+    xs = [vdd * i / (npts - 1) for i in range(npts)]
+    return [(x, node(x, vdd, wl, vdd)) for x in xs]
+
+def snm(curve, vdd):
+    &quot;&quot;&quot;Side of the largest square that fits in one lobe between y = f(x) and its mirror x = f(y).
+    For a square [x0, x0+s] x [y0, y0+s] under curve 1 and right of curve 2 the binding corners are
+    top-right (y0 + s &lt;= f(x0 + s)) and bottom-left (x0 &gt;= f(y0)); with y0 = f(x0+s) - s the
+    condition is x0 &gt;= f(f(x0+s) - s).  Both inverters are identical, so one lobe suffices.&quot;&quot;&quot;
+    xs = [p[0] for p in curve]; ys = [p[1] for p in curve]
+    def f(x):
+        if x &lt;= xs[0]: return ys[0]
+        if x &gt;= xs[-1]: return ys[-1]
+        k = int((len(xs) - 1) * (x - xs[0]) / (xs[-1] - xs[0]))
+        k = min(max(k, 0), len(xs) - 2)
+        return ys[k] + (ys[k + 1] - ys[k]) * (x - xs[k]) / (xs[k + 1] - xs[k])
+    best = 0.0
+    for i in range(0, len(xs) - 1):
+        x0 = xs[i]
+        lo, hi = 0.0, vdd - x0
+        for _ in range(40):
+            mid = 0.5 * (lo + hi)
+            y0 = f(x0 + mid) - mid
+            if y0 &gt;= 0 and x0 &gt;= f(y0): lo = mid
+            else: hi = mid
+        best = max(best, lo)
+    return best
+
+def dc_state(bl, blb, wl, vdd, q=None, qb=None, iters=400):
+    q = vdd if q is None else q; qb = 0.0 if qb is None else qb
+    for _ in range(iters):
+        q_new = node(qb, bl, wl, vdd)
+        qb_new = node(q_new, blb, wl, vdd)
+        if abs(q_new - q) &lt; 1e-6 and abs(qb_new - qb) &lt; 1e-6:
+            q, qb = q_new, qb_new; break
+        q, qb = 0.5 * (q + q_new), 0.5 * (qb + qb_new)
+    return q, qb
+
+def write_trip(vdd):
+    &quot;&quot;&quot;Cell holds Q=1: sweep BL down (BLB=VDD, WL=VDD) until the cell flips (Q &lt; QB).&quot;&quot;&quot;
+    lo, hi = 0.0, vdd
+    for _ in range(24):
+        mid = 0.5 * (lo + hi)
+        q, qb = dc_state(mid, vdd, vdd, vdd)
+        if q &lt; qb: lo = mid
+        else: hi = mid
+    return 0.5 * (lo + hi)
+
+def read_metrics(vdd):
+    q0 = node(vdd, vdd, vdd, vdd)                   # &#x27;0&#x27; node with QB=VDD, BL=WL=VDD (read disturb)
+    i_read = i_n(W_PG, vdd, q0, vdd)
+    return q0, i_read
+
+def leakage(vdd):
+    # hold: Q=VDD, QB=0, BL=BLB=VDD, WL=0
+    i = (i_n(W_PD, 0.0, 0.0, vdd)            # PD1 off, Vds = VDD (node Q=1)
+         + W_PU * rm.i_p(vdd, 0.0)            # PU2 off, Vds = -VDD (node QB=0)
+         + i_n(W_PG, 0.0, 0.0, vdd))          # PG2 off, BLB=VDD, QB=0
+    return i
+
+if __name__ == &quot;__main__&quot;:
+    V = rm.VDD
+    hold = butterfly(&quot;hold&quot;, V); read = butterfly(&quot;read&quot;, V)
+    res = dict(tech=&quot;finfet&quot; if rm.FINFET else &quot;gaa&quot;, W_PD=W_PD, W_PG=W_PG, W_PU=W_PU, beta=BETA,
+               gamma=(W_PG * rm.DEV[&quot;n&quot;][&quot;ion&quot;]) / (W_PU * rm.DEV[&quot;p&quot;][&quot;ion&quot;]),
+               SNM_hold_mV=snm(hold, V) * 1e3, SNM_read_mV=snm(read, V) * 1e3,
+               V_trip_mV=write_trip(V) * 1e3,
+               area_um2=0.0210 if rm.FINFET else 0.216 * 0.096, sweep=[])
+    q0, ir = read_metrics(V)
+    res.update(V_read_disturb_mV=q0 * 1e3, I_read_uA=ir * 1e6, I_leak_pA=leakage(V) * 1e12,
+               P_leak_pW=leakage(V) * V * 1e12)
+    for vdd in (0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80):
+        rm.VDD = vdd
+        res[&quot;sweep&quot;].append(dict(VDD=vdd, SNM_hold_mV=snm(butterfly(&quot;hold&quot;, vdd), vdd) * 1e3,
+                                 SNM_read_mV=snm(butterfly(&quot;read&quot;, vdd), vdd) * 1e3,
+                                 V_trip_mV=write_trip(vdd) * 1e3))
+    rm.VDD = V
+    json.dump(res, open(&quot;results_sram6t_finfet.json&quot; if rm.FINFET else &quot;results_sram6t.json&quot;, &quot;w&quot;), indent=1)
+    print(res[&quot;tech&quot;], {k: (round(v, 3) if isinstance(v, float) else v) for k, v in res.items() if k != &quot;sweep&quot;})
+    for s in res[&quot;sweep&quot;]: print(&quot;  &quot;, s)
+    if not rm.FINFET:
+        mirror = lambda cv: [(y, x) for x, y in cv]
+        s, X, Y = rm.svg_chart(560, 420,
+            [dict(name=&quot;read: Q = f(QB)&quot;, xy=read, color=&quot;var(--c1)&quot;),
+             dict(name=&quot;read: QB = f(Q)&quot;, xy=sorted(mirror(read)), color=&quot;var(--c1)&quot;, dash=&quot;5 4&quot;),
+             dict(name=&quot;hold: Q = f(QB)&quot;, xy=hold, color=&quot;var(--c2)&quot;),
+             dict(name=&quot;hold: QB = f(Q)&quot;, xy=sorted(mirror(hold)), color=&quot;var(--c2)&quot;, dash=&quot;5 4&quot;)],
+            &quot;V_QB (V)&quot;, &quot;V_Q (V)&quot;, (0, V), (0, V))
+        open(&quot;fig_sram_butterfly.svg&quot;, &quot;w&quot;).write(s)
+        f = json.load(open(&quot;results_sram6t_finfet.json&quot;)) if __import__(&quot;os&quot;).path.exists(&quot;results_sram6t_finfet.json&quot;) else None
+        series = [dict(name=&quot;GAA read SNM&quot;, xy=[(r[&quot;VDD&quot;], r[&quot;SNM_read_mV&quot;]) for r in res[&quot;sweep&quot;]], color=&quot;var(--c1)&quot;),
+                  dict(name=&quot;GAA hold SNM&quot;, xy=[(r[&quot;VDD&quot;], r[&quot;SNM_hold_mV&quot;]) for r in res[&quot;sweep&quot;]], color=&quot;var(--c1)&quot;, dash=&quot;5 4&quot;)]
+        if f:
+            series += [dict(name=&quot;FinFET read SNM&quot;, xy=[(r[&quot;VDD&quot;], r[&quot;SNM_read_mV&quot;]) for r in f[&quot;sweep&quot;]], color=&quot;var(--c2)&quot;),
+                       dict(name=&quot;FinFET hold SNM&quot;, xy=[(r[&quot;VDD&quot;], r[&quot;SNM_hold_mV&quot;]) for r in f[&quot;sweep&quot;]], color=&quot;var(--c2)&quot;, dash=&quot;5 4&quot;)]
+        top = max(max(y for _, y in s_[&quot;xy&quot;]) for s_ in series)
+        s, X, Y = rm.svg_chart(560, 320, series, &quot;V_DD (V)&quot;, &quot;SNM (mV)&quot;, (0.4, 0.8), (0, math.ceil(top * 1.1 / 50) * 50))
+        open(&quot;fig_sram_snm_vdd.svg&quot;, &quot;w&quot;).write(s)
+        print(&quot;SRAM figures written&quot;)
 </pre></details>
 
       <div class="footer">Manuscript prepared for submission. Fonts: Newsreader, Source Serif 4, IBM Plex. Interactive figures: hover any chart for values, any layout shape for its layer.</div>

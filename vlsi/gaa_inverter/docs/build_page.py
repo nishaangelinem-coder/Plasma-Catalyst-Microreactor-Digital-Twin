@@ -9,6 +9,8 @@ ro_g = json.load(open(os.path.join(B, "spectre/results_ro.json")))
 ro_f = json.load(open(os.path.join(B, "spectre/results_ro_finfet.json")))
 nd_g = json.load(open(os.path.join(B, "spectre/results_nand2.json")))
 nd_f = json.load(open(os.path.join(B, "spectre/results_nand2_finfet.json")))
+sr_g = json.load(open(os.path.join(B, "spectre/results_sram6t.json")))
+sr_f = json.load(open(os.path.join(B, "spectre/results_sram6t_finfet.json")))
 tpl = rd("docs/template.html")
 
 # ---------------- Fig. 1: device cross-sections (hand-drawn SVG, theme tokens) ----------------
@@ -98,6 +100,9 @@ LISTINGS = [
     ("16b", "rtl/nand2_tb.v", "NAND2 truth-table testbench", True),
     ("17", "layout/gen_gaa_nand2_gds.py", "NAND2_GAA_X1 GDSII generator", True),
     ("18", "spectre/nand2.py", "NAND2 reference simulation (stack node, leakage by state)", True),
+    ("19", "spectre/gaa_sram6t_tb.scs", "Spectre testbench: 6T bitcell butterfly, write, read, leakage, supply sweep", False),
+    ("20", "layout/gen_gaa_sram6t_gds.py", "SRAM6T_GAA_HD thin-cell GDSII generator", True),
+    ("21", "spectre/sram6t.py", "6T bitcell reference analysis (SNM, write trip, read current)", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -176,6 +181,23 @@ def nand_sub():
     d["FIG_NAND_VTC"] = rd("spectre/fig_nand2_vtc.svg"); d["FIG_NAND_TRAN"] = rd("spectre/fig_nand2_tran.svg")
     return d
 
+# ---------------- SRAM numbers ----------------
+def sram_sub():
+    def one(r, p):
+        sw = {round(s["VDD"], 2): s for s in r["sweep"]}
+        return {p + "BETA": f"{r['beta']:.2f}", p + "GAMMA": f"{r['gamma']:.2f}",
+                p + "HSNM": f"{r['SNM_hold_mV']:.0f}", p + "RSNM": f"{r['SNM_read_mV']:.0f}",
+                p + "DIST": f"{r['V_read_disturb_mV']:.0f}", p + "TRIP": f"{r['V_trip_mV']:.0f}",
+                p + "IREAD": f"{r['I_read_uA']:.1f}", p + "LEAK": f"{r['I_leak_pA']/1e3:.2f}",
+                p + "RSNM50": f"{sw[0.5]['SNM_read_mV']:.0f}", p + "RSNM40": f"{sw[0.4]['SNM_read_mV']:.0f}"}
+    d = one(sr_g, "S_"); d.update(one(sr_f, "SF_"))
+    d["S_TRIPDIFF"] = f"{sr_g['V_trip_mV'] - sr_f['V_trip_mV']:.0f}"
+    d["S_HSNMDIFF"] = f"{abs(sr_g['SNM_hold_mV']/sr_f['SNM_hold_mV']-1)*100:.0f}"
+    d["S_RSNMGAIN"] = f"{(sr_g['SNM_read_mV']/sr_f['SNM_read_mV']-1)*100:.0f}"
+    d["FIG_SRAM_LAYOUT"] = rd("layout/gaa_sram6t.svg")
+    d["FIG_SRAM_BUTTERFLY"] = rd("spectre/fig_sram_butterfly.svg"); d["FIG_SRAM_SNM"] = rd("spectre/fig_sram_snm_vdd.svg")
+    return d
+
 # ---------------- numbers ----------------
 d, st, f1, f4 = res["device"], res["static"], res["fo1"], res["fo4"]
 mv = lambda v: f"{v*1e3:.0f}"
@@ -195,6 +217,7 @@ sub = {
     **finfet_sub(),
     **ro_sub(),
     **nand_sub(),
+    **sram_sub(),
     "FIG_DEVICE": device_svg(), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
     "FIG_IDVG": rd("spectre/fig_idvg.svg"), "FIG_VTC": rd("spectre/fig_vtc.svg"),
     "FIG_GAIN": rd("spectre/fig_gain.svg"), "FIG_TRAN": rd("spectre/fig_tran.svg"),
