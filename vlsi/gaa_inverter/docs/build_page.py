@@ -104,6 +104,8 @@ LISTINGS = [
     ("20", "layout/gen_gaa_sram6t_gds.py", "SRAM6T_GAA_HD thin-cell GDSII generator", True),
     ("21", "spectre/sram6t.py", "6T bitcell reference analysis (SNM, write trip, read current)", True),
     ("22", "docs/gen_schematics.py", "Schematic symbol library and the four schematics of Fig. 2", True),
+    ("23", "docs/gen_schematics_virtuoso.py", "Virtuoso-convention schematic renderings of Fig. 3", True),
+    ("24", "docs/render_pngs.py", "PNG rendering of all schematics and layouts (headless Chromium)", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -221,7 +223,9 @@ sub = {
     **sram_sub(),
     "FIG_DEVICE": device_svg(),
     "SCH_INV": rd("docs/figures/schematic_inv_page.svg"), "SCH_NAND2": rd("docs/figures/schematic_nand2_page.svg"),
-    "SCH_RO11": rd("docs/figures/schematic_ro11_page.svg"), "SCH_SRAM": rd("docs/figures/schematic_sram6t_page.svg"), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
+    "SCH_RO11": rd("docs/figures/schematic_ro11_page.svg"), "SCH_SRAM": rd("docs/figures/schematic_sram6t_page.svg"),
+    "VS_INV": rd("docs/figures/virtuoso_inv.svg"), "VS_NAND2": rd("docs/figures/virtuoso_nand2.svg"),
+    "VS_RO11": rd("docs/figures/virtuoso_ro11.svg"), "VS_SRAM": rd("docs/figures/virtuoso_sram6t.svg"), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
     "FIG_IDVG": rd("spectre/fig_idvg.svg"), "FIG_VTC": rd("spectre/fig_vtc.svg"),
     "FIG_GAIN": rd("spectre/fig_gain.svg"), "FIG_TRAN": rd("spectre/fig_tran.svg"),
     "LISTINGS": "\n".join(listing(*l) for l in LISTINGS),
