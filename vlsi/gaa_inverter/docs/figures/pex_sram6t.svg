@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 364" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="760" height="364" fill="#d9d9d9"/>
+<rect width="760" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Quantus QRC  –  Extraction Summary  (SRAM6T_GAA_HD)</text>
+<text x="752" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="760" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  View  Setup  Extraction  Reports  Tools  Window  Help</text>
+<text x="752" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="760" height="296" fill="#ffffff"/>
+<rect x="12" y="10" width="736" height="44" rx="3" fill="#e4e8ef"/>
+<text x="20" y="27" fill="#1a1a1a" font-size="10" font-weight="600">Cell SRAM6T_GAA_HD   extraction: rc_coupled   technology: GAA3 PEX (ILD k = 2.9, spacer k = 4.5)</text>
+<text x="20" y="45" fill="#1a1a1a" font-size="9.5">nets 7   devices 6   capacitors 14   resistors 56   C_gnd 0.348 fF   C_coupling 0.392 fF</text>
+<rect x="12" y="64" width="736" height="22" fill="#e4e8ef"/>
+<text x="20" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="start">Net</text>
+<text x="200" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">C_gnd (aF)</text>
+<text x="300" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">C_coup (aF)</text>
+<text x="400" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">C_total (aF)</text>
+<text x="480" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">R (Ω)</text>
+<text x="500" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="start">coupled to</text>
+<text x="20" y="100" fill="#1a1a1a" font-size="9.5">BL</text>
+<text x="200" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">19.2</text>
+<text x="300" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">48.8</text>
+<text x="400" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">68.0</text>
+<text x="480" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">580</text>
+<text x="500" y="100" fill="#1a1a1a" font-size="8.5">WL: 46.4, Q: 2.4</text>
+<rect x="12" y="106" width="736" height="20" fill="#f5f7fb"/>
+<text x="20" y="120" fill="#1a1a1a" font-size="9.5">BLB</text>
+<text x="200" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">19.2</text>
+<text x="300" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">48.8</text>
+<text x="400" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">68.0</text>
+<text x="480" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">580</text>
+<text x="500" y="120" fill="#1a1a1a" font-size="8.5">WL: 46.4, QB: 2.4</text>
+<text x="20" y="140" fill="#1a1a1a" font-size="9.5">Q</text>
+<text x="200" y="140" fill="#1a1a1a" font-size="9.5" text-anchor="end">117.3</text>
+<text x="300" y="140" fill="#1a1a1a" font-size="9.5" text-anchor="end">249.8</text>
+<text x="400" y="140" fill="#1a1a1a" font-size="9.5" text-anchor="end">367.1</text>
+<text x="480" y="140" fill="#1a1a1a" font-size="9.5" text-anchor="end">1213</text>
+<text x="500" y="140" fill="#1a1a1a" font-size="8.5">QB: 200.9, WL: 46.5, BL: 2.4</text>
+<rect x="12" y="146" width="736" height="20" fill="#f5f7fb"/>
+<text x="20" y="160" fill="#1a1a1a" font-size="9.5">QB</text>
+<text x="200" y="160" fill="#1a1a1a" font-size="9.5" text-anchor="end">117.3</text>
+<text x="300" y="160" fill="#1a1a1a" font-size="9.5" text-anchor="end">249.8</text>
+<text x="400" y="160" fill="#1a1a1a" font-size="9.5" text-anchor="end">367.1</text>
+<text x="480" y="160" fill="#1a1a1a" font-size="9.5" text-anchor="end">1213</text>
+<text x="500" y="160" fill="#1a1a1a" font-size="8.5">WL: 46.5, Q: 200.9, BLB: 2.4</text>
+<text x="20" y="180" fill="#1a1a1a" font-size="9.5">VDD</text>
+<text x="200" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">17.2</text>
+<text x="300" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">0.0</text>
+<text x="400" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">17.2</text>
+<text x="480" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">1026</text>
+<text x="500" y="180" fill="#1a1a1a" font-size="8.5"></text>
+<rect x="12" y="186" width="736" height="20" fill="#f5f7fb"/>
+<text x="20" y="200" fill="#1a1a1a" font-size="9.5">VSS</text>
+<text x="200" y="200" fill="#1a1a1a" font-size="9.5" text-anchor="end">27.9</text>
+<text x="300" y="200" fill="#1a1a1a" font-size="9.5" text-anchor="end">0.0</text>
+<text x="400" y="200" fill="#1a1a1a" font-size="9.5" text-anchor="end">27.9</text>
+<text x="480" y="200" fill="#1a1a1a" font-size="9.5" text-anchor="end">1032</text>
+<text x="500" y="200" fill="#1a1a1a" font-size="8.5"></text>
+<text x="20" y="220" fill="#1a1a1a" font-size="9.5">WL</text>
+<text x="200" y="220" fill="#1a1a1a" font-size="9.5" text-anchor="end">30.0</text>
+<text x="300" y="220" fill="#1a1a1a" font-size="9.5" text-anchor="end">185.9</text>
+<text x="400" y="220" fill="#1a1a1a" font-size="9.5" text-anchor="end">215.9</text>
+<text x="480" y="220" fill="#1a1a1a" font-size="9.5" text-anchor="end">979</text>
+<text x="500" y="220" fill="#1a1a1a" font-size="8.5">BLB: 46.4, QB: 46.5, Q: 46.5, BL: 46.4</text>
+<rect x="12" y="242" width="736" height="26" rx="3" fill="#e3f5e8" stroke="#1a8f3c"/>
+<text x="380" y="259" fill="#1a8f3c" font-size="10.5" text-anchor="middle" font-weight="700">Extraction complete: gaa_sram6t.spef written  (IEEE 1481 SPEF, C_UNIT 1 FF, R_UNIT 1 OHM)</text>
+</g>
+<rect y="342" width="760" height="22" fill="#f2f2f2"/>
+<text x="8" y="357" fill="#1a1a1a" font-size="9">gaa_sram6t.pex.sum   |   qrc -cmd gaa3_qrc.ccl   |   decoupled ground: VDD VSS</text>
+<text x="752" y="357" fill="#1a1a1a" font-size="9" text-anchor="end">ref. extractor – sign-off with Quantus QRC in the guest</text>
+</svg>

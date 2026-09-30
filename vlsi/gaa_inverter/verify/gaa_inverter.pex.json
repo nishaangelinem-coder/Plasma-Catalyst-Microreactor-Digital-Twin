@@ -1,0 +1,145 @@
+{
+ "cell": "INV_GAA_X1",
+ "nets": {
+  "A": {
+   "cgnd_aF": 130.54,
+   "coup_aF": {
+    "Y": 128.53,
+    "float0": 6.4,
+    "float1": 6.4
+   },
+   "ctotal_aF": 271.87,
+   "r_ohm": 447.0,
+   "n_res": 3,
+   "floating": false,
+   "elems": [
+    [
+     "CB",
+     80.0
+    ],
+    [
+     "M1",
+     22.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ]
+  },
+  "Y": {
+   "cgnd_aF": 21.24,
+   "coup_aF": {
+    "A": 128.53
+   },
+   "ctotal_aF": 149.77,
+   "r_ohm": 505.3,
+   "n_res": 5,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     166.7
+    ],
+    [
+     "Rc",
+     111.1
+    ],
+    [
+     "M1",
+     137.5
+    ],
+    [
+     "V0",
+     45.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ]
+  },
+  "float0": {
+   "cgnd_aF": 2.26,
+   "coup_aF": {
+    "A": 6.4
+   },
+   "ctotal_aF": 8.65,
+   "r_ohm": 300.0,
+   "n_res": 0,
+   "floating": true,
+   "elems": []
+  },
+  "float1": {
+   "cgnd_aF": 2.26,
+   "coup_aF": {
+    "A": 6.4
+   },
+   "ctotal_aF": 8.65,
+   "r_ohm": 300.0,
+   "n_res": 0,
+   "floating": true,
+   "elems": []
+  },
+  "VSS": {
+   "cgnd_aF": 15.24,
+   "coup_aF": {},
+   "ctotal_aF": 15.24,
+   "r_ohm": 395.0,
+   "n_res": 4,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     166.7
+    ],
+    [
+     "M1",
+     95.3
+    ],
+    [
+     "M1",
+     88.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ]
+  },
+  "VDD": {
+   "cgnd_aF": 15.99,
+   "coup_aF": {},
+   "ctotal_aF": 15.99,
+   "r_ohm": 339.4,
+   "n_res": 4,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     111.1
+    ],
+    [
+     "M1",
+     95.3
+    ],
+    [
+     "M1",
+     88.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ]
+  }
+ },
+ "devices": 2,
+ "totals": {
+  "nets": 6,
+  "cgnd_aF": 187.54,
+  "ccoup_aF": 141.32,
+  "resistors": 16,
+  "capacitors": 9
+ }
+}

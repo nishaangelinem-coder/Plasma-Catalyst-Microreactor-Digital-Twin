@@ -45,14 +45,17 @@ def _g(d, vov, vds):
     r = vds / vdsat
     return r / (1.0 + r ** 2) ** 0.5 * (1.0 + d["lam"] * vds)
 
+VDD_NOM = 0.70                  # calibration point of the on-current targets (fixed; VDD may be swept afterwards)
+
 def ids(dev, vgs, vds):
     """Drain current magnitude (A). vgs, vds given as |values| for PMOS."""
     d = DEV[dev]
-    if "k" not in d:
-        d["k"] = 1.0
-        d["k"] = d["ion"] / ids(dev, VDD, VDD)
     vov = _vov(d, vgs)
     return d["k"] * vov ** d["alpha"] * _g(d, vov, vds)
+
+for _dev, _d in DEV.items():    # eager calibration at the nominal supply, independent of later VDD sweeps
+    _d["k"] = 1.0
+    _d["k"] = _d["ion"] / ids(_dev, VDD_NOM, VDD_NOM)
 
 def i_n(vin, vout): return ids("n", vin, vout)
 def i_p(vin, vout): return ids("p", VDD - vin, VDD - vout)

@@ -1,0 +1,40 @@
+==============================================================================
+  Quantus QRC  -  Extraction Summary  (reference extractor: gaa3_pex.py; sign-off: Quantus QRC)
+==============================================================================
+  Cell            : RO11_GAA
+  Extraction type : rc_coupled, decoupled ground for VDD/VSS, coupling threshold 0 aF
+  Technology      : GAA3 PEX (ILD k=2.9, spacer k=4.5, Rs M1/M2/M3 = 22/18/15 ohm/sq, rho_c = 1e-9 ohm cm^2)
+  Nets            :    25      Devices :   22
+  Capacitors      :    66      Resistors :  210
+  Total C to gnd  :    2.281 fF     Total coupling C :    1.753 fF
+------------------------------------------------------------------------------
+  NET          C_gnd(aF)  C_coup(aF)   C_tot(aF)    R(ohm)   #R   coupled to
+------------------------------------------------------------------------------
+  OUT              221.8       337.1       558.8    2201.3   12   int0:135.6, int4:134.5, int7:6.0, int1:6.0, int2:6.0, int3:6.0, int5:6.0, int6:6.0, int8:6.0, int9:6.0, float0:6.4, float1:12.8
+  VDD              175.9         0.0       175.9    3733.9   44   
+  VSS              167.7         0.0       167.7    4345.0   44   
+  float0             2.3         6.4         8.7     300.0    0   OUT:6.4  (floating dummy gate)
+  float1             4.5        25.6        30.1     600.0    0   OUT:12.8, int0:12.8  (floating dummy gate)
+  float10            4.5        25.6        30.1     600.0    0   int1:12.8, int7:12.8  (floating dummy gate)
+  float11            4.5        25.6        30.1     600.0    0   int7:12.8, int0:12.8  (floating dummy gate)
+  float2             4.5        25.6        30.1     600.0    0   int4:12.8, int9:12.8  (floating dummy gate)
+  float3             2.3         6.4         8.7     300.0    0   int4:6.4  (floating dummy gate)
+  float4             4.5        25.6        30.1     600.0    0   int9:12.8, int8:12.8  (floating dummy gate)
+  float5             4.5        25.6        30.1     600.0    0   int8:12.8, int6:12.8  (floating dummy gate)
+  float6             4.5        25.6        30.1     600.0    0   int6:12.8, int5:12.8  (floating dummy gate)
+  float7             4.5        25.6        30.1     600.0    0   int5:12.8, int3:12.8  (floating dummy gate)
+  float8             4.5        25.6        30.1     600.0    0   int3:12.8, int2:12.8  (floating dummy gate)
+  float9             4.5        25.6        30.1     600.0    0   int2:12.8, int1:12.8  (floating dummy gate)
+  int0             166.6       290.8       457.4    1116.8   11   OUT:135.6, int7:129.6, float1:12.8, float11:12.8
+  int1             166.6       290.8       457.4    1116.8   11   int2:129.6, int7:129.6, OUT:6.0, float9:12.8, float10:12.8
+  int2             166.6       290.8       457.4    1116.8   11   int1:129.6, int3:129.6, OUT:6.0, float8:12.8, float9:12.8
+  int3             166.6       290.8       457.4    1116.8   11   int2:129.6, int5:129.6, OUT:6.0, float7:12.8, float8:12.8
+  int4             166.6       283.3       449.9    1116.8   11   OUT:134.5, int9:129.6, float2:12.8, float3:6.4
+  int5             166.6       290.8       457.4    1116.8   11   int3:129.6, int6:129.6, OUT:6.0, float6:12.8, float7:12.8
+  int6             166.6       290.8       457.4    1116.8   11   int5:129.6, int8:129.6, OUT:6.0, float5:12.8, float6:12.8
+  int7             166.6       290.8       457.4    1116.8   11   int0:129.6, int1:129.6, OUT:6.0, float10:12.8, float11:12.8
+  int8             166.6       290.8       457.4    1116.8   11   int6:129.6, int9:129.6, OUT:6.0, float4:12.8, float5:12.8
+  int9             166.6       290.8       457.4    1116.8   11   int4:129.6, int8:129.6, OUT:6.0, float2:12.8, float4:12.8
+------------------------------------------------------------------------------
+  SPEF written    : ro11_gaa.spef
+==============================================================================

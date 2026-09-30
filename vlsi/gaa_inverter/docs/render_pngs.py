@@ -9,6 +9,7 @@ NAMES = ["schematic_inv", "schematic_nand2", "schematic_ro11", "schematic_sram6t
          "virtuoso_inv", "virtuoso_nand2", "virtuoso_ro11", "virtuoso_sram6t",
          "viva_inv_dc", "viva_inv_tran", "viva_nand2_tran", "viva_ro11_tran", "viva_sram_butterfly",
          "drc_inv", "drc_nand2", "drc_ro11", "drc_sram6t", "lvs_inv", "lvs_nand2", "lvs_ro11", "lvs_sram6t",
+         "pex_inv", "pex_nand2", "pex_ro11", "pex_sram6t", "viva_inv_postlayout", "viva_ro11_postlayout",
          "layout_inv", "layout_nand2", "layout_ro11", "layout_sram6t"]
 
 def png_read(path):

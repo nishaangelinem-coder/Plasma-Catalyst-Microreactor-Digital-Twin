@@ -113,7 +113,12 @@ LISTINGS = [
     ("29", "verify/gaa3_drc_all.sum", "DRC summary reports of the four cells (final pass)", True),
     ("30", "verify/gaa3_lvs_all.rpt", "LVS comparison reports of the four cells", True),
     ("31", "verify/run_all.sh", "One-command regeneration of the GDSII cells, DRC and LVS", True),
-    ("32", "docs/gen_verif_views.py", "Pegasus-convention DRC/LVS results-viewer renderings of Figs. 16-17", True),
+    ("32", "docs/gen_verif_views.py", "Pegasus-convention DRC/LVS/QRC results-viewer renderings of Figs. 16-18", True),
+    ("33", "verify/gaa3_qrc.ccl", "Quantus QRC command file for the sign-off extraction", False),
+    ("34", "verify/gaa3_pex.py", "Reference parasitic extractor (GAA3 PEX technology table, SPEF writer)", True),
+    ("35", "verify/gaa_inverter.spef", "Extracted SPEF of INV_GAA_X1", True),
+    ("35b", "verify/gaa3_pex_all.sum", "Extraction summaries of the four cells", True),
+    ("36", "spectre/postlayout.py", "Post-layout simulation with the extracted RC", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -236,6 +241,62 @@ def verif_sub():
             "DRCV_INV": rd("docs/figures/drc_inv.svg"), "DRCV_NAND2": rd("docs/figures/drc_nand2.svg"), "DRCV_RO11": rd("docs/figures/drc_ro11.svg"), "DRCV_SRAM": rd("docs/figures/drc_sram6t.svg"),
             "LVSV_INV": rd("docs/figures/lvs_inv.svg"), "LVSV_NAND2": rd("docs/figures/lvs_nand2.svg"), "LVSV_RO11": rd("docs/figures/lvs_ro11.svg"), "LVSV_SRAM": rd("docs/figures/lvs_sram6t.svg")}
 
+# ---------------- parasitic extraction / post-layout ----------------
+def pex_sub():
+    V = os.path.join(B, "verify"); S = os.path.join(B, "spectre")
+    pex = {k: json.load(open(os.path.join(V, f + ".pex.json"))) for k, f in (("INV_GAA_X1", "gaa_inverter"), ("NAND2_GAA_X1", "gaa_nand2"), ("RO11_GAA", "gaa_ro11"), ("SRAM6T_GAA_HD", "gaa_sram6t"))}
+    pl = json.load(open(os.path.join(S, "results_postlayout.json")))
+    rows = []
+    for cell, p in pex.items():
+        nets = [(n, x) for n, x in p["nets"].items() if not x.get("floating")]
+        if cell == "RO11_GAA":
+            sig = [x for n, x in nets if n.startswith("int") or n == "OUT"]
+            cg = sum(x["cgnd_aF"] for x in sig) / len(sig); cc = sum(sum(x["coup_aF"].values()) for x in sig) / len(sig); r = sum(x["r_ohm"] for x in sig) / len(sig)
+            rows.append(f'            <tr><td>{cell}</td><td>stage net n<sub>i</sub> (avg. of 11)</td><td class="n">{cg:.1f}</td><td class="n">{cc:.1f}</td><td class="n">{cg+cc:.1f}</td><td class="n">{r:.0f}</td><td>next stage (gate-drain), feedback line</td></tr>')
+            continue
+        for n, x in nets:
+            if n in ("VDD", "VSS"): continue
+            cc = sum(x["coup_aF"].values()); partners = ", ".join(f"{m} ({c:.0f})" for m, c in x["coup_aF"].items() if not m.startswith("float"))
+            label = "X (stack node)" if n.startswith("int") else n
+            rows.append(f'            <tr><td>{cell}</td><td>{label}</td><td class="n">{x["cgnd_aF"]:.1f}</td><td class="n">{cc:.1f}</td><td class="n">{x["ctotal_aF"]:.1f}</td><td class="n">{x["r_ohm"]:.0f}</td><td>{partners}</td></tr>')
+    inv, nd, ro, sr = pl["inverter"], pl["nand2"], pl["ro11"], pl["sram"]
+    ps = lambda v: f"{v*1e12:.2f}"
+    def pct(a, b): return f"+{(b/a-1)*100:.0f} %" if b >= a else f"−{(1-b/a)*100:.0f} %"
+    nw_pre = max(nd["pre"]["A"]["tpHL"], nd["pre"]["A"]["tpLH"], nd["pre"]["B"]["tpHL"], nd["pre"]["B"]["tpLH"])
+    nw_post = max(nd["post"]["A"]["tpHL"], nd["post"]["A"]["tpLH"], nd["post"]["B"]["tpHL"], nd["post"]["B"]["tpLH"])
+    plrows = [
+        ("INV_GAA_X1", "Input capacitance", f"{inv['Cin_pre_fF']:.2f} fF", f"{inv['Cin_post_fF']:.2f} fF", pct(inv['Cin_pre_fF'], inv['Cin_post_fF'])),
+        ("INV_GAA_X1", "Output-net parasitic capacitance", f"{inv['Cout_pre_fF']:.2f} fF", f"{inv['Cout_post_fF']:.2f} fF", pct(inv['Cout_pre_fF'], inv['Cout_post_fF'])),
+        ("INV_GAA_X1", "Output-net resistance (half, driver to load)", "0 Ω", f"{inv['Rout_ohm']:.0f} Ω", ""),
+        ("INV_GAA_X1", "t<sub>pHL</sub> / t<sub>pLH</sub> (FO4)", f"{ps(inv['pre']['tpHL'])} / {ps(inv['pre']['tpLH'])} ps", f"{ps(inv['post']['tpHL'])} / {ps(inv['post']['tpLH'])} ps", ""),
+        ("INV_GAA_X1", "Propagation delay t<sub>pd</sub> (FO4)", f"{ps(inv['pre']['tpd'])} ps", f"{ps(inv['post']['tpd'])} ps", pct(inv['pre']['tpd'], inv['post']['tpd'])),
+        ("INV_GAA_X1", "Energy per cycle (FO4)", f"{inv['pre']['E_cycle']*1e15:.2f} fJ", f"{inv['post']['E_cycle']*1e15:.2f} fJ", pct(inv['pre']['E_cycle'], inv['post']['E_cycle'])),
+        ("NAND2_GAA_X1", "Input capacitance / stack-node capacitance", "0.32 / 0.15 fF", f"{nd['Cin_post_fF']:.2f} / {nd['CX_post_fF']:.2f} fF", ""),
+        ("NAND2_GAA_X1", "Worst-case arc t<sub>pd</sub> (FO4)", f"{ps(nw_pre)} ps", f"{ps(nw_post)} ps", pct(nw_pre, nw_post)),
+        ("RO11_GAA", "Node capacitance per stage (FO3)", f"{ro['Cnode_pre_fF']:.2f} fF", f"{ro['Cnode_post_fF']:.2f} fF", pct(ro['Cnode_pre_fF'], ro['Cnode_post_fF'])),
+        ("RO11_GAA", "Oscillation frequency", f"{ro['pre']['f_Hz']/1e9:.2f} GHz", f"{ro['post']['f_Hz']/1e9:.2f} GHz", pct(ro['pre']['f_Hz'], ro['post']['f_Hz'])),
+        ("RO11_GAA", "Stage delay", f"{ps(ro['pre']['t_stage_s'])} ps", f"{ps(ro['post']['t_stage_s'])} ps", pct(ro['pre']['t_stage_s'], ro['post']['t_stage_s'])),
+        ("RO11_GAA", "Average power", f"{ro['pre']['P_W']*1e6:.0f} µW", f"{ro['post']['P_W']*1e6:.0f} µW", pct(ro['pre']['P_W'], ro['post']['P_W'])),
+        ("SRAM6T_GAA_HD", "Bit-line / word-line capacitance per cell", "–", f"{sr['C_BL_cell_fF']*1e3:.0f} / {sr['C_WL_cell_fF']*1e3:.0f} aF", ""),
+        ("SRAM6T_GAA_HD", "100-mV bit-line development, 256 cells", "–", f"{sr['t_BL_100mV_ps']:.1f} ps", ""),
+        ("SRAM6T_GAA_HD", "Word-line Elmore delay, 64-cell segment", "–", f"{sr['t_WL_elmore_ps']:.1f} ps", ""),
+    ]
+    plr = "\n".join(f'            <tr><td>{a}</td><td>{b_}</td><td class="n">{c}</td><td class="n">{d}</td><td class="n">{e}</td></tr>' for a, b_, c, d, e in plrows)
+    A = pex["INV_GAA_X1"]["nets"]["A"]
+    return {"PEX_ROWS": "\n".join(rows), "PL_ROWS": plr,
+            "PL_CINA": f"{A['cgnd_aF']:.0f}", "PL_CCAY": f"{A['coup_aF'].get('Y', 0):.0f}", "PL_CIN_POST": f"{inv['Cin_post_fF']:.2f}", "PL_CIN_PRE": f"{inv['Cin_pre_fF']:.2f}",
+            "PL_COUT_POST": f"{pex['INV_GAA_X1']['nets']['Y']['cgnd_aF']/1e3:.3f}", "PL_ROUT": f"{inv['Rout_ohm']:.0f}",
+            "PL_TPD_PRE": ps(inv["pre"]["tpd"]), "PL_TPD_POST": ps(inv["post"]["tpd"]), "PL_TPD_PCT": f"{(inv['post']['tpd']/inv['pre']['tpd']-1)*100:.0f}",
+            "PL_E_PRE": f"{inv['pre']['E_cycle']*1e15:.2f}", "PL_E_POST": f"{inv['post']['E_cycle']*1e15:.2f}",
+            "PL_LOAD_POST": f"{inv['load_post_fF']:.2f}", "PL_LOAD_PRE": f"{inv['load_pre_fF']:.2f}",
+            "PL_RO_F_PRE": f"{ro['pre']['f_Hz']/1e9:.1f}", "PL_RO_F_POST": f"{ro['post']['f_Hz']/1e9:.1f}", "PL_RO_TS_POST": ps(ro["post"]["t_stage_s"]),
+            "PL_N_PRE": ps(nw_pre), "PL_N_POST": ps(nw_post),
+            "PL_CBL": f"{sr['C_BL_cell_fF']*1e3:.0f}", "PL_CWL": f"{sr['C_WL_cell_fF']*1e3:.0f}", "PL_RWL": f"{sr['R_WL_cell_ohm']:.0f}",
+            "PL_TBL": f"{sr['t_BL_100mV_ps']:.1f}", "PL_TWL": f"{sr['t_WL_elmore_ps']:.1f}",
+            "PL_CIN_RATIO": f"{inv['Cin_post_fF']/inv['Cin_pre_fF']:.1f}", "PL_R_PCT": f"{max(inv['R_delay_pct'], 0.5):.0f}",
+            "PEXV_INV": rd("docs/figures/pex_inv.svg"), "PEXV_NAND2": rd("docs/figures/pex_nand2.svg"), "PEXV_SRAM": rd("docs/figures/pex_sram6t.svg"),
+            "VV_INV_PL": rd("docs/figures/viva_inv_postlayout.svg"), "VV_RO_PL": rd("docs/figures/viva_ro11_postlayout.svg")}
+
 # ---------------- numbers ----------------
 d, st, f1, f4 = res["device"], res["static"], res["fo1"], res["fo4"]
 mv = lambda v: f"{v*1e3:.0f}"
@@ -257,6 +318,7 @@ sub = {
     **nand_sub(),
     **sram_sub(),
     **verif_sub(),
+    **pex_sub(),
     "FIG_DEVICE": device_svg(),
     "SCH_INV": rd("docs/figures/schematic_inv_page.svg"), "SCH_NAND2": rd("docs/figures/schematic_nand2_page.svg"),
     "SCH_RO11": rd("docs/figures/schematic_ro11_page.svg"), "SCH_SRAM": rd("docs/figures/schematic_sram6t_page.svg"),

@@ -100,7 +100,21 @@ def extract(path):
     for d in devices:
         for n in ([d["g"]] if d["g"] else []) + d["sd"]:
             nets.setdefault(n, names.get(n))
-    return dict(cell=top.name, devices=devices, nets=nets, names=names)
+    # original (un-merged) polygons tagged with their net, for parasitic extraction
+    geom = []
+    for lay, ps in polys.items():
+        if lay in CONDUCTORS or lay in VIAS:
+            for p in ps:
+                targets = [lay] if lay in CONDUCTORS else VIAS[lay]
+                net = None
+                for t in targets:
+                    for i, q in by_layer.get(t, []):
+                        if touches(p, q): net = uf.find(sid(i)); break
+                    if net: break
+                geom.append(dict(layer=lay, bbox=[round(v, 2) for pt in p.bounding_box() for v in pt], net=net))
+    for i, p in by_layer.get("DIFF", []):
+        geom.append(dict(layer="DIFF", bbox=[round(v, 2) for pt in p.bounding_box() for v in pt], net=uf.find(sid(i))))
+    return dict(cell=top.name, devices=devices, nets=nets, names=names, geom=geom, channels=[list(c.bounding_box()) for c in chan])
 
 def parse_spectre(path, sub):
     """Minimal Spectre subset: model cards (type, hfin), subckt/ends, M devices, X instances, include."""

@@ -1,0 +1,22 @@
+==============================================================================
+  Quantus QRC  -  Extraction Summary  (reference extractor: gaa3_pex.py; sign-off: Quantus QRC)
+==============================================================================
+  Cell            : SRAM6T_GAA_HD
+  Extraction type : rc_coupled, decoupled ground for VDD/VSS, coupling threshold 0 aF
+  Technology      : GAA3 PEX (ILD k=2.9, spacer k=4.5, Rs M1/M2/M3 = 22/18/15 ohm/sq, rho_c = 1e-9 ohm cm^2)
+  Nets            :     7      Devices :    6
+  Capacitors      :    14      Resistors :   56
+  Total C to gnd  :    0.348 fF     Total coupling C :    0.392 fF
+------------------------------------------------------------------------------
+  NET          C_gnd(aF)  C_coup(aF)   C_tot(aF)    R(ohm)   #R   coupled to
+------------------------------------------------------------------------------
+  BL                19.2        48.8        68.0     579.7    5   WL:46.4, Q:2.4
+  BLB               19.2        48.8        68.0     579.7    5   WL:46.4, QB:2.4
+  Q                117.3       249.8       367.1    1212.9    7   QB:200.9, WL:46.5, BL:2.4
+  QB               117.3       249.8       367.1    1212.9    7   WL:46.5, Q:200.9, BLB:2.4
+  VDD               17.2         0.0        17.2    1025.5    9   
+  VSS               27.9         0.0        27.9    1032.5   10   
+  WL                30.0       185.9       215.9     979.0   13   BLB:46.4, QB:46.5, Q:46.5, BL:46.4
+------------------------------------------------------------------------------
+  SPEF written    : sram6t_gaa_hd.spef
+==============================================================================

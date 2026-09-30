@@ -150,6 +150,26 @@ def main():
         [dict(name="/q (read)", xy=read), dict(name="/qb (read)", xy=mirror(read)), dict(name="/q (hold)", xy=hold, dash=True), dict(name="/qb (hold)", xy=mirror(hold), dash=True)],
         "dc (V)", "V (V)", (0, V), (0, V),
         deltas=[dict(x=330, y=60, text=f"SNM_hold = {snm_h*1e3:.0f}mV"), dict(x=330, y=80, text="WL = BL = BLB = vdd! (read)")], annot=[square])
+    # (f) pre- vs post-layout overlays (Innovus/Quantus SPEF back-annotated run)
+    pl = json.load(open("results_postlayout.json"))
+    wp, wq = pl["inverter"]["wave_pre"], pl["inverter"]["wave_post"]
+    tp, tq = pl["inverter"]["pre"], pl["inverter"]["post"]
+    m0 = cross(wp["t"], wp["vout"], V/2, False, 5); m1 = cross(wq["t"], wq["vout"], V/2, False, 5)
+    out["viva_inv_postlayout"] = panel("ADE L (1) INV_GAA_X1 : schematic vs av_extracted", "Transient Response",
+        [dict(name="/in", xy=list(zip(wp["t"], wp["vin"]))), dict(name="/out pre-layout", xy=list(zip(wp["t"], wp["vout"]))),
+         dict(name="/out post-layout (SPEF)", xy=list(zip(wq["t"], wq["vout"])))],
+        "time (ps)", "V (V)", (0, 80), (0, 0.8),
+        markers=[dict(x=m0, y=V/2, xu="ps", trace=1), dict(x=m1, y=V/2, xu="ps", trace=2, dy=20)],
+        deltas=[dict(x=300, y=60, text=f"tpd pre {tp['tpd']*1e12:.2f}ps  post {tq['tpd']*1e12:.2f}ps  (+{(tq['tpd']/tp['tpd']-1)*100:.0f}%)"),
+                dict(x=300, y=80, text=f"load {pl['inverter']['load_pre_fF']:.2f}f -> {pl['inverter']['load_post_fF']:.2f}f  Rout {pl['inverter']['Rout_ohm']:.0f}ohm")])
+    rp, rq = pl["ro11"]["wave_pre"], pl["ro11"]["wave_post"]
+    selp = [k for k in range(len(rp["t"])) if 300 <= rp["t"][k] <= 500]; selq = [k for k in range(len(rq["t"])) if 300 <= rq["t"][k] <= 500]
+    out["viva_ro11_postlayout"] = panel("ADE L (3) RO11_GAA : schematic vs av_extracted", "Transient Response",
+        [dict(name="/n1 pre-layout", xy=[(rp["t"][k] - 300, rp["v0"][k]) for k in selp]),
+         dict(name="/n1 post-layout (SPEF)", xy=[(rq["t"][k] - 300, rq["v0"][k]) for k in selq])],
+        "time (ps)  [window 300-500 ps]", "V (V)", (0, 200), (0, 0.8),
+        deltas=[dict(x=300, y=60, text=f"f_osc pre {pl['ro11']['pre']['f_Hz']/1e9:.2f}GHz  post {pl['ro11']['post']['f_Hz']/1e9:.2f}GHz"),
+                dict(x=300, y=80, text=f"t_stage pre {pl['ro11']['pre']['t_stage_s']*1e12:.2f}ps  post {pl['ro11']['post']['t_stage_s']*1e12:.2f}ps")])
     os.makedirs(OUT, exist_ok=True)
     for name, svg in out.items():
         open(os.path.join(OUT, name + ".svg"), "w").write(svg)

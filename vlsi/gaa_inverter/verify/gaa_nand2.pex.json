@@ -1,0 +1,225 @@
+{
+ "cell": "NAND2_GAA_X1",
+ "nets": {
+  "A": {
+   "cgnd_aF": 130.54,
+   "coup_aF": {
+    "Y": 52.5,
+    "int0": 75.0,
+    "B": 6.84,
+    "float0": 6.4
+   },
+   "ctotal_aF": 271.28,
+   "r_ohm": 447.0,
+   "n_res": 3,
+   "floating": false,
+   "elems": [
+    [
+     "CB",
+     80.0
+    ],
+    [
+     "M1",
+     22.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ]
+  },
+  "Y": {
+   "cgnd_aF": 33.73,
+   "coup_aF": {
+    "A": 52.5,
+    "B": 127.5,
+    "int0": 5.73
+   },
+   "ctotal_aF": 219.46,
+   "r_ohm": 713.0,
+   "n_res": 10,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     166.7
+    ],
+    [
+     "Rc",
+     111.1
+    ],
+    [
+     "M1",
+     61.9
+    ],
+    [
+     "M1",
+     41.2
+    ],
+    [
+     "V0",
+     45.0
+    ],
+    [
+     "V0",
+     45.0
+    ],
+    [
+     "V1",
+     35.0
+    ],
+    [
+     "V1",
+     35.0
+    ],
+    [
+     "M2",
+     72.0
+    ],
+    [
+     "M2",
+     100.1
+    ]
+   ]
+  },
+  "B": {
+   "cgnd_aF": 55.54,
+   "coup_aF": {
+    "Y": 127.5,
+    "int0": 75.0,
+    "A": 6.84,
+    "float1": 6.4
+   },
+   "ctotal_aF": 271.28,
+   "r_ohm": 447.0,
+   "n_res": 3,
+   "floating": false,
+   "elems": [
+    [
+     "CB",
+     80.0
+    ],
+    [
+     "M1",
+     22.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ]
+  },
+  "int0": {
+   "cgnd_aF": 6.63,
+   "coup_aF": {
+    "A": 75.0,
+    "B": 75.0,
+    "Y": 5.73
+   },
+   "ctotal_aF": 162.36,
+   "r_ohm": 111.1,
+   "n_res": 1,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     111.1
+    ]
+   ]
+  },
+  "float0": {
+   "cgnd_aF": 2.26,
+   "coup_aF": {
+    "A": 6.4
+   },
+   "ctotal_aF": 8.65,
+   "r_ohm": 300.0,
+   "n_res": 0,
+   "floating": true,
+   "elems": []
+  },
+  "float1": {
+   "cgnd_aF": 2.26,
+   "coup_aF": {
+    "B": 6.4
+   },
+   "ctotal_aF": 8.65,
+   "r_ohm": 300.0,
+   "n_res": 0,
+   "floating": true,
+   "elems": []
+  },
+  "VSS": {
+   "cgnd_aF": 19.55,
+   "coup_aF": {},
+   "ctotal_aF": 19.55,
+   "r_ohm": 390.3,
+   "n_res": 4,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     111.1
+    ],
+    [
+     "M1",
+     139.3
+    ],
+    [
+     "M1",
+     94.9
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ]
+  },
+  "VDD": {
+   "cgnd_aF": 25.28,
+   "coup_aF": {},
+   "ctotal_aF": 25.28,
+   "r_ohm": 738.7,
+   "n_res": 7,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     166.7
+    ],
+    [
+     "Rc",
+     166.7
+    ],
+    [
+     "M1",
+     139.3
+    ],
+    [
+     "M1",
+     88.0
+    ],
+    [
+     "M1",
+     88.0
+    ],
+    [
+     "V0",
+     45.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ]
+  }
+ },
+ "devices": 4,
+ "totals": {
+  "nets": 8,
+  "cgnd_aF": 275.79,
+  "ccoup_aF": 355.36,
+  "resistors": 28,
+  "capacitors": 16
+ }
+}

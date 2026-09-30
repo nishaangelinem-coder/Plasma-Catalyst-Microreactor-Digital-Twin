@@ -1,0 +1,16 @@
+# gaa3_qrc.ccl -- Quantus QRC command file for the sign-off extraction in the VMware guest
+#   qrc -cmd gaa3_qrc.ccl      (from the cell's run directory after Pegasus LVS)
+extraction_setup \
+    -analysis_type rc_coupled \
+    -input_db_type lvs -input_db_dir ./lvs_out \
+    -tech_file $env(GAA3_LIB)/qrc/typical/qrcTechFile
+capacitance \
+    -decoupling_ground_nets {VDD VSS} \
+    -coupling_cap_threshold_absolute 0 \
+    -ground_net_selection VSS
+resistance \
+    -contact_resistance true -via_resistance true -gate_resistance true
+output_setup \
+    -format SPEF -file ./INV_GAA_X1.spef \
+    -directory ./qrc_out -temperature 25
+extract

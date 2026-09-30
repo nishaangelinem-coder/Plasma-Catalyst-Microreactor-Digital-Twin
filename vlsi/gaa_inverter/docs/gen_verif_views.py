@@ -102,8 +102,37 @@ def lvs_view(key, base):
                  "File  View  Setup  Extraction  Comparison  Reports  Window  Help", body,
                  f"{base}.lvs.rpt   |   virtual connect: VDD VSS", "ref. extractor – sign-off with Pegasus in the guest")
 
+def pex_view(key, base):
+    p = json.load(open(os.path.join(VER, base + ".pex.json")))
+    nets = [(n, x) for n, x in sorted(p["nets"].items()) if not x.get("floating")]
+    w, h = 760, 96 + 20 * len(nets) + 60; o = [f'<rect width="{w}" height="{h}" fill="{C["pane"]}"/>']
+    t = p["totals"]
+    o.append(f'<rect x="12" y="10" width="{w-24}" height="44" rx="3" fill="{C["head"]}"/>')
+    o.append(f'<text x="20" y="27" fill="{C["ink"]}" font-size="10" font-weight="600">Cell {p["cell"]}   extraction: rc_coupled   technology: GAA3 PEX (ILD k = 2.9, spacer k = 4.5)</text>')
+    o.append(f'<text x="20" y="45" fill="{C["ink"]}" font-size="9.5">nets {t["nets"]}   devices {p["devices"]}   capacitors {t["capacitors"]}   resistors {t["resistors"]}   '
+             f'C_gnd {t["cgnd_aF"]/1e3:.3f} fF   C_coupling {t["ccoup_aF"]/1e3:.3f} fF</text>')
+    o.append(f'<rect x="12" y="64" width="{w-24}" height="22" fill="{C["head"]}"/>')
+    for x, tt, anc in ((20, "Net", "start"), (200, "C_gnd (aF)", "end"), (300, "C_coup (aF)", "end"), (400, "C_total (aF)", "end"), (480, "R (Ω)", "end"), (500, "coupled to", "start")):
+        o.append(f'<text x="{x}" y="79" fill="{C["ink"]}" font-size="9.5" font-weight="600" text-anchor="{anc}">{tt}</text>')
+    for i, (n, x) in enumerate(nets):
+        y = 86 + i * 20
+        if i % 2: o.append(f'<rect x="12" y="{y}" width="{w-24}" height="20" fill="{C["alt"]}"/>')
+        cc = sum(x["coup_aF"].values())
+        o.append(f'<text x="20" y="{y+14}" fill="{C["ink"]}" font-size="9.5">{n}</text>')
+        for xx, val in ((200, f"{x['cgnd_aF']:.1f}"), (300, f"{cc:.1f}"), (400, f"{x['ctotal_aF']:.1f}"), (480, f"{x['r_ohm']:.0f}")):
+            o.append(f'<text x="{xx}" y="{y+14}" fill="{C["ink"]}" font-size="9.5" text-anchor="end">{val}</text>')
+        cp = ", ".join(f"{m}: {c:.1f}" for m, c in x["coup_aF"].items() if not m.startswith("float"))[:44]
+        o.append(f'<text x="500" y="{y+14}" fill="{C["ink"]}" font-size="8.5">{cp}</text>')
+    y = 86 + len(nets) * 20 + 16
+    o.append(f'<rect x="12" y="{y}" width="{w-24}" height="26" rx="3" fill="{C["okbg"]}" stroke="{C["ok"]}"/>')
+    o.append(f'<text x="{w/2:.0f}" y="{y+17}" fill="{C["ok"]}" font-size="10.5" text-anchor="middle" font-weight="700">Extraction complete: {base}.spef written  (IEEE 1481 SPEF, C_UNIT 1 FF, R_UNIT 1 OHM)</text>')
+    return frame(w, h, f"Quantus QRC  –  Extraction Summary  ({p['cell']})", "File  View  Setup  Extraction  Reports  Tools  Window  Help",
+                 "\n".join(o), f"{base}.pex.sum   |   qrc -cmd gaa3_qrc.ccl   |   decoupled ground: VDD VSS", "ref. extractor – sign-off with Quantus QRC in the guest")
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
+    for key, base in CELLS:
+        open(os.path.join(OUT, f"pex_{key}.svg"), "w").write(pex_view(key, base))
     for key, base in CELLS:
         open(os.path.join(OUT, f"drc_{key}.svg"), "w").write(drc_view(key, base))
         open(os.path.join(OUT, f"lvs_{key}.svg"), "w").write(lvs_view(key, base))
