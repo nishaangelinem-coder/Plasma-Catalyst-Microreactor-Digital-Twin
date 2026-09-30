@@ -10,6 +10,7 @@ Design and implementation of a gate-all-around (GAA) nanosheet CMOS inverter
 | RTL | Xcelium | `rtl/inverter.v`, `rtl/inverter_tb.v` | simulation log |
 | Synthesis | Genus | `genus/synth.tcl`, `genus/constraints.sdc` | mapped netlist, SDF |
 | Place & route | Innovus | `innovus/pnr.tcl`, `innovus/mmmc.tcl` | DEF, SPEF, **`inverter.gds`** |
+| NAND2 cell | Spectre, Genus/Innovus, Python | `spectre/gaa_nand2_tb.scs`, `rtl/nand2.v`, `spectre/nand2.py`, `layout/gen_gaa_nand2_gds.py` | `results_nand2*.json`, `layout/gaa_nand2.gds` |
 | Reference check | Python (no deps) | `spectre/ref_model.py` | `results.json`, SVG figures |
 | Ring oscillator | Spectre, Genus, Python | `spectre/gaa_ro11_tb.scs`, `rtl/ring_osc.v`, `genus/synth_ro.tcl`, `spectre/ro.py`, `layout/gen_gaa_ro_gds.py` | `results_ro*.json`, `layout/gaa_ro11.gds` |
 
@@ -42,7 +43,9 @@ python3 ref_model.py                                        # reference metrics 
 GAA_TECH=finfet python3 ref_model.py                        # 5-nm-class FinFET baseline (Table V)
 python3 ro.py && GAA_TECH=finfet python3 ro.py && python3 ro.py --figs   # RO11 FO3 sweep (Table VI)
 spectre gaa_ro11_tb.scs +log ro.log                         # RO11 in Spectre
+python3 nand2.py && GAA_TECH=finfet python3 nand2.py       # NAND2 static/transient/leakage (Table VII)
 cd ../layout && python3 gen_gaa_ro_gds.py                   # hierarchical RO11 GDSII
+python3 gen_gaa_nand2_gds.py                                # NAND2_GAA_X1 GDSII
 ```
 In Virtuoso: `File > Import > Stream` the GDS in `layout/` (layer map
 `layout/gaa3.layermap`) to obtain the `INV_GAA_X1 layout` cellview, run DRC/LVS,

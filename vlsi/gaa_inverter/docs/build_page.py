@@ -7,6 +7,8 @@ res = json.load(open(os.path.join(B, "spectre/results.json")))
 fin = json.load(open(os.path.join(B, "spectre/results_finfet.json")))
 ro_g = json.load(open(os.path.join(B, "spectre/results_ro.json")))
 ro_f = json.load(open(os.path.join(B, "spectre/results_ro_finfet.json")))
+nd_g = json.load(open(os.path.join(B, "spectre/results_nand2.json")))
+nd_f = json.load(open(os.path.join(B, "spectre/results_nand2_finfet.json")))
 tpl = rd("docs/template.html")
 
 # ---------------- Fig. 1: device cross-sections (hand-drawn SVG, theme tokens) ----------------
@@ -91,6 +93,11 @@ LISTINGS = [
     ("12b", "genus/synth_ro.tcl", "Genus script preserving the oscillator loop", True),
     ("13", "layout/gen_gaa_ro_gds.py", "Hierarchical RO11 GDSII generator (SREF placement and M2 wiring)", True),
     ("14", "spectre/ro.py", "Ring-oscillator reference simulation and figures", True),
+    ("15", "spectre/gaa_nand2_tb.scs", "Spectre testbench: NAND2 with width-swapped BSIM-CMG cards", False),
+    ("16", "rtl/nand2.v", "NAND2 RTL", False),
+    ("16b", "rtl/nand2_tb.v", "NAND2 truth-table testbench", True),
+    ("17", "layout/gen_gaa_nand2_gds.py", "NAND2_GAA_X1 GDSII generator", True),
+    ("18", "spectre/nand2.py", "NAND2 reference simulation (stack node, leakage by state)", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -146,6 +153,29 @@ def ro_sub():
         "FIG_RO_PVDD": rd("spectre/fig_ro_pvdd.svg"), "FIG_RO_LAYOUT": rd("layout/gaa_ro11.svg"),
     }
 
+# ---------------- NAND2 numbers ----------------
+def nand_sub():
+    def one(r, p):
+        ps = lambda v: f"{v*1e12:.2f}"
+        worst = max(r["fo4"][m][k] for m in ("A", "B") for k in ("tpHL", "tpLH"))
+        return {
+            p + "IPD": f"{r['Ion_pd_uA']:.0f}", p + "IPU": f"{r['Ion_pu_uA']:.0f}", p + "RATIO": f"{r['Ion_pd_uA']/r['Ion_pu_uA']:.2f}",
+            p + "VMAB": f"{r['VM']['AB']*1e3:.0f}", p + "VMA": f"{r['VM']['A']*1e3:.0f}", p + "VMB": f"{r['VM']['B']*1e3:.0f}",
+            p + "TPHLA": ps(r["fo4"]["A"]["tpHL"]), p + "TPLHA": ps(r["fo4"]["A"]["tpLH"]),
+            p + "TPHLB": ps(r["fo4"]["B"]["tpHL"]), p + "TPLHB": ps(r["fo4"]["B"]["tpLH"]),
+            p + "TPDW": ps(worst), p + "E": f"{r['fo4']['A']['E_cycle']*1e15:.2f}",
+            p + "L00": f"{r['leak']['00']['I_nA']:.2f}", p + "L01": f"{r['leak']['01']['I_nA']:.2f}",
+            p + "L10": f"{r['leak']['10']['I_nA']:.2f}", p + "L11": f"{r['leak']['11']['I_nA']:.2f}",
+            p + "STACK": f"{r['leak']['10']['I_nA']/r['leak']['00']['I_nA']:.1f}", p + "PST": f"{r['P_static_avg_pW']/1e3:.2f}",
+        }
+    d = one(nd_g, "N_"); d.update(one(nd_f, "NF_"))
+    arcs = [nd_g["fo4"][m]["tpd"] for m in ("A", "B")]
+    d["N_ARCDIFF"] = f"{abs(arcs[0]-arcs[1])*1e12:.2f}"
+    d["NF_AREAPCT"] = f"{(nd_f['area_um2']/nd_g['area_um2']-1)*100:.0f}"
+    d["FIG_NAND_LAYOUT"] = rd("layout/gaa_nand2.svg")
+    d["FIG_NAND_VTC"] = rd("spectre/fig_nand2_vtc.svg"); d["FIG_NAND_TRAN"] = rd("spectre/fig_nand2_tran.svg")
+    return d
+
 # ---------------- numbers ----------------
 d, st, f1, f4 = res["device"], res["static"], res["fo1"], res["fo4"]
 mv = lambda v: f"{v*1e3:.0f}"
@@ -164,6 +194,7 @@ sub = {
     "PSTAT": f"{res['P_static_pW']/1e3:.2f}", "DYNSTAT": f"{f4['E_cycle']*1e9/(res['P_static_pW']*1e-12):.0f}",
     **finfet_sub(),
     **ro_sub(),
+    **nand_sub(),
     "FIG_DEVICE": device_svg(), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
     "FIG_IDVG": rd("spectre/fig_idvg.svg"), "FIG_VTC": rd("spectre/fig_vtc.svg"),
     "FIG_GAIN": rd("spectre/fig_gain.svg"), "FIG_TRAN": rd("spectre/fig_tran.svg"),

@@ -1,0 +1,48 @@
+// gaa_nand2_tb.scs -- Spectre testbench: two-input NAND, GAA nanosheet, BSIM-CMG
+// Sizing uses the GAA width freedom: 45-nm sheets for the series NMOS, 30-nm for the parallel PMOS.
+simulator lang=spectre
+global 0 vdd!
+include "gaa_inv_tb.scs" section=models      // base cards nsheet_n (hfin=30n) / nsheet_p (hfin=45n)
+
+// width-swapped cards for the NAND2 (all other parameters inherited)
+model nsheet_n_w45 bsimcmg type=n version=110.0 bulkmod=0 geomod=0 devtype=1 \
+      l=14e-9 tfin=5e-9 hfin=45e-9 nfin=3 eot=0.9e-9 toxp=1.2e-9 \
+      phig=4.36 nbody=1e22 u0=0.030 vsat=1.2e5 rdsw=90 dvt0=1.2 dvt1=0.45 eta0=0.06 cit=1e-4 cgso=1.2e-10 cgdo=1.2e-10
+model nsheet_p_w30 bsimcmg type=p version=110.0 bulkmod=0 geomod=0 devtype=0 \
+      l=14e-9 tfin=5e-9 hfin=30e-9 nfin=3 eot=0.9e-9 toxp=1.2e-9 \
+      phig=4.86 nbody=1e22 u0=0.022 vsat=1.0e5 rdsw=110 dvt0=1.2 dvt1=0.45 eta0=0.07 cit=1e-4 cgso=1.3e-10 cgdo=1.3e-10
+
+subckt NAND2_GAA_X1 (A B Y VDD VSS)
+    MPA (Y A VDD VDD) nsheet_p_w30
+    MPB (Y B VDD VDD) nsheet_p_w30
+    MNB (Y B X   VSS) nsheet_n_w45
+    MNA (X A VSS VSS) nsheet_n_w45
+    CparY (Y VSS) capacitor c=0.40f
+    CparX (X VSS) capacitor c=0.15f
+ends NAND2_GAA_X1
+
+parameters vsup=0.70 tslew=12p cload=1.28f
+Vdd (vdd! 0) vsource dc=vsup
+Va  (a 0) vsource type=pwl wave=[0 0 10p 0 25p vsup 45p vsup 60p 0 80p 0]
+Vb  (b 0) vsource dc=vsup                    // B held high: A-input timing arc
+X1  (a b out vdd! 0) NAND2_GAA_X1
+CL  (out 0) capacitor c=cload
+
+// static: three transfer curves (A=B tied, A alone, B alone)
+vtcAB dc dev=Va param=dc start=0 stop=vsup step=5m   // run with Vb tied to Va via 'alter'
+tran  tran stop=80p step=2f errpreset=conservative
+// leakage in the four input states (stack effect visible at A=B=0)
+leak dc param=dummy values=[0]  // use 'alter' statements below for each state
+altAB00 alter dev=Va param=dc value=0      altB0 alter dev=Vb param=dc value=0
+dc00 dc
+altB1 alter dev=Vb param=dc value=vsup
+dc01 dc
+altA1 alter dev=Va param=dc value=vsup     altB0b alter dev=Vb param=dc value=0
+dc10 dc
+altB1b alter dev=Vb param=dc value=vsup
+dc11 dc
+
+export tpHL_A = cross(sig=v(out) dir='fall n=1 thresh=vsup/2) - cross(sig=v(a) dir='rise n=1 thresh=vsup/2)
+export tpLH_A = cross(sig=v(out) dir='rise n=1 thresh=vsup/2) - cross(sig=v(a) dir='fall n=1 thresh=vsup/2)
+export Ileak  = -i(Vdd)
+saveOptions options save=allpub
