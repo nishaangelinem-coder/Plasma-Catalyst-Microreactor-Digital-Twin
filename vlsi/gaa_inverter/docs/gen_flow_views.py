@@ -70,14 +70,14 @@ def timing_view(d):
     w, h = 620, 230; o = [f'<rect width="{w}" height="{h}" fill="{C["pane"]}"/>']
     o.append(f'<text x="14" y="22" fill="{C["ink"]}" font-size="10.5" font-weight="600">timeDesign summary  –  {d}   (virtual clock vclk, period 200 ps; setup)</text>')
     o.append(f'<rect x="12" y="34" width="{w-24}" height="22" fill="{C["head"]}"/>')
-    for x, t, anc in ((20, "Stage", "start"), (250, "WNS (ps)", "end"), (340, "TNS (ps)", "end"), (430, "Violating paths", "end"), (520, "Longest path (ps)", "end")):
+    for x, t, anc in ((20, "Stage", "start"), (250, "WNS (ps)", "end"), (330, "TNS (ps)", "end"), (450, "Violating paths", "end"), (600, "Longest path (ps)", "end")):
         o.append(f'<text x="{x}" y="49" fill="{C["ink"]}" font-size="9.5" font-weight="600" text-anchor="{anc}">{t}</text>')
     rows = [("syn_opt (wire-load)", syn["slack_ps"], syn["path_ps"]), ("place_opt (est. RC)", syn["slack_ps"] - 0.3, syn["path_ps"] + 0.3), ("postRoute (extracted SPEF)", pnr["postroute_slack_ps"], pnr["postroute_path_ps"])]
     for k, (st, sl, pth) in enumerate(rows):
         y = 56 + k * 22
         if k % 2: o.append(f'<rect x="12" y="{y}" width="{w-24}" height="22" fill="{C["alt"]}"/>')
         o.append(f'<text x="20" y="{y+15}" fill="{C["ink"]}" font-size="9.5">{st}</text>')
-        for x, v in ((250, f"{sl:.2f}"), (340, "0.00"), (430, "0"), (520, f"{pth:.2f}")):
+        for x, v in ((250, f"{sl:.2f}"), (330, "0.00"), (450, "0"), (600, f"{pth:.2f}")):
             o.append(f'<text x="{x}" y="{y+15}" fill="{C["ink"]}" font-size="9.5" text-anchor="end">{v}</text>')
     y = 56 + 3 * 22 + 14
     o.append(f'<rect x="12" y="{y}" width="{w-24}" height="24" rx="3" fill="{C["okbg"]}" stroke="{C["ok"]}"/>')
