@@ -1,0 +1,21 @@
+VERSION 5.8 ;
+DESIGN nand2 ;
+UNITS DISTANCE MICRONS 1000 ;
+DIEAREA ( 0 0 ) ( 240 168 ) ;
+ROW row_0 gaa3_core 0 0 N DO 5 BY 1 STEP 48 0 ;
+COMPONENTS 3 ;
+  - g0 NAND2_GAA_X1 + PLACED ( 48 0 ) N ;
+  - FILL0 FILL_GAA_X1 + PLACED ( 0 0 ) N ;
+  - FILL1 FILL_GAA_X1 + PLACED ( 192 0 ) N ;
+END COMPONENTS
+PINS 3 ;
+  - a + NET a + DIRECTION INPUT + LAYER M2 ( -8 -8 ) ( 8 8 ) + PLACED ( 8 84 ) N ;
+  - b + NET b + DIRECTION INPUT + LAYER M2 ( -8 -8 ) ( 8 8 ) + PLACED ( 8 56 ) N ;
+  - y + NET y + DIRECTION OUTPUT + LAYER M2 ( -8 -8 ) ( 8 8 ) + PLACED ( 232 84 ) N ;
+END PINS
+NETS 3 ;
+  - a ( g0 A ) ( PIN a ) + ROUTED M2 ( 8 84 ) ( 96 84 ) ;
+  - b ( g0 B ) ( PIN b ) + ROUTED M2 ( 8 56 ) ( 140 56 ) NEW M2 ( 140 56 ) ( 140 84 ) ;
+  - y ( g0 Y ) ( PIN y ) + ROUTED M2 ( 168 84 ) ( 232 84 ) ;
+END NETS
+END DESIGN

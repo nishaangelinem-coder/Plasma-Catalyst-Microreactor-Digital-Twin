@@ -1,0 +1,23 @@
+==============================================================================
+  Quantus QRC  -  Extraction Summary  (reference extractor: gaa3_pex.py; sign-off: Quantus QRC)
+==============================================================================
+  Cell            : inverter
+  Extraction type : rc_coupled, decoupled ground for VDD/VSS, coupling threshold 0 aF
+  Technology      : GAA3 PEX (ILD k=2.9, spacer k=4.5, Rs M1/M2/M3 = 22/18/15 ohm/sq, rho_c = 1e-9 ohm cm^2)
+  Nets            :     8      Devices :    2
+  Capacitors      :    13      Resistors :   26
+  Total C to gnd  :    0.235 fF     Total coupling C :    0.181 fF
+------------------------------------------------------------------------------
+  NET          C_gnd(aF)  C_coup(aF)   C_tot(aF)    R(ohm)   #R   coupled to
+------------------------------------------------------------------------------
+  VDD               26.4         0.0        26.4     442.1    6   
+  VSS               25.7         0.0        25.7     497.7    6   
+  a                139.9       155.2       295.2     615.9    6   y:129.6, float0:12.8, float1:12.8
+  float0             4.5        25.6        30.1     600.0    0   a:12.8, float3:12.8  (floating dummy gate)
+  float1             4.5        25.6        30.1     600.0    0   a:12.8, float2:12.8  (floating dummy gate)
+  float2             2.3        12.8        15.1     300.0    0   float1:12.8  (floating dummy gate)
+  float3             2.3        12.8        15.1     300.0    0   float0:12.8  (floating dummy gate)
+  y                 29.0       129.6       158.6     644.9    8   a:129.6
+------------------------------------------------------------------------------
+  SPEF written    : inverter.spef
+==============================================================================

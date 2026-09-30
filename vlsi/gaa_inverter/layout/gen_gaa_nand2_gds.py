@@ -7,7 +7,8 @@ inverter.  GAA-specific sizing: the series NMOS stack uses 45-nm sheets and the 
 parallel PMOS use 30-nm sheets (the bands are swapped relative to the inverter), which
 balances worst-case pull-up and pull-down without changing the cell footprint.
 Topology:  PMOS  VDD -(A)- Y -(B)- VDD   |   NMOS  VSS -(A)- X -(B)- Y
-In-cell routing: M1 (layer 7) vertical stubs/straps, output on M2 (layer 9) via V1 (layer 8).
+In-cell routing: M1 (layer 7) vertical stubs/straps, output on M2 (layer 9) via V1 (layer 8) above the
+pin level only, so the lower M2 tracks stay free for over-the-cell routing.
 """
 import gen_gaa_inverter_gds as inv
 
@@ -45,7 +46,7 @@ def build_nand2():
         c.rect(*L["SDC"], x - SD // 2, n_y0 - 2, x + SD // 2, n_y1 + 2, "SDC N")
         c.rect(*L["SDC"], x - SD // 2, p_y0 - 2, x + SD // 2, p_y1 + 2, "SDC P")
     # gate contacts in the mid region (y 69..104)
-    ym = (n_y1 + p_y0) // 2                    # 86
+    ym = 84                                    # input pads on the metal-2 routing track
     c.rect(*L["CB"], CPP - lg2 - 2, ym - 8, CPP + lg2 + 2, ym + 8, "CB A")
     c.rect(*L["CB"], 2 * CPP - lg2 - 4, ym - 8, 2 * CPP + lg2 + 2, ym + 8, "CB B (extended over the via)")
     # rails
@@ -55,7 +56,7 @@ def build_nand2():
     def via0(x, y): c.rect(*L["V0"], x - v, y - v, x + v, y + v, "V0")
     # NMOS: slot0 = VSS source, slot1 = internal node X (contact only), slot2 = Y drain
     c.rect(*L["M1"], 24 - M1W // 2, 0, 24 + M1W // 2, n_y1, "VSS strap"); via0(24, ny)
-    c.rect(*L["M1"], 120 - M1W // 2, n_y0, 120 + M1W // 2, n_y1, "Y stub (N drain)"); via0(120, ny)
+    c.rect(*L["M1"], 120 - M1W // 2, n_y0, 120 + M1W // 2, 92, "Y stub (N drain, up to the pin level)"); via0(120, ny)
     # PMOS: slot0 = VDD, slot1 = Y drain (shared), slot2 = VDD
     c.rect(*L["M1"], 24 - M1W // 2, p_y0, 24 + M1W // 2, CH, "VDD strap"); via0(24, py)
     c.rect(*L["M1"], 120 - M1W // 2, p_y0, 120 + M1W // 2, CH, "VDD strap"); via0(120, py)
@@ -66,9 +67,9 @@ def build_nand2():
         c.rect(*L["M1_PIN"], xc - 8, ym - 8, xc + 8, ym + 8, f"{name} pin")
         via0(xc, ym); c.label(*L["M1_TEXT"], xc, ym, name)
     # output net on M2: V1 on the P-drain stub, horizontal to x=120, vertical down to V1 on the N-drain stub
-    c.rect(*L_V1, 72 - v, py - v, 72 + v, py + v, "V1"); c.rect(*L_V1, 120 - v, ny - v, 120 + v, ny + v, "V1")
+    c.rect(*L_V1, 72 - v, py - v, 72 + v, py + v, "V1"); c.rect(*L_V1, 120 - v, ym - v, 120 + v, ym + v, "V1")
     c.rect(*L_M2, 72 - M1W // 2, py - M1W // 2, 120 + M1W // 2, py + M1W // 2, "Y (M2)")
-    c.rect(*L_M2, 120 - M1W // 2, ny - M1W // 2, 120 + M1W // 2, py + M1W // 2, "Y (M2)")
+    c.rect(*L_M2, 120 - M1W // 2, ym - M1W // 2, 120 + M1W // 2, py + M1W // 2, "Y (M2, pin level to P drain)")
     c.rect(*L_M2PIN, 120 - M1W // 2, ym - 8, 120 + M1W // 2, ym + 8, "Y pin")
     c.label(*L_M2TXT, 120, ym, "Y")
     c.label(*L["M1_TEXT"], CW // 2, CH, "VDD"); c.label(*L["M1_TEXT"], CW // 2, 0, "VSS")

@@ -1,0 +1,26 @@
+{
+ "design": "inverter",
+ "ports": {
+  "inputs": [
+   "a"
+  ],
+  "outputs": [
+   "y"
+  ]
+ },
+ "insts": [
+  {
+   "name": "g0",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "a",
+    "Y": "y"
+   }
+  }
+ ],
+ "nets": [
+  "a",
+  "y"
+ ],
+ "break_at": null
+}

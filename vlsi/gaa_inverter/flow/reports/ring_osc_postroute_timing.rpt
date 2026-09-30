@@ -1,0 +1,26 @@
+==========================================================================
+  report_timing  design ring_osc   (postRoute, extracted RC)
+==========================================================================
+  Path 1: MET (110.8 ps)  Setup check with pin out against virtual clock vclk (period 200 ps)
+  Startpoint: en (input port, input delay 20 ps)   Endpoint: out (output port, output delay 20 ps)
+  Required time 180.0 ps   Arrival 69.18 ps   Slack 110.82 ps
+--------------------------------------------------------------------------
+  Pin / arc                               Cell             Delay  Arrival
+--------------------------------------------------------------------------
+  en (in)                                                  20.00    20.00
+  g0/B->Y NAND2_GAA_X1                    NAND2_GAA_X1      5.87    25.87
+  g1/A->Y INV_GAA_X1                      INV_GAA_X1        3.40    29.27
+  stage[0]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.40    32.67
+  stage[1]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    36.06
+  stage[2]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    39.45
+  stage[3]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    42.84
+  stage[4]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    46.23
+  stage[5]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    49.61
+  stage[6]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    53.00
+  stage[7]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    56.39
+  stage[8]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    59.78
+  stage[9]/u_inv/A->Y INV_GAA_X1          INV_GAA_X1        3.39    63.16
+  stage[10]/u_inv/A->Y INV_GAA_X1         INV_GAA_X1        6.01    69.18
+--------------------------------------------------------------------------
+  Data arrival at out: 69.18 ps    output slew 6.39 ps    load 2.097 fF
+==========================================================================

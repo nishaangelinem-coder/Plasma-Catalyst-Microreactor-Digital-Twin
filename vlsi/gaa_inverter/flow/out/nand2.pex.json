@@ -1,0 +1,325 @@
+{
+ "cell": "nand2",
+ "nets": {
+  "a": {
+   "cgnd_aF": 140.0,
+   "coup_aF": {
+    "y": 53.19,
+    "int0": 75.0,
+    "b": 18.19,
+    "float0": 12.8
+   },
+   "ctotal_aF": 299.18,
+   "r_ohm": 617.0,
+   "n_res": 6,
+   "floating": false,
+   "elems": [
+    [
+     "M2",
+     117.0
+    ],
+    [
+     "M2",
+     18.0
+    ],
+    [
+     "V1",
+     35.0
+    ],
+    [
+     "CB",
+     80.0
+    ],
+    [
+     "M1",
+     22.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ],
+   "cgnd_wire_aF": 12.5,
+   "ccoup_wire_aF": 31.67
+  },
+  "y": {
+   "cgnd_aF": 41.46,
+   "coup_aF": {
+    "a": 53.19,
+    "b": 134.92,
+    "int0": 5.73
+   },
+   "ctotal_aF": 235.3,
+   "r_ohm": 809.9,
+   "n_res": 12,
+   "floating": false,
+   "elems": [
+    [
+     "M2",
+     90.0
+    ],
+    [
+     "M2",
+     18.0
+    ],
+    [
+     "M2",
+     72.0
+    ],
+    [
+     "M2",
+     57.4
+    ],
+    [
+     "V1",
+     35.0
+    ],
+    [
+     "V1",
+     35.0
+    ],
+    [
+     "Rc",
+     166.7
+    ],
+    [
+     "Rc",
+     111.1
+    ],
+    [
+     "M1",
+     93.5
+    ],
+    [
+     "M1",
+     41.2
+    ],
+    [
+     "V0",
+     45.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ],
+   "cgnd_wire_aF": 41.46,
+   "ccoup_wire_aF": 13.84
+  },
+  "b": {
+   "cgnd_aF": 73.68,
+   "coup_aF": {
+    "y": 134.92,
+    "int0": 75.0,
+    "a": 18.19,
+    "float1": 12.8
+   },
+   "ctotal_aF": 314.58,
+   "r_ohm": 734.0,
+   "n_res": 8,
+   "floating": false,
+   "elems": [
+    [
+     "M2",
+     166.5
+    ],
+    [
+     "M2",
+     49.5
+    ],
+    [
+     "M2",
+     18.0
+    ],
+    [
+     "M2",
+     18.0
+    ],
+    [
+     "V1",
+     35.0
+    ],
+    [
+     "CB",
+     80.0
+    ],
+    [
+     "M1",
+     22.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ],
+   "cgnd_wire_aF": 21.18,
+   "ccoup_wire_aF": 38.4
+  },
+  "int0": {
+   "cgnd_aF": 6.63,
+   "coup_aF": {
+    "a": 75.0,
+    "b": 75.0,
+    "y": 5.73
+   },
+   "ctotal_aF": 162.36,
+   "r_ohm": 111.1,
+   "n_res": 1,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     111.1
+    ]
+   ],
+   "cgnd_wire_aF": 6.63,
+   "ccoup_wire_aF": 5.73
+  },
+  "float0": {
+   "cgnd_aF": 4.51,
+   "coup_aF": {
+    "a": 12.8,
+    "float3": 12.8
+   },
+   "ctotal_aF": 30.11,
+   "r_ohm": 600.0,
+   "n_res": 0,
+   "floating": true,
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
+  },
+  "float1": {
+   "cgnd_aF": 4.51,
+   "coup_aF": {
+    "b": 12.8,
+    "float2": 12.8
+   },
+   "ctotal_aF": 30.11,
+   "r_ohm": 600.0,
+   "n_res": 0,
+   "floating": true,
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
+  },
+  "float2": {
+   "cgnd_aF": 2.26,
+   "coup_aF": {
+    "float1": 12.8
+   },
+   "ctotal_aF": 15.05,
+   "r_ohm": 300.0,
+   "n_res": 0,
+   "floating": true,
+   "elems": [],
+   "cgnd_wire_aF": 2.26,
+   "ccoup_wire_aF": 12.8
+  },
+  "float3": {
+   "cgnd_aF": 2.26,
+   "coup_aF": {
+    "float0": 12.8
+   },
+   "ctotal_aF": 15.05,
+   "r_ohm": 300.0,
+   "n_res": 0,
+   "floating": true,
+   "elems": [],
+   "cgnd_wire_aF": 2.26,
+   "ccoup_wire_aF": 12.8
+  },
+  "VSS": {
+   "cgnd_aF": 29.96,
+   "coup_aF": {},
+   "ctotal_aF": 29.96,
+   "r_ohm": 493.0,
+   "n_res": 6,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     111.1
+    ],
+    [
+     "M1",
+     139.3
+    ],
+    [
+     "M1",
+     94.9
+    ],
+    [
+     "M1",
+     51.3
+    ],
+    [
+     "M1",
+     51.3
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ],
+   "cgnd_wire_aF": 29.96,
+   "ccoup_wire_aF": 0
+  },
+  "VDD": {
+   "cgnd_aF": 35.69,
+   "coup_aF": {},
+   "ctotal_aF": 35.69,
+   "r_ohm": 841.3,
+   "n_res": 9,
+   "floating": false,
+   "elems": [
+    [
+     "Rc",
+     166.7
+    ],
+    [
+     "Rc",
+     166.7
+    ],
+    [
+     "M1",
+     139.3
+    ],
+    [
+     "M1",
+     88.0
+    ],
+    [
+     "M1",
+     88.0
+    ],
+    [
+     "M1",
+     51.3
+    ],
+    [
+     "M1",
+     51.3
+    ],
+    [
+     "V0",
+     45.0
+    ],
+    [
+     "V0",
+     45.0
+    ]
+   ],
+   "cgnd_wire_aF": 35.69,
+   "ccoup_wire_aF": 0
+  }
+ },
+ "devices": 4,
+ "totals": {
+  "nets": 10,
+  "cgnd_aF": 340.97,
+  "ccoup_aF": 413.21,
+  "resistors": 42,
+  "capacitors": 20
+ }
+}

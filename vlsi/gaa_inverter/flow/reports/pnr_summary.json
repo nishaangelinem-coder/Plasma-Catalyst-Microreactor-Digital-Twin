@@ -1,0 +1,653 @@
+{
+ "inverter": {
+  "core_w": 192,
+  "cells": 1,
+  "fills": 2,
+  "utilisation": 0.5,
+  "nets": 2,
+  "wirelength_nm": 148,
+  "vias": 2,
+  "tracks_used": [
+   84
+  ],
+  "placed": [
+   {
+    "name": "g0",
+    "cell": "INV_GAA_X1",
+    "x": 48,
+    "w": 96,
+    "flip": false
+   }
+  ],
+  "fill_x": [
+   0,
+   144
+  ],
+  "routes": {
+   "a": {
+    "track": 84,
+    "x0": 8,
+    "x1": 95,
+    "jogs": [],
+    "vias": [
+     [
+      95,
+      84
+     ]
+    ]
+   },
+   "y": {
+    "track": 84,
+    "x0": 123,
+    "x1": 184,
+    "jogs": [],
+    "vias": [
+     [
+      123,
+      84
+     ]
+    ]
+   }
+  },
+  "pins": {
+   "a": {
+    "x": 8,
+    "y": 84,
+    "side": "W"
+   },
+   "y": {
+    "x": 184,
+    "y": 84,
+    "side": "E"
+   }
+  },
+  "drc_results": 0,
+  "drc_rules": 26,
+  "lvs": "MATCH",
+  "lvs_counts": {
+   "layout": {
+    "ports": 4,
+    "nets": 4,
+    "instances": 2,
+    "n": 1,
+    "p": 1,
+    "port_names": [
+     "VDD",
+     "VSS",
+     "a",
+     "y"
+    ],
+    "unrecognised": 0
+   },
+   "schematic": {
+    "ports": 4,
+    "nets": 4,
+    "instances": 2,
+    "n": 1,
+    "p": 1,
+    "port_names": [
+     "VDD",
+     "VSS",
+     "a",
+     "y"
+    ]
+   }
+  },
+  "pex_nets": 8,
+  "pex_cgnd_fF": 0.23455,
+  "pex_ccoup_fF": 0.18081,
+  "postroute_path_ps": 5.785986599003344,
+  "postroute_slack_ps": 154.21401340099666,
+  "postroute_power_uW": 0.788974046342845
+ },
+ "nand2": {
+  "core_w": 240,
+  "cells": 1,
+  "fills": 2,
+  "utilisation": 0.6,
+  "nets": 3,
+  "wirelength_nm": 312,
+  "vias": 2,
+  "tracks_used": [
+   56,
+   84
+  ],
+  "placed": [
+   {
+    "name": "g0",
+    "cell": "NAND2_GAA_X1",
+    "x": 48,
+    "w": 144,
+    "flip": false
+   }
+  ],
+  "fill_x": [
+   0,
+   192
+  ],
+  "routes": {
+   "a": {
+    "track": 84,
+    "x0": 8,
+    "x1": 96,
+    "jogs": [],
+    "vias": [
+     [
+      96,
+      84
+     ]
+    ]
+   },
+   "b": {
+    "track": 56,
+    "x0": 8,
+    "x1": 140,
+    "jogs": [
+     [
+      140,
+      56,
+      84
+     ]
+    ],
+    "vias": [
+     [
+      140,
+      84
+     ]
+    ]
+   },
+   "y": {
+    "track": 84,
+    "x0": 168,
+    "x1": 232,
+    "jogs": [],
+    "vias": []
+   }
+  },
+  "pins": {
+   "a": {
+    "x": 8,
+    "y": 84,
+    "side": "W"
+   },
+   "b": {
+    "x": 8,
+    "y": 56,
+    "side": "W"
+   },
+   "y": {
+    "x": 232,
+    "y": 84,
+    "side": "E"
+   }
+  },
+  "drc_results": 0,
+  "drc_rules": 26,
+  "lvs": "MATCH",
+  "lvs_counts": {
+   "layout": {
+    "ports": 5,
+    "nets": 6,
+    "instances": 4,
+    "n": 2,
+    "p": 2,
+    "port_names": [
+     "VDD",
+     "VSS",
+     "a",
+     "b",
+     "y"
+    ],
+    "unrecognised": 0
+   },
+   "schematic": {
+    "ports": 5,
+    "nets": 6,
+    "instances": 4,
+    "n": 2,
+    "p": 2,
+    "port_names": [
+     "VDD",
+     "VSS",
+     "a",
+     "b",
+     "y"
+    ]
+   }
+  },
+  "pex_nets": 10,
+  "pex_cgnd_fF": 0.34097000000000005,
+  "pex_ccoup_fF": 0.41320999999999997,
+  "postroute_path_ps": 7.653535623012587,
+  "postroute_slack_ps": 152.3464643769874,
+  "postroute_power_uW": 0.8796550762278113
+ },
+ "ring_osc": {
+  "core_w": 2160,
+  "cells": 13,
+  "fills": 18,
+  "utilisation": 0.6,
+  "nets": 14,
+  "wirelength_nm": 3903,
+  "vias": 26,
+  "tracks_used": [
+   56,
+   84,
+   112
+  ],
+  "placed": [
+   {
+    "name": "g0",
+    "cell": "NAND2_GAA_X1",
+    "x": 96,
+    "w": 144,
+    "flip": true
+   },
+   {
+    "name": "g1",
+    "cell": "INV_GAA_X1",
+    "x": 336,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[0]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 528,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[1]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 720,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[2]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 864,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[3]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 1008,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[4]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 1152,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[5]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 1296,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[6]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 1440,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[7]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 1584,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[8]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 1728,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[9]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 1872,
+    "w": 96,
+    "flip": false
+   },
+   {
+    "name": "stage[10]/u_inv",
+    "cell": "INV_GAA_X1",
+    "x": 2016,
+    "w": 96,
+    "flip": false
+   }
+  ],
+  "fill_x": [
+   0,
+   48,
+   240,
+   288,
+   432,
+   480,
+   624,
+   672,
+   816,
+   960,
+   1104,
+   1248,
+   1392,
+   1536,
+   1680,
+   1824,
+   1968,
+   2112
+  ],
+  "routes": {
+   "en": {
+    "track": 56,
+    "x0": 8,
+    "x1": 148,
+    "jogs": [
+     [
+      148,
+      56,
+      84
+     ],
+     [
+      8,
+      56,
+      84
+     ]
+    ],
+    "vias": [
+     [
+      148,
+      84
+     ]
+    ]
+   },
+   "syn_net1": {
+    "track": 112,
+    "x0": 120,
+    "x1": 383,
+    "jogs": [
+     [
+      120,
+      84,
+      112
+     ],
+     [
+      383,
+      84,
+      112
+     ]
+    ],
+    "vias": [
+     [
+      383,
+      84
+     ]
+    ]
+   },
+   "out": {
+    "track": 56,
+    "x0": 192,
+    "x1": 2152,
+    "jogs": [
+     [
+      192,
+      56,
+      84
+     ],
+     [
+      2152,
+      56,
+      84
+     ]
+    ],
+    "vias": [
+     [
+      192,
+      84
+     ],
+     [
+      2091,
+      56
+     ]
+    ]
+   },
+   "n[0]": {
+    "track": 84,
+    "x0": 411,
+    "x1": 575,
+    "jogs": [],
+    "vias": [
+     [
+      411,
+      84
+     ],
+     [
+      575,
+      84
+     ]
+    ]
+   },
+   "n[1]": {
+    "track": 84,
+    "x0": 603,
+    "x1": 767,
+    "jogs": [],
+    "vias": [
+     [
+      603,
+      84
+     ],
+     [
+      767,
+      84
+     ]
+    ]
+   },
+   "n[2]": {
+    "track": 84,
+    "x0": 795,
+    "x1": 911,
+    "jogs": [],
+    "vias": [
+     [
+      795,
+      84
+     ],
+     [
+      911,
+      84
+     ]
+    ]
+   },
+   "n[3]": {
+    "track": 84,
+    "x0": 939,
+    "x1": 1055,
+    "jogs": [],
+    "vias": [
+     [
+      939,
+      84
+     ],
+     [
+      1055,
+      84
+     ]
+    ]
+   },
+   "n[4]": {
+    "track": 84,
+    "x0": 1083,
+    "x1": 1199,
+    "jogs": [],
+    "vias": [
+     [
+      1083,
+      84
+     ],
+     [
+      1199,
+      84
+     ]
+    ]
+   },
+   "n[5]": {
+    "track": 84,
+    "x0": 1227,
+    "x1": 1343,
+    "jogs": [],
+    "vias": [
+     [
+      1227,
+      84
+     ],
+     [
+      1343,
+      84
+     ]
+    ]
+   },
+   "n[6]": {
+    "track": 84,
+    "x0": 1371,
+    "x1": 1487,
+    "jogs": [],
+    "vias": [
+     [
+      1371,
+      84
+     ],
+     [
+      1487,
+      84
+     ]
+    ]
+   },
+   "n[7]": {
+    "track": 84,
+    "x0": 1515,
+    "x1": 1631,
+    "jogs": [],
+    "vias": [
+     [
+      1515,
+      84
+     ],
+     [
+      1631,
+      84
+     ]
+    ]
+   },
+   "n[8]": {
+    "track": 84,
+    "x0": 1659,
+    "x1": 1775,
+    "jogs": [],
+    "vias": [
+     [
+      1659,
+      84
+     ],
+     [
+      1775,
+      84
+     ]
+    ]
+   },
+   "n[9]": {
+    "track": 84,
+    "x0": 1803,
+    "x1": 1919,
+    "jogs": [],
+    "vias": [
+     [
+      1803,
+      84
+     ],
+     [
+      1919,
+      84
+     ]
+    ]
+   },
+   "n[10]": {
+    "track": 84,
+    "x0": 1947,
+    "x1": 2063,
+    "jogs": [],
+    "vias": [
+     [
+      1947,
+      84
+     ],
+     [
+      2063,
+      84
+     ]
+    ]
+   }
+  },
+  "pins": {
+   "en": {
+    "x": 8,
+    "y": 84,
+    "side": "W"
+   },
+   "out": {
+    "x": 2152,
+    "y": 84,
+    "side": "E"
+   }
+  },
+  "drc_results": 0,
+  "drc_rules": 26,
+  "lvs": "MATCH",
+  "lvs_counts": {
+   "layout": {
+    "ports": 4,
+    "nets": 17,
+    "instances": 28,
+    "n": 14,
+    "p": 14,
+    "port_names": [
+     "VDD",
+     "VSS",
+     "en",
+     "out"
+    ],
+    "unrecognised": 0
+   },
+   "schematic": {
+    "ports": 4,
+    "nets": 17,
+    "instances": 28,
+    "n": 14,
+    "p": 14,
+    "port_names": [
+     "VDD",
+     "VSS",
+     "en",
+     "out"
+    ]
+   }
+  },
+  "pex_nets": 49,
+  "pex_cgnd_fF": 3.09275,
+  "pex_ccoup_fF": 2.80121,
+  "postroute_path_ps": 49.17768225678752,
+  "postroute_slack_ps": 110.82231774321248,
+  "postroute_power_uW": 7.358620913541952
+ }
+}

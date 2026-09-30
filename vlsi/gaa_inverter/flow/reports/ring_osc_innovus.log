@@ -1,0 +1,12 @@
+==========================================================================
+  Innovus(TM) Implementation System  -  ring_osc  flow summary
+==========================================================================
+  floorPlan     : 1 row gaa3_core, core 2160 x 168 nm, target utilisation 0.60
+  place_opt     : 13 standard cells, 18 fillers, utilisation 60.0 %
+  routeDesign   : 14 signal nets on M2 tracks [56, 84, 112], wirelength 3903 nm, 26 V1
+  verify_drc    : 0 violations in 26 rulechecks (GAA3_DRC)
+  verifyConn    : LVS MATCH vs mapped netlist (28 instances, 17 nets)
+  extractRC     : 49 nets, C_gnd 3.093 fF, C_coup 2.801 fF -> ring_osc.spef
+  timeDesign    : postRoute path 49.17768225678752 ps, slack 110.82231774321248 ps vs vclk 200 ps
+  streamOut     : ring_osc.gds (13 cell references + routing), ring_osc.def
+==========================================================================

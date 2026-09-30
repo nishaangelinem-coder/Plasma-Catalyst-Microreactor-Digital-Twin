@@ -9,6 +9,7 @@
 | `virtuoso_{inv,nand2,ro11,sram6t}.png` / `.svg` | The same schematics in the Virtuoso Schematic Editor convention (device/wire/annotation layers, window frame) |
 | `viva_{inv_dc,inv_tran,nand2_tran,ro11_tran,sram_butterfly}.png` / `.svg` | Simulation results in the ViVA waveform-viewer convention with markers (reference-model data) |
 | `drc_{inv,nand2,ro11,sram6t}.png`, `lvs_{...}.png` / `.svg` | DRC and LVS results in the Pegasus results-viewer convention (from `verify/*.json`) |
+| `innovus_{inverter,nand2,ring_osc}.png`, `genus_*.png`, `timing_*.png` | RTL-to-GDSII results in the Innovus / Genus window conventions (from `flow/reports`) |
 | `layout_inv.png` | GDSII rendering of `layout/gaa_inverter.gds` (96 x 168 nm) |
 | `layout_nand2.png` | GDSII rendering of `layout/gaa_nand2.gds` (144 x 168 nm) |
 | `layout_ro11.png` | GDSII rendering of `layout/gaa_ro11.gds` (1056 x 168 nm, flattened) |

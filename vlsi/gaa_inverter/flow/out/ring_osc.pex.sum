@@ -1,0 +1,64 @@
+==============================================================================
+  Quantus QRC  -  Extraction Summary  (reference extractor: gaa3_pex.py; sign-off: Quantus QRC)
+==============================================================================
+  Cell            : ring_osc
+  Extraction type : rc_coupled, decoupled ground for VDD/VSS, coupling threshold 0 aF
+  Technology      : GAA3 PEX (ILD k=2.9, spacer k=4.5, Rs M1/M2/M3 = 22/18/15 ohm/sq, rho_c = 1e-9 ohm cm^2)
+  Nets            :    49      Devices :   28
+  Capacitors      :   121      Resistors :  307
+  Total C to gnd  :    3.093 fF     Total coupling C :    2.801 fF
+------------------------------------------------------------------------------
+  NET          C_gnd(aF)  C_coup(aF)   C_tot(aF)    R(ohm)   #R   coupled to
+------------------------------------------------------------------------------
+  VDD              310.9         0.0       310.9    5736.0   73   
+  VSS              296.2         0.0       296.2    6054.3   70   
+  en                77.7       239.3       317.0     792.5    9   syn_net1:140.6, int0:75.0, out:10.9, float1:12.8
+  float0             4.5        38.4        42.9     600.0    0   out:12.8, float28:25.6  (floating dummy gate)
+  float1             4.5        38.4        42.9     600.0    0   en:12.8, float30:25.6  (floating dummy gate)
+  float10            4.5        38.4        42.9     600.0    0   float11:25.6, n[6]:12.8  (floating dummy gate)
+  float11            4.5        38.4        42.9     600.0    0   float10:25.6, n[7]:12.8  (floating dummy gate)
+  float12            4.5        38.4        42.9     600.0    0   float13:25.6, n[5]:12.8  (floating dummy gate)
+  float13            4.5        38.4        42.9     600.0    0   float12:25.6, n[6]:12.8  (floating dummy gate)
+  float14            4.5        38.4        42.9     600.0    0   float15:25.6, n[4]:12.8  (floating dummy gate)
+  float15            4.5        38.4        42.9     600.0    0   float14:25.6, n[5]:12.8  (floating dummy gate)
+  float16            4.5        38.4        42.9     600.0    0   float17:25.6, n[3]:12.8  (floating dummy gate)
+  float17            4.5        38.4        42.9     600.0    0   float16:25.6, n[4]:12.8  (floating dummy gate)
+  float18            4.5        38.4        42.9     600.0    0   float19:25.6, n[2]:12.8  (floating dummy gate)
+  float19            4.5        38.4        42.9     600.0    0   float18:25.6, n[3]:12.8  (floating dummy gate)
+  float2             4.5        25.6        30.1     600.0    0   float3:12.8, n[10]:12.8  (floating dummy gate)
+  float20            4.5        38.4        42.9     600.0    0   float21:25.6, n[1]:12.8  (floating dummy gate)
+  float21            4.5        38.4        42.9     600.0    0   float20:25.6, n[2]:12.8  (floating dummy gate)
+  float22            4.5        51.2        55.7     600.0    0   float23:25.6, float24:25.6  (floating dummy gate)
+  float23            4.5        38.4        42.9     600.0    0   float22:25.6, n[1]:12.8  (floating dummy gate)
+  float24            4.5        38.4        42.9     600.0    0   float22:25.6, n[0]:12.8  (floating dummy gate)
+  float25            4.5        51.2        55.7     600.0    0   float26:25.6, float27:25.6  (floating dummy gate)
+  float26            4.5        38.4        42.9     600.0    0   float25:25.6, n[0]:12.8  (floating dummy gate)
+  float27            4.5        38.4        42.9     600.0    0   float25:25.6, syn_net1:12.8  (floating dummy gate)
+  float28            4.5        51.2        55.7     600.0    0   float0:25.6, float29:25.6  (floating dummy gate)
+  float29            4.5        38.4        42.9     600.0    0   float28:25.6, syn_net1:12.8  (floating dummy gate)
+  float3             2.3        12.8        15.1     300.0    0   float2:12.8  (floating dummy gate)
+  float30            4.5        38.4        42.9     600.0    0   float1:25.6, float31:12.8  (floating dummy gate)
+  float31            2.3        12.8        15.1     300.0    0   float30:12.8  (floating dummy gate)
+  float4             4.5        38.4        42.9     600.0    0   float5:25.6, n[9]:12.8  (floating dummy gate)
+  float5             4.5        38.4        42.9     600.0    0   float4:25.6, n[10]:12.8  (floating dummy gate)
+  float6             4.5        38.4        42.9     600.0    0   float7:25.6, n[8]:12.8  (floating dummy gate)
+  float7             4.5        38.4        42.9     600.0    0   float6:25.6, n[9]:12.8  (floating dummy gate)
+  float8             4.5        38.4        42.9     600.0    0   float9:25.6, n[7]:12.8  (floating dummy gate)
+  float9             4.5        38.4        42.9     600.0    0   float8:25.6, n[8]:12.8  (floating dummy gate)
+  int0               6.6       155.7       162.4     111.1    1   en:75.0, out:75.0, syn_net1:5.7
+  n[0]             164.1       298.5       462.5    1224.8   11   n[1]:129.6, syn_net1:130.7, out:12.5, float24:12.8, float26:12.8
+  n[10]            161.0       293.0       454.0    1170.8   11   out:137.8, n[9]:129.6, float2:12.8, float5:12.8
+  n[1]             164.1       297.4       461.4    1224.8   11   n[0]:129.6, n[2]:129.6, out:12.5, float20:12.8, float23:12.8
+  n[2]             161.0       294.1       455.1    1170.8   11   n[3]:129.6, n[1]:129.6, out:9.3, float18:12.8, float21:12.8
+  n[3]             161.0       294.1       455.1    1170.8   11   n[2]:129.6, n[4]:129.6, out:9.3, float16:12.8, float19:12.8
+  n[4]             161.0       294.1       455.1    1170.8   11   n[5]:129.6, n[3]:129.6, out:9.3, float14:12.8, float17:12.8
+  n[5]             161.0       294.1       455.1    1170.8   11   n[4]:129.6, n[6]:129.6, out:9.3, float12:12.8, float15:12.8
+  n[6]             161.0       294.1       455.1    1170.8   11   n[7]:129.6, n[5]:129.6, out:9.3, float10:12.8, float13:12.8
+  n[7]             161.0       294.1       455.1    1170.8   11   n[8]:129.6, n[6]:129.6, out:9.3, float8:12.8, float11:12.8
+  n[8]             161.0       294.1       455.1    1170.8   11   n[9]:129.6, n[7]:129.6, out:9.3, float6:12.8, float9:12.8
+  n[9]             161.0       294.1       455.1    1170.8   11   n[8]:129.6, n[10]:129.6, out:9.3, float4:12.8, float7:12.8
+  out              291.1       398.0       689.1    3380.3   15   syn_net1:62.3, n[10]:137.8, int0:75.0, en:10.9, n[0]:12.5, n[1]:12.5, n[2]:9.3, n[3]:9.3, n[4]:9.3, n[5]:9.3, n[6]:9.3, n[7]:9.3, n[8]:9.3, n[9]:9.3, float0:12.8
+  syn_net1         192.8       364.9       557.7    1614.8   18   en:140.6, out:62.3, n[0]:130.7, float27:12.8, float29:12.8, int0:5.7
+------------------------------------------------------------------------------
+  SPEF written    : ring_osc.spef
+==============================================================================

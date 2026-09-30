@@ -1,0 +1,12 @@
+==========================================================================
+  Innovus(TM) Implementation System  -  nand2  flow summary
+==========================================================================
+  floorPlan     : 1 row gaa3_core, core 240 x 168 nm, target utilisation 0.60
+  place_opt     : 1 standard cells, 2 fillers, utilisation 60.0 %
+  routeDesign   : 3 signal nets on M2 tracks [56, 84], wirelength 312 nm, 2 V1
+  verify_drc    : 0 violations in 26 rulechecks (GAA3_DRC)
+  verifyConn    : LVS MATCH vs mapped netlist (4 instances, 6 nets)
+  extractRC     : 10 nets, C_gnd 0.341 fF, C_coup 0.413 fF -> nand2.spef
+  timeDesign    : postRoute path 7.653535623012587 ps, slack 152.3464643769874 ps vs vclk 200 ps
+  streamOut     : nand2.gds (1 cell references + routing), nand2.def
+==========================================================================

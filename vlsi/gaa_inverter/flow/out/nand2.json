@@ -1,0 +1,29 @@
+{
+ "design": "nand2",
+ "ports": {
+  "inputs": [
+   "a",
+   "b"
+  ],
+  "outputs": [
+   "y"
+  ]
+ },
+ "insts": [
+  {
+   "name": "g0",
+   "cell": "NAND2_GAA_X1",
+   "pins": {
+    "A": "a",
+    "B": "b",
+    "Y": "y"
+   }
+  }
+ ],
+ "nets": [
+  "a",
+  "b",
+  "y"
+ ],
+ "break_at": null
+}

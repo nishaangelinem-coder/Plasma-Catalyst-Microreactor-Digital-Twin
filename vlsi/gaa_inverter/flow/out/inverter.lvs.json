@@ -1,0 +1,35 @@
+{
+ "layout_cell": "inverter",
+ "schematic_cell": "inverter",
+ "layout": {
+  "ports": 4,
+  "nets": 4,
+  "instances": 2,
+  "n": 1,
+  "p": 1,
+  "port_names": [
+   "VDD",
+   "VSS",
+   "a",
+   "y"
+  ],
+  "unrecognised": 0
+ },
+ "schematic": {
+  "ports": 4,
+  "nets": 4,
+  "instances": 2,
+  "n": 1,
+  "p": 1,
+  "port_names": [
+   "VDD",
+   "VSS",
+   "a",
+   "y"
+  ]
+ },
+ "device_classes_match": true,
+ "net_classes_match": true,
+ "port_names_match": true,
+ "result": "MATCH"
+}

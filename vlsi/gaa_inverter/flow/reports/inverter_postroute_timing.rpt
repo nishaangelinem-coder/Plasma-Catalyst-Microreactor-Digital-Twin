@@ -1,0 +1,14 @@
+==========================================================================
+  report_timing  design inverter   (postRoute, extracted RC)
+==========================================================================
+  Path 1: MET (154.2 ps)  Setup check with pin y against virtual clock vclk (period 200 ps)
+  Startpoint: a (input port, input delay 20 ps)   Endpoint: y (output port, output delay 20 ps)
+  Required time 180.0 ps   Arrival 25.79 ps   Slack 154.21 ps
+--------------------------------------------------------------------------
+  Pin / arc                               Cell             Delay  Arrival
+--------------------------------------------------------------------------
+  a (in)                                                   20.00    20.00
+  g0/A->Y INV_GAA_X1                      INV_GAA_X1        5.79    25.79
+--------------------------------------------------------------------------
+  Data arrival at y: 25.79 ps    output slew 5.19 ps    load 1.311 fF
+==========================================================================

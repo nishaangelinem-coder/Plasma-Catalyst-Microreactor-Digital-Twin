@@ -1,0 +1,126 @@
+*SPEF "IEEE 1481-1998"
+*DESIGN "nand2"
+*DATE "2026"
+*VENDOR "GAA3 reference extractor (gaa3_pex.py)"
+*PROGRAM "gaa3_pex"
+*VERSION "1.0"
+*DESIGN_FLOW "PIN_CAP NONE" "NAME_SCOPE LOCAL"
+*DIVIDER /
+*DELIMITER :
+*BUS_DELIMITER [ ]
+*T_UNIT 1 PS
+*C_UNIT 1 FF
+*R_UNIT 1 OHM
+*L_UNIT 1 HENRY
+
+*NAME_MAP
+*1 a
+*2 y
+*3 b
+*4 int0
+*5 float0
+*6 float1
+*7 float2
+*8 float3
+*9 VSS
+*10 VDD
+
+*D_NET *1 0.29918
+*CONN
+*P *1 B
+*CAP
+1 *1:1 0.14000
+2 *1:1 *2:1 0.05319
+3 *1:1 *4:1 0.07500
+4 *1:1 *3:1 0.01819
+5 *1:1 *5:1 0.01280
+*RES
+1 *1:1 *1:2 617.00
+*END
+
+*D_NET *2 0.23530
+*CONN
+*P *2 B
+*CAP
+1 *2:1 0.04146
+2 *2:1 *3:1 0.13492
+3 *2:1 *4:1 0.00573
+*RES
+1 *2:1 *2:2 809.90
+*END
+
+*D_NET *3 0.31458
+*CONN
+*P *3 B
+*CAP
+1 *3:1 0.07368
+2 *3:1 *4:1 0.07500
+3 *3:1 *6:1 0.01280
+*RES
+1 *3:1 *3:2 734.00
+*END
+
+*D_NET *4 0.16236
+*CONN
+*P *4 B
+*CAP
+1 *4:1 0.00663
+*RES
+1 *4:1 *4:2 111.10
+*END
+
+*D_NET *5 0.03011
+*CONN
+*P *5 B
+*CAP
+1 *5:1 0.00451
+2 *5:1 *8:1 0.01280
+*RES
+1 *5:1 *5:2 600.00
+*END
+
+*D_NET *6 0.03011
+*CONN
+*P *6 B
+*CAP
+1 *6:1 0.00451
+2 *6:1 *7:1 0.01280
+*RES
+1 *6:1 *6:2 600.00
+*END
+
+*D_NET *7 0.01505
+*CONN
+*P *7 B
+*CAP
+1 *7:1 0.00226
+*RES
+1 *7:1 *7:2 300.00
+*END
+
+*D_NET *8 0.01505
+*CONN
+*P *8 B
+*CAP
+1 *8:1 0.00226
+*RES
+1 *8:1 *8:2 300.00
+*END
+
+*D_NET *9 0.02996
+*CONN
+*P *9 B
+*CAP
+1 *9:1 0.02996
+*RES
+1 *9:1 *9:2 493.00
+*END
+
+*D_NET *10 0.03569
+*CONN
+*P *10 B
+*CAP
+1 *10:1 0.03569
+*RES
+1 *10:1 *10:2 841.30
+*END

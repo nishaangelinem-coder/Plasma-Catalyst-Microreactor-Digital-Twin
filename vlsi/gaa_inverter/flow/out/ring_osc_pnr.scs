@@ -1,0 +1,18 @@
+simulator lang=spectre
+include "../../spectre/gaa_inv_tb.scs" section=models
+include "../../spectre/gaa_nand2_tb.scs" section=models
+subckt ring_osc (en out VDD VSS)
+    X0 (out en syn_net1 VDD VSS) NAND2_GAA_X1
+    X1 (syn_net1 n_0 VDD VSS) INV_GAA_X1
+    X2 (n_0 n_1 VDD VSS) INV_GAA_X1
+    X3 (n_1 n_2 VDD VSS) INV_GAA_X1
+    X4 (n_2 n_3 VDD VSS) INV_GAA_X1
+    X5 (n_3 n_4 VDD VSS) INV_GAA_X1
+    X6 (n_4 n_5 VDD VSS) INV_GAA_X1
+    X7 (n_5 n_6 VDD VSS) INV_GAA_X1
+    X8 (n_6 n_7 VDD VSS) INV_GAA_X1
+    X9 (n_7 n_8 VDD VSS) INV_GAA_X1
+    X10 (n_8 n_9 VDD VSS) INV_GAA_X1
+    X11 (n_9 n_10 VDD VSS) INV_GAA_X1
+    X12 (n_10 out VDD VSS) INV_GAA_X1
+ends ring_osc

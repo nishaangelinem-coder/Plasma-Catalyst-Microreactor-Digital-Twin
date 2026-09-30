@@ -1,0 +1,35 @@
+{
+ "layout_cell": "ring_osc",
+ "schematic_cell": "ring_osc",
+ "layout": {
+  "ports": 4,
+  "nets": 17,
+  "instances": 28,
+  "n": 14,
+  "p": 14,
+  "port_names": [
+   "VDD",
+   "VSS",
+   "en",
+   "out"
+  ],
+  "unrecognised": 0
+ },
+ "schematic": {
+  "ports": 4,
+  "nets": 17,
+  "instances": 28,
+  "n": 14,
+  "p": 14,
+  "port_names": [
+   "VDD",
+   "VSS",
+   "en",
+   "out"
+  ]
+ },
+ "device_classes_match": true,
+ "net_classes_match": true,
+ "port_names_match": true,
+ "result": "MATCH"
+}

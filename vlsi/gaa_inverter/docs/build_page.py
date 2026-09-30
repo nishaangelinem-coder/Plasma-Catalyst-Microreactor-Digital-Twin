@@ -119,6 +119,16 @@ LISTINGS = [
     ("35", "verify/gaa_inverter.spef", "Extracted SPEF of INV_GAA_X1", True),
     ("35b", "verify/gaa3_pex_all.sum", "Extraction summaries of the four cells", True),
     ("36", "spectre/postlayout.py", "Post-layout simulation with the extracted RC", True),
+    ("37", "flow/lib/gaa3_stdcells_tt_0p70v_25c.lib", "Liberty library characterised from the post-layout model (NLDM)", True),
+    ("38", "flow/lib/gaa3_stdcells.lef", "Cell LEF abstracts (technology LEF in flow/lib/gaa3_tech.lef)", True),
+    ("39", "flow/genus_ref.py", "Reference synthesis: RTL front end, technology mapping, STA and reports", True),
+    ("40", "flow/innovus_ref.py", "Reference place-and-route: floorplan, placement, obstruction-aware routing, DEF/GDSII, post-route checks", True),
+    ("41", "flow/out/ring_osc_netlist.v", "Mapped netlist of the ring oscillator", True),
+    ("42", "flow/out/ring_osc.def", "Routed DEF of the ring oscillator", True),
+    ("43", "flow/reports/ring_osc_postroute_timing.rpt", "Post-route timing report of the ring oscillator", True),
+    ("44", "flow/reports/ring_osc_innovus.log", "Implementation flow summary of the ring oscillator", True),
+    ("45", "flow/gaa3_lib.py", "Library characterisation (Liberty / LEF writer)", True),
+    ("46", "docs/gen_flow_views.py", "Innovus/Genus-convention renderings of Figs. 20-21", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -297,6 +307,26 @@ def pex_sub():
             "PEXV_INV": rd("docs/figures/pex_inv.svg"), "PEXV_NAND2": rd("docs/figures/pex_nand2.svg"), "PEXV_SRAM": rd("docs/figures/pex_sram6t.svg"),
             "VV_INV_PL": rd("docs/figures/viva_inv_postlayout.svg"), "VV_RO_PL": rd("docs/figures/viva_ro11_postlayout.svg")}
 
+# ---------------- RTL-to-GDSII flow results ----------------
+def flow_sub():
+    Fd = os.path.join(B, "flow", "reports")
+    syn = json.load(open(os.path.join(Fd, "synthesis_summary.json"))); pnr = json.load(open(os.path.join(Fd, "pnr_summary.json")))
+    names = {"inverter": "inverter", "nand2": "nand2", "ring_osc": "ring_osc"}
+    srows, prows = [], []
+    for d in ("inverter", "nand2", "ring_osc"):
+        s, p = syn[d], pnr[d]
+        mapping = " + ".join(f"{n} × {c.replace('_GAA_X1', '')}" for c, n in sorted(s["counts"].items()))
+        srows.append(f'            <tr><td>{d}</td><td class="n">{s["cells"]}</td><td>{mapping}</td><td class="n">{s["area_um2"]:.4f}</td><td class="n">{s["nets"]}</td>'
+                     f'<td class="n">{s["path_ps"]:.2f}</td><td class="n">{s["slack_ps"]:.1f}</td><td class="n">{s["leakage_nW"]:.2f}</td><td class="n">{s["total_uW"]:.3f}</td></tr>')
+        prows.append(f'            <tr><td>{d}</td><td class="n">{p["core_w"]} × 168</td><td class="n">{p["cells"]} + {p["fills"]}</td><td class="n">{p["utilisation"]*100:.0f} %</td>'
+                     f'<td class="n">{p["nets"]} / {len(p["tracks_used"])}</td><td class="n">{p["wirelength_nm"]}</td><td class="n">{p["vias"]}</td><td class="n">{p["drc_results"]}</td><td>{p["lvs"]}</td>'
+                     f'<td class="n">{p["pex_cgnd_fF"] + p["pex_ccoup_fF"]:.3f}</td><td class="n">{p["postroute_path_ps"]:.2f}</td><td class="n">{p["postroute_slack_ps"]:.1f}</td></tr>')
+    r = pnr["ring_osc"]
+    return {"SYN_ROWS": "\n".join(srows), "PNR_ROWS": "\n".join(prows), "FL_RO_WL": str(r["wirelength_nm"]), "FL_RO_VIAS": str(r["vias"]),
+            "FL_RO_PATH_SYN": f"{syn['ring_osc']['path_ps']:.1f}", "FL_RO_PATH_PR": f"{r['postroute_path_ps']:.1f}",
+            "IV_INV": rd("docs/figures/innovus_inverter.svg"), "IV_NAND": rd("docs/figures/innovus_nand2.svg"), "IV_RO": rd("docs/figures/innovus_ring_osc.svg"),
+            "GV_TIMING": rd("docs/figures/genus_ring_osc.svg"), "GV_GATES": rd("docs/figures/genus_gates_ring_osc.svg"), "TV_RO": rd("docs/figures/timing_ring_osc.svg")}
+
 # ---------------- numbers ----------------
 d, st, f1, f4 = res["device"], res["static"], res["fo1"], res["fo4"]
 mv = lambda v: f"{v*1e3:.0f}"
@@ -319,6 +349,7 @@ sub = {
     **sram_sub(),
     **verif_sub(),
     **pex_sub(),
+    **flow_sub(),
     "FIG_DEVICE": device_svg(),
     "SCH_INV": rd("docs/figures/schematic_inv_page.svg"), "SCH_NAND2": rd("docs/figures/schematic_nand2_page.svg"),
     "SCH_RO11": rd("docs/figures/schematic_ro11_page.svg"), "SCH_SRAM": rd("docs/figures/schematic_sram6t_page.svg"),

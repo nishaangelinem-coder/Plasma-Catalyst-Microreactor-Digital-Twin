@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 368" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="900" height="368" fill="#d9d9d9"/>
+<rect width="900" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Innovus(TM) Implementation System  –  nand2  (routed, view: Physical)</text>
+<text x="892" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="900" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  Edit  View  Partition  Floorplan  Power  Place  ECO  Clock  Route  Timing  Verify  Tools  Windows  Help</text>
+<text x="892" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="900" height="300" fill="#000000"/>
+<rect width="120" height="300" fill="#f2f2f2"/><text x="8" y="16" fill="#1a1a1a" font-size="9.5" font-weight="600">Layer / Color</text>
+<rect x="10" y="26" width="10" height="10" fill="#d9b44a"/><text x="26" y="35" fill="#1a1a1a" font-size="9">Std Cell</text>
+<rect x="10" y="43" width="10" height="10" fill="#4a4a4a"/><text x="26" y="52" fill="#1a1a1a" font-size="9">Filler</text>
+<rect x="10" y="60" width="10" height="10" fill="#3f7fff"/><text x="26" y="69" fill="#1a1a1a" font-size="9">M1 pin</text>
+<rect x="10" y="77" width="10" height="10" fill="#ff3b30"/><text x="26" y="86" fill="#1a1a1a" font-size="9">M2 route</text>
+<rect x="10" y="94" width="10" height="10" fill="#ffee58"/><text x="26" y="103" fill="#1a1a1a" font-size="9">V1</text>
+<rect x="10" y="111" width="10" height="10" fill="#ffb300"/><text x="26" y="120" fill="#1a1a1a" font-size="9">I/O pin</text>
+<rect x="10" y="128" width="10" height="10" fill="#2e6fbf"/><text x="26" y="137" fill="#1a1a1a" font-size="9">Row / core</text>
+<rect x="388.9" y="70.3" width="242.1" height="169.5" fill="none" fill-opacity="1.0" stroke="#2e6fbf" stroke-width="0.8" stroke-dasharray="4 3"/>
+<rect x="376.8" y="58.2" width="266.3" height="193.7" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="0.8"/>
+<rect x="388.9" y="70.3" width="48.4" height="169.5" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="582.6" y="70.3" width="48.4" height="169.5" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="437.4" y="70.3" width="145.3" height="169.5" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="477.7" y="144.9" width="16.1" height="16.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="522.1" y="144.9" width="16.1" height="16.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="550.4" y="144.9" width="16.1" height="16.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="510.0" y="66.3" fill="#e6e6e6" font-size="7" text-anchor="middle">g0</text>
+<rect x="388.9" y="146.9" width="104.9" height="16.1" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="480.7" y="150.0" width="10.1" height="10.1" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="388.9" y="175.2" width="149.3" height="16.1" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="522.1" y="146.9" width="16.1" height="44.4" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="525.1" y="150.0" width="10.1" height="10.1" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="550.4" y="146.9" width="80.7" height="16.1" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="388.9" y="146.9" width="16.1" height="16.1" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="385.0" y="158.0" fill="#ffb300" font-size="8" text-anchor="end">a</text>
+<rect x="388.9" y="175.2" width="16.1" height="16.1" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="385.0" y="186.2" fill="#ffb300" font-size="8" text-anchor="end">b</text>
+<rect x="614.9" y="146.9" width="16.1" height="16.1" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="635.0" y="158.0" fill="#ffb300" font-size="8" text-anchor="start">y</text>
+<text x="132" y="18" fill="#e6e6e6" font-size="9.5">nand2   core 240 x 168 nm   1 cells + 2 fillers   util 60 %   3 nets   WL 312 nm   2 vias</text>
+<text x="132" y="290" fill="#e6e6e6" font-size="9">verify_drc: 0 violations   verifyConnectivity/LVS: MATCH   timeDesign -postRoute: path 7.65 ps, slack 152.3 ps</text>
+</g>
+<rect y="346" width="900" height="22" fill="#f2f2f2"/>
+<text x="8" y="361" fill="#1a1a1a" font-size="9">Design nand2   |   1 row gaa3_core   |   NanoRoute M2   |   nand2.def / nand2.gds</text>
+<text x="892" y="361" fill="#1a1a1a" font-size="9" text-anchor="end">ref. flow – sign-off with Innovus in the guest</text>
+</svg>

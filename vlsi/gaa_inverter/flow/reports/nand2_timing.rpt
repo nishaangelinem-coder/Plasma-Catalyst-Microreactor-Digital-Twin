@@ -1,0 +1,14 @@
+==========================================================================
+  report_timing  design nand2   (syn, wire-load estimate)
+==========================================================================
+  Path 1: MET (152.4 ps)  Setup check with pin y against virtual clock vclk (period 200 ps)
+  Startpoint: a (input port, input delay 20 ps)   Endpoint: y (output port, output delay 20 ps)
+  Required time 180.0 ps   Arrival 27.56 ps   Slack 152.44 ps
+--------------------------------------------------------------------------
+  Pin / arc                               Cell             Delay  Arrival
+--------------------------------------------------------------------------
+  a (in)                                                   20.00    20.00
+  g0/A->Y NAND2_GAA_X1                    NAND2_GAA_X1      7.56    27.56
+--------------------------------------------------------------------------
+  Data arrival at y: 27.56 ps    output slew 6.65 ps    load 1.300 fF
+==========================================================================

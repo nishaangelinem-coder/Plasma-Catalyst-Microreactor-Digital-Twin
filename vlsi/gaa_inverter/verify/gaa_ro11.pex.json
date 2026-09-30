@@ -70,7 +70,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 94.25,
+   "ccoup_wire_aF": 82.05
   },
   "int0": {
    "cgnd_aF": 166.56,
@@ -129,7 +131,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "int1": {
    "cgnd_aF": 166.56,
@@ -189,7 +193,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "int2": {
    "cgnd_aF": 166.56,
@@ -249,7 +255,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "int3": {
    "cgnd_aF": 166.56,
@@ -309,7 +317,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "int4": {
    "cgnd_aF": 166.56,
@@ -368,7 +378,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 28.32
   },
   "int5": {
    "cgnd_aF": 166.56,
@@ -428,7 +440,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "int6": {
    "cgnd_aF": 166.56,
@@ -488,7 +502,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "int7": {
    "cgnd_aF": 166.56,
@@ -548,7 +564,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "int8": {
    "cgnd_aF": 166.56,
@@ -608,7 +626,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "int9": {
    "cgnd_aF": 166.56,
@@ -668,7 +688,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 39.06,
+   "ccoup_wire_aF": 35.81
   },
   "float0": {
    "cgnd_aF": 2.26,
@@ -679,7 +701,9 @@
    "r_ohm": 300.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 2.26,
+   "ccoup_wire_aF": 6.4
   },
   "float1": {
    "cgnd_aF": 4.51,
@@ -691,7 +715,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float2": {
    "cgnd_aF": 4.51,
@@ -703,7 +729,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float3": {
    "cgnd_aF": 2.26,
@@ -714,7 +742,9 @@
    "r_ohm": 300.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 2.26,
+   "ccoup_wire_aF": 6.4
   },
   "float4": {
    "cgnd_aF": 4.51,
@@ -726,7 +756,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float5": {
    "cgnd_aF": 4.51,
@@ -738,7 +770,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float6": {
    "cgnd_aF": 4.51,
@@ -750,7 +784,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float7": {
    "cgnd_aF": 4.51,
@@ -762,7 +798,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float8": {
    "cgnd_aF": 4.51,
@@ -774,7 +812,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float9": {
    "cgnd_aF": 4.51,
@@ -786,7 +826,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float10": {
    "cgnd_aF": 4.51,
@@ -798,7 +840,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "float11": {
    "cgnd_aF": 4.51,
@@ -810,7 +854,9 @@
    "r_ohm": 600.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 4.51,
+   "ccoup_wire_aF": 25.59
   },
   "VSS": {
    "cgnd_aF": 167.68,
@@ -996,7 +1042,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 167.68,
+   "ccoup_wire_aF": 0
   },
   "VDD": {
    "cgnd_aF": 175.93,
@@ -1182,7 +1230,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 175.93,
+   "ccoup_wire_aF": 0
   }
  },
  "devices": 22,

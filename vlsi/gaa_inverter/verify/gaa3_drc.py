@@ -105,7 +105,7 @@ def check(cell, rule, nwell):
 
 def run(path):
     lib = gdstk.read_gds(path, unit=1e-9)          # database unit 1 nm -> coordinates in nm
-    top = [c for c in lib.top_level()][0]
+    top = max(lib.top_level(), key=lambda c: (len(c.references), len(c.polygons)))
     flat = top.flatten()
     nwell = union(layer_polys(flat, (1, 0)))
     results = []; total = 0

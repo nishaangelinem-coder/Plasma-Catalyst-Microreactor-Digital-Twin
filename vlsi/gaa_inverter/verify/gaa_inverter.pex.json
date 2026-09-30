@@ -25,7 +25,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 3.04,
+   "ccoup_wire_aF": 13.82
   },
   "Y": {
    "cgnd_aF": 21.24,
@@ -57,7 +59,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 21.24,
+   "ccoup_wire_aF": 1.03
   },
   "float0": {
    "cgnd_aF": 2.26,
@@ -68,7 +72,9 @@
    "r_ohm": 300.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 2.26,
+   "ccoup_wire_aF": 6.4
   },
   "float1": {
    "cgnd_aF": 2.26,
@@ -79,7 +85,9 @@
    "r_ohm": 300.0,
    "n_res": 0,
    "floating": true,
-   "elems": []
+   "elems": [],
+   "cgnd_wire_aF": 2.26,
+   "ccoup_wire_aF": 6.4
   },
   "VSS": {
    "cgnd_aF": 15.24,
@@ -105,7 +113,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 15.24,
+   "ccoup_wire_aF": 0
   },
   "VDD": {
    "cgnd_aF": 15.99,
@@ -131,7 +141,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 15.99,
+   "ccoup_wire_aF": 0
   }
  },
  "devices": 2,

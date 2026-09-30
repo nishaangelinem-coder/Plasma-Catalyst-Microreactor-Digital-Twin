@@ -29,7 +29,7 @@ HEADER, BGNLIB, LIBNAME, UNITS, ENDLIB, BGNSTR, STRNAME, ENDSTR = (
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07)
 BOUNDARY, PATH, SREF, TEXT, LAYER, DATATYPE, XY, ENDEL = (
     0x08, 0x09, 0x0A, 0x0C, 0x0D, 0x0E, 0x10, 0x11)
-SNAME, TEXTTYPE, PRESENTATION, STRING, MAG = 0x12, 0x16, 0x17, 0x19, 0x1B
+SNAME, TEXTTYPE, PRESENTATION, STRING, MAG, STRANS, ANGLE = 0x12, 0x16, 0x17, 0x19, 0x1B, 0x1A, 0x1C
 WIDTH = 0x0F
 
 DT_NONE, DT_BITARRAY, DT_INT2, DT_INT4, DT_REAL8, DT_ASCII = 0, 1, 2, 3, 5, 6
@@ -114,8 +114,9 @@ class GdsCell:
     def label(self, layer, texttype, x, y, text):
         self.labels.append((layer, texttype, (x, y), text))
 
-    def ref(self, cellname, x, y):
-        self.refs.append((cellname, (x, y)))
+    def ref(self, cellname, x, y, mirror_x=False):
+        """mirror_x: reflect about the y axis (GDS STRANS reflection + 180 deg) -- cell spans x-w..x when mirrored"""
+        self.refs.append((cellname, (x, y), mirror_x))
 
     def to_bytes(self) -> bytes:
         out = bytearray()
@@ -138,9 +139,12 @@ class GdsCell:
             out += _record(XY, DT_INT4, struct.pack(">2i", int(x), int(y)))
             out += _ascii(STRING, text)
             out += _record(ENDEL, DT_NONE)
-        for cellname, (x, y) in self.refs:
+        for cellname, (x, y), *flags in self.refs:
             out += _record(SREF, DT_NONE)
             out += _ascii(SNAME, cellname)
+            if flags and flags[0]:
+                out += _record(STRANS, DT_BITARRAY, struct.pack(">H", 0x8000))
+                out += _record(ANGLE, DT_REAL8, _real8(180.0))
             out += _record(XY, DT_INT4, struct.pack(">2i", int(x), int(y)))
             out += _record(ENDEL, DT_NONE)
         out += _record(ENDSTR, DT_NONE)

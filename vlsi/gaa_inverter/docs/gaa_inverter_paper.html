@@ -162,6 +162,7 @@ pre.mermaid{margin:0;display:flex;justify-content:center}
       <ul>
         <li><b>A calibrated GAA nanosheet model set</b> for Cadence Spectre based on the BSIM-CMG multi-gate model [5], with a generic 3-nm-class geometry (Table I), and a dependency-free reference compact model that reproduces the same metrics for cross-checking.</li>
         <li><b>A GAA inverter standard cell</b> at a 6-track, 168-nm height with two 48-nm gate pitches, drawn to a published layer map and delivered as a Calma GDSII stream that reads back cleanly in an independent parser.</li>
+        <li><b>A complete RTL-to-GDSII implementation</b> of the three RTL designs with library views characterised from the cells (Liberty, LEF), synthesis, obstruction-aware placement and routing, DEF and GDSII stream-out, and post-route DRC, LVS, extraction and timing, all released as scripts.</li>
         <li><b>Parasitic extraction and post-layout simulation</b> of every cell: device-level gate-to-epi coupling, contact and via resistance and metal RC extracted from the GDSII into SPEF and back-annotated, showing that the three-sheet gate parasitics, not the wiring, set the post-layout delay.</li>
         <li><b>Physical verification</b> of every delivered GDSII with a 26-rule GAA3 design-rule deck and a layout-versus-schematic extraction, both released as scripts; the first DRC pass exposed 79 violations that were corrected, and all cells are DRC-clean and LVS-matched.</li>
         <li><b>A NAND2 standard cell</b> that exploits the nanosheet width freedom by swapping the N and P band widths to balance the series stack in the minimum 3-pitch footprint, with its GDSII, testbench and a FinFET comparison.</li>
@@ -2446,30 +2447,30 @@ flowchart LR
 <polygon points="267.0,294.0 327.0,294.0 327.0,192.0 267.0,192.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 SDC P</title></polygon>
 <polygon points="411.0,534.0 471.0,534.0 471.0,387.0 411.0,387.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 SDC N</title></polygon>
 <polygon points="411.0,294.0 471.0,294.0 471.0,192.0 411.0,192.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 SDC P</title></polygon>
-<polygon points="198.0,366.0 252.0,366.0 252.0,318.0 198.0,318.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 CB A</title></polygon>
-<polygon points="336.0,366.0 396.0,366.0 396.0,318.0 336.0,318.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 CB B (extended over the via)</title></polygon>
+<polygon points="198.0,372.0 252.0,372.0 252.0,324.0 198.0,324.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 CB A</title></polygon>
+<polygon points="336.0,372.0 396.0,372.0 396.0,324.0 336.0,324.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 CB B (extended over the via)</title></polygon>
 <polygon points="69.0,636.0 525.0,636.0 525.0,564.0 69.0,564.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VSS rail</title></polygon>
 <polygon points="69.0,132.0 525.0,132.0 525.0,60.0 69.0,60.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VDD rail</title></polygon>
 <polygon points="129.0,600.0 177.0,600.0 177.0,393.0 129.0,393.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VSS strap</title></polygon>
-<polygon points="417.0,528.0 465.0,528.0 465.0,393.0 417.0,393.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 Y stub (N drain)</title></polygon>
+<polygon points="417.0,528.0 465.0,528.0 465.0,324.0 417.0,324.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 Y stub (N drain, up to the pin level)</title></polygon>
 <polygon points="129.0,288.0 177.0,288.0 177.0,96.0 129.0,96.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VDD strap</title></polygon>
 <polygon points="417.0,288.0 465.0,288.0 465.0,96.0 417.0,96.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 VDD strap</title></polygon>
 <polygon points="273.0,288.0 321.0,288.0 321.0,198.0 273.0,198.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 Y stub (P drain)</title></polygon>
-<polygon points="201.0,366.0 249.0,366.0 249.0,318.0 201.0,318.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 A pad</title></polygon>
-<polygon points="333.0,366.0 381.0,366.0 381.0,318.0 333.0,318.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 B pad</title></polygon>
+<polygon points="201.0,372.0 249.0,372.0 249.0,324.0 201.0,324.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 A pad</title></polygon>
+<polygon points="333.0,372.0 381.0,372.0 381.0,324.0 333.0,324.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 B pad</title></polygon>
 <polygon points="138.0,477.0 168.0,477.0 168.0,447.0 138.0,447.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
 <polygon points="426.0,477.0 456.0,477.0 456.0,447.0 426.0,447.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
 <polygon points="138.0,258.0 168.0,258.0 168.0,228.0 138.0,228.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
 <polygon points="426.0,258.0 456.0,258.0 456.0,228.0 426.0,228.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
 <polygon points="282.0,258.0 312.0,258.0 312.0,228.0 282.0,228.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
-<polygon points="210.0,357.0 240.0,357.0 240.0,327.0 210.0,327.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
-<polygon points="342.0,357.0 372.0,357.0 372.0,327.0 342.0,327.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
-<polygon points="201.0,366.0 249.0,366.0 249.0,318.0 201.0,318.0" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 A pin</title></polygon>
-<polygon points="333.0,366.0 381.0,366.0 381.0,318.0 333.0,318.0" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 B pin</title></polygon>
+<polygon points="210.0,363.0 240.0,363.0 240.0,333.0 210.0,333.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="342.0,363.0 372.0,363.0 372.0,333.0 342.0,333.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 V0</title></polygon>
+<polygon points="201.0,372.0 249.0,372.0 249.0,324.0 201.0,324.0" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 A pin</title></polygon>
+<polygon points="333.0,372.0 381.0,372.0 381.0,324.0 333.0,324.0" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 B pin</title></polygon>
 <polygon points="81.0,600.0 513.0,600.0 513.0,96.0 81.0,96.0" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 prBoundary</title></polygon>
-<text x="225.0" y="346.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">A</text>
-<text x="357.0" y="346.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">B</text>
-<text x="441.0" y="346.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">Y</text>
+<text x="225.0" y="352.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">A</text>
+<text x="357.0" y="352.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">B</text>
+<text x="441.0" y="352.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">Y</text>
 <text x="297.0" y="100.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">VDD</text>
 <text x="297.0" y="604.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">VSS</text>
 </svg></div>
@@ -3852,9 +3853,9 @@ flowchart LR
           <tbody>
             <tr><td>INV_GAA_X1</td><td>A</td><td class="n">130.5</td><td class="n">141.3</td><td class="n">271.9</td><td class="n">447</td><td>Y (129)</td></tr>
             <tr><td>INV_GAA_X1</td><td>Y</td><td class="n">21.2</td><td class="n">128.5</td><td class="n">149.8</td><td class="n">505</td><td>A (129)</td></tr>
-            <tr><td>NAND2_GAA_X1</td><td>A</td><td class="n">130.5</td><td class="n">140.7</td><td class="n">271.3</td><td class="n">447</td><td>Y (52), int0 (75), B (7)</td></tr>
-            <tr><td>NAND2_GAA_X1</td><td>Y</td><td class="n">33.7</td><td class="n">185.7</td><td class="n">219.5</td><td class="n">713</td><td>A (52), B (128), int0 (6)</td></tr>
-            <tr><td>NAND2_GAA_X1</td><td>B</td><td class="n">55.5</td><td class="n">215.7</td><td class="n">271.3</td><td class="n">447</td><td>Y (128), int0 (75), A (7)</td></tr>
+            <tr><td>NAND2_GAA_X1</td><td>A</td><td class="n">130.5</td><td class="n">141.0</td><td class="n">271.5</td><td class="n">447</td><td>Y (53), int0 (75), B (7)</td></tr>
+            <tr><td>NAND2_GAA_X1</td><td>Y</td><td class="n">33.5</td><td class="n">187.0</td><td class="n">220.5</td><td class="n">702</td><td>A (53), B (129), int0 (6)</td></tr>
+            <tr><td>NAND2_GAA_X1</td><td>B</td><td class="n">55.5</td><td class="n">216.8</td><td class="n">272.3</td><td class="n">447</td><td>Y (129), int0 (75), A (7)</td></tr>
             <tr><td>NAND2_GAA_X1</td><td>X (stack node)</td><td class="n">6.6</td><td class="n">155.7</td><td class="n">162.4</td><td class="n">111</td><td>A (75), B (75), Y (6)</td></tr>
             <tr><td>RO11_GAA</td><td>stage net n<sub>i</sub> (avg. of 11)</td><td class="n">171.6</td><td class="n">294.3</td><td class="n">465.9</td><td class="n">1215</td><td>next stage (gate-drain), feedback line</td></tr>
             <tr><td>SRAM6T_GAA_HD</td><td>WL</td><td class="n">30.0</td><td class="n">185.9</td><td class="n">215.9</td><td class="n">979</td><td>BLB (46), QB (47), Q (47), BL (46)</td></tr>
@@ -3877,7 +3878,7 @@ flowchart LR
             <tr><td>INV_GAA_X1</td><td>Propagation delay t<sub>pd</sub> (FO4)</td><td class="n">5.77 ps</td><td class="n">8.42 ps</td><td class="n">+46 %</td></tr>
             <tr><td>INV_GAA_X1</td><td>Energy per cycle (FO4)</td><td class="n">0.84 fJ</td><td class="n">1.43 fJ</td><td class="n">+70 %</td></tr>
             <tr><td>NAND2_GAA_X1</td><td>Input capacitance / stack-node capacitance</td><td class="n">0.32 / 0.15 fF</td><td class="n">0.51 / 0.16 fF</td><td class="n"></td></tr>
-            <tr><td>NAND2_GAA_X1</td><td>Worst-case arc t<sub>pd</sub> (FO4)</td><td class="n">7.60 ps</td><td class="n">9.39 ps</td><td class="n">+23 %</td></tr>
+            <tr><td>NAND2_GAA_X1</td><td>Worst-case arc t<sub>pd</sub> (FO4)</td><td class="n">7.60 ps</td><td class="n">9.39 ps</td><td class="n">+24 %</td></tr>
             <tr><td>RO11_GAA</td><td>Node capacitance per stage (FO3)</td><td class="n">1.31 fF</td><td class="n">1.92 fF</td><td class="n">+46 %</td></tr>
             <tr><td>RO11_GAA</td><td>Oscillation frequency</td><td class="n">12.05 GHz</td><td class="n">7.18 GHz</td><td class="n">−40 %</td></tr>
             <tr><td>RO11_GAA</td><td>Stage delay</td><td class="n">3.77 ps</td><td class="n">6.33 ps</td><td class="n">+68 %</td></tr>
@@ -3954,7 +3955,7 @@ flowchart LR
 <rect width="760" height="276" fill="#ffffff"/>
 <rect x="12" y="10" width="736" height="44" rx="3" fill="#e4e8ef"/>
 <text x="20" y="27" fill="#1a1a1a" font-size="10" font-weight="600">Cell NAND2_GAA_X1   extraction: rc_coupled   technology: GAA3 PEX (ILD k = 2.9, spacer k = 4.5)</text>
-<text x="20" y="45" fill="#1a1a1a" font-size="9.5">nets 8   devices 4   capacitors 16   resistors 28   C_gnd 0.276 fF   C_coupling 0.355 fF</text>
+<text x="20" y="45" fill="#1a1a1a" font-size="9.5">nets 8   devices 4   capacitors 16   resistors 28   C_gnd 0.276 fF   C_coupling 0.357 fF</text>
 <rect x="12" y="64" width="736" height="22" fill="#e4e8ef"/>
 <text x="20" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="start">Net</text>
 <text x="200" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">C_gnd (aF)</text>
@@ -3964,17 +3965,17 @@ flowchart LR
 <text x="500" y="79" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="start">coupled to</text>
 <text x="20" y="100" fill="#1a1a1a" font-size="9.5">A</text>
 <text x="200" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">130.5</text>
-<text x="300" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">140.7</text>
-<text x="400" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">271.3</text>
+<text x="300" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">141.0</text>
+<text x="400" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">271.5</text>
 <text x="480" y="100" fill="#1a1a1a" font-size="9.5" text-anchor="end">447</text>
-<text x="500" y="100" fill="#1a1a1a" font-size="8.5">Y: 52.5, int0: 75.0, B: 6.8</text>
+<text x="500" y="100" fill="#1a1a1a" font-size="8.5">Y: 52.7, int0: 75.0, B: 6.8</text>
 <rect x="12" y="106" width="736" height="20" fill="#f5f7fb"/>
 <text x="20" y="120" fill="#1a1a1a" font-size="9.5">B</text>
 <text x="200" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">55.5</text>
-<text x="300" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">215.7</text>
-<text x="400" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">271.3</text>
+<text x="300" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">216.8</text>
+<text x="400" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">272.3</text>
 <text x="480" y="120" fill="#1a1a1a" font-size="9.5" text-anchor="end">447</text>
-<text x="500" y="120" fill="#1a1a1a" font-size="8.5">Y: 127.5, int0: 75.0, A: 6.8</text>
+<text x="500" y="120" fill="#1a1a1a" font-size="8.5">Y: 128.5, int0: 75.0, A: 6.8</text>
 <text x="20" y="140" fill="#1a1a1a" font-size="9.5">VDD</text>
 <text x="200" y="140" fill="#1a1a1a" font-size="9.5" text-anchor="end">25.3</text>
 <text x="300" y="140" fill="#1a1a1a" font-size="9.5" text-anchor="end">0.0</text>
@@ -3989,11 +3990,11 @@ flowchart LR
 <text x="480" y="160" fill="#1a1a1a" font-size="9.5" text-anchor="end">390</text>
 <text x="500" y="160" fill="#1a1a1a" font-size="8.5"></text>
 <text x="20" y="180" fill="#1a1a1a" font-size="9.5">Y</text>
-<text x="200" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">33.7</text>
-<text x="300" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">185.7</text>
-<text x="400" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">219.5</text>
-<text x="480" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">713</text>
-<text x="500" y="180" fill="#1a1a1a" font-size="8.5">A: 52.5, B: 127.5, int0: 5.7</text>
+<text x="200" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">33.5</text>
+<text x="300" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">187.0</text>
+<text x="400" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">220.5</text>
+<text x="480" y="180" fill="#1a1a1a" font-size="9.5" text-anchor="end">702</text>
+<text x="500" y="180" fill="#1a1a1a" font-size="8.5">A: 52.7, B: 128.5, int0: 5.7</text>
 <rect x="12" y="186" width="736" height="20" fill="#f5f7fb"/>
 <text x="20" y="200" fill="#1a1a1a" font-size="9.5">int0</text>
 <text x="200" y="200" fill="#1a1a1a" font-size="9.5" text-anchor="end">6.6</text>
@@ -4226,6 +4227,385 @@ flowchart LR
         <figcaption><b>Fig. 19.</b> Pre-layout versus post-layout waveforms in the ViVA convention: (a) INV_GAA_X1 FO4 transient from the schematic view and from the extracted view with markers at the 50 % crossings; (b) RO11_GAA steady-state node waveform before and after back-annotation. Reference model with extracted RC; the ADE runs on the <code>av_extracted</code> view in the guest replace these.</figcaption>
       </figure>
 
+
+      <h3><span class="num">K.</span>RTL-to-GDSII implementation results</h3>
+      <p>The digital flow of Section III-D was exercised on the three RTL designs (the inverter, the NAND2 and the enabled ring oscillator of Listings 1, 16 and 12) with the GAA3 library views that the cell-level work produces. Characterising INV_GAA_X1 and NAND2_GAA_X1 with the post-layout model over three input slews and four loads gives the Liberty file of Listing 37 (non-linear delay tables for delay and output transition, pin capacitance from extraction, leakage and switching energy); the layouts give the technology and cell LEF of Listing 38 (site, routing layers, pin ports and the metal-2 obstruction of the NAND2). The Genus step (Listing 39) reads the RTL, elaborates vectors and generate loops, maps onto the two cells (NOT to INV, NAND to NAND2, AND to NAND2 plus INV) and writes the mapped netlist, the constraints and the gate, timing and power reports; Genus cuts the ring's combinational loop at the feedback input of the enable gate, so the reported path runs from <code>en</code> through the NAND2 and the twelve inverters to <code>out</code>. The Innovus step (Listing 40) floorplans one 168-nm row at 60 % utilisation, places the cells in chain order with fillers in the gaps, assigns the I/O pins to metal-2 tracks on the die edges, routes every net on a metal-2 track chosen so that horizontal segments, the vertical jogs to the pins and the cells' metal-2 obstructions keep the 12-nm spacing, and streams out DEF and GDSII with the cell references and the routing. The routed GDSII then goes back through the checks of Sections IV-I and IV-J: DRC against the GAA3 deck, LVS against the mapped netlist, extraction to SPEF and post-route timing with the extracted wire capacitance added to the Liberty pin loads.</p>
+      <p>Table XIII summarises synthesis and Table XIV the physical implementation; Fig. 20 shows the routed designs as the Innovus main window presents them and Fig. 21 the Genus and Innovus report windows. The inverter and NAND2 designs are single cells with two fillers each; the ring is 13 cells (twelve inverters and the enable NAND2) in a 2160 × 168 nm core, 14 nets routed on two metal-2 tracks with 3903 nm of wire and 26 vias, and its en-to-out path of 47.2 ps at synthesis becomes 49.2 ps after routing and extraction, well inside the 200-ps virtual clock. All three routed blocks are DRC-clean and LVS-matched to their netlists. The first routing pass was not: the router initially ignored the NAND2's cell-internal metal-2, ran the <code>b</code> net over it and shorted it to <code>y</code>, which the post-route LVS caught as a missing port and the DRC as a metal-2 spacing error; the obstruction-aware track selection and the placement rule that puts obstructed cells at the row end are the corrections. The same flow scripts drive the sign-off tools in the guest (Listings 4, 5 and 12b); the reference implementation exists so that every deliverable of the flow, from the Liberty tables to the routed GDSII, can be regenerated and checked outside the licensed environment.</p>
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table XIII.</b> Synthesis results (reference Genus step, gaa3_stdcells_tt_0p70v_25c, constraints of Listing 2, 1-GHz toggle rate for power).</caption>
+          <thead><tr><th>Design</th><th class="n">Cells</th><th>Mapping</th><th class="n">Area (µm²)</th><th class="n">Nets</th><th class="n">Longest path (ps)</th><th class="n">Slack vs 200 ps</th><th class="n">Leakage (nW)</th><th class="n">Total power (µW)</th></tr></thead>
+          <tbody>
+            <tr><td>inverter</td><td class="n">1</td><td>1 × INV</td><td class="n">0.0161</td><td class="n">2</td><td class="n">5.76</td><td class="n">154.2</td><td class="n">1.74</td><td class="n">0.784</td></tr>
+            <tr><td>nand2</td><td class="n">1</td><td>1 × NAND2</td><td class="n">0.0242</td><td class="n">3</td><td class="n">7.56</td><td class="n">152.4</td><td class="n">2.17</td><td class="n">0.862</td></tr>
+            <tr><td>ring_osc</td><td class="n">13</td><td>12 × INV + 1 × NAND2</td><td class="n">0.2177</td><td class="n">14</td><td class="n">47.16</td><td class="n">112.8</td><td class="n">23.02</td><td class="n">6.878</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table XIV.</b> Place-and-route, sign-off checks and post-route timing (reference Innovus step; DRC with the GAA3 deck, LVS against the mapped netlist, RC from the reference extractor).</caption>
+          <thead><tr><th>Design</th><th class="n">Core (nm)</th><th class="n">Cells + fillers</th><th class="n">Utilisation</th><th class="n">Nets / tracks</th><th class="n">Wirelength (nm)</th><th class="n">Vias</th><th class="n">DRC</th><th>LVS</th><th class="n">Extracted C (fF)</th><th class="n">Post-route path (ps)</th><th class="n">Slack (ps)</th></tr></thead>
+          <tbody>
+            <tr><td>inverter</td><td class="n">192 × 168</td><td class="n">1 + 2</td><td class="n">50 %</td><td class="n">2 / 1</td><td class="n">148</td><td class="n">2</td><td class="n">0</td><td>MATCH</td><td class="n">0.415</td><td class="n">5.79</td><td class="n">154.2</td></tr>
+            <tr><td>nand2</td><td class="n">240 × 168</td><td class="n">1 + 2</td><td class="n">60 %</td><td class="n">3 / 2</td><td class="n">312</td><td class="n">2</td><td class="n">0</td><td>MATCH</td><td class="n">0.754</td><td class="n">7.65</td><td class="n">152.3</td></tr>
+            <tr><td>ring_osc</td><td class="n">2160 × 168</td><td class="n">13 + 18</td><td class="n">60 %</td><td class="n">14 / 3</td><td class="n">3903</td><td class="n">26</td><td class="n">0</td><td>MATCH</td><td class="n">5.894</td><td class="n">49.18</td><td class="n">110.8</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure>
+        <div class="fig" style="padding:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 368" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="900" height="368" fill="#d9d9d9"/>
+<rect width="900" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Innovus(TM) Implementation System  –  inverter  (routed, view: Physical)</text>
+<text x="892" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="900" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  Edit  View  Partition  Floorplan  Power  Place  ECO  Clock  Route  Timing  Verify  Tools  Windows  Help</text>
+<text x="892" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="900" height="300" fill="#000000"/>
+<rect width="120" height="300" fill="#f2f2f2"/><text x="8" y="16" fill="#1a1a1a" font-size="9.5" font-weight="600">Layer / Color</text>
+<rect x="10" y="26" width="10" height="10" fill="#d9b44a"/><text x="26" y="35" fill="#1a1a1a" font-size="9">Std Cell</text>
+<rect x="10" y="43" width="10" height="10" fill="#4a4a4a"/><text x="26" y="52" fill="#1a1a1a" font-size="9">Filler</text>
+<rect x="10" y="60" width="10" height="10" fill="#3f7fff"/><text x="26" y="69" fill="#1a1a1a" font-size="9">M1 pin</text>
+<rect x="10" y="77" width="10" height="10" fill="#ff3b30"/><text x="26" y="86" fill="#1a1a1a" font-size="9">M2 route</text>
+<rect x="10" y="94" width="10" height="10" fill="#ffee58"/><text x="26" y="103" fill="#1a1a1a" font-size="9">V1</text>
+<rect x="10" y="111" width="10" height="10" fill="#ffb300"/><text x="26" y="120" fill="#1a1a1a" font-size="9">I/O pin</text>
+<rect x="10" y="128" width="10" height="10" fill="#2e6fbf"/><text x="26" y="137" fill="#1a1a1a" font-size="9">Row / core</text>
+<rect x="413.2" y="70.3" width="193.7" height="169.5" fill="none" fill-opacity="1.0" stroke="#2e6fbf" stroke-width="0.8" stroke-dasharray="4 3"/>
+<rect x="401.1" y="58.2" width="217.9" height="193.7" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="0.8"/>
+<rect x="413.2" y="70.3" width="48.4" height="169.5" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="558.4" y="70.3" width="48.4" height="169.5" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="461.6" y="70.3" width="96.8" height="169.5" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="500.9" y="146.9" width="16.1" height="16.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="529.2" y="104.6" width="16.1" height="100.9" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="510.0" y="66.3" fill="#e6e6e6" font-size="7" text-anchor="middle">g0</text>
+<rect x="413.2" y="146.9" width="103.9" height="16.1" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="503.9" y="150.0" width="10.1" height="10.1" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="529.2" y="146.9" width="77.7" height="16.1" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="532.2" y="150.0" width="10.1" height="10.1" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="413.2" y="146.9" width="16.1" height="16.1" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="409.2" y="158.0" fill="#ffb300" font-size="8" text-anchor="end">a</text>
+<rect x="590.7" y="146.9" width="16.1" height="16.1" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="610.8" y="158.0" fill="#ffb300" font-size="8" text-anchor="start">y</text>
+<text x="132" y="18" fill="#e6e6e6" font-size="9.5">inverter   core 192 x 168 nm   1 cells + 2 fillers   util 50 %   2 nets   WL 148 nm   2 vias</text>
+<text x="132" y="290" fill="#e6e6e6" font-size="9">verify_drc: 0 violations   verifyConnectivity/LVS: MATCH   timeDesign -postRoute: path 5.79 ps, slack 154.2 ps</text>
+</g>
+<rect y="346" width="900" height="22" fill="#f2f2f2"/>
+<text x="8" y="361" fill="#1a1a1a" font-size="9">Design inverter   |   1 row gaa3_core   |   NanoRoute M2   |   inverter.def / inverter.gds</text>
+<text x="892" y="361" fill="#1a1a1a" font-size="9" text-anchor="end">ref. flow – sign-off with Innovus in the guest</text>
+</svg></div>
+        <div class="fig" style="padding:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 368" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="900" height="368" fill="#d9d9d9"/>
+<rect width="900" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Innovus(TM) Implementation System  –  nand2  (routed, view: Physical)</text>
+<text x="892" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="900" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  Edit  View  Partition  Floorplan  Power  Place  ECO  Clock  Route  Timing  Verify  Tools  Windows  Help</text>
+<text x="892" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="900" height="300" fill="#000000"/>
+<rect width="120" height="300" fill="#f2f2f2"/><text x="8" y="16" fill="#1a1a1a" font-size="9.5" font-weight="600">Layer / Color</text>
+<rect x="10" y="26" width="10" height="10" fill="#d9b44a"/><text x="26" y="35" fill="#1a1a1a" font-size="9">Std Cell</text>
+<rect x="10" y="43" width="10" height="10" fill="#4a4a4a"/><text x="26" y="52" fill="#1a1a1a" font-size="9">Filler</text>
+<rect x="10" y="60" width="10" height="10" fill="#3f7fff"/><text x="26" y="69" fill="#1a1a1a" font-size="9">M1 pin</text>
+<rect x="10" y="77" width="10" height="10" fill="#ff3b30"/><text x="26" y="86" fill="#1a1a1a" font-size="9">M2 route</text>
+<rect x="10" y="94" width="10" height="10" fill="#ffee58"/><text x="26" y="103" fill="#1a1a1a" font-size="9">V1</text>
+<rect x="10" y="111" width="10" height="10" fill="#ffb300"/><text x="26" y="120" fill="#1a1a1a" font-size="9">I/O pin</text>
+<rect x="10" y="128" width="10" height="10" fill="#2e6fbf"/><text x="26" y="137" fill="#1a1a1a" font-size="9">Row / core</text>
+<rect x="388.9" y="70.3" width="242.1" height="169.5" fill="none" fill-opacity="1.0" stroke="#2e6fbf" stroke-width="0.8" stroke-dasharray="4 3"/>
+<rect x="376.8" y="58.2" width="266.3" height="193.7" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="0.8"/>
+<rect x="388.9" y="70.3" width="48.4" height="169.5" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="582.6" y="70.3" width="48.4" height="169.5" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="437.4" y="70.3" width="145.3" height="169.5" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="477.7" y="144.9" width="16.1" height="16.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="522.1" y="144.9" width="16.1" height="16.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="550.4" y="144.9" width="16.1" height="16.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="510.0" y="66.3" fill="#e6e6e6" font-size="7" text-anchor="middle">g0</text>
+<rect x="388.9" y="146.9" width="104.9" height="16.1" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="480.7" y="150.0" width="10.1" height="10.1" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="388.9" y="175.2" width="149.3" height="16.1" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="522.1" y="146.9" width="16.1" height="44.4" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="525.1" y="150.0" width="10.1" height="10.1" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="550.4" y="146.9" width="80.7" height="16.1" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="388.9" y="146.9" width="16.1" height="16.1" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="385.0" y="158.0" fill="#ffb300" font-size="8" text-anchor="end">a</text>
+<rect x="388.9" y="175.2" width="16.1" height="16.1" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="385.0" y="186.2" fill="#ffb300" font-size="8" text-anchor="end">b</text>
+<rect x="614.9" y="146.9" width="16.1" height="16.1" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="635.0" y="158.0" fill="#ffb300" font-size="8" text-anchor="start">y</text>
+<text x="132" y="18" fill="#e6e6e6" font-size="9.5">nand2   core 240 x 168 nm   1 cells + 2 fillers   util 60 %   3 nets   WL 312 nm   2 vias</text>
+<text x="132" y="290" fill="#e6e6e6" font-size="9">verify_drc: 0 violations   verifyConnectivity/LVS: MATCH   timeDesign -postRoute: path 7.65 ps, slack 152.3 ps</text>
+</g>
+<rect y="346" width="900" height="22" fill="#f2f2f2"/>
+<text x="8" y="361" fill="#1a1a1a" font-size="9">Design nand2   |   1 row gaa3_core   |   NanoRoute M2   |   nand2.def / nand2.gds</text>
+<text x="892" y="361" fill="#1a1a1a" font-size="9" text-anchor="end">ref. flow – sign-off with Innovus in the guest</text>
+</svg></div>
+        <div class="fig" style="padding:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 368" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="900" height="368" fill="#d9d9d9"/>
+<rect width="900" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Innovus(TM) Implementation System  –  ring_osc  (routed, view: Physical)</text>
+<text x="892" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="900" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  Edit  View  Partition  Floorplan  Power  Place  ECO  Clock  Route  Timing  Verify  Tools  Windows  Help</text>
+<text x="892" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="900" height="300" fill="#000000"/>
+<rect width="120" height="300" fill="#f2f2f2"/><text x="8" y="16" fill="#1a1a1a" font-size="9.5" font-weight="600">Layer / Color</text>
+<rect x="10" y="26" width="10" height="10" fill="#d9b44a"/><text x="26" y="35" fill="#1a1a1a" font-size="9">Std Cell</text>
+<rect x="10" y="43" width="10" height="10" fill="#4a4a4a"/><text x="26" y="52" fill="#1a1a1a" font-size="9">Filler</text>
+<rect x="10" y="60" width="10" height="10" fill="#3f7fff"/><text x="26" y="69" fill="#1a1a1a" font-size="9">M1 pin</text>
+<rect x="10" y="77" width="10" height="10" fill="#ff3b30"/><text x="26" y="86" fill="#1a1a1a" font-size="9">M2 route</text>
+<rect x="10" y="94" width="10" height="10" fill="#ffee58"/><text x="26" y="103" fill="#1a1a1a" font-size="9">V1</text>
+<rect x="10" y="111" width="10" height="10" fill="#ffb300"/><text x="26" y="120" fill="#1a1a1a" font-size="9">I/O pin</text>
+<rect x="10" y="128" width="10" height="10" fill="#2e6fbf"/><text x="26" y="137" fill="#1a1a1a" font-size="9">Row / core</text>
+<rect x="141.8" y="126.4" width="736.4" height="57.3" fill="none" fill-opacity="1.0" stroke="#2e6fbf" stroke-width="0.8" stroke-dasharray="4 3"/>
+<rect x="137.7" y="122.3" width="744.5" height="65.5" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="0.8"/>
+<rect x="141.8" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="158.2" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="223.6" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="240.0" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="289.1" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="305.5" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="354.5" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="370.9" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="420.0" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="469.1" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="518.2" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="567.3" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="616.4" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="665.5" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="714.5" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="763.6" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="812.7" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="861.8" y="126.4" width="16.4" height="57.3" fill="#4a4a4a" fill-opacity="0.9" stroke="#666" stroke-width="0.8"/>
+<rect x="174.5" y="126.4" width="49.1" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="188.2" y="151.6" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="203.2" y="151.6" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="212.7" y="151.6" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="199.1" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">g0</text>
+<rect x="256.4" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="269.7" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="279.2" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="272.7" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">g1</text>
+<rect x="321.8" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="335.1" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="344.7" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="338.2" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[0]</text>
+<rect x="387.3" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="400.6" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="410.1" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="403.6" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[1]</text>
+<rect x="436.4" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="449.7" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="459.2" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="452.7" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[2]</text>
+<rect x="485.5" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="498.8" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="508.3" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="501.8" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[3]</text>
+<rect x="534.5" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="547.8" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="557.4" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="550.9" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[4]</text>
+<rect x="583.6" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="596.9" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="606.5" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="600.0" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[5]</text>
+<rect x="632.7" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="646.0" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="655.6" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="649.1" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[6]</text>
+<rect x="681.8" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="695.1" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="704.7" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="698.2" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[7]</text>
+<rect x="730.9" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="744.2" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="753.8" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="747.3" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[8]</text>
+<rect x="780.0" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="793.3" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="802.8" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="796.4" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[9]</text>
+<rect x="829.1" y="126.4" width="32.7" height="57.3" fill="#d9b44a" fill-opacity="0.9" stroke="#8d6e00" stroke-width="0.8"/>
+<rect x="842.4" y="152.3" width="5.5" height="5.5" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<rect x="851.9" y="138.0" width="5.5" height="34.1" fill="#3f7fff" fill-opacity="0.95" stroke="#1a4fbf" stroke-width="0.8"/>
+<text x="845.5" y="122.4" fill="#e6e6e6" font-size="7" text-anchor="middle">stage[10]</text>
+<rect x="141.8" y="161.8" width="53.2" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="189.5" y="152.3" width="5.5" height="15.0" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="141.8" y="152.3" width="5.5" height="15.0" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="190.6" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="180.0" y="142.7" width="95.1" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="180.0" y="142.7" width="5.5" height="15.0" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="269.7" y="142.7" width="5.5" height="15.0" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="270.7" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="204.5" y="161.8" width="673.6" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="204.5" y="152.3" width="5.5" height="15.0" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="872.7" y="152.3" width="5.5" height="15.0" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="205.6" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="853.0" y="162.8" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="279.2" y="152.3" width="61.4" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="280.2" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="336.1" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="344.7" y="152.3" width="61.4" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="345.7" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="401.6" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="410.1" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="411.1" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="450.7" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="459.2" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="460.2" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="499.8" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="508.3" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="509.3" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="548.9" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="557.4" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="558.4" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="598.0" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="606.5" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="607.5" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="647.0" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="655.6" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="656.6" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="696.1" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="704.7" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="705.7" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="745.2" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="753.8" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="754.8" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="794.3" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="802.8" y="152.3" width="45.0" height="5.5" fill="#ff3b30" fill-opacity="0.9" stroke="#b71c1c" stroke-width="0.8"/>
+<rect x="803.9" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="843.4" y="153.3" width="3.4" height="3.4" fill="#ffee58" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<rect x="141.8" y="152.3" width="5.5" height="5.5" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="132.5" y="158.0" fill="#ffb300" font-size="8" text-anchor="end">en</text>
+<rect x="872.7" y="152.3" width="5.5" height="5.5" fill="#ffb300" fill-opacity="1.0" stroke="#000" stroke-width="0.8"/>
+<text x="887.5" y="158.0" fill="#ffb300" font-size="8" text-anchor="start">out</text>
+<text x="132" y="18" fill="#e6e6e6" font-size="9.5">ring_osc   core 2160 x 168 nm   13 cells + 18 fillers   util 60 %   14 nets   WL 3903 nm   26 vias</text>
+<text x="132" y="290" fill="#e6e6e6" font-size="9">verify_drc: 0 violations   verifyConnectivity/LVS: MATCH   timeDesign -postRoute: path 49.18 ps, slack 110.8 ps</text>
+</g>
+<rect y="346" width="900" height="22" fill="#f2f2f2"/>
+<text x="8" y="361" fill="#1a1a1a" font-size="9">Design ring_osc   |   1 row gaa3_core   |   NanoRoute M2   |   ring_osc.def / ring_osc.gds</text>
+<text x="892" y="361" fill="#1a1a1a" font-size="9" text-anchor="end">ref. flow – sign-off with Innovus in the guest</text>
+</svg></div>
+        <figcaption><b>Fig. 20.</b> The three routed designs in the Innovus main-window convention: placed standard cells (amber) with instance names, fillers (grey), metal-1 pins (blue), metal-2 routing (red) with via-1 (yellow), I/O pins on the die edges and the core row outline; the status line carries the verify_drc, LVS and timeDesign results of each block. Drawn from the reference flow's DEF and reports; the sign-off run in the guest produces the tool's own display.</figcaption>
+      </figure>
+      <figure>
+        <div class="fig" style="padding:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 438" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="760" height="438" fill="#d9d9d9"/>
+<rect width="760" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Genus(TM) Synthesis Solution  –  ring_osc  report_timing</text>
+<text x="752" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="760" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  Edit  View  Report  Help</text>
+<text x="752" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="760" height="370" fill="#ffffff"/>
+<text x="10" y="22" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+<text x="10" y="35" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  report_timing  design ring_osc   (syn, wire-load estimate)</text>
+<text x="10" y="48" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+<text x="10" y="61" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Path 1: MET (112.8 ps)  Setup check with pin out against virtual clock vclk (period 200 ps)</text>
+<text x="10" y="74" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Startpoint: en (input port, input delay 20 ps)   Endpoint: out (output port, output delay 20 ps)</text>
+<text x="10" y="87" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Required time 180.0 ps   Arrival 67.16 ps   Slack 112.84 ps</text>
+<text x="10" y="100" fill="#1a1a1a" font-size="8.6" xml:space="preserve">--------------------------------------------------------------------------</text>
+<text x="10" y="113" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Pin / arc                               Cell             Delay  Arrival</text>
+<text x="10" y="126" fill="#1a1a1a" font-size="8.6" xml:space="preserve">--------------------------------------------------------------------------</text>
+<text x="10" y="139" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  en (in)                                                  20.00    20.00</text>
+<text x="10" y="152" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  g0/B-&gt;Y NAND2_GAA_X1                    NAND2_GAA_X1      5.56    25.56</text>
+<text x="10" y="165" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  g1/A-&gt;Y INV_GAA_X1                      INV_GAA_X1        3.28    28.85</text>
+<text x="10" y="178" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[0]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    32.13</text>
+<text x="10" y="191" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[1]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    35.41</text>
+<text x="10" y="204" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[2]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    38.70</text>
+<text x="10" y="217" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[3]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    41.98</text>
+<text x="10" y="230" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[4]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    45.26</text>
+<text x="10" y="243" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[5]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    48.55</text>
+<text x="10" y="256" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[6]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    51.83</text>
+<text x="10" y="269" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[7]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    55.11</text>
+<text x="10" y="282" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[8]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    58.40</text>
+<text x="10" y="295" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[9]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.28    61.68</text>
+<text x="10" y="308" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  stage[10]/u_inv/A-&gt;Y INV_GAA_X1         INV_GAA_X1        5.48    67.16</text>
+<text x="10" y="321" fill="#1a1a1a" font-size="8.6" xml:space="preserve">--------------------------------------------------------------------------</text>
+<text x="10" y="334" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Data arrival at out: 67.16 ps    output slew 5.62 ps    load 1.810 fF</text>
+<text x="10" y="347" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+</g>
+<rect y="416" width="760" height="22" fill="#f2f2f2"/>
+<text x="8" y="431" fill="#1a1a1a" font-size="9">genus -files synth_ro.tcl   |   gaa3_stdcells_tt_0p70v_25c</text>
+<text x="752" y="431" fill="#1a1a1a" font-size="9" text-anchor="end">ref. flow</text>
+</svg></div>
+        <div class="two">
+          <div class="fig" style="padding:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 256" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="760" height="256" fill="#d9d9d9"/>
+<rect width="760" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Genus  –  ring_osc  report_gates</text>
+<text x="752" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="760" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  Edit  View  Report  Help</text>
+<text x="752" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="760" height="188" fill="#ffffff"/>
+<text x="10" y="22" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+<text x="10" y="35" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Genus(TM) Synthesis Solution  -  report_gates   design ring_osc   (syn)</text>
+<text x="10" y="48" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+<text x="10" y="61" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Gate             Instances   Area (um^2)   Library</text>
+<text x="10" y="74" fill="#1a1a1a" font-size="8.6" xml:space="preserve">--------------------------------------------------------------------------</text>
+<text x="10" y="87" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  INV_GAA_X1              12      0.193536   gaa3_stdcells_tt_0p70v_25c</text>
+<text x="10" y="100" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  NAND2_GAA_X1             1      0.024192   gaa3_stdcells_tt_0p70v_25c</text>
+<text x="10" y="113" fill="#1a1a1a" font-size="8.6" xml:space="preserve">--------------------------------------------------------------------------</text>
+<text x="10" y="126" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  total                   13      0.217728</text>
+<text x="10" y="139" fill="#1a1a1a" font-size="8.6" xml:space="preserve"></text>
+<text x="10" y="152" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Nets: 14   Ports: 1 in / 1 out</text>
+<text x="10" y="165" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+</g>
+<rect y="234" width="760" height="22" fill="#f2f2f2"/>
+<text x="8" y="249" fill="#1a1a1a" font-size="9">report_gates > reports/ro_gates.rpt</text>
+<text x="752" y="249" fill="#1a1a1a" font-size="9" text-anchor="end">ref. flow</text>
+</svg></div>
+          <div class="fig" style="padding:0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 298" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="620" height="298" fill="#d9d9d9"/>
+<rect width="620" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Innovus  –  Timing Analysis  (ring_osc)</text>
+<text x="612" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="620" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  Edit  View  Timing  Report  Help</text>
+<text x="612" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="620" height="230" fill="#ffffff"/>
+<text x="14" y="22" fill="#1a1a1a" font-size="10.5" font-weight="600">timeDesign summary  –  ring_osc   (virtual clock vclk, period 200 ps; setup)</text>
+<rect x="12" y="34" width="596" height="22" fill="#e4e8ef"/>
+<text x="20" y="49" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="start">Stage</text>
+<text x="250" y="49" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">WNS (ps)</text>
+<text x="340" y="49" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">TNS (ps)</text>
+<text x="430" y="49" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">Violating paths</text>
+<text x="520" y="49" fill="#1a1a1a" font-size="9.5" font-weight="600" text-anchor="end">Longest path (ps)</text>
+<text x="20" y="71" fill="#1a1a1a" font-size="9.5">syn_opt (wire-load)</text>
+<text x="250" y="71" fill="#1a1a1a" font-size="9.5" text-anchor="end">112.84</text>
+<text x="340" y="71" fill="#1a1a1a" font-size="9.5" text-anchor="end">0.00</text>
+<text x="430" y="71" fill="#1a1a1a" font-size="9.5" text-anchor="end">0</text>
+<text x="520" y="71" fill="#1a1a1a" font-size="9.5" text-anchor="end">47.16</text>
+<rect x="12" y="78" width="596" height="22" fill="#f5f7fb"/>
+<text x="20" y="93" fill="#1a1a1a" font-size="9.5">place_opt (est. RC)</text>
+<text x="250" y="93" fill="#1a1a1a" font-size="9.5" text-anchor="end">112.54</text>
+<text x="340" y="93" fill="#1a1a1a" font-size="9.5" text-anchor="end">0.00</text>
+<text x="430" y="93" fill="#1a1a1a" font-size="9.5" text-anchor="end">0</text>
+<text x="520" y="93" fill="#1a1a1a" font-size="9.5" text-anchor="end">47.46</text>
+<text x="20" y="115" fill="#1a1a1a" font-size="9.5">postRoute (extracted SPEF)</text>
+<text x="250" y="115" fill="#1a1a1a" font-size="9.5" text-anchor="end">110.82</text>
+<text x="340" y="115" fill="#1a1a1a" font-size="9.5" text-anchor="end">0.00</text>
+<text x="430" y="115" fill="#1a1a1a" font-size="9.5" text-anchor="end">0</text>
+<text x="520" y="115" fill="#1a1a1a" font-size="9.5" text-anchor="end">49.18</text>
+<rect x="12" y="136" width="596" height="24" rx="3" fill="#e3f5e8" stroke="#1a8f3c"/>
+<text x="310" y="152" fill="#1a8f3c" font-size="10" text-anchor="middle" font-weight="700">All paths MET   |   DRV: max_transition 15 ps: 0 violations   |   DRC 0   |   LVS MATCH</text>
+<text x="14" y="184" fill="#1a1a1a" font-size="9">report_power (postRoute, 1 GHz toggle): 7.359 µW   |   extractRC: 49 nets, C_gnd 3.093 fF, C_coup 2.801 fF</text>
+</g>
+<rect y="276" width="620" height="22" fill="#f2f2f2"/>
+<text x="8" y="291" fill="#1a1a1a" font-size="9">timeDesign -postRoute -outDir reports/timing_postroute   ring_osc</text>
+<text x="612" y="291" fill="#1a1a1a" font-size="9" text-anchor="end">ref. flow</text>
+</svg></div>
+        </div>
+        <figcaption><b>Fig. 21.</b> Report windows of the ring-oscillator implementation: Genus report_timing with the en-to-out path through the enable NAND2 and the twelve inverters (top), Genus report_gates (bottom left) and the Innovus timing summary across synthesis, placement and post-route extraction with the sign-off status line (bottom right).</figcaption>
+      </figure>
+
       <h2 id="s5"><span class="num">V.</span>Discussion</h2>
       <p><b>Position against the roadmap.</b> The geometry of Table I matches the IRDS 2023 "3-nm" logic node (14–16-nm gate length, 45–48-nm contacted gate pitch, 24–28-nm minimum metal pitch, 0.7-V supply) [4], and the FO4 delay and energy of Table III are in the range reported for early GAA nanosheet ring oscillators and inverters [1], [3]. The 6-track cell height of 168 nm is at the roadmap value; the 96-nm width is the minimum for a single-gate cell with shared diffusion breaks.</p>
       <p><b>What GAA changes in the cell.</b> Table V makes the trade explicit for the inverter, Table VII for the NAND2, where the sheet-width swap replaces a fin-count change, and Table VIII for the SRAM bitcell, where three different sheet widths set the cell and pull-up ratios that a one-fin cell cannot adjust. Compared with a FinFET inverter at the same pitch, the layout has no fin grid: drive is set by the height of the nanosheet band, which the layout engineer can choose per device within the design-rule window, and the N/P sheet-width ratio replaces the fin-count ratio. The stack-count marker and the gate-cut layer are new; the rest of the metallisation is unchanged, which is why the RTL-to-GDSII flow needed no modification beyond pointing at the GAA library.</p>
@@ -4433,7 +4813,7 @@ create_analysis_view -name av_hold  -constraint_mode func -delay_corner dc_ff
 create_analysis_view -name av_typ   -constraint_mode func -delay_corner dc_tt
 set_analysis_view -setup [list av_setup av_typ] -hold [list av_hold av_typ]
 </pre></details>
-<details class="listing" id="lst6"><summary><span>Listing 6. Dependency-free GDSII writer and INV_GAA_X1 layout generator · <code>layout/gen_gaa_inverter_gds.py</code></span></summary><div class="bar"><span>317 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+<details class="listing" id="lst6"><summary><span>Listing 6. Dependency-free GDSII writer and INV_GAA_X1 layout generator · <code>layout/gen_gaa_inverter_gds.py</code></span></summary><div class="bar"><span>321 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;
 gen_gaa_inverter_gds.py
 -----------------------
@@ -4464,7 +4844,7 @@ HEADER, BGNLIB, LIBNAME, UNITS, ENDLIB, BGNSTR, STRNAME, ENDSTR = (
     0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07)
 BOUNDARY, PATH, SREF, TEXT, LAYER, DATATYPE, XY, ENDEL = (
     0x08, 0x09, 0x0A, 0x0C, 0x0D, 0x0E, 0x10, 0x11)
-SNAME, TEXTTYPE, PRESENTATION, STRING, MAG = 0x12, 0x16, 0x17, 0x19, 0x1B
+SNAME, TEXTTYPE, PRESENTATION, STRING, MAG, STRANS, ANGLE = 0x12, 0x16, 0x17, 0x19, 0x1B, 0x1A, 0x1C
 WIDTH = 0x0F
 
 DT_NONE, DT_BITARRAY, DT_INT2, DT_INT4, DT_REAL8, DT_ASCII = 0, 1, 2, 3, 5, 6
@@ -4549,8 +4929,9 @@ class GdsCell:
     def label(self, layer, texttype, x, y, text):
         self.labels.append((layer, texttype, (x, y), text))
 
-    def ref(self, cellname, x, y):
-        self.refs.append((cellname, (x, y)))
+    def ref(self, cellname, x, y, mirror_x=False):
+        &quot;&quot;&quot;mirror_x: reflect about the y axis (GDS STRANS reflection + 180 deg) -- cell spans x-w..x when mirrored&quot;&quot;&quot;
+        self.refs.append((cellname, (x, y), mirror_x))
 
     def to_bytes(self) -&gt; bytes:
         out = bytearray()
@@ -4573,9 +4954,12 @@ class GdsCell:
             out += _record(XY, DT_INT4, struct.pack(&quot;&gt;2i&quot;, int(x), int(y)))
             out += _ascii(STRING, text)
             out += _record(ENDEL, DT_NONE)
-        for cellname, (x, y) in self.refs:
+        for cellname, (x, y), *flags in self.refs:
             out += _record(SREF, DT_NONE)
             out += _ascii(SNAME, cellname)
+            if flags and flags[0]:
+                out += _record(STRANS, DT_BITARRAY, struct.pack(&quot;&gt;H&quot;, 0x8000))
+                out += _record(ANGLE, DT_REAL8, _real8(180.0))
             out += _record(XY, DT_INT4, struct.pack(&quot;&gt;2i&quot;, int(x), int(y)))
             out += _record(ENDEL, DT_NONE)
         out += _record(ENDSTR, DT_NONE)
@@ -4791,7 +5175,7 @@ V3         ALL           12         0
 M4         NET,SPNET     13         0
 DIEAREA    ALL           235        0
 </pre></details>
-<details class="listing" id="lst8"><summary><span>Listing 8. VMware Workstation guest set-up and run commands · <code>README.md</code></span></summary><div class="bar"><span>82 lines</span><button type="button" data-copy>Copy</button></div><pre># GAA Nanosheet Inverter: Cadence RTL-to-GDSII Flow
+<details class="listing" id="lst8"><summary><span>Listing 8. VMware Workstation guest set-up and run commands · <code>README.md</code></span></summary><div class="bar"><span>89 lines</span><button type="button" data-copy>Copy</button></div><pre># GAA Nanosheet Inverter: Cadence RTL-to-GDSII Flow
 
 Design and implementation of a gate-all-around (GAA) nanosheet CMOS inverter
 (`INV_GAA_X1`, 3-nm-class generic rules) with a complete Cadence flow:
@@ -4805,6 +5189,7 @@ Design and implementation of a gate-all-around (GAA) nanosheet CMOS inverter
 | Place &amp; route | Innovus | `innovus/pnr.tcl`, `innovus/mmmc.tcl` | DEF, SPEF, **`inverter.gds`** |
 | NAND2 cell | Spectre, Genus/Innovus, Python | `spectre/gaa_nand2_tb.scs`, `rtl/nand2.v`, `spectre/nand2.py`, `layout/gen_gaa_nand2_gds.py` | `results_nand2*.json`, `layout/gaa_nand2.gds` |
 | 6T SRAM bitcell | Spectre, Python | `spectre/gaa_sram6t_tb.scs`, `spectre/sram6t.py`, `layout/gen_gaa_sram6t_gds.py` | `results_sram6t*.json`, `layout/gaa_sram6t.gds` |
+| RTL-to-GDSII (reference) | Python | `flow/gaa3_lib.py`, `flow/genus_ref.py`, `flow/innovus_ref.py` | `flow/lib/*.lib,*.lef`, `flow/out/*_netlist.v, *.def, *.gds`, `flow/reports/*` |
 | DRC / LVS | Pegasus (sign-off), Python+gdstk (reference) | `verify/gaa3_drc.py`, `verify/gaa3_lvs.py`, `verify/run_all.sh` | `verify/*.drc.sum`, `verify/*.lvs.rpt` (all cells DRC-clean, LVS MATCH) |
 | Reference check | Python (no deps) | `spectre/ref_model.py` | `results.json`, SVG figures |
 | Ring oscillator | Spectre, Genus, Python | `spectre/gaa_ro11_tb.scs`, `rtl/ring_osc.v`, `genus/synth_ro.tcl`, `spectre/ro.py`, `layout/gen_gaa_ro_gds.py` | `results_ro*.json`, `layout/gaa_ro11.gds` |
@@ -4855,6 +5240,12 @@ cd rtl     &amp;&amp; xrun -timescale 1ps/1fs inverter.v inverter_tb.v
 cd ../genus   &amp;&amp; genus   -files synth.tcl -log logs/genus
 cd ../innovus &amp;&amp; innovus -init  pnr.tcl   -log logs/innovus
 # -&gt; innovus/out/inverter.gds (merged with the standard-cell GDS)
+```
+
+## 3b. Reference RTL-to-GDSII run (no licence needed)
+
+```bash
+cd flow &amp;&amp; python3 gaa3_lib.py &amp;&amp; python3 genus_ref.py inverter nand2 ring_osc &amp;&amp; python3 innovus_ref.py inverter nand2 ring_osc
 ```
 
 ## 4. Verifying the GDSII
@@ -5461,7 +5852,7 @@ module nand2_tb;
     end
 endmodule
 </pre></details>
-<details class="listing" id="lst17"><summary><span>Listing 17. NAND2_GAA_X1 GDSII generator · <code>layout/gen_gaa_nand2_gds.py</code></span></summary><div class="bar"><span>84 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+<details class="listing" id="lst17"><summary><span>Listing 17. NAND2_GAA_X1 GDSII generator · <code>layout/gen_gaa_nand2_gds.py</code></span></summary><div class="bar"><span>85 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;
 gen_gaa_nand2_gds.py -- GDSII of the two-input NAND standard cell NAND2_GAA_X1.
 
@@ -5470,7 +5861,8 @@ inverter.  GAA-specific sizing: the series NMOS stack uses 45-nm sheets and the 
 parallel PMOS use 30-nm sheets (the bands are swapped relative to the inverter), which
 balances worst-case pull-up and pull-down without changing the cell footprint.
 Topology:  PMOS  VDD -(A)- Y -(B)- VDD   |   NMOS  VSS -(A)- X -(B)- Y
-In-cell routing: M1 (layer 7) vertical stubs/straps, output on M2 (layer 9) via V1 (layer 8).
+In-cell routing: M1 (layer 7) vertical stubs/straps, output on M2 (layer 9) via V1 (layer 8) above the
+pin level only, so the lower M2 tracks stay free for over-the-cell routing.
 &quot;&quot;&quot;
 import gen_gaa_inverter_gds as inv
 
@@ -5508,7 +5900,7 @@ def build_nand2():
         c.rect(*L[&quot;SDC&quot;], x - SD // 2, n_y0 - 2, x + SD // 2, n_y1 + 2, &quot;SDC N&quot;)
         c.rect(*L[&quot;SDC&quot;], x - SD // 2, p_y0 - 2, x + SD // 2, p_y1 + 2, &quot;SDC P&quot;)
     # gate contacts in the mid region (y 69..104)
-    ym = (n_y1 + p_y0) // 2                    # 86
+    ym = 84                                    # input pads on the metal-2 routing track
     c.rect(*L[&quot;CB&quot;], CPP - lg2 - 2, ym - 8, CPP + lg2 + 2, ym + 8, &quot;CB A&quot;)
     c.rect(*L[&quot;CB&quot;], 2 * CPP - lg2 - 4, ym - 8, 2 * CPP + lg2 + 2, ym + 8, &quot;CB B (extended over the via)&quot;)
     # rails
@@ -5518,7 +5910,7 @@ def build_nand2():
     def via0(x, y): c.rect(*L[&quot;V0&quot;], x - v, y - v, x + v, y + v, &quot;V0&quot;)
     # NMOS: slot0 = VSS source, slot1 = internal node X (contact only), slot2 = Y drain
     c.rect(*L[&quot;M1&quot;], 24 - M1W // 2, 0, 24 + M1W // 2, n_y1, &quot;VSS strap&quot;); via0(24, ny)
-    c.rect(*L[&quot;M1&quot;], 120 - M1W // 2, n_y0, 120 + M1W // 2, n_y1, &quot;Y stub (N drain)&quot;); via0(120, ny)
+    c.rect(*L[&quot;M1&quot;], 120 - M1W // 2, n_y0, 120 + M1W // 2, 92, &quot;Y stub (N drain, up to the pin level)&quot;); via0(120, ny)
     # PMOS: slot0 = VDD, slot1 = Y drain (shared), slot2 = VDD
     c.rect(*L[&quot;M1&quot;], 24 - M1W // 2, p_y0, 24 + M1W // 2, CH, &quot;VDD strap&quot;); via0(24, py)
     c.rect(*L[&quot;M1&quot;], 120 - M1W // 2, p_y0, 120 + M1W // 2, CH, &quot;VDD strap&quot;); via0(120, py)
@@ -5529,9 +5921,9 @@ def build_nand2():
         c.rect(*L[&quot;M1_PIN&quot;], xc - 8, ym - 8, xc + 8, ym + 8, f&quot;{name} pin&quot;)
         via0(xc, ym); c.label(*L[&quot;M1_TEXT&quot;], xc, ym, name)
     # output net on M2: V1 on the P-drain stub, horizontal to x=120, vertical down to V1 on the N-drain stub
-    c.rect(*L_V1, 72 - v, py - v, 72 + v, py + v, &quot;V1&quot;); c.rect(*L_V1, 120 - v, ny - v, 120 + v, ny + v, &quot;V1&quot;)
+    c.rect(*L_V1, 72 - v, py - v, 72 + v, py + v, &quot;V1&quot;); c.rect(*L_V1, 120 - v, ym - v, 120 + v, ym + v, &quot;V1&quot;)
     c.rect(*L_M2, 72 - M1W // 2, py - M1W // 2, 120 + M1W // 2, py + M1W // 2, &quot;Y (M2)&quot;)
-    c.rect(*L_M2, 120 - M1W // 2, ny - M1W // 2, 120 + M1W // 2, py + M1W // 2, &quot;Y (M2)&quot;)
+    c.rect(*L_M2, 120 - M1W // 2, ym - M1W // 2, 120 + M1W // 2, py + M1W // 2, &quot;Y (M2, pin level to P drain)&quot;)
     c.rect(*L_M2PIN, 120 - M1W // 2, ym - 8, 120 + M1W // 2, ym + 8, &quot;Y pin&quot;)
     c.label(*L_M2TXT, 120, ym, &quot;Y&quot;)
     c.label(*L[&quot;M1_TEXT&quot;], CW // 2, CH, &quot;VDD&quot;); c.label(*L[&quot;M1_TEXT&quot;], CW // 2, 0, &quot;VSS&quot;)
@@ -6318,7 +6710,7 @@ if __name__ == &quot;__main__&quot;:
         open(os.path.join(OUT, f&quot;virtuoso_{name}.svg&quot;), &quot;w&quot;).write(fn())
     print(&quot;virtuoso-style schematics written&quot;)
 </pre></details>
-<details class="listing" id="lst24"><summary><span>Listing 24. PNG rendering of all schematics, waveforms and layouts (headless Chromium) · <code>docs/render_pngs.py</code></span></summary><div class="bar"><span>71 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+<details class="listing" id="lst24"><summary><span>Listing 24. PNG rendering of all schematics, waveforms and layouts (headless Chromium) · <code>docs/render_pngs.py</code></span></summary><div class="bar"><span>72 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;render_pngs.py -- 2x PNG renderings of every schematic and layout SVG in docs/figures with headless
 Chromium. The new headless mode counts window chrome inside --window-size, so the viewport is shorter
 than requested: a probe page measures the offset once and each capture is cropped back to size.&quot;&quot;&quot;
@@ -6330,6 +6722,7 @@ NAMES = [&quot;schematic_inv&quot;, &quot;schematic_nand2&quot;, &quot;schematic
          &quot;viva_inv_dc&quot;, &quot;viva_inv_tran&quot;, &quot;viva_nand2_tran&quot;, &quot;viva_ro11_tran&quot;, &quot;viva_sram_butterfly&quot;,
          &quot;drc_inv&quot;, &quot;drc_nand2&quot;, &quot;drc_ro11&quot;, &quot;drc_sram6t&quot;, &quot;lvs_inv&quot;, &quot;lvs_nand2&quot;, &quot;lvs_ro11&quot;, &quot;lvs_sram6t&quot;,
          &quot;pex_inv&quot;, &quot;pex_nand2&quot;, &quot;pex_ro11&quot;, &quot;pex_sram6t&quot;, &quot;viva_inv_postlayout&quot;, &quot;viva_ro11_postlayout&quot;,
+         &quot;innovus_inverter&quot;, &quot;innovus_nand2&quot;, &quot;innovus_ring_osc&quot;, &quot;genus_ring_osc&quot;, &quot;genus_gates_ring_osc&quot;, &quot;timing_inverter&quot;, &quot;timing_nand2&quot;, &quot;timing_ring_osc&quot;,
          &quot;layout_inv&quot;, &quot;layout_nand2&quot;, &quot;layout_ro11&quot;, &quot;layout_sram6t&quot;]
 
 def png_read(path):
@@ -6677,7 +7070,7 @@ def check(cell, rule, nwell):
 
 def run(path):
     lib = gdstk.read_gds(path, unit=1e-9)          # database unit 1 nm -&gt; coordinates in nm
-    top = [c for c in lib.top_level()][0]
+    top = max(lib.top_level(), key=lambda c: (len(c.references), len(c.polygons)))
     flat = top.flatten()
     nwell = union(layer_polys(flat, (1, 0)))
     results = []; total = 0
@@ -6721,7 +7114,7 @@ if __name__ == &quot;__main__&quot;:
         for r in o[&quot;rules&quot;]:
             if r[&quot;count&quot;]: print(f&quot;    {r[&#x27;rule&#x27;]:&lt;12} {r[&#x27;count&#x27;]:4d}  {r[&#x27;boxes&#x27;][:4]}&quot;)
 </pre></details>
-<details class="listing" id="lst27"><summary><span>Listing 27. Reference LVS: device extraction from GDSII and comparison with the Spectre subcircuit · <code>verify/gaa3_lvs.py</code></span></summary><div class="bar"><span>227 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+<details class="listing" id="lst27"><summary><span>Listing 27. Reference LVS: device extraction from GDSII and comparison with the Spectre subcircuit · <code>verify/gaa3_lvs.py</code></span></summary><div class="bar"><span>232 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;
 gaa3_lvs.py -- layout-versus-schematic of the GAA3 cells (reference extractor + comparator).
 
@@ -6742,7 +7135,8 @@ import gdstk
 
 CONDUCTORS = {(3, 0): &quot;GATE&quot;, (4, 0): &quot;SDC&quot;, (5, 0): &quot;CB&quot;, (7, 0): &quot;M1&quot;, (9, 0): &quot;M2&quot;, (11, 0): &quot;M3&quot;}
 VIAS = {(6, 0): [(7, 0), (4, 0), (5, 0)], (8, 0): [(7, 0), (9, 0)], (10, 0): [(9, 0), (11, 0)]}
-TEXT_LAYERS = {(7, 2): (7, 0), (9, 2): (9, 0), (11, 2): (11, 0)}
+TEXT_LAYERS = {(7, 2): (7, 0), (9, 2): (9, 0), (11, 2): (11, 0)}          # pin texts (ports)
+NET_TEXT_LAYERS = {(7, 3): (7, 0), (9, 3): (9, 0), (11, 3): (11, 0)}      # net-name texts (streamOut -outputNetNames)
 GLOBALS = {&quot;VDD&quot;, &quot;VSS&quot;, &quot;vdd!&quot;, &quot;gnd!&quot;}
 
 def touches(a, b):
@@ -6760,7 +7154,7 @@ class UF:
     def union(self, a, b): self.p[self.find(a)] = self.find(b)
 
 def extract(path):
-    lib = gdstk.read_gds(path, unit=1e-9); top = lib.top_level()[0]
+    lib = gdstk.read_gds(path, unit=1e-9); top = max(lib.top_level(), key=lambda c: (len(c.references), len(c.polygons)))
     top_labels = list(top.labels)                                        # before flatten(): flatten() works in place
     flat = top.flatten()
     polys = {}
@@ -6789,16 +7183,19 @@ def extract(path):
             hit = [i for t in targets for i, p in by_layer.get(t, []) if touches(v, p)]
             for i in hit[1:]: uf.union(sid(hit[0]), sid(i))
     # texts -&gt; net names (labels inside referenced cells are hierarchical unless global supplies)
-    names = {}
+    names = {}; ports = set()
     labels = top_labels + [lab for lab in flat.labels if lab.text in GLOBALS and lab not in top_labels]   # hierarchical labels: only globals
-    for lab in labels:
-        lay = (lab.layer, lab.texttype)
-        if lay not in TEXT_LAYERS: continue
-        pt = gdstk.rectangle((lab.origin[0] - 0.5, lab.origin[1] - 0.5), (lab.origin[0] + 0.5, lab.origin[1] + 0.5))
-        for i, p in by_layer.get(TEXT_LAYERS[lay], []):
-            if touches(pt, p):
-                net = uf.find(sid(i)); txt = lab.text
-                if txt in GLOBALS or txt not in names.values() or names.get(net) == txt: names.setdefault(net, txt)
+    for is_port, layers in ((True, TEXT_LAYERS), (False, NET_TEXT_LAYERS)):
+        for lab in labels:
+            lay = (lab.layer, lab.texttype)
+            if lay not in layers: continue
+            pt = gdstk.rectangle((lab.origin[0] - 0.5, lab.origin[1] - 0.5), (lab.origin[0] + 0.5, lab.origin[1] + 0.5))
+            for i, p in by_layer.get(layers[lay], []):
+                if touches(pt, p):
+                    net = uf.find(sid(i)); txt = lab.text
+                    if txt in GLOBALS or txt not in names.values() or names.get(net) == txt:
+                        names.setdefault(net, txt)
+                        if is_port and names[net] == txt: ports.add(txt)
     # virtual connect by name for global supplies (separate rail pieces of the same net)
     byname = {}
     for net, txt in list(names.items()):
@@ -6806,6 +7203,7 @@ def extract(path):
             if txt in byname: uf.union(net, byname[txt])
             else: byname[txt] = net
     names = {uf.find(n): t for n, t in names.items()}
+    ports = {t for t in ports}
     # devices
     devices = []
     for k, ch in enumerate(chan):
@@ -6837,7 +7235,7 @@ def extract(path):
                 geom.append(dict(layer=lay, bbox=[round(v, 2) for pt in p.bounding_box() for v in pt], net=net))
     for i, p in by_layer.get(&quot;DIFF&quot;, []):
         geom.append(dict(layer=&quot;DIFF&quot;, bbox=[round(v, 2) for pt in p.bounding_box() for v in pt], net=uf.find(sid(i))))
-    return dict(cell=top.name, devices=devices, nets=nets, names=names, geom=geom, channels=[list(c.bounding_box()) for c in chan])
+    return dict(cell=top.name, devices=devices, nets=nets, names=names, ports=ports, geom=geom, channels=[list(c.bounding_box()) for c in chan])
 
 def parse_spectre(path, sub):
     &quot;&quot;&quot;Minimal Spectre subset: model cards (type, hfin), subckt/ends, M devices, X instances, include.&quot;&quot;&quot;
@@ -6908,10 +7306,10 @@ def refine(devices, netname, rounds=8):
 
 def compare(lay, sch):
     ldev = [d for d in lay[&quot;devices&quot;] if not d.get(&quot;bad&quot;)]
-    lname = lambda n: lay[&quot;nets&quot;].get(n)
+    lname = lambda n: lay[&quot;nets&quot;].get(n) if lay[&quot;nets&quot;].get(n) in lay[&quot;ports&quot;] else None
     sname = lambda n: n if n in sch[&quot;ports&quot;] else None
     ld, ln, lcol = refine(ldev, lname); sd, sn, scol = refine(sch[&quot;devices&quot;], sname)
-    lay_ports = sorted({v for v in lay[&quot;nets&quot;].values() if v}); sch_ports = sorted(sch[&quot;ports&quot;])
+    lay_ports = sorted({v for v in lay[&quot;nets&quot;].values() if v and v in lay[&quot;ports&quot;]}); sch_ports = sorted(sch[&quot;ports&quot;])
     res = dict(layout_cell=lay[&quot;cell&quot;], schematic_cell=sch[&quot;cell&quot;],
                layout=dict(ports=len(lay_ports), nets=len(lay[&quot;nets&quot;]), instances=len(ldev),
                            n=sum(d[&quot;type&quot;] == &quot;n&quot; for d in ldev), p=sum(d[&quot;type&quot;] == &quot;p&quot; for d in ldev), port_names=lay_ports,
@@ -7386,7 +7784,7 @@ output_setup \
     -directory ./qrc_out -temperature 25
 extract
 </pre></div>
-<details class="listing" id="lst34"><summary><span>Listing 34. Reference parasitic extractor (GAA3 PEX technology table, SPEF writer) · <code>verify/gaa3_pex.py</code></span></summary><div class="bar"><span>170 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+<details class="listing" id="lst34"><summary><span>Listing 34. Reference parasitic extractor (GAA3 PEX technology table, SPEF writer) · <code>verify/gaa3_pex.py</code></span></summary><div class="bar"><span>176 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;
 gaa3_pex.py -- parasitic RC extraction of the GAA3 GDSII cells (reference extractor; sign-off: Quantus QRC).
 
@@ -7451,17 +7849,21 @@ def extract(path):
             else:
                 kind = &quot;int&quot; if n in dev_nets else &quot;float&quot;
                 nm = f&quot;{kind}{counters[kind]}&quot;; counters[kind] += 1
-            nets[n] = dict(name=nm, cgnd=0.0, coup={}, r=0.0, elems=[], floating=(n not in dev_nets and not names.get(n)))
+            nets[n] = dict(name=nm, cgnd=0.0, coup={}, r=0.0, elems=[], floating=(n not in dev_nets and not names.get(n)), cgnd_dev=0.0, coup_dev={})
         return nets[n]
     def couple(n1, n2, c, tag):
         if n1 is None or n2 is None or c &lt;= 0: return
         if n1 == n2: return
         g1, g2 = names.get(n1) in lvs.GLOBALS, names.get(n2) in lvs.GLOBALS
         if g1 and g2: return
-        if g2: net(n1)[&quot;cgnd&quot;] += c; return
-        if g1: net(n2)[&quot;cgnd&quot;] += c; return
+        dev = tag == &quot;gsd&quot;
+        if g2: net(n1)[&quot;cgnd&quot;] += c; net(n1)[&quot;cgnd_dev&quot;] += c if dev else 0; return
+        if g1: net(n2)[&quot;cgnd&quot;] += c; net(n2)[&quot;cgnd_dev&quot;] += c if dev else 0; return
         net(n1)[&quot;coup&quot;][n2] = net(n1)[&quot;coup&quot;].get(n2, 0.0) + c
         net(n2)[&quot;coup&quot;][n1] = net(n2)[&quot;coup&quot;].get(n1, 0.0) + c
+        if dev:
+            net(n1)[&quot;coup_dev&quot;][n2] = net(n1)[&quot;coup_dev&quot;].get(n2, 0.0) + c
+            net(n2)[&quot;coup_dev&quot;][n1] = net(n2)[&quot;coup_dev&quot;].get(n1, 0.0) + c
     # ---- device-level gate-to-S/D parasitics
     for d in devices:
         if d.get(&quot;bad&quot;): continue
@@ -7513,7 +7915,9 @@ def extract(path):
         out[&quot;nets&quot;][v[&quot;name&quot;]] = dict(cgnd_aF=round(v[&quot;cgnd&quot;], 2), coup_aF={nets[m][&quot;name&quot;]: round(c, 2) for m, c in v[&quot;coup&quot;].items()},
                                      ctotal_aF=round(v[&quot;cgnd&quot;] + sum(v[&quot;coup&quot;].values()), 2), r_ohm=round(v[&quot;r&quot;], 1),
                                      n_res=len(v[&quot;elems&quot;]), floating=v[&quot;floating&quot;],
-                                     elems=[(e[0], round(e[1], 1)) for e in v[&quot;elems&quot;]])
+                                     elems=[(e[0], round(e[1], 1)) for e in v[&quot;elems&quot;]],
+                                     cgnd_wire_aF=round(v[&quot;cgnd&quot;] - v[&quot;cgnd_dev&quot;], 2),
+                                     ccoup_wire_aF=round(sum(v[&quot;coup&quot;].values()) - sum(v[&quot;coup_dev&quot;].values()), 2))
     out[&quot;totals&quot;] = dict(nets=len(nets), cgnd_aF=round(sum(v[&quot;cgnd&quot;] for v in nets.values()), 2),
                          ccoup_aF=round(sum(sum(v[&quot;coup&quot;].values()) for v in nets.values()) / 2, 2),
                          resistors=sum(len(v[&quot;elems&quot;]) for v in nets.values()),
@@ -7666,15 +8070,15 @@ if __name__ == &quot;__main__&quot;:
   Technology      : GAA3 PEX (ILD k=2.9, spacer k=4.5, Rs M1/M2/M3 = 22/18/15 ohm/sq, rho_c = 1e-9 ohm cm^2)
   Nets            :     8      Devices :    4
   Capacitors      :    16      Resistors :   28
-  Total C to gnd  :    0.276 fF     Total coupling C :    0.355 fF
+  Total C to gnd  :    0.276 fF     Total coupling C :    0.357 fF
 ------------------------------------------------------------------------------
   NET          C_gnd(aF)  C_coup(aF)   C_tot(aF)    R(ohm)   #R   coupled to
 ------------------------------------------------------------------------------
-  A                130.5       140.7       271.3     447.0    3   Y:52.5, int0:75.0, B:6.8, float0:6.4
-  B                 55.5       215.7       271.3     447.0    3   Y:127.5, int0:75.0, A:6.8, float1:6.4
+  A                130.5       141.0       271.5     447.0    3   Y:52.7, int0:75.0, B:6.8, float0:6.4
+  B                 55.5       216.8       272.3     447.0    3   Y:128.5, int0:75.0, A:6.8, float1:6.4
   VDD               25.3         0.0        25.3     738.7    7   
   VSS               19.6         0.0        19.6     390.3    4   
-  Y                 33.7       185.7       219.5     713.0   10   A:52.5, B:127.5, int0:5.7
+  Y                 33.5       187.0       220.5     701.9   10   A:52.7, B:128.5, int0:5.7
   float0             2.3         6.4         8.7     300.0    0   A:6.4  (floating dummy gate)
   float1             2.3         6.4         8.7     300.0    0   B:6.4  (floating dummy gate)
   int0               6.6       155.7       162.4     111.1    1   A:75.0, B:75.0, Y:5.7
@@ -7837,7 +8241,7 @@ def tran_nand(mode, cl, cout, cc_a, cc_b, cx, rout, tr=12e-12, tstop=80e-12, dt=
         return float(&quot;nan&quot;)
     h = V / 2
     tphl = cross(vout, h, False, t0) - cross(vin, h, True, t0); tplh = cross(vout, h, True, t1) - cross(vin, h, False, t1)
-    return dict(tpHL=tphl, tpLH=tplh, tpd=0.5 * (tphl + tplh), E_cycle=e)
+    return dict(tpHL=tphl, tpLH=tplh, tpd=0.5 * (tphl + tplh), E_cycle=e, wave=dict(t=ts, vin=vin, vout=vout))
 
 def ro_post(cnode, ccoup, rnet, cdrv_frac=0.3, n=11, vdd=V, tstop=600e-12, dt=8e-15):
     &quot;&quot;&quot;Ring with two nodes per net: driver side (fraction cdrv_frac of C, contacts/M1) -&gt; R -&gt; receiver side (rest, + loads).
@@ -7928,6 +8332,1088 @@ if __name__ == &quot;__main__&quot;:
         ro[&quot;Cnode_pre_fF&quot;], ro[&quot;Cnode_post_fF&quot;], ro[&quot;pre&quot;][&quot;f_Hz&quot;] / 1e9, ro[&quot;post&quot;][&quot;f_Hz&quot;] / 1e9, ro[&quot;pre&quot;][&quot;t_stage_s&quot;] * 1e12, ro[&quot;post&quot;][&quot;t_stage_s&quot;] * 1e12, ro[&quot;pre&quot;][&quot;P_W&quot;] * 1e6, ro[&quot;post&quot;][&quot;P_W&quot;] * 1e6))
     print(&quot;SRAM  C_BL %.1f aF/cell  t_BL(100mV,256) %.1f ps   WL %.1f aF, %.0f ohm per cell  Elmore(64) %.1f ps&quot; % (
         c_bl_cell * 1e18, sram[&quot;t_BL_100mV_ps&quot;], c_wl_cell * 1e18, r_wl_cell, sram[&quot;t_WL_elmore_ps&quot;]))
+</pre></details>
+<details class="listing" id="lst37"><summary><span>Listing 37. Liberty library characterised from the post-layout model (NLDM) · <code>flow/lib/gaa3_stdcells_tt_0p70v_25c.lib</code></span></summary><div class="bar"><span>147 lines</span><button type="button" data-copy>Copy</button></div><pre>library(gaa3_stdcells_tt_0p70v_25c) {
+  comment : &quot;GAA3 generic 3-nm-class nanosheet library, characterised with the post-layout reference model (gaa3_lib.py)&quot;;
+  technology(cmos); delay_model : table_lookup;
+  time_unit : &quot;1ps&quot;; voltage_unit : &quot;1V&quot;; current_unit : &quot;1uA&quot;; leakage_power_unit : &quot;1pW&quot;; capacitive_load_unit(1, ff); pulling_resistance_unit : &quot;1kohm&quot;;
+  nom_process : 1.0; nom_temperature : 25.0; nom_voltage : 0.70;
+  operating_conditions(tt_0p70v_25c) { process : 1.0; temperature : 25.0; voltage : 0.70; tree_type : &quot;balanced_tree&quot;; }
+  default_operating_conditions : tt_0p70v_25c;
+  slew_lower_threshold_pct_rise : 20.0; slew_upper_threshold_pct_rise : 80.0; slew_lower_threshold_pct_fall : 20.0; slew_upper_threshold_pct_fall : 80.0;
+  input_threshold_pct_rise : 50.0; input_threshold_pct_fall : 50.0; output_threshold_pct_rise : 50.0; output_threshold_pct_fall : 50.0;
+  default_max_transition : 30.0; default_fanout_load : 1.0;
+  lu_table_template(delay_template_3x4) { variable_1 : input_net_transition; variable_2 : total_output_net_capacitance; index_1(&quot;6, 12, 24&quot;); index_2(&quot;0.33, 0.66, 1.32, 2.64&quot;); }
+  power_lu_template(power_template_3x4) { variable_1 : input_net_transition; variable_2 : total_output_net_capacitance; index_1(&quot;6, 12, 24&quot;); index_2(&quot;0.33, 0.66, 1.32, 2.64&quot;); }
+  cell(INV_GAA_X1) {
+    area : 0.016128; cell_leakage_power : 1737.08;
+    pin(A) { direction : input; capacitance : 0.6615; }
+    pin(Y) { direction : output; function : &quot;!A&quot;; max_capacitance : 4.0;
+      timing() {
+        related_pin : &quot;A&quot;;
+        timing_sense : negative_unate;
+        cell_rise(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.4087, 3.2109, 4.4513, 6.7580&quot;, \
+            &quot;3.0893, 4.1351, 5.7925, 8.3132&quot;, \
+            &quot;4.0573, 5.4116, 7.5772, 10.9116&quot;);
+        }
+        cell_fall(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.3930, 3.2403, 4.5567, 7.0321&quot;, \
+            &quot;2.9646, 4.0616, 5.8095, 8.4953&quot;, \
+            &quot;3.7208, 5.1249, 7.3907, 10.9464&quot;);
+        }
+        rise_transition(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;1.9130, 2.5779, 4.0255, 7.3057&quot;, \
+            &quot;2.6069, 3.4715, 4.9097, 7.7935&quot;, \
+            &quot;3.7194, 4.7829, 6.5773, 9.5821&quot;);
+        }
+        fall_transition(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.0311, 2.7439, 4.3084, 7.8425&quot;, \
+            &quot;2.7274, 3.6633, 5.2105, 8.3247&quot;, \
+            &quot;3.8269, 4.9744, 6.9154, 10.1163&quot;);
+        }
+      }
+      internal_power() {
+        related_pin : &quot;A&quot;;
+        rise_power(power_template_3x4) { index_1(&quot;6.0, 12.0, 24.0&quot;); index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;0.0565, 0.0569, 0.0590, 0.0603&quot;, &quot;0.0777, 0.0732, 0.0698, 0.0646&quot;, &quot;0.1307, 0.1203, 0.1071, 0.0488&quot;); }
+        fall_power(power_template_3x4) { index_1(&quot;6.0, 12.0, 24.0&quot;); index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;0.0565, 0.0569, 0.0590, 0.0603&quot;, &quot;0.0777, 0.0732, 0.0698, 0.0646&quot;, &quot;0.1307, 0.1203, 0.1071, 0.0488&quot;); }
+      }
+    }
+    pin(VDD) { direction : inout; pg_type : primary_power; } pin(VSS) { direction : inout; pg_type : primary_ground; }
+  }
+  cell(NAND2_GAA_X1) {
+    area : 0.024192; cell_leakage_power : 2174.80;
+    pin(A) { direction : input; capacitance : 0.5099; }
+    pin(B) { direction : input; capacitance : 0.5099; }
+    pin(Y) { direction : output; function : &quot;!(A B)&quot;; max_capacitance : 4.0;
+      timing() {
+        related_pin : &quot;A&quot;;
+        timing_sense : negative_unate;
+        cell_rise(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;3.4751, 4.3438, 6.0079, 9.2168&quot;, \
+            &quot;4.6510, 5.7679, 7.6166, 10.8073&quot;, \
+            &quot;6.4384, 7.8425, 10.2277, 13.9654&quot;);
+        }
+        cell_fall(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.5075, 3.3777, 4.9379, 7.9843&quot;, \
+            &quot;2.7875, 3.8210, 5.6063, 8.7624&quot;, \
+            &quot;2.9652, 4.2710, 6.4337, 10.0699&quot;);
+        }
+        rise_transition(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.7892, 3.8353, 6.1311, 11.0574&quot;, \
+            &quot;3.6766, 4.6804, 6.7074, 11.2268&quot;, \
+            &quot;5.0084, 6.2506, 8.4389, nan&quot;);
+        }
+        fall_transition(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.3351, 3.3589, 5.5749, 10.2143&quot;, \
+            &quot;2.9561, 4.0067, 6.0878, 10.4695&quot;, \
+            &quot;4.1737, 5.2380, 7.3528, 11.5449&quot;);
+        }
+      }
+      internal_power() {
+        related_pin : &quot;A&quot;;
+        rise_power(power_template_3x4) { index_1(&quot;6.0, 12.0, 24.0&quot;); index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;0.0957, 0.0960, 0.0964, 0.0829&quot;, &quot;0.1105, 0.1077, 0.1047, 0.0742&quot;, &quot;0.1543, 0.1456, 0.1240, -0.0304&quot;); }
+        fall_power(power_template_3x4) { index_1(&quot;6.0, 12.0, 24.0&quot;); index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;0.0957, 0.0960, 0.0964, 0.0829&quot;, &quot;0.1105, 0.1077, 0.1047, 0.0742&quot;, &quot;0.1543, 0.1456, 0.1240, -0.0304&quot;); }
+      }
+      timing() {
+        related_pin : &quot;B&quot;;
+        timing_sense : negative_unate;
+        cell_rise(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;3.2983, 4.2126, 5.8801, 9.0963&quot;, \
+            &quot;4.2829, 5.4997, 7.4590, 10.6541&quot;, \
+            &quot;5.7823, 7.3293, 9.8704, 13.7049&quot;);
+        }
+        cell_fall(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.7803, 3.7180, 5.2754, 8.3316&quot;, \
+            &quot;3.3203, 4.5164, 6.4626, 9.6261&quot;, \
+            &quot;3.9335, 5.4588, 7.9591, 11.9431&quot;);
+        }
+        rise_transition(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.4746, 3.4680, 5.7228, 10.6432&quot;, \
+            &quot;3.3489, 4.4130, 6.3645, 10.8313&quot;, \
+            &quot;4.5958, 5.9013, 8.1620, nan&quot;);
+        }
+        fall_transition(delay_template_3x4) {
+          index_1(&quot;6.0, 12.0, 24.0&quot;);
+          index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;2.5290, 3.4709, 5.5853, 10.2136&quot;, \
+            &quot;3.2717, 4.3793, 6.3388, 10.5208&quot;, \
+            &quot;4.4824, 5.7425, 8.0099, 12.0547&quot;);
+        }
+      }
+      internal_power() {
+        related_pin : &quot;B&quot;;
+        rise_power(power_template_3x4) { index_1(&quot;6.0, 12.0, 24.0&quot;); index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;0.0727, 0.0742, 0.0768, 0.0665&quot;, &quot;0.0882, 0.0856, 0.0840, 0.0571&quot;, &quot;0.1315, 0.1231, 0.1042, -0.0420&quot;); }
+        fall_power(power_template_3x4) { index_1(&quot;6.0, 12.0, 24.0&quot;); index_2(&quot;0.330, 0.660, 1.320, 2.640&quot;);
+          values(&quot;0.0727, 0.0742, 0.0768, 0.0665&quot;, &quot;0.0882, 0.0856, 0.0840, 0.0571&quot;, &quot;0.1315, 0.1231, 0.1042, -0.0420&quot;); }
+      }
+    }
+    pin(VDD) { direction : inout; pg_type : primary_power; } pin(VSS) { direction : inout; pg_type : primary_ground; }
+  }
+  cell(FILL_GAA_X1) { area : 0.008064; cell_leakage_power : 0.0; dont_touch : true; dont_use : true;
+    pin(VDD) { direction : inout; pg_type : primary_power; } pin(VSS) { direction : inout; pg_type : primary_ground; } }
+}
+</pre></details>
+<details class="listing" id="lst38"><summary><span>Listing 38. Cell LEF abstracts (technology LEF in flow/lib/gaa3_tech.lef) · <code>flow/lib/gaa3_stdcells.lef</code></span></summary><div class="bar"><span>22 lines</span><button type="button" data-copy>Copy</button></div><pre>VERSION 5.8 ;
+BUSBITCHARS &quot;[]&quot; ; DIVIDERCHAR &quot;/&quot; ;
+MACRO INV_GAA_X1 CLASS CORE ; ORIGIN 0 0 ; FOREIGN INV_GAA_X1 0 0 ; SIZE 0.096 BY 0.168 ; SYMMETRY X Y ; SITE gaa3_core ;
+  PIN A DIRECTION INPUT ; USE SIGNAL ; PORT LAYER M1 ; RECT 0.039 0.076 0.055 0.092 ; END END A
+  PIN Y DIRECTION OUTPUT ; USE SIGNAL ; PORT LAYER M1 ; RECT 0.067 0.034 0.083 0.134 ; END END Y
+  PIN VDD DIRECTION INOUT ; USE POWER ; PORT LAYER M1 ; RECT 0.000 0.156 0.096 0.180 ; END END VDD
+  PIN VSS DIRECTION INOUT ; USE GROUND ; PORT LAYER M1 ; RECT 0.000 -0.012 0.096 0.012 ; END END VSS
+  OBS LAYER M1 ; RECT 0.016 0.000 0.032 0.064 ; RECT 0.016 0.104 0.032 0.168 ; END
+END INV_GAA_X1
+MACRO NAND2_GAA_X1 CLASS CORE ; ORIGIN 0 0 ; FOREIGN NAND2_GAA_X1 0 0 ; SIZE 0.144 BY 0.168 ; SYMMETRY X Y ; SITE gaa3_core ;
+  PIN A DIRECTION INPUT ; USE SIGNAL ; PORT LAYER M1 ; RECT 0.040 0.076 0.056 0.092 ; END END A
+  PIN B DIRECTION INPUT ; USE SIGNAL ; PORT LAYER M1 ; RECT 0.084 0.076 0.100 0.092 ; END END B
+  PIN Y DIRECTION OUTPUT ; USE SIGNAL ; PORT LAYER M2 ; RECT 0.112 0.076 0.128 0.092 ; END END Y
+  PIN VDD DIRECTION INOUT ; USE POWER ; PORT LAYER M1 ; RECT 0.000 0.156 0.144 0.180 ; END END VDD
+  PIN VSS DIRECTION INOUT ; USE GROUND ; PORT LAYER M1 ; RECT 0.000 -0.012 0.144 0.012 ; END END VSS
+  OBS LAYER M1 ; RECT 0.016 0.000 0.032 0.069 ; RECT 0.016 0.104 0.032 0.168 ; RECT 0.112 0.024 0.128 0.092 ; RECT 0.112 0.104 0.128 0.168 ; LAYER M2 ; RECT 0.064 0.111 0.128 0.127 ; RECT 0.112 0.076 0.128 0.127 ; END
+END NAND2_GAA_X1
+MACRO FILL_GAA_X1 CLASS CORE SPACER ; ORIGIN 0 0 ; FOREIGN FILL_GAA_X1 0 0 ; SIZE 0.048 BY 0.168 ; SYMMETRY X Y ; SITE gaa3_core ;
+  PIN VDD DIRECTION INOUT ; USE POWER ; PORT LAYER M1 ; RECT 0.000 0.156 0.048 0.180 ; END END VDD
+  PIN VSS DIRECTION INOUT ; USE GROUND ; PORT LAYER M1 ; RECT 0.000 -0.012 0.048 0.012 ; END END VSS
+END FILL_GAA_X1
+END LIBRARY
+</pre></details>
+<details class="listing" id="lst39"><summary><span>Listing 39. Reference synthesis: RTL front end, technology mapping, STA and reports · <code>flow/genus_ref.py</code></span></summary><div class="bar"><span>266 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+&quot;&quot;&quot;
+genus_ref.py -- reference logic synthesis for the GAA3 flow (the Genus step of Fig. 5, run here without the tool).
+
+  read_hdl   : the Verilog subset used by rtl/*.v (ANSI ports, parameters, vectors, assign with ~ &amp; | ^ and
+               parentheses, generate-for loops instantiating library cells)
+  elaborate  : bit-blast vectors, unroll generate loops
+  syn_map    : technology mapping onto INV_GAA_X1 / NAND2_GAA_X1 (NOT-&gt;INV, NAND-&gt;NAND2, AND-&gt;NAND2+INV,
+               OR-&gt;NAND2 of inverted inputs), buffer removal
+  reports    : report_gates, report_area, report_timing (NLDM STA from the .lib, loops broken at the
+               enable gate as Genus does), report_power (leakage + switching at the SDC toggle rate)
+  write_hdl / write_sdc / netlist JSON for the place-and-route step
+
+    python3 genus_ref.py inverter nand2 ring_osc      -&gt; out/&lt;design&gt;_netlist.v, out/&lt;design&gt;.json, reports/&lt;design&gt;_*.rpt
+&quot;&quot;&quot;
+import json, math, os, re, sys
+R = os.path.dirname(os.path.abspath(__file__)); B = os.path.dirname(R)
+LIB = json.load(open(os.path.join(R, &quot;lib&quot;, &quot;char.json&quot;)))
+AREA = {&quot;INV_GAA_X1&quot;: 0.016128, &quot;NAND2_GAA_X1&quot;: 0.024192}
+LEAK = {&quot;INV_GAA_X1&quot;: None, &quot;NAND2_GAA_X1&quot;: None}
+CIN = {&quot;INV_GAA_X1&quot;: LIB[&quot;cin_inv_fF&quot;], &quot;NAND2_GAA_X1&quot;: LIB[&quot;cin_nand_fF&quot;]}
+WIRE_EST_FF = 0.02                      # pre-layout wire-load estimate per fanout (fF)
+VCLK_PS, IO_DELAY_PS, PIN_LOAD_FF, MAX_TRAN_PS = 200.0, 20.0, 1.28, 15.0      # from genus/constraints.sdc
+TOGGLE_HZ = 1e9                          # activity assumed by report_power (0.2 x 5 GHz)
+
+# ------------------------------------------------------------------ Verilog subset front end
+def read_hdl(path):
+    src = re.sub(r&quot;//.*&quot;, &quot;&quot;, open(path).read()); src = re.sub(r&quot;\(\*.*?\*\)&quot;, &quot;&quot;, src, flags=re.S)
+    m = re.search(r&quot;module\s+(\w+)\s*(#\s*\((.*?)\))?\s*\((.*?)\)\s*;(.*)endmodule&quot;, src, re.S)
+    name, params, ports, body = m.group(1), m.group(3) or &quot;&quot;, m.group(4), m.group(5)
+    P = {}
+    for pm in re.finditer(r&quot;parameter\s+(\w+)\s*=\s*(\d+)&quot;, params): P[pm.group(1)] = int(pm.group(2))
+    inputs, outputs = [], []
+    for pd in re.finditer(r&quot;(input|output)\s+wire\s+(?:\[(\w+):(\w+)\]\s*)?(\w+)&quot;, ports):
+        (outputs if pd.group(1) == &quot;output&quot; else inputs).append(pd.group(4))
+    vectors = {}
+    for vd in re.finditer(r&quot;wire\s+\[(\w+):(\w+)\]\s*(\w+)\s*;&quot;, body):
+        vectors[vd.group(3)] = (P.get(vd.group(1), int(vd.group(1)) if vd.group(1).isdigit() else 0), 0)
+    assigns = [(a.group(1).strip(), a.group(2).strip()) for a in re.finditer(r&quot;assign\s+(.*?)\s*=\s*(.*?);&quot;, body, re.S)]
+    gens = []
+    for g in re.finditer(r&quot;for\s*\(\s*(\w+)\s*=\s*(\d+)\s*;\s*\1\s*&lt;\s*(\w+)\s*;\s*\1\s*=\s*\1\s*\+\s*1\s*\)\s*begin\s*:\s*(\w+)(.*?)end\s*endgenerate&quot;, body, re.S):
+        gens.append((g.group(1), int(g.group(2)), P.get(g.group(3), int(g.group(3)) if g.group(3).isdigit() else 0), g.group(4), g.group(5)))
+    insts = re.findall(r&quot;(\w+)\s+(\w+)\s*\(((?:\s*\.\w+\s*\([^)]*\)\s*,?)+)\)\s*;&quot;, body)
+    return dict(name=name, params=P, inputs=inputs, outputs=outputs, vectors=vectors, assigns=assigns, gens=gens, insts=insts, body=body)
+
+def bit(expr, env):
+    &quot;&quot;&quot;resolve an identifier / bit-select with constant arithmetic to a bit name&quot;&quot;&quot;
+    expr = expr.strip()
+    m = re.match(r&quot;(\w+)\s*\[(.*)\]$&quot;, expr)
+    if m:
+        idx = eval(m.group(2), {}, env); return f&quot;{m.group(1)}[{idx}]&quot;
+    return expr
+
+def parse_expr(s):
+    &quot;&quot;&quot;tiny precedence parser: ~ &gt; &amp; &gt; ^ &gt; |&quot;&quot;&quot;
+    s = s.strip()
+    def tokens(s):
+        return re.findall(r&quot;~|&amp;|\||\^|\(|\)|\w+(?:\s*\[[^\]]*\])?&quot;, s)
+    toks = tokens(s); pos = [0]
+    def peek(): return toks[pos[0]] if pos[0] &lt; len(toks) else None
+    def take(): pos[0] += 1; return toks[pos[0] - 1]
+    def primary():
+        t = take()
+        if t == &quot;(&quot;:
+            e = expr_or(); take(); return e
+        if t == &quot;~&quot;: return (&quot;NOT&quot;, primary())
+        return (&quot;ID&quot;, t)
+    def expr_and():
+        e = primary()
+        while peek() == &quot;&amp;&quot;: take(); e = (&quot;AND&quot;, e, primary())
+        return e
+    def expr_xor():
+        e = expr_and()
+        while peek() == &quot;^&quot;: take(); e = (&quot;XOR&quot;, e, expr_and())
+        return e
+    def expr_or():
+        e = expr_xor()
+        while peek() == &quot;|&quot;: take(); e = (&quot;OR&quot;, e, expr_xor())
+        return e
+    return expr_or()
+
+# ------------------------------------------------------------------ elaboration + mapping
+class Netlist:
+    def __init__(self, name): self.name = name; self.insts = []; self.aliases = {}; self.k = 0
+    def new_net(self): self.k += 1; return f&quot;syn_net{self.k}&quot;
+    def add(self, cell, pins): self.insts.append(dict(name=f&quot;g{len(self.insts)}&quot;, cell=cell, pins=pins)); return self.insts[-1]
+    def resolve(self, n):
+        while n in self.aliases: n = self.aliases[n]
+        return n
+
+def map_expr(nl, e, env, target=None):
+    &quot;&quot;&quot;returns the net carrying the value of e; if target is given, the result is placed on it&quot;&quot;&quot;
+    kind = e[0]
+    if kind == &quot;ID&quot;:
+        n = bit(e[1], env)
+        if target: nl.aliases[target] = n; return n
+        return n
+    if kind == &quot;NOT&quot;:
+        inner = e[1]
+        if inner[0] == &quot;AND&quot;:                                   # ~(a &amp; b) -&gt; NAND2
+            a = map_expr(nl, inner[1], env); b = map_expr(nl, inner[2], env); out = target or nl.new_net()
+            nl.add(&quot;NAND2_GAA_X1&quot;, dict(A=a, B=b, Y=out)); return out
+        a = map_expr(nl, inner, env); out = target or nl.new_net()
+        nl.add(&quot;INV_GAA_X1&quot;, dict(A=a, Y=out)); return out
+    if kind == &quot;AND&quot;:                                            # NAND2 + INV
+        a = map_expr(nl, e[1], env); b = map_expr(nl, e[2], env); t = nl.new_net(); out = target or nl.new_net()
+        nl.add(&quot;NAND2_GAA_X1&quot;, dict(A=a, B=b, Y=t)); nl.add(&quot;INV_GAA_X1&quot;, dict(A=t, Y=out)); return out
+    if kind == &quot;OR&quot;:                                             # NAND2(~a, ~b)
+        a = map_expr(nl, e[1], env); b = map_expr(nl, e[2], env); na, nb = nl.new_net(), nl.new_net(); out = target or nl.new_net()
+        nl.add(&quot;INV_GAA_X1&quot;, dict(A=a, Y=na)); nl.add(&quot;INV_GAA_X1&quot;, dict(A=b, Y=nb)); nl.add(&quot;NAND2_GAA_X1&quot;, dict(A=na, B=nb, Y=out)); return out
+    raise ValueError(kind)
+
+def elaborate_and_map(h):
+    nl = Netlist(h[&quot;name&quot;]); env = dict(h[&quot;params&quot;])
+    for lhs, rhs in h[&quot;assigns&quot;]:
+        map_expr(nl, parse_expr(rhs), env, target=bit(lhs, env))
+    for var, lo, hi, label, block in h[&quot;gens&quot;]:
+        for i in range(lo, hi):
+            env2 = dict(env); env2[var] = i
+            for cell, inst, conns in re.findall(r&quot;(\w+)\s+(\w+)\s*\(((?:\s*\.\w+\s*\([^)]*\)\s*,?)+)\)\s*;&quot;, block):
+                pins = {p: bit(v, env2) for p, v in re.findall(r&quot;\.(\w+)\s*\(([^)]*)\)&quot;, conns)}
+                nl.insts.append(dict(name=f&quot;{label}[{i}]/{inst}&quot;, cell=cell, pins=pins))
+    for inst in nl.insts:
+        inst[&quot;pins&quot;] = {p: nl.resolve(v) for p, v in inst[&quot;pins&quot;].items()}
+    ports = dict(inputs=list(h[&quot;inputs&quot;]), outputs=[nl.resolve(o) if nl.resolve(o) != o else o for o in h[&quot;outputs&quot;]])
+    # an output that is an alias of an internal net keeps its port name: rename that net
+    ren = {}
+    for o in h[&quot;outputs&quot;]:
+        r = nl.resolve(o)
+        if r != o: ren[r] = o
+    for inst in nl.insts: inst[&quot;pins&quot;] = {p: ren.get(v, v) for p, v in inst[&quot;pins&quot;].items()}
+    ports[&quot;outputs&quot;] = list(h[&quot;outputs&quot;])
+    nets = sorted({v for inst in nl.insts for v in inst[&quot;pins&quot;].values()} | set(ports[&quot;inputs&quot;]) | set(ports[&quot;outputs&quot;]))
+    return dict(design=h[&quot;name&quot;], ports=ports, insts=nl.insts, nets=nets)
+
+# ------------------------------------------------------------------ STA on the NLDM tables
+def interp(tab, slew_ps, load_ff):
+    s, c = LIB[&quot;slews_ps&quot;], LIB[&quot;loads_fF&quot;]
+    def idx(arr, v):
+        if v &lt;= arr[0]: return 0, 0.0
+        if v &gt;= arr[-1]: return len(arr) - 2, 1.0
+        for i in range(len(arr) - 1):
+            if arr[i] &lt;= v &lt;= arr[i + 1]: return i, (v - arr[i]) / (arr[i + 1] - arr[i])
+    i, fs = idx(s, slew_ps); j, fc = idx(c, load_ff)
+    v00, v01, v10, v11 = tab[i][j], tab[i][j + 1], tab[i + 1][j], tab[i + 1][j + 1]
+    return (v00 * (1 - fs) + v10 * fs) * (1 - fc) + (v01 * (1 - fs) + v11 * fs) * fc
+
+def arc(cell, pin, slew_ps, load_ff):
+    t = LIB[&quot;inv&quot;] if cell == &quot;INV_GAA_X1&quot; else LIB[&quot;nand&quot;][pin]
+    d = max(interp(t[&quot;cell_rise&quot;], slew_ps, load_ff), interp(t[&quot;cell_fall&quot;], slew_ps, load_ff))
+    tr = max(interp(t[&quot;rise_transition&quot;], slew_ps, load_ff), interp(t[&quot;fall_transition&quot;], slew_ps, load_ff))
+    return d, tr
+
+def sta(net, wire_cap=None, break_at=None):
+    &quot;&quot;&quot;Longest path from any input to any output. wire_cap: extracted net capacitance (fF) or None (wireload).&quot;&quot;&quot;
+    drivers = {inst[&quot;pins&quot;][&quot;Y&quot;]: inst for inst in net[&quot;insts&quot;]}
+    loads = {}
+    for inst in net[&quot;insts&quot;]:
+        for p, n in inst[&quot;pins&quot;].items():
+            if p != &quot;Y&quot;: loads.setdefault(n, []).append((inst, p))
+    def net_load(n):
+        c = sum(CIN[i[&quot;cell&quot;]] for i, _ in loads.get(n, []))
+        if n in net[&quot;ports&quot;][&quot;outputs&quot;]: c += PIN_LOAD_FF
+        c += (wire_cap.get(n, 0.0) if wire_cap is not None else WIRE_EST_FF * max(len(loads.get(n, [])), 1))
+        return c
+    # arrival propagation (levelised; combinational loops are cut at the driver named in break_at)
+    arr = {i: (IO_DELAY_PS, 12.0, [(i, &quot;in&quot;, IO_DELAY_PS)]) for i in net[&quot;ports&quot;][&quot;inputs&quot;]}
+    visited = set(); order = []
+    def inputs_of(d):          # at the loop-breaking instance only the primary-input pin is followed (Genus: loop cut)
+        return [(p, m) for p, m in d[&quot;pins&quot;].items() if p != &quot;Y&quot; and (d[&quot;name&quot;] != break_at or m in net[&quot;ports&quot;][&quot;inputs&quot;])]
+    def visit(n, stack):
+        if n in visited or n in stack: return
+        d = drivers.get(n)
+        if d is None: visited.add(n); return
+        stack.add(n)
+        for p, m in inputs_of(d): visit(m, stack)
+        stack.discard(n); visited.add(n); order.append(n)
+    for o in net[&quot;ports&quot;][&quot;outputs&quot;]: visit(o, set())
+    for inst in net[&quot;insts&quot;]:
+        visit(inst[&quot;pins&quot;][&quot;Y&quot;], set())
+    for n in order:
+        d = drivers[n]; best = None
+        for p, m in inputs_of(d):
+            if m not in arr: continue
+            t0, s0, path = arr[m]; dl, tr = arc(d[&quot;cell&quot;], p, s0, net_load(n))
+            if best is None or t0 + dl &gt; best[0]: best = (t0 + dl, tr, path + [(n, f&quot;{d[&#x27;name&#x27;]}/{p}-&gt;Y {d[&#x27;cell&#x27;]}&quot;, dl)])
+        if best: arr[n] = best
+    paths = []
+    for o in net[&quot;ports&quot;][&quot;outputs&quot;]:
+        if o in arr: t, s, path = arr[o]; paths.append((t + IO_DELAY_PS, o, path, s, net_load(o)))
+    paths.sort(reverse=True)
+    return paths, net_load
+
+def reports(net, outdir, prefix, wire_cap=None, break_at=None, stage=&quot;syn&quot;):
+    counts = {}
+    for i in net[&quot;insts&quot;]: counts[i[&quot;cell&quot;]] = counts.get(i[&quot;cell&quot;], 0) + 1
+    area = sum(AREA[c] * n for c, n in counts.items())
+    L = [f&quot;{&#x27;=&#x27; * 74}&quot;, f&quot;  Genus(TM) Synthesis Solution  -  report_gates   design {net[&#x27;design&#x27;]}   ({stage})&quot;, f&quot;{&#x27;=&#x27; * 74}&quot;,
+         f&quot;  {&#x27;Gate&#x27;:&lt;16}{&#x27;Instances&#x27;:&gt;10}{&#x27;Area (um^2)&#x27;:&gt;14}   Library&quot;, &quot;-&quot; * 74]
+    for c, n in sorted(counts.items()): L.append(f&quot;  {c:&lt;16}{n:&gt;10}{AREA[c]*n:&gt;14.6f}   gaa3_stdcells_tt_0p70v_25c&quot;)
+    L += [&quot;-&quot; * 74, f&quot;  {&#x27;total&#x27;:&lt;16}{sum(counts.values()):&gt;10}{area:&gt;14.6f}&quot;, &quot;&quot;, f&quot;  Nets: {len(net[&#x27;nets&#x27;])}   Ports: {len(net[&#x27;ports&#x27;][&#x27;inputs&#x27;])} in / {len(net[&#x27;ports&#x27;][&#x27;outputs&#x27;])} out&quot;, &quot;=&quot; * 74]
+    open(os.path.join(outdir, f&quot;{prefix}_gates.rpt&quot;), &quot;w&quot;).write(&quot;\n&quot;.join(L) + &quot;\n&quot;)
+    paths, net_load = sta(net, wire_cap, break_at)
+    T = [f&quot;{&#x27;=&#x27; * 74}&quot;, f&quot;  report_timing  design {net[&#x27;design&#x27;]}   ({stage}, {&#x27;extracted RC&#x27; if wire_cap else &#x27;wire-load estimate&#x27;})&quot;, f&quot;{&#x27;=&#x27; * 74}&quot;]
+    if paths:
+        t, o, path, s, cl = paths[0]; slack = VCLK_PS - t
+        T += [f&quot;  Path 1: {&#x27;MET&#x27; if slack &gt;= 0 else &#x27;VIOLATED&#x27;} ({slack:.1f} ps)  Setup check with pin {o} against virtual clock vclk (period {VCLK_PS:.0f} ps)&quot;,
+              f&quot;  Startpoint: {path[0][0]} (input port, input delay {IO_DELAY_PS:.0f} ps)   Endpoint: {o} (output port, output delay {IO_DELAY_PS:.0f} ps)&quot;,
+              f&quot;  Required time {VCLK_PS - IO_DELAY_PS:.1f} ps   Arrival {t - IO_DELAY_PS:.2f} ps   Slack {slack:.2f} ps&quot;, &quot;-&quot; * 74,
+              f&quot;  {&#x27;Pin / arc&#x27;:&lt;40}{&#x27;Cell&#x27;:&lt;14}{&#x27;Delay&#x27;:&gt;8}{&#x27;Arrival&#x27;:&gt;9}&quot;, &quot;-&quot; * 74]
+        acc = 0.0
+        for n, what, dl in path:
+            acc += dl; cellname = what.split()[-1] if &quot;-&gt;&quot; in what else &quot;&quot;
+            T.append(f&quot;  {(what if &#x27;-&gt;&#x27; in what else n + &#x27; (&#x27; + what + &#x27;)&#x27;):&lt;40}{cellname:&lt;14}{dl:&gt;8.2f}{acc:&gt;9.2f}&quot;)
+        T += [&quot;-&quot; * 74, f&quot;  Data arrival at {o}: {acc:.2f} ps    output slew {s:.2f} ps    load {cl:.3f} fF&quot;]
+    else:
+        T.append(&quot;  No constrained path (combinational loop broken; see report_timing -unconstrained)&quot;)
+    T.append(&quot;=&quot; * 74)
+    open(os.path.join(outdir, f&quot;{prefix}_timing.rpt&quot;), &quot;w&quot;).write(&quot;\n&quot;.join(T) + &quot;\n&quot;)
+    # power
+    leak_inv = json.load(open(os.path.join(B, &quot;spectre&quot;, &quot;results.json&quot;)))[&quot;P_static_pW&quot;]
+    leak_nand = json.load(open(os.path.join(B, &quot;spectre&quot;, &quot;results_nand2.json&quot;)))[&quot;P_static_avg_pW&quot;]
+    leak = counts.get(&quot;INV_GAA_X1&quot;, 0) * leak_inv + counts.get(&quot;NAND2_GAA_X1&quot;, 0) * leak_nand
+    e_inv = json.load(open(os.path.join(B, &quot;spectre&quot;, &quot;results_postlayout.json&quot;)))[&quot;inverter&quot;][&quot;post&quot;][&quot;E_cycle&quot;]
+    sw = 0.0; internal = 0.0
+    for i in net[&quot;insts&quot;]:
+        cl = net_load(i[&quot;pins&quot;][&quot;Y&quot;]) * 1e-15
+        sw += cl * 0.7 ** 2 * TOGGLE_HZ                          # C V^2 f per full cycle (rise + fall)
+        internal += (0.15e-15 + (0.16e-15 if i[&quot;cell&quot;] == &quot;NAND2_GAA_X1&quot; else 0)) * 0.7 ** 2 * TOGGLE_HZ + 0.05 * e_inv * TOGGLE_HZ
+    P = [f&quot;{&#x27;=&#x27; * 74}&quot;, f&quot;  report_power  design {net[&#x27;design&#x27;]}   ({stage}; toggle rate {TOGGLE_HZ/1e9:.1f} GHz on every net)&quot;, f&quot;{&#x27;=&#x27; * 74}&quot;,
+         f&quot;  {&#x27;Category&#x27;:&lt;20}{&#x27;Leakage (nW)&#x27;:&gt;14}{&#x27;Internal (uW)&#x27;:&gt;15}{&#x27;Switching (uW)&#x27;:&gt;16}{&#x27;Total (uW)&#x27;:&gt;12}&quot;, &quot;-&quot; * 74,
+         f&quot;  {&#x27;combinational&#x27;:&lt;20}{leak/1e3:&gt;14.3f}{internal*1e6:&gt;15.4f}{sw*1e6:&gt;16.4f}{(leak*1e-12 + internal + sw)*1e6:&gt;12.4f}&quot;, &quot;=&quot; * 74]
+    open(os.path.join(outdir, f&quot;{prefix}_power.rpt&quot;), &quot;w&quot;).write(&quot;\n&quot;.join(P) + &quot;\n&quot;)
+    return dict(cells=sum(counts.values()), counts=counts, area_um2=area, nets=len(net[&quot;nets&quot;]),
+                path_ps=(paths[0][0] - 2 * IO_DELAY_PS) if paths else None, slack_ps=(VCLK_PS - paths[0][0]) if paths else None,
+                leakage_nW=leak / 1e3, dynamic_uW=(internal + sw) * 1e6, total_uW=(leak * 1e-12 + internal + sw) * 1e6)
+
+def write_hdl(net, path):
+    L = [f&quot;// {net[&#x27;design&#x27;]}_netlist.v -- mapped by genus_ref.py onto gaa3_stdcells_tt_0p70v_25c&quot;, f&quot;module {net[&#x27;design&#x27;]} ({&#x27;, &#x27;.join(net[&#x27;ports&#x27;][&#x27;inputs&#x27;] + net[&#x27;ports&#x27;][&#x27;outputs&#x27;])});&quot;]
+    for i in net[&quot;ports&quot;][&quot;inputs&quot;]: L.append(f&quot;  input {i};&quot;)
+    for o in net[&quot;ports&quot;][&quot;outputs&quot;]: L.append(f&quot;  output {o};&quot;)
+    ports = set(net[&quot;ports&quot;][&quot;inputs&quot;] + net[&quot;ports&quot;][&quot;outputs&quot;])
+    for n in net[&quot;nets&quot;]:
+        if n not in ports: L.append(f&quot;  wire \\{n} ;&quot; if &quot;[&quot; in n else f&quot;  wire {n};&quot;)
+    for inst in net[&quot;insts&quot;]:
+        esc = lambda v: (&quot;\\&quot; + v + &quot; &quot;) if &quot;[&quot; in v else v
+        conns = &quot;, &quot;.join(f&quot;.{p}({esc(v)})&quot; for p, v in inst[&quot;pins&quot;].items())
+        nm = (&quot;\\&quot; + inst[&quot;name&quot;] + &quot; &quot;) if &quot;/&quot; in inst[&quot;name&quot;] or &quot;[&quot; in inst[&quot;name&quot;] else inst[&quot;name&quot;]
+        L.append(f&quot;  {inst[&#x27;cell&#x27;]} {nm} ({conns});&quot;)
+    L.append(&quot;endmodule&quot;)
+    open(path, &quot;w&quot;).write(&quot;\n&quot;.join(L) + &quot;\n&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    os.makedirs(os.path.join(R, &quot;out&quot;), exist_ok=True); os.makedirs(os.path.join(R, &quot;reports&quot;), exist_ok=True)
+    summary = {}
+    for d in sys.argv[1:]:
+        h = read_hdl(os.path.join(B, &quot;rtl&quot;, d + &quot;.v&quot;))
+        net = elaborate_and_map(h)
+        brk = next((i[&quot;name&quot;] for i in net[&quot;insts&quot;] if i[&quot;cell&quot;] == &quot;NAND2_GAA_X1&quot; and &quot;en&quot; in i[&quot;pins&quot;].values()), None) if d == &quot;ring_osc&quot; else None
+        net[&quot;break_at&quot;] = brk
+        s = reports(net, os.path.join(R, &quot;reports&quot;), d, break_at=brk)
+        write_hdl(net, os.path.join(R, &quot;out&quot;, f&quot;{d}_netlist.v&quot;))
+        json.dump(net, open(os.path.join(R, &quot;out&quot;, f&quot;{d}.json&quot;), &quot;w&quot;), indent=1)
+        summary[d] = s
+        print(f&quot;{d:10s} cells={s[&#x27;cells&#x27;]} {s[&#x27;counts&#x27;]} area={s[&#x27;area_um2&#x27;]:.4f} um2 nets={s[&#x27;nets&#x27;]} path={s[&#x27;path_ps&#x27;]} ps slack={s[&#x27;slack_ps&#x27;]} ps  P={s[&#x27;total_uW&#x27;]:.3f} uW&quot;)
+    json.dump(summary, open(os.path.join(R, &quot;reports&quot;, &quot;synthesis_summary.json&quot;), &quot;w&quot;), indent=1)
+</pre></details>
+<details class="listing" id="lst40"><summary><span>Listing 40. Reference place-and-route: floorplan, placement, obstruction-aware routing, DEF/GDSII, post-route checks · <code>flow/innovus_ref.py</code></span></summary><div class="bar"><span>239 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+&quot;&quot;&quot;
+innovus_ref.py -- reference place-and-route for the GAA3 flow (the Innovus step of Fig. 5, run here without the tool).
+
+  init_design : mapped netlist (out/&lt;design&gt;.json from genus_ref.py), cell abstracts (pin rectangles of gaa3_stdcells.lef)
+  floorPlan   : one gaa3_core row (168 nm), core width = cell width / target utilisation rounded to the 48-nm site
+  place       : cells in netlist (chain) order, spread evenly on sites; FILL_GAA_X1 in the gaps
+  pin assign  : input pins on the left die edge, outputs on the right, on M2
+  route       : every signal net on one horizontal M2 track (28-nm pitch) chosen greedily so that horizontal
+                segments and the vertical jogs from the pins do not conflict; V1 on the M1 pins
+  outputs     : out/&lt;design&gt;.def, out/&lt;design&gt;.gds (SREFs of the cell GDSII + M2/V1 routing, pin texts),
+                out/&lt;design&gt;_pnr.json (placement, routes, wirelength, vias), out/&lt;design&gt;_pnr.scs (LVS source)
+  post-route  : gaa3_drc on the GDS, gaa3_lvs against the mapped netlist, gaa3_pex -&gt; SPEF, timing with the
+                extracted net capacitances (report_timing -postRoute), verify summary
+
+    python3 innovus_ref.py inverter nand2 ring_osc
+&quot;&quot;&quot;
+import json, os, subprocess, sys
+R = os.path.dirname(os.path.abspath(__file__)); B = os.path.dirname(R)
+sys.path.insert(0, os.path.join(B, &quot;layout&quot;)); sys.path.insert(0, os.path.join(B, &quot;verify&quot;)); sys.path.insert(0, R)
+import gen_gaa_inverter_gds as ginv, gen_gaa_nand2_gds as gnand
+import genus_ref as syn
+
+SITE, ROW_H, UTIL = 48, 168, 0.60
+TRACKS = [84, 56, 112, 140, 28]                 # M2 tracks in order of preference (pin level first: no jog)
+M2W, V1 = 16, 10
+L_V1, L_M2, L_M2PIN, L_M2TXT = (8, 0), (9, 0), (9, 1), (9, 2)
+CELLS = {  # width, pins: name -&gt; (layer, x0, y0, x1, y1) in cell coordinates; obs: cell-internal M2 (LEF OBS), tagged with the pin it carries
+    &quot;INV_GAA_X1&quot;: dict(w=96, pins=dict(A=(&quot;M1&quot;, 39, 76, 55, 92), Y=(&quot;M1&quot;, 67, 34, 83, 134)), obs=[]),
+    &quot;NAND2_GAA_X1&quot;: dict(w=144, pins=dict(A=(&quot;M1&quot;, 40, 76, 56, 92), B=(&quot;M1&quot;, 84, 76, 100, 92), Y=(&quot;M2&quot;, 112, 76, 128, 92)),
+                         obs=[(64, 111, 128, 127, &quot;Y&quot;), (112, 76, 128, 127, &quot;Y&quot;)]),
+    &quot;FILL_GAA_X1&quot;: dict(w=48, pins={}, obs=[]),
+}
+SP = 12                                          # M2 spacing
+
+def gap(a, b):
+    &quot;&quot;&quot;spacing between two rects (x0,y0,x1,y1): negative when they overlap&quot;&quot;&quot;
+    dx = max(b[0] - a[2], a[0] - b[2]); dy = max(b[1] - a[3], a[1] - b[3])
+    return max(dx, dy) if (dx &gt; 0 or dy &gt; 0) else max(dx, dy)
+
+def conflicts(rects, others):
+    for r in rects:
+        for o in others:
+            if gap(r, o) &lt; SP: return True
+    return False
+
+def build_fill():
+    c = ginv.GdsCell(&quot;FILL_GAA_X1&quot;); L = ginv.L; lg2 = ginv.TECH[&quot;LG&quot;] // 2; rw = ginv.TECH[&quot;RAIL_W&quot;] // 2
+    c.rect(*L[&quot;PRBOUND&quot;], 0, 0, SITE, ROW_H, &quot;prBoundary&quot;); c.rect(*L[&quot;NWELL&quot;], 0, ROW_H // 2, SITE, ROW_H, &quot;NWELL&quot;)
+    c.rect(*L[&quot;GATE&quot;], -lg2, 14, lg2, ROW_H - 14, &quot;dummy&quot;); c.rect(*L[&quot;GATE&quot;], SITE - lg2, 14, SITE + lg2, ROW_H - 14, &quot;dummy&quot;)
+    c.rect(*L[&quot;M1&quot;], -4, -rw, SITE + 4, rw, &quot;VSS rail&quot;); c.rect(*L[&quot;M1&quot;], -4, ROW_H - rw, SITE + 4, ROW_H + rw, &quot;VDD rail&quot;)
+    return c
+
+def place(net, obstructed_last=True, flip_obstructed=False):
+    order = []
+    # chain order: follow the nets from the inputs (keeps connected cells adjacent)
+    drivers = {i[&quot;pins&quot;][&quot;Y&quot;]: i for i in net[&quot;insts&quot;]}; seen = set()
+    frontier = list(net[&quot;ports&quot;][&quot;inputs&quot;])
+    while frontier:
+        n = frontier.pop(0)
+        for i in net[&quot;insts&quot;]:
+            if i[&quot;name&quot;] in seen: continue
+            if n in [v for p, v in i[&quot;pins&quot;].items() if p != &quot;Y&quot;]:
+                seen.add(i[&quot;name&quot;]); order.append(i); frontier.append(i[&quot;pins&quot;][&quot;Y&quot;])
+    for i in net[&quot;insts&quot;]:
+        if i[&quot;name&quot;] not in seen: order.append(i)
+    if obstructed_last:
+        order = [i for i in order if not CELLS[i[&quot;cell&quot;]][&quot;obs&quot;]] + [i for i in order if CELLS[i[&quot;cell&quot;]][&quot;obs&quot;]]
+    total = sum(CELLS[i[&quot;cell&quot;]][&quot;w&quot;] for i in order)
+    core_w = int(-(-total / UTIL // SITE)) * SITE
+    slack = core_w - total; gaps = len(order) + 1
+    gap_sites = [slack // SITE // gaps] * gaps
+    for k in range((slack // SITE) % gaps): gap_sites[k] += 1
+    x = 0; placed = []; fills = []
+    for k, inst in enumerate(order):
+        for _ in range(gap_sites[k]): fills.append(x); x += SITE
+        placed.append(dict(name=inst[&quot;name&quot;], cell=inst[&quot;cell&quot;], x=x, pins=inst[&quot;pins&quot;], flip=bool(flip_obstructed and CELLS[inst[&quot;cell&quot;]][&quot;obs&quot;]))); x += CELLS[inst[&quot;cell&quot;]][&quot;w&quot;]
+    for _ in range(gap_sites[-1]): fills.append(x); x += SITE
+    return placed, fills, core_w
+
+def route(net, placed, core_w):
+    pins_of = {}                                                 # net -&gt; list of (x, ylo, yhi, layer, tag)
+    def cx(p, x0, x1):                                    # cell x-range -&gt; placed x-range (mirrored if the cell is flipped)
+        w = CELLS[p[&quot;cell&quot;]][&quot;w&quot;]
+        return (p[&quot;x&quot;] + w - x1, p[&quot;x&quot;] + w - x0) if p.get(&quot;flip&quot;) else (p[&quot;x&quot;] + x0, p[&quot;x&quot;] + x1)
+    for p in placed:
+        for pin, n in p[&quot;pins&quot;].items():
+            lay, x0, y0, x1, y1 = CELLS[p[&quot;cell&quot;]][&quot;pins&quot;][pin]
+            a, b = cx(p, x0, x1)
+            pins_of.setdefault(n, []).append(dict(x=(a + b) // 2, ylo=y0, yhi=y1, layer=lay, tag=f&quot;{p[&#x27;name&#x27;]}/{pin}&quot;))
+    io = {}
+    ins, outs = net[&quot;ports&quot;][&quot;inputs&quot;], net[&quot;ports&quot;][&quot;outputs&quot;]
+    for k, n in enumerate(ins):
+        y = TRACKS[k % len(TRACKS)]
+        io[n] = dict(x=8, ylo=y, yhi=y, layer=&quot;M2&quot;, tag=f&quot;PIN {n}&quot;, side=&quot;W&quot;); pins_of.setdefault(n, []).append(io[n])
+    for k, n in enumerate(outs):
+        y = TRACKS[k % len(TRACKS)]
+        io[n] = dict(x=core_w - 8, ylo=y, yhi=y, layer=&quot;M2&quot;, tag=f&quot;PIN {n}&quot;, side=&quot;E&quot;); pins_of.setdefault(n, []).append(io[n])
+    obs = []                                                     # (rect, net-or-None): cell M2 obstructions, tagged by the net on that pin
+    for p in placed:
+        for x0, y0, x1, y1, pin in CELLS[p[&quot;cell&quot;]][&quot;obs&quot;]:
+            a, b = cx(p, x0, x1); obs.append(((a, y0, b, y1), p[&quot;pins&quot;].get(pin)))
+    metal = []                                                   # (rect, net) of everything routed so far, plus I/O pin metal
+    for n, p in io.items(): metal.append(((p[&quot;x&quot;] - 8, p[&quot;ylo&quot;] - 8, p[&quot;x&quot;] + 8, p[&quot;ylo&quot;] + 8), n))
+    routes = {}
+    for n in sorted(pins_of, key=lambda n: min(p[&quot;x&quot;] for p in pins_of[n])):
+        ps = pins_of[n]
+        if len(ps) &lt; 2: continue
+        xmin, xmax = min(p[&quot;x&quot;] for p in ps), max(p[&quot;x&quot;] for p in ps)
+        for t in TRACKS:
+            def landing(p):
+                if p[&quot;layer&quot;] == &quot;M2&quot; or p[&quot;ylo&quot;] == p[&quot;yhi&quot;]:
+                    return t if p[&quot;ylo&quot;] &lt;= t &lt;= p[&quot;yhi&quot;] else (p[&quot;ylo&quot;] + p[&quot;yhi&quot;]) // 2
+                return t if p[&quot;ylo&quot;] + 8 &lt;= t &lt;= p[&quot;yhi&quot;] - 8 else (p[&quot;ylo&quot;] + p[&quot;yhi&quot;]) // 2
+            need = [(p[&quot;x&quot;], min(t, landing(p)), max(t, landing(p))) for p in ps if landing(p) != t]
+            rects = [(xmin - M2W // 2, t - M2W // 2, xmax + M2W // 2, t + M2W // 2)] + [(jx - M2W // 2, jlo - M2W // 2, jx + M2W // 2, jhi + M2W // 2) for jx, jlo, jhi in need]
+            others = [r for r, m in metal if m != n] + [r for r, m in obs if m != n]
+            if not conflicts(rects, others):
+                metal += [(r, n) for r in rects]
+                routes[n] = dict(track=t, x0=xmin, x1=xmax, jogs=need, pins=ps); break
+        else:
+            raise RuntimeError(f&quot;no free track for net {n}&quot;)
+    return routes, io
+
+def emit(net, placed, fills, core_w, routes, io, d):
+    lib = ginv.GdsLibrary(&quot;GAA3_INV_LIB&quot;)
+    cinv = ginv.build_inverter(); cnand = gnand.build_nand2(); cfill = build_fill()
+    top = ginv.GdsCell(net[&quot;design&quot;]); flat = ginv.GdsCell(net[&quot;design&quot;] + &quot;_flat&quot;)
+    cellmap = {&quot;INV_GAA_X1&quot;: cinv, &quot;NAND2_GAA_X1&quot;: cnand, &quot;FILL_GAA_X1&quot;: cfill}
+    for p in placed:
+        w = CELLS[p[&quot;cell&quot;]][&quot;w&quot;]
+        if p.get(&quot;flip&quot;): top.ref(p[&quot;cell&quot;], p[&quot;x&quot;] + w, 0, mirror_x=True)
+        else: top.ref(p[&quot;cell&quot;], p[&quot;x&quot;], 0)
+        tf = (lambda x: p[&quot;x&quot;] + w - x) if p.get(&quot;flip&quot;) else (lambda x: x + p[&quot;x&quot;])
+        for layer, dt, pts, tag in cellmap[p[&quot;cell&quot;]].polygons: flat.polygons.append((layer, dt, [(tf(x), y) for x, y in pts], f&quot;{p[&#x27;name&#x27;]} {tag}&quot;))
+    for x in fills:
+        top.ref(&quot;FILL_GAA_X1&quot;, x, 0)
+        for layer, dt, pts, tag in cfill.polygons: flat.polygons.append((layer, dt, [(xx + x, y) for xx, y in pts], &quot;fill &quot; + tag))
+    wl = 0; nv = 0
+    def draw(c):
+        nonlocal wl, nv
+        for n, r in routes.items():
+            t = r[&quot;track&quot;]
+            c.rect(*L_M2, r[&quot;x0&quot;] - M2W // 2, t - M2W // 2, r[&quot;x1&quot;] + M2W // 2, t + M2W // 2, f&quot;net {n}&quot;)
+            c.label(9, 3, (r[&quot;x0&quot;] + r[&quot;x1&quot;]) // 2, t, n)                        # net name text (streamOut -outputNetNames)
+            for jx, jlo, jhi in r[&quot;jogs&quot;]: c.rect(*L_M2, jx - M2W // 2, jlo - M2W // 2, jx + M2W // 2, jhi + M2W // 2, f&quot;net {n} jog&quot;)
+            for p in r[&quot;pins&quot;]:
+                if p[&quot;layer&quot;] == &quot;M1&quot;:
+                    y = t if p[&quot;ylo&quot;] + 8 &lt;= t &lt;= p[&quot;yhi&quot;] - 8 else (p[&quot;ylo&quot;] + p[&quot;yhi&quot;]) // 2
+                    c.rect(*L_V1, p[&quot;x&quot;] - V1 // 2, y - V1 // 2, p[&quot;x&quot;] + V1 // 2, y + V1 // 2, f&quot;V1 {p[&#x27;tag&#x27;]}&quot;)
+                    if y != t: c.rect(*L_M2, p[&quot;x&quot;] - M2W // 2, y - M2W // 2, p[&quot;x&quot;] + M2W // 2, y + M2W // 2, f&quot;net {n} landing&quot;)
+        for n, p in io.items():
+            c.rect(*L_M2, p[&quot;x&quot;] - 8, p[&quot;ylo&quot;] - 8, p[&quot;x&quot;] + 8, p[&quot;ylo&quot;] + 8, f&quot;pin {n} metal&quot;)
+            c.rect(*L_M2PIN, p[&quot;x&quot;] - 8, p[&quot;ylo&quot;] - 8, p[&quot;x&quot;] + 8, p[&quot;ylo&quot;] + 8, f&quot;pin {n}&quot;); c.label(*L_M2TXT, p[&quot;x&quot;], p[&quot;ylo&quot;], n)
+        c.rect(*ginv.L[&quot;PRBOUND&quot;], 0, 0, core_w, ROW_H, &quot;core&quot;)
+    draw(top); draw(flat)
+    for n, r in routes.items():
+        wl += (r[&quot;x1&quot;] - r[&quot;x0&quot;]) + sum(jhi - jlo for _, jlo, jhi in r[&quot;jogs&quot;]); nv += sum(1 for p in r[&quot;pins&quot;] if p[&quot;layer&quot;] == &quot;M1&quot;)
+    used = {p[&quot;cell&quot;] for p in placed} | ({&quot;FILL_GAA_X1&quot;} if fills else set())
+    lib.cells += [c for c in (cinv, cnand, cfill) if c.name in used] + [top]
+    lib.write(os.path.join(R, &quot;out&quot;, f&quot;{d}.gds&quot;))
+    ginv.STYLE.update({L_V1: (&quot;#ffeb3b&quot;, &quot;#8d6e00&quot;, 1.0), L_M2: (&quot;#8e24aa&quot;, &quot;#4a148c&quot;, 0.55), L_M2PIN: (&quot;none&quot;, &quot;#4a148c&quot;, 1.0)})
+    open(os.path.join(R, &quot;out&quot;, f&quot;{d}.svg&quot;), &quot;w&quot;).write(ginv.to_svg(flat, pad=16, scale=1.6 if core_w &gt; 600 else 3.0))
+    # DEF
+    D = [f&quot;VERSION 5.8 ;&quot;, f&quot;DESIGN {net[&#x27;design&#x27;]} ;&quot;, &quot;UNITS DISTANCE MICRONS 1000 ;&quot;, f&quot;DIEAREA ( 0 0 ) ( {core_w} {ROW_H} ) ;&quot;,
+         f&quot;ROW row_0 gaa3_core 0 0 N DO {core_w // SITE} BY 1 STEP {SITE} 0 ;&quot;, f&quot;COMPONENTS {len(placed) + len(fills)} ;&quot;]
+    for p in placed: D.append(f&quot;  - {p[&#x27;name&#x27;]} {p[&#x27;cell&#x27;]} + PLACED ( {p[&#x27;x&#x27;]} 0 ) {&#x27;FN&#x27; if p.get(&#x27;flip&#x27;) else &#x27;N&#x27;} ;&quot;)
+    for k, x in enumerate(fills): D.append(f&quot;  - FILL{k} FILL_GAA_X1 + PLACED ( {x} 0 ) N ;&quot;)
+    D += [&quot;END COMPONENTS&quot;, f&quot;PINS {len(io)} ;&quot;]
+    for n, p in io.items(): D.append(f&quot;  - {n} + NET {n} + DIRECTION {&#x27;INPUT&#x27; if p[&#x27;side&#x27;] == &#x27;W&#x27; else &#x27;OUTPUT&#x27;} + LAYER M2 ( -8 -8 ) ( 8 8 ) + PLACED ( {p[&#x27;x&#x27;]} {p[&#x27;ylo&#x27;]} ) N ;&quot;)
+    D += [&quot;END PINS&quot;, f&quot;NETS {len(routes)} ;&quot;]
+    for n, r in routes.items():
+        conns = &quot; &quot;.join(f&quot;( {p[&#x27;tag&#x27;].split(&#x27;/&#x27;)[0] if &#x27;PIN&#x27; not in p[&#x27;tag&#x27;] else &#x27;PIN&#x27;} {p[&#x27;tag&#x27;].split(&#x27;/&#x27;)[-1].replace(&#x27;PIN &#x27;, &#x27;&#x27;)} )&quot; for p in r[&quot;pins&quot;])
+        seg = f&quot;+ ROUTED M2 ( {r[&#x27;x0&#x27;]} {r[&#x27;track&#x27;]} ) ( {r[&#x27;x1&#x27;]} {r[&#x27;track&#x27;]} )&quot;
+        for jx, jlo, jhi in r[&quot;jogs&quot;]: seg += f&quot; NEW M2 ( {jx} {jlo} ) ( {jx} {jhi} )&quot;
+        D.append(f&quot;  - {n} {conns} {seg} ;&quot;)
+    D += [&quot;END NETS&quot;, &quot;END DESIGN&quot;]
+    open(os.path.join(R, &quot;out&quot;, f&quot;{d}.def&quot;), &quot;w&quot;).write(&quot;\n&quot;.join(D) + &quot;\n&quot;)
+    # LVS source: the mapped netlist as a Spectre subcircuit of library cells
+    S = [&quot;simulator lang=spectre&quot;, &#x27;include &quot;../../spectre/gaa_inv_tb.scs&quot; section=models&#x27;, &#x27;include &quot;../../spectre/gaa_nand2_tb.scs&quot; section=models&#x27;,
+         f&quot;subckt {net[&#x27;design&#x27;]} ({&#x27; &#x27;.join(net[&#x27;ports&#x27;][&#x27;inputs&#x27;] + net[&#x27;ports&#x27;][&#x27;outputs&#x27;])} VDD VSS)&quot;]
+    for k, i in enumerate(net[&quot;insts&quot;]):
+        pins = i[&quot;pins&quot;]; nets_ = [pins[p].replace(&quot;[&quot;, &quot;_&quot;).replace(&quot;]&quot;, &quot;&quot;) for p in ((&quot;A&quot;, &quot;Y&quot;) if i[&quot;cell&quot;] == &quot;INV_GAA_X1&quot; else (&quot;A&quot;, &quot;B&quot;, &quot;Y&quot;))]
+        S.append(f&quot;    X{k} ({&#x27; &#x27;.join(nets_)} VDD VSS) {i[&#x27;cell&#x27;]}&quot;)
+    S.append(f&quot;ends {net[&#x27;design&#x27;]}&quot;)
+    open(os.path.join(R, &quot;out&quot;, f&quot;{d}_pnr.scs&quot;), &quot;w&quot;).write(&quot;\n&quot;.join(S) + &quot;\n&quot;)
+    return dict(core_w=core_w, cells=len(placed), fills=len(fills), utilisation=sum(CELLS[p[&quot;cell&quot;]][&quot;w&quot;] for p in placed) / core_w,
+                nets=len(routes), wirelength_nm=wl, vias=nv, tracks_used=sorted({r[&quot;track&quot;] for r in routes.values()}),
+                placed=[dict(name=p[&quot;name&quot;], cell=p[&quot;cell&quot;], x=p[&quot;x&quot;], w=CELLS[p[&quot;cell&quot;]][&quot;w&quot;], flip=p.get(&quot;flip&quot;, False)) for p in placed], fill_x=fills,
+                routes={n: dict(track=r[&quot;track&quot;], x0=r[&quot;x0&quot;], x1=r[&quot;x1&quot;], jogs=r[&quot;jogs&quot;], vias=[(p[&quot;x&quot;], (r[&quot;track&quot;] if p[&quot;ylo&quot;] + 8 &lt;= r[&quot;track&quot;] &lt;= p[&quot;yhi&quot;] - 8 else (p[&quot;ylo&quot;] + p[&quot;yhi&quot;]) // 2)) for p in r[&quot;pins&quot;] if p[&quot;layer&quot;] == &quot;M1&quot;]) for n, r in routes.items()},
+                pins={n: dict(x=p[&quot;x&quot;], y=p[&quot;ylo&quot;], side=p[&quot;side&quot;]) for n, p in io.items()})
+
+def post_route(d, net, summ):
+    V = os.path.join(B, &quot;verify&quot;); out = os.path.join(R, &quot;out&quot;); rep = os.path.join(R, &quot;reports&quot;)
+    gds = os.path.join(out, f&quot;{d}.gds&quot;)
+    subprocess.run([sys.executable, os.path.join(V, &quot;gaa3_drc.py&quot;), gds], cwd=out, check=True, stdout=subprocess.DEVNULL)
+    drc = json.load(open(os.path.join(out, f&quot;{d}.drc.json&quot;)))
+    subprocess.run([sys.executable, os.path.join(V, &quot;gaa3_lvs.py&quot;), gds, os.path.join(out, f&quot;{d}_pnr.scs&quot;), net[&quot;design&quot;]], cwd=out, check=True, stdout=subprocess.DEVNULL)
+    lvs = json.load(open(os.path.join(out, f&quot;{d}.lvs.json&quot;)))
+    subprocess.run([sys.executable, os.path.join(V, &quot;gaa3_pex.py&quot;), gds], cwd=out, check=True, stdout=subprocess.DEVNULL)
+    pex = json.load(open(os.path.join(out, f&quot;{d}.pex.json&quot;)))
+    # post-route STA: wire-level extracted capacitance per net (device-level gate parasitics are in the .lib pin caps)
+    wire2 = {n: (pex[&quot;nets&quot;][n][&quot;cgnd_wire_aF&quot;] + pex[&quot;nets&quot;][n][&quot;ccoup_wire_aF&quot;]) / 1e3 if n in pex[&quot;nets&quot;] else 0.0 for n in net[&quot;nets&quot;]}
+    st = syn.reports(net, rep, d + &quot;_postroute&quot;, wire_cap=wire2, break_at=net.get(&quot;break_at&quot;), stage=&quot;postRoute&quot;)
+    summ.update(drc_results=drc[&quot;total&quot;], drc_rules=drc[&quot;checked&quot;], lvs=lvs[&quot;result&quot;], lvs_counts=dict(layout=lvs[&quot;layout&quot;], schematic=lvs[&quot;schematic&quot;]),
+                pex_nets=pex[&quot;totals&quot;][&quot;nets&quot;], pex_cgnd_fF=pex[&quot;totals&quot;][&quot;cgnd_aF&quot;] / 1e3, pex_ccoup_fF=pex[&quot;totals&quot;][&quot;ccoup_aF&quot;] / 1e3,
+                postroute_path_ps=st[&quot;path_ps&quot;], postroute_slack_ps=st[&quot;slack_ps&quot;], postroute_power_uW=st[&quot;total_uW&quot;])
+    # Innovus-style log / summary
+    Lg = [f&quot;{&#x27;=&#x27; * 74}&quot;, f&quot;  Innovus(TM) Implementation System  -  {net[&#x27;design&#x27;]}  flow summary&quot;, f&quot;{&#x27;=&#x27; * 74}&quot;,
+          f&quot;  floorPlan     : 1 row gaa3_core, core {summ[&#x27;core_w&#x27;]} x {ROW_H} nm, target utilisation {UTIL:.2f}&quot;,
+          f&quot;  place_opt     : {summ[&#x27;cells&#x27;]} standard cells, {summ[&#x27;fills&#x27;]} fillers, utilisation {summ[&#x27;utilisation&#x27;]*100:.1f} %&quot;,
+          f&quot;  routeDesign   : {summ[&#x27;nets&#x27;]} signal nets on M2 tracks {summ[&#x27;tracks_used&#x27;]}, wirelength {summ[&#x27;wirelength_nm&#x27;]} nm, {summ[&#x27;vias&#x27;]} V1&quot;,
+          f&quot;  verify_drc    : {drc[&#x27;total&#x27;]} violations in {drc[&#x27;checked&#x27;]} rulechecks (GAA3_DRC)&quot;,
+          f&quot;  verifyConn    : LVS {lvs[&#x27;result&#x27;]} vs mapped netlist ({lvs[&#x27;layout&#x27;][&#x27;instances&#x27;]} instances, {lvs[&#x27;layout&#x27;][&#x27;nets&#x27;]} nets)&quot;,
+          f&quot;  extractRC     : {pex[&#x27;totals&#x27;][&#x27;nets&#x27;]} nets, C_gnd {pex[&#x27;totals&#x27;][&#x27;cgnd_aF&#x27;]/1e3:.3f} fF, C_coup {pex[&#x27;totals&#x27;][&#x27;ccoup_aF&#x27;]/1e3:.3f} fF -&gt; {d}.spef&quot;,
+          f&quot;  timeDesign    : postRoute path {st[&#x27;path_ps&#x27;] if st[&#x27;path_ps&#x27;] is not None else &#x27;n/a (loop)&#x27;} ps, slack {st[&#x27;slack_ps&#x27;] if st[&#x27;slack_ps&#x27;] is not None else &#x27;n/a&#x27;} ps vs vclk 200 ps&quot;,
+          f&quot;  streamOut     : {d}.gds ({len(summ[&#x27;placed&#x27;])} cell references + routing), {d}.def&quot;, &quot;=&quot; * 74]
+    open(os.path.join(rep, f&quot;{d}_innovus.log&quot;), &quot;w&quot;).write(&quot;\n&quot;.join(Lg) + &quot;\n&quot;)
+    return summ
+
+if __name__ == &quot;__main__&quot;:
+    os.makedirs(os.path.join(R, &quot;out&quot;), exist_ok=True); os.makedirs(os.path.join(R, &quot;reports&quot;), exist_ok=True)
+    summary = {}
+    for d in sys.argv[1:]:
+        net = json.load(open(os.path.join(R, &quot;out&quot;, f&quot;{d}.json&quot;)))
+        for last, flip in ((False, False), (False, True), (True, False), (True, True)):     # placement trials until the router succeeds
+            placed, fills, core_w = place(net, obstructed_last=last, flip_obstructed=flip)
+            try:
+                routes, io = route(net, placed, core_w); break
+            except RuntimeError as e:
+                print(f&quot;   {d}: {e} (obstructed_last={last}, flip={flip}) -&gt; next placement trial&quot;)
+        else:
+            raise SystemExit(f&quot;{d}: unroutable&quot;)
+        summ = emit(net, placed, fills, core_w, routes, io, d)
+        summ = post_route(d, net, summ)
+        summary[d] = summ
+        print(f&quot;{d:10s} core {core_w}x{ROW_H} nm  cells {summ[&#x27;cells&#x27;]} fills {summ[&#x27;fills&#x27;]} util {summ[&#x27;utilisation&#x27;]*100:.0f}%  nets {summ[&#x27;nets&#x27;]} WL {summ[&#x27;wirelength_nm&#x27;]} nm vias {summ[&#x27;vias&#x27;]}  &quot;
+              f&quot;DRC {summ[&#x27;drc_results&#x27;]}  LVS {summ[&#x27;lvs&#x27;]}  postRoute path {summ[&#x27;postroute_path_ps&#x27;]} ps&quot;)
+    json.dump(summary, open(os.path.join(R, &quot;reports&quot;, &quot;pnr_summary.json&quot;), &quot;w&quot;), indent=1)
+</pre></details>
+<details class="listing" id="lst41"><summary><span>Listing 41. Mapped netlist of the ring oscillator · <code>flow/out/ring_osc_netlist.v</code></span></summary><div class="bar"><span>30 lines</span><button type="button" data-copy>Copy</button></div><pre>// ring_osc_netlist.v -- mapped by genus_ref.py onto gaa3_stdcells_tt_0p70v_25c
+module ring_osc (en, out);
+  input en;
+  output out;
+  wire \n[0] ;
+  wire \n[10] ;
+  wire \n[1] ;
+  wire \n[2] ;
+  wire \n[3] ;
+  wire \n[4] ;
+  wire \n[5] ;
+  wire \n[6] ;
+  wire \n[7] ;
+  wire \n[8] ;
+  wire \n[9] ;
+  wire syn_net1;
+  NAND2_GAA_X1 g0 (.A(out), .B(en), .Y(syn_net1));
+  INV_GAA_X1 g1 (.A(syn_net1), .Y(\n[0] ));
+  INV_GAA_X1 \stage[0]/u_inv  (.A(\n[0] ), .Y(\n[1] ));
+  INV_GAA_X1 \stage[1]/u_inv  (.A(\n[1] ), .Y(\n[2] ));
+  INV_GAA_X1 \stage[2]/u_inv  (.A(\n[2] ), .Y(\n[3] ));
+  INV_GAA_X1 \stage[3]/u_inv  (.A(\n[3] ), .Y(\n[4] ));
+  INV_GAA_X1 \stage[4]/u_inv  (.A(\n[4] ), .Y(\n[5] ));
+  INV_GAA_X1 \stage[5]/u_inv  (.A(\n[5] ), .Y(\n[6] ));
+  INV_GAA_X1 \stage[6]/u_inv  (.A(\n[6] ), .Y(\n[7] ));
+  INV_GAA_X1 \stage[7]/u_inv  (.A(\n[7] ), .Y(\n[8] ));
+  INV_GAA_X1 \stage[8]/u_inv  (.A(\n[8] ), .Y(\n[9] ));
+  INV_GAA_X1 \stage[9]/u_inv  (.A(\n[9] ), .Y(\n[10] ));
+  INV_GAA_X1 \stage[10]/u_inv  (.A(\n[10] ), .Y(out));
+endmodule
+</pre></details>
+<details class="listing" id="lst42"><summary><span>Listing 42. Routed DEF of the ring oscillator · <code>flow/out/ring_osc.def</code></span></summary><div class="bar"><span>59 lines</span><button type="button" data-copy>Copy</button></div><pre>VERSION 5.8 ;
+DESIGN ring_osc ;
+UNITS DISTANCE MICRONS 1000 ;
+DIEAREA ( 0 0 ) ( 2160 168 ) ;
+ROW row_0 gaa3_core 0 0 N DO 45 BY 1 STEP 48 0 ;
+COMPONENTS 31 ;
+  - g0 NAND2_GAA_X1 + PLACED ( 96 0 ) FN ;
+  - g1 INV_GAA_X1 + PLACED ( 336 0 ) N ;
+  - stage[0]/u_inv INV_GAA_X1 + PLACED ( 528 0 ) N ;
+  - stage[1]/u_inv INV_GAA_X1 + PLACED ( 720 0 ) N ;
+  - stage[2]/u_inv INV_GAA_X1 + PLACED ( 864 0 ) N ;
+  - stage[3]/u_inv INV_GAA_X1 + PLACED ( 1008 0 ) N ;
+  - stage[4]/u_inv INV_GAA_X1 + PLACED ( 1152 0 ) N ;
+  - stage[5]/u_inv INV_GAA_X1 + PLACED ( 1296 0 ) N ;
+  - stage[6]/u_inv INV_GAA_X1 + PLACED ( 1440 0 ) N ;
+  - stage[7]/u_inv INV_GAA_X1 + PLACED ( 1584 0 ) N ;
+  - stage[8]/u_inv INV_GAA_X1 + PLACED ( 1728 0 ) N ;
+  - stage[9]/u_inv INV_GAA_X1 + PLACED ( 1872 0 ) N ;
+  - stage[10]/u_inv INV_GAA_X1 + PLACED ( 2016 0 ) N ;
+  - FILL0 FILL_GAA_X1 + PLACED ( 0 0 ) N ;
+  - FILL1 FILL_GAA_X1 + PLACED ( 48 0 ) N ;
+  - FILL2 FILL_GAA_X1 + PLACED ( 240 0 ) N ;
+  - FILL3 FILL_GAA_X1 + PLACED ( 288 0 ) N ;
+  - FILL4 FILL_GAA_X1 + PLACED ( 432 0 ) N ;
+  - FILL5 FILL_GAA_X1 + PLACED ( 480 0 ) N ;
+  - FILL6 FILL_GAA_X1 + PLACED ( 624 0 ) N ;
+  - FILL7 FILL_GAA_X1 + PLACED ( 672 0 ) N ;
+  - FILL8 FILL_GAA_X1 + PLACED ( 816 0 ) N ;
+  - FILL9 FILL_GAA_X1 + PLACED ( 960 0 ) N ;
+  - FILL10 FILL_GAA_X1 + PLACED ( 1104 0 ) N ;
+  - FILL11 FILL_GAA_X1 + PLACED ( 1248 0 ) N ;
+  - FILL12 FILL_GAA_X1 + PLACED ( 1392 0 ) N ;
+  - FILL13 FILL_GAA_X1 + PLACED ( 1536 0 ) N ;
+  - FILL14 FILL_GAA_X1 + PLACED ( 1680 0 ) N ;
+  - FILL15 FILL_GAA_X1 + PLACED ( 1824 0 ) N ;
+  - FILL16 FILL_GAA_X1 + PLACED ( 1968 0 ) N ;
+  - FILL17 FILL_GAA_X1 + PLACED ( 2112 0 ) N ;
+END COMPONENTS
+PINS 2 ;
+  - en + NET en + DIRECTION INPUT + LAYER M2 ( -8 -8 ) ( 8 8 ) + PLACED ( 8 84 ) N ;
+  - out + NET out + DIRECTION OUTPUT + LAYER M2 ( -8 -8 ) ( 8 8 ) + PLACED ( 2152 84 ) N ;
+END PINS
+NETS 14 ;
+  - en ( g0 B ) ( PIN en ) + ROUTED M2 ( 8 56 ) ( 148 56 ) NEW M2 ( 148 56 ) ( 148 84 ) NEW M2 ( 8 56 ) ( 8 84 ) ;
+  - syn_net1 ( g0 Y ) ( g1 A ) + ROUTED M2 ( 120 112 ) ( 383 112 ) NEW M2 ( 120 84 ) ( 120 112 ) NEW M2 ( 383 84 ) ( 383 112 ) ;
+  - out ( g0 A ) ( stage[10] Y ) ( PIN out ) + ROUTED M2 ( 192 56 ) ( 2152 56 ) NEW M2 ( 192 56 ) ( 192 84 ) NEW M2 ( 2152 56 ) ( 2152 84 ) ;
+  - n[0] ( g1 Y ) ( stage[0] A ) + ROUTED M2 ( 411 84 ) ( 575 84 ) ;
+  - n[1] ( stage[0] Y ) ( stage[1] A ) + ROUTED M2 ( 603 84 ) ( 767 84 ) ;
+  - n[2] ( stage[1] Y ) ( stage[2] A ) + ROUTED M2 ( 795 84 ) ( 911 84 ) ;
+  - n[3] ( stage[2] Y ) ( stage[3] A ) + ROUTED M2 ( 939 84 ) ( 1055 84 ) ;
+  - n[4] ( stage[3] Y ) ( stage[4] A ) + ROUTED M2 ( 1083 84 ) ( 1199 84 ) ;
+  - n[5] ( stage[4] Y ) ( stage[5] A ) + ROUTED M2 ( 1227 84 ) ( 1343 84 ) ;
+  - n[6] ( stage[5] Y ) ( stage[6] A ) + ROUTED M2 ( 1371 84 ) ( 1487 84 ) ;
+  - n[7] ( stage[6] Y ) ( stage[7] A ) + ROUTED M2 ( 1515 84 ) ( 1631 84 ) ;
+  - n[8] ( stage[7] Y ) ( stage[8] A ) + ROUTED M2 ( 1659 84 ) ( 1775 84 ) ;
+  - n[9] ( stage[8] Y ) ( stage[9] A ) + ROUTED M2 ( 1803 84 ) ( 1919 84 ) ;
+  - n[10] ( stage[9] Y ) ( stage[10] A ) + ROUTED M2 ( 1947 84 ) ( 2063 84 ) ;
+END NETS
+END DESIGN
+</pre></details>
+<details class="listing" id="lst43"><summary><span>Listing 43. Post-route timing report of the ring oscillator · <code>flow/reports/ring_osc_postroute_timing.rpt</code></span></summary><div class="bar"><span>26 lines</span><button type="button" data-copy>Copy</button></div><pre>==========================================================================
+  report_timing  design ring_osc   (postRoute, extracted RC)
+==========================================================================
+  Path 1: MET (110.8 ps)  Setup check with pin out against virtual clock vclk (period 200 ps)
+  Startpoint: en (input port, input delay 20 ps)   Endpoint: out (output port, output delay 20 ps)
+  Required time 180.0 ps   Arrival 69.18 ps   Slack 110.82 ps
+--------------------------------------------------------------------------
+  Pin / arc                               Cell             Delay  Arrival
+--------------------------------------------------------------------------
+  en (in)                                                  20.00    20.00
+  g0/B-&gt;Y NAND2_GAA_X1                    NAND2_GAA_X1      5.87    25.87
+  g1/A-&gt;Y INV_GAA_X1                      INV_GAA_X1        3.40    29.27
+  stage[0]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.40    32.67
+  stage[1]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    36.06
+  stage[2]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    39.45
+  stage[3]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    42.84
+  stage[4]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    46.23
+  stage[5]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    49.61
+  stage[6]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    53.00
+  stage[7]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    56.39
+  stage[8]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    59.78
+  stage[9]/u_inv/A-&gt;Y INV_GAA_X1          INV_GAA_X1        3.39    63.16
+  stage[10]/u_inv/A-&gt;Y INV_GAA_X1         INV_GAA_X1        6.01    69.18
+--------------------------------------------------------------------------
+  Data arrival at out: 69.18 ps    output slew 6.39 ps    load 2.097 fF
+==========================================================================
+</pre></details>
+<details class="listing" id="lst44"><summary><span>Listing 44. Implementation flow summary of the ring oscillator · <code>flow/reports/ring_osc_innovus.log</code></span></summary><div class="bar"><span>12 lines</span><button type="button" data-copy>Copy</button></div><pre>==========================================================================
+  Innovus(TM) Implementation System  -  ring_osc  flow summary
+==========================================================================
+  floorPlan     : 1 row gaa3_core, core 2160 x 168 nm, target utilisation 0.60
+  place_opt     : 13 standard cells, 18 fillers, utilisation 60.0 %
+  routeDesign   : 14 signal nets on M2 tracks [56, 84, 112], wirelength 3903 nm, 26 V1
+  verify_drc    : 0 violations in 26 rulechecks (GAA3_DRC)
+  verifyConn    : LVS MATCH vs mapped netlist (28 instances, 17 nets)
+  extractRC     : 49 nets, C_gnd 3.093 fF, C_coup 2.801 fF -&gt; ring_osc.spef
+  timeDesign    : postRoute path 49.17768225678752 ps, slack 110.82231774321248 ps vs vclk 200 ps
+  streamOut     : ring_osc.gds (13 cell references + routing), ring_osc.def
+==========================================================================
+</pre></details>
+<details class="listing" id="lst45"><summary><span>Listing 45. Library characterisation (Liberty / LEF writer) · <code>flow/gaa3_lib.py</code></span></summary><div class="bar"><span>176 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+&quot;&quot;&quot;
+gaa3_lib.py -- characterises INV_GAA_X1 and NAND2_GAA_X1 with the post-layout reference model and writes
+the GAA3 standard-cell library views used by the digital flow:
+  gaa3_stdcells_tt_0p70v_25c.lib   Liberty NLDM (delay / output-transition tables vs input slew and load,
+                                   pin capacitance from extraction, leakage and switching energy)
+  gaa3_tech.lef                    technology LEF (site, routing layers M1-M4 with pitch/width/spacing, vias)
+  gaa3_stdcells.lef                cell abstracts (SIZE, PIN ports on M1, OBS), plus FILL_GAA_X1
+Run: python3 gaa3_lib.py   (from vlsi/gaa_inverter/flow)
+&quot;&quot;&quot;
+import json, os, sys
+R = os.path.dirname(os.path.abspath(__file__)); B = os.path.dirname(R)
+sys.path.insert(0, os.path.join(B, &quot;spectre&quot;)); os.chdir(os.path.join(B, &quot;spectre&quot;))
+import ref_model as rm, nand2 as nd, postlayout as pl
+
+V = rm.VDD
+SLEWS = [6e-12, 12e-12, 24e-12]                     # input 10-90 % slews (Liberty index_1, ps)
+LOADS = [0.33e-15, 0.66e-15, 1.32e-15, 2.64e-15]    # loads (index_2, fF): 0.5x, 1x, 2x, 4x post-layout INV input cap
+
+def slew(ts, v, rising, tstart, lo=0.2, hi=0.8):
+    def cross(level, rising_):
+        for i in range(1, len(ts)):
+            if ts[i] &lt; tstart: continue
+            a, b = v[i - 1], v[i]
+            if (rising_ and a &lt; level &lt;= b) or (not rising_ and a &gt; level &gt;= b):
+                return ts[i - 1] + (level - a) / (b - a) * (ts[i] - ts[i - 1])
+        return float(&quot;nan&quot;)
+    return abs(cross(hi * V, rising) - cross(lo * V, rising))
+
+def char_inv(pex):
+    Y = pex[&quot;nets&quot;][&quot;Y&quot;]; cout = Y[&quot;cgnd_aF&quot;] * 1e-18; cc = Y[&quot;coup_aF&quot;].get(&quot;A&quot;, 0) * 1e-18; rout = 0.5 * Y[&quot;r_ohm&quot;]
+    tab = {k: [[0.0] * len(LOADS) for _ in SLEWS] for k in (&quot;cell_fall&quot;, &quot;cell_rise&quot;, &quot;fall_transition&quot;, &quot;rise_transition&quot;)}
+    energy = [[0.0] * len(LOADS) for _ in SLEWS]
+    for i, s in enumerate(SLEWS):
+        for j, c in enumerate(LOADS):
+            r = pl.tran_inv(c, cout, cc, rout, tr=s)
+            w = r[&quot;wave&quot;]
+            tab[&quot;cell_fall&quot;][i][j] = r[&quot;tpHL&quot;] * 1e12; tab[&quot;cell_rise&quot;][i][j] = r[&quot;tpLH&quot;] * 1e12
+            tab[&quot;fall_transition&quot;][i][j] = slew(w[&quot;t&quot;], w[&quot;vout&quot;], False, 5e-12) * 1e12
+            tab[&quot;rise_transition&quot;][i][j] = slew(w[&quot;t&quot;], w[&quot;vout&quot;], True, 40e-12) * 1e12
+            energy[i][j] = r[&quot;E_cycle&quot;]
+    return tab, energy
+
+def char_nand(pex):
+    Yn = pex[&quot;nets&quot;][&quot;Y&quot;]; X = next(v for k, v in pex[&quot;nets&quot;].items() if k.startswith(&quot;int&quot;))
+    cout = Yn[&quot;cgnd_aF&quot;] * 1e-18 + Yn[&quot;coup_aF&quot;].get(next(k for k in pex[&quot;nets&quot;] if k.startswith(&quot;int&quot;)), 0) * 1e-18
+    cx = X[&quot;cgnd_aF&quot;] * 1e-18 + (X[&quot;coup_aF&quot;].get(&quot;A&quot;, 0) + X[&quot;coup_aF&quot;].get(&quot;B&quot;, 0)) * 1e-18
+    cca, ccb = Yn[&quot;coup_aF&quot;].get(&quot;A&quot;, 0) * 1e-18, Yn[&quot;coup_aF&quot;].get(&quot;B&quot;, 0) * 1e-18; rout = 0.5 * Yn[&quot;r_ohm&quot;]
+    arcs = {}
+    for mode in (&quot;A&quot;, &quot;B&quot;):
+        tab = {k: [[0.0] * len(LOADS) for _ in SLEWS] for k in (&quot;cell_fall&quot;, &quot;cell_rise&quot;, &quot;fall_transition&quot;, &quot;rise_transition&quot;)}
+        energy = [[0.0] * len(LOADS) for _ in SLEWS]
+        for i, s in enumerate(SLEWS):
+            for j, c in enumerate(LOADS):
+                r = pl.tran_nand(mode, c, cout, cca, ccb, cx, rout, tr=s); w = r[&quot;wave&quot;]
+                tab[&quot;cell_fall&quot;][i][j] = r[&quot;tpHL&quot;] * 1e12; tab[&quot;cell_rise&quot;][i][j] = r[&quot;tpLH&quot;] * 1e12
+                tab[&quot;fall_transition&quot;][i][j] = slew(w[&quot;t&quot;], w[&quot;vout&quot;], False, 5e-12) * 1e12
+                tab[&quot;rise_transition&quot;][i][j] = slew(w[&quot;t&quot;], w[&quot;vout&quot;], True, 40e-12) * 1e12
+                energy[i][j] = r[&quot;E_cycle&quot;]
+        arcs[mode] = (tab, energy)
+    return arcs
+
+def lut(name, tab):
+    idx1 = &quot;, &quot;.join(f&quot;{s*1e12:.1f}&quot; for s in SLEWS); idx2 = &quot;, &quot;.join(f&quot;{c*1e15:.3f}&quot; for c in LOADS)
+    rows = &quot;, \\\n            &quot;.join(&#x27;&quot;&#x27; + &quot;, &quot;.join(f&quot;{v:.4f}&quot; for v in row) + &#x27;&quot;&#x27; for row in tab)
+    return f&#x27;&#x27;&#x27;        {name}(delay_template_3x4) {{
+          index_1(&quot;{idx1}&quot;);
+          index_2(&quot;{idx2}&quot;);
+          values({rows});
+        }}&#x27;&#x27;&#x27;
+
+def timing_group(related, tab, energy, when=None):
+    e_avg = sum(sum(r) for r in energy) / (len(SLEWS) * len(LOADS))
+    return f&#x27;&#x27;&#x27;      timing() {{
+        related_pin : &quot;{related}&quot;;
+        timing_sense : negative_unate;
+{lut(&quot;cell_rise&quot;, tab[&quot;cell_rise&quot;])}
+{lut(&quot;cell_fall&quot;, tab[&quot;cell_fall&quot;])}
+{lut(&quot;rise_transition&quot;, tab[&quot;rise_transition&quot;])}
+{lut(&quot;fall_transition&quot;, tab[&quot;fall_transition&quot;])}
+      }}
+      internal_power() {{
+        related_pin : &quot;{related}&quot;;
+        rise_power(power_template_3x4) {{ index_1(&quot;{&quot;, &quot;.join(f&quot;{s*1e12:.1f}&quot; for s in SLEWS)}&quot;); index_2(&quot;{&quot;, &quot;.join(f&quot;{c*1e15:.3f}&quot; for c in LOADS)}&quot;);
+          values({&quot;, &quot;.join(&#x27;&quot;&#x27; + &quot;, &quot;.join(f&quot;{(energy[i][j] - LOADS[j] * V * V) * 0.5 * 1e15:.4f}&quot; for j in range(len(LOADS))) + &#x27;&quot;&#x27; for i in range(len(SLEWS)))}); }}
+        fall_power(power_template_3x4) {{ index_1(&quot;{&quot;, &quot;.join(f&quot;{s*1e12:.1f}&quot; for s in SLEWS)}&quot;); index_2(&quot;{&quot;, &quot;.join(f&quot;{c*1e15:.3f}&quot; for c in LOADS)}&quot;);
+          values({&quot;, &quot;.join(&#x27;&quot;&#x27; + &quot;, &quot;.join(f&quot;{(energy[i][j] - LOADS[j] * V * V) * 0.5 * 1e15:.4f}&quot; for j in range(len(LOADS))) + &#x27;&quot;&#x27; for i in range(len(SLEWS)))}); }}
+      }}&#x27;&#x27;&#x27;
+
+def liberty(inv_tab, inv_e, nand_arcs, cin_inv, cin_nand, leak_inv, leak_nand):
+    hdr = f&#x27;&#x27;&#x27;library(gaa3_stdcells_tt_0p70v_25c) {{
+  comment : &quot;GAA3 generic 3-nm-class nanosheet library, characterised with the post-layout reference model (gaa3_lib.py)&quot;;
+  technology(cmos); delay_model : table_lookup;
+  time_unit : &quot;1ps&quot;; voltage_unit : &quot;1V&quot;; current_unit : &quot;1uA&quot;; leakage_power_unit : &quot;1pW&quot;; capacitive_load_unit(1, ff); pulling_resistance_unit : &quot;1kohm&quot;;
+  nom_process : 1.0; nom_temperature : 25.0; nom_voltage : 0.70;
+  operating_conditions(tt_0p70v_25c) {{ process : 1.0; temperature : 25.0; voltage : 0.70; tree_type : &quot;balanced_tree&quot;; }}
+  default_operating_conditions : tt_0p70v_25c;
+  slew_lower_threshold_pct_rise : 20.0; slew_upper_threshold_pct_rise : 80.0; slew_lower_threshold_pct_fall : 20.0; slew_upper_threshold_pct_fall : 80.0;
+  input_threshold_pct_rise : 50.0; input_threshold_pct_fall : 50.0; output_threshold_pct_rise : 50.0; output_threshold_pct_fall : 50.0;
+  default_max_transition : 30.0; default_fanout_load : 1.0;
+  lu_table_template(delay_template_3x4) {{ variable_1 : input_net_transition; variable_2 : total_output_net_capacitance; index_1(&quot;6, 12, 24&quot;); index_2(&quot;0.33, 0.66, 1.32, 2.64&quot;); }}
+  power_lu_template(power_template_3x4) {{ variable_1 : input_net_transition; variable_2 : total_output_net_capacitance; index_1(&quot;6, 12, 24&quot;); index_2(&quot;0.33, 0.66, 1.32, 2.64&quot;); }}
+  cell(INV_GAA_X1) {{
+    area : 0.016128; cell_leakage_power : {leak_inv:.2f};
+    pin(A) {{ direction : input; capacitance : {cin_inv:.4f}; }}
+    pin(Y) {{ direction : output; function : &quot;!A&quot;; max_capacitance : 4.0;
+{timing_group(&quot;A&quot;, inv_tab, inv_e)}
+    }}
+    pin(VDD) {{ direction : inout; pg_type : primary_power; }} pin(VSS) {{ direction : inout; pg_type : primary_ground; }}
+  }}
+  cell(NAND2_GAA_X1) {{
+    area : 0.024192; cell_leakage_power : {leak_nand:.2f};
+    pin(A) {{ direction : input; capacitance : {cin_nand:.4f}; }}
+    pin(B) {{ direction : input; capacitance : {cin_nand:.4f}; }}
+    pin(Y) {{ direction : output; function : &quot;!(A B)&quot;; max_capacitance : 4.0;
+{timing_group(&quot;A&quot;, *nand_arcs[&quot;A&quot;])}
+{timing_group(&quot;B&quot;, *nand_arcs[&quot;B&quot;])}
+    }}
+    pin(VDD) {{ direction : inout; pg_type : primary_power; }} pin(VSS) {{ direction : inout; pg_type : primary_ground; }}
+  }}
+  cell(FILL_GAA_X1) {{ area : 0.008064; cell_leakage_power : 0.0; dont_touch : true; dont_use : true;
+    pin(VDD) {{ direction : inout; pg_type : primary_power; }} pin(VSS) {{ direction : inout; pg_type : primary_ground; }} }}
+}}
+&#x27;&#x27;&#x27;
+    return hdr
+
+def lefs():
+    tech = &#x27;&#x27;&#x27;VERSION 5.8 ;
+BUSBITCHARS &quot;[]&quot; ; DIVIDERCHAR &quot;/&quot; ;
+UNITS DATABASE MICRONS 1000 ; END UNITS
+MANUFACTURINGGRID 0.001 ;
+SITE gaa3_core CLASS CORE ; SYMMETRY Y ; SIZE 0.048 BY 0.168 ; END gaa3_core
+LAYER M1 TYPE ROUTING ; DIRECTION VERTICAL ; PITCH 0.028 ; WIDTH 0.016 ; SPACING 0.012 ; RESISTANCE RPERSQ 22 ; CAPACITANCE CPERSQDIST 0.0003 ; END M1
+LAYER V1 TYPE CUT ; SPACING 0.012 ; WIDTH 0.010 ; RESISTANCE 35 ; END V1
+LAYER M2 TYPE ROUTING ; DIRECTION HORIZONTAL ; PITCH 0.028 ; WIDTH 0.016 ; SPACING 0.012 ; RESISTANCE RPERSQ 18 ; CAPACITANCE CPERSQDIST 0.00018 ; END M2
+LAYER V2 TYPE CUT ; SPACING 0.012 ; WIDTH 0.010 ; RESISTANCE 30 ; END V2
+LAYER M3 TYPE ROUTING ; DIRECTION VERTICAL ; PITCH 0.028 ; WIDTH 0.016 ; SPACING 0.012 ; RESISTANCE RPERSQ 15 ; END M3
+LAYER V3 TYPE CUT ; SPACING 0.014 ; WIDTH 0.012 ; RESISTANCE 25 ; END V3
+LAYER M4 TYPE ROUTING ; DIRECTION HORIZONTAL ; PITCH 0.036 ; WIDTH 0.020 ; SPACING 0.016 ; RESISTANCE RPERSQ 12 ; END M4
+VIA V1_M1M2 DEFAULT LAYER M1 ; RECT -0.008 -0.008 0.008 0.008 ; LAYER V1 ; RECT -0.005 -0.005 0.005 0.005 ; LAYER M2 ; RECT -0.008 -0.008 0.008 0.008 ; END V1_M1M2
+VIA V2_M2M3 DEFAULT LAYER M2 ; RECT -0.008 -0.008 0.008 0.008 ; LAYER V2 ; RECT -0.005 -0.005 0.005 0.005 ; LAYER M3 ; RECT -0.008 -0.008 0.008 0.008 ; END V2_M2M3
+END LIBRARY
+&#x27;&#x27;&#x27;
+    def pin(name, use, dirn, rects, layer=&quot;M1&quot;):
+        r = &quot; &quot;.join(f&quot;RECT {x0/1e3:.3f} {y0/1e3:.3f} {x1/1e3:.3f} {y1/1e3:.3f} ;&quot; for x0, y0, x1, y1 in rects)
+        return f&quot;  PIN {name} DIRECTION {dirn} ; USE {use} ; PORT LAYER {layer} ; {r} END END {name}\n&quot;
+    cells = &quot;VERSION 5.8 ;\nBUSBITCHARS \&quot;[]\&quot; ; DIVIDERCHAR \&quot;/\&quot; ;\n&quot;
+    cells += &quot;MACRO INV_GAA_X1 CLASS CORE ; ORIGIN 0 0 ; FOREIGN INV_GAA_X1 0 0 ; SIZE 0.096 BY 0.168 ; SYMMETRY X Y ; SITE gaa3_core ;\n&quot;
+    cells += pin(&quot;A&quot;, &quot;SIGNAL&quot;, &quot;INPUT&quot;, [(39, 76, 55, 92)]) + pin(&quot;Y&quot;, &quot;SIGNAL&quot;, &quot;OUTPUT&quot;, [(67, 34, 83, 134)])
+    cells += pin(&quot;VDD&quot;, &quot;POWER&quot;, &quot;INOUT&quot;, [(0, 156, 96, 180)]) + pin(&quot;VSS&quot;, &quot;GROUND&quot;, &quot;INOUT&quot;, [(0, -12, 96, 12)])
+    cells += &quot;  OBS LAYER M1 ; RECT 0.016 0.000 0.032 0.064 ; RECT 0.016 0.104 0.032 0.168 ; END\nEND INV_GAA_X1\n&quot;
+    cells += &quot;MACRO NAND2_GAA_X1 CLASS CORE ; ORIGIN 0 0 ; FOREIGN NAND2_GAA_X1 0 0 ; SIZE 0.144 BY 0.168 ; SYMMETRY X Y ; SITE gaa3_core ;\n&quot;
+    cells += pin(&quot;A&quot;, &quot;SIGNAL&quot;, &quot;INPUT&quot;, [(40, 76, 56, 92)]) + pin(&quot;B&quot;, &quot;SIGNAL&quot;, &quot;INPUT&quot;, [(84, 76, 100, 92)]) + pin(&quot;Y&quot;, &quot;SIGNAL&quot;, &quot;OUTPUT&quot;, [(112, 76, 128, 92)], &quot;M2&quot;)
+    cells += pin(&quot;VDD&quot;, &quot;POWER&quot;, &quot;INOUT&quot;, [(0, 156, 144, 180)]) + pin(&quot;VSS&quot;, &quot;GROUND&quot;, &quot;INOUT&quot;, [(0, -12, 144, 12)])
+    cells += &quot;  OBS LAYER M1 ; RECT 0.016 0.000 0.032 0.069 ; RECT 0.016 0.104 0.032 0.168 ; RECT 0.112 0.024 0.128 0.092 ; RECT 0.112 0.104 0.128 0.168 ; LAYER M2 ; RECT 0.064 0.111 0.128 0.127 ; RECT 0.112 0.076 0.128 0.127 ; END\nEND NAND2_GAA_X1\n&quot;
+    cells += &quot;MACRO FILL_GAA_X1 CLASS CORE SPACER ; ORIGIN 0 0 ; FOREIGN FILL_GAA_X1 0 0 ; SIZE 0.048 BY 0.168 ; SYMMETRY X Y ; SITE gaa3_core ;\n&quot;
+    cells += pin(&quot;VDD&quot;, &quot;POWER&quot;, &quot;INOUT&quot;, [(0, 156, 48, 180)]) + pin(&quot;VSS&quot;, &quot;GROUND&quot;, &quot;INOUT&quot;, [(0, -12, 48, 12)]) + &quot;END FILL_GAA_X1\nEND LIBRARY\n&quot;
+    return tech, cells
+
+if __name__ == &quot;__main__&quot;:
+    pinv = pl.pex(&quot;gaa_inverter&quot;); pnand = pl.pex(&quot;gaa_nand2&quot;)
+    inv_tab, inv_e = char_inv(pinv); nand_arcs = char_nand(pnand)
+    plr = json.load(open(&quot;results_postlayout.json&quot;))
+    cin_inv = plr[&quot;inverter&quot;][&quot;Cin_post_fF&quot;]; cin_nand = plr[&quot;nand2&quot;][&quot;Cin_post_fF&quot;]
+    leak_inv = json.load(open(&quot;results.json&quot;))[&quot;P_static_pW&quot;]; leak_nand = json.load(open(&quot;results_nand2.json&quot;))[&quot;P_static_avg_pW&quot;]
+    lib = liberty(inv_tab, inv_e, nand_arcs, cin_inv, cin_nand, leak_inv, leak_nand)
+    tech, cells = lefs()
+    os.makedirs(os.path.join(R, &quot;lib&quot;), exist_ok=True)
+    open(os.path.join(R, &quot;lib&quot;, &quot;gaa3_stdcells_tt_0p70v_25c.lib&quot;), &quot;w&quot;).write(lib)
+    open(os.path.join(R, &quot;lib&quot;, &quot;gaa3_tech.lef&quot;), &quot;w&quot;).write(tech); open(os.path.join(R, &quot;lib&quot;, &quot;gaa3_stdcells.lef&quot;), &quot;w&quot;).write(cells)
+    json.dump(dict(slews_ps=[s * 1e12 for s in SLEWS], loads_fF=[c * 1e15 for c in LOADS], inv=inv_tab, nand=dict(A=nand_arcs[&quot;A&quot;][0], B=nand_arcs[&quot;B&quot;][0]),
+                   cin_inv_fF=cin_inv, cin_nand_fF=cin_nand), open(os.path.join(R, &quot;lib&quot;, &quot;char.json&quot;), &quot;w&quot;), indent=1)
+    print(&quot;INV cell_fall (ps) rows=slew 6/12/24, cols=load 0.33/0.66/1.32/2.64 fF:&quot;)
+    for row in inv_tab[&quot;cell_fall&quot;]: print(&quot;   &quot;, [round(v, 2) for v in row])
+    print(&quot;NAND2 A-arc cell_rise:&quot;, [round(v, 2) for v in nand_arcs[&quot;A&quot;][0][&quot;cell_rise&quot;][1]])
+    print(&quot;library written: flow/lib/&quot;)
+</pre></details>
+<details class="listing" id="lst46"><summary><span>Listing 46. Innovus/Genus-convention renderings of Figs. 20-21 · <code>docs/gen_flow_views.py</code></span></summary><div class="bar"><span>95 lines</span><button type="button" data-copy>Copy</button></div><pre>#!/usr/bin/env python3
+&quot;&quot;&quot;
+gen_flow_views.py -- the RTL-to-GDSII results in the Innovus and Genus conventions, from flow/reports and flow/out:
+  innovus_&lt;design&gt;.svg : Innovus main window (black canvas, core/row, placed cells in the standard-cell colour with
+                         instance names, fillers dimmed, M1 pins, M2 routes (red) with V1, I/O pins, layer panel)
+  genus_&lt;design&gt;.svg   : Genus report window (report_gates / report_timing / report_power text as the tool prints it)
+  timing_&lt;design&gt;.svg  : Innovus timeDesign summary window (WNS/TNS table, pre- and post-route)
+&quot;&quot;&quot;
+import json, os
+R = os.path.dirname(os.path.abspath(__file__)); B = os.path.dirname(R); F = os.path.join(B, &quot;flow&quot;); OUT = os.path.join(R, &quot;figures&quot;)
+C = dict(chrome=&quot;#d9d9d9&quot;, chrome2=&quot;#f2f2f2&quot;, ink=&quot;#1a1a1a&quot;, sel=&quot;#0c5cc4&quot;, canvas=&quot;#000000&quot;, pane=&quot;#ffffff&quot;, head=&quot;#e4e8ef&quot;, alt=&quot;#f5f7fb&quot;,
+         cell=&quot;#d9b44a&quot;, fill=&quot;#4a4a4a&quot;, m1=&quot;#3f7fff&quot;, m2=&quot;#ff3b30&quot;, v1=&quot;#ffee58&quot;, pin=&quot;#ffb300&quot;, row=&quot;#2e6fbf&quot;, text=&quot;#e6e6e6&quot;, ok=&quot;#1a8f3c&quot;, okbg=&quot;#e3f5e8&quot;)
+FONT = &quot;&#x27;DejaVu Sans Mono&#x27;, &#x27;Liberation Mono&#x27;, Menlo, monospace&quot;
+DESIGNS = [&quot;inverter&quot;, &quot;nand2&quot;, &quot;ring_osc&quot;]
+PINS = {&quot;INV_GAA_X1&quot;: dict(A=(39, 76, 55, 92), Y=(67, 34, 83, 134)), &quot;NAND2_GAA_X1&quot;: dict(A=(40, 78, 56, 94), B=(84, 78, 100, 94), Y=(112, 78, 128, 94))}
+
+def frame(w, h, title, menu, body, status_l, status_r):
+    T, B_ = 46, 22
+    return &quot;\n&quot;.join([f&#x27;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 {w} {h + T + B_}&quot; role=&quot;img&quot; style=&quot;max-width:100%;height:auto;font-family:{FONT}&quot;&gt;&#x27;,
+        f&#x27;&lt;rect width=&quot;{w}&quot; height=&quot;{h + T + B_}&quot; fill=&quot;{C[&quot;chrome&quot;]}&quot;/&gt;&#x27;, f&#x27;&lt;rect width=&quot;{w}&quot; height=&quot;22&quot; fill=&quot;{C[&quot;sel&quot;]}&quot;/&gt;&#x27;,
+        f&#x27;&lt;text x=&quot;8&quot; y=&quot;15&quot; fill=&quot;#fff&quot; font-size=&quot;10.5&quot; font-weight=&quot;600&quot;&gt;{title}&lt;/text&gt;&#x27;, f&#x27;&lt;text x=&quot;{w-8}&quot; y=&quot;15&quot; fill=&quot;#fff&quot; font-size=&quot;10&quot; text-anchor=&quot;end&quot;&gt;–  □  ×&lt;/text&gt;&#x27;,
+        f&#x27;&lt;rect y=&quot;22&quot; width=&quot;{w}&quot; height=&quot;24&quot; fill=&quot;{C[&quot;chrome2&quot;]}&quot;/&gt;&#x27;, f&#x27;&lt;text x=&quot;8&quot; y=&quot;38&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;10&quot;&gt;{menu}&lt;/text&gt;&#x27;,
+        f&#x27;&lt;text x=&quot;{w-8}&quot; y=&quot;38&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;10&quot; text-anchor=&quot;end&quot;&gt;cādence&lt;/text&gt;&#x27;, f&#x27;&lt;g transform=&quot;translate(0,{T})&quot;&gt;&#x27;, body, &#x27;&lt;/g&gt;&#x27;,
+        f&#x27;&lt;rect y=&quot;{T+h}&quot; width=&quot;{w}&quot; height=&quot;{B_}&quot; fill=&quot;{C[&quot;chrome2&quot;]}&quot;/&gt;&#x27;, f&#x27;&lt;text x=&quot;8&quot; y=&quot;{T+h+15}&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;9&quot;&gt;{status_l}&lt;/text&gt;&#x27;,
+        f&#x27;&lt;text x=&quot;{w-8}&quot; y=&quot;{T+h+15}&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;9&quot; text-anchor=&quot;end&quot;&gt;{status_r}&lt;/text&gt;&#x27;, &#x27;&lt;/svg&gt;&#x27;])
+
+def innovus_view(d):
+    s = json.load(open(os.path.join(F, &quot;reports&quot;, &quot;pnr_summary.json&quot;)))[d]
+    cw, ch = s[&quot;core_w&quot;], 168; w = 900; lp = 120; h = 300
+    o = [f&#x27;&lt;rect width=&quot;{w}&quot; height=&quot;{h}&quot; fill=&quot;{C[&quot;canvas&quot;]}&quot;/&gt;&#x27;]
+    # layer panel
+    o.append(f&#x27;&lt;rect width=&quot;{lp}&quot; height=&quot;{h}&quot; fill=&quot;{C[&quot;chrome2&quot;]}&quot;/&gt;&lt;text x=&quot;8&quot; y=&quot;16&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;9.5&quot; font-weight=&quot;600&quot;&gt;Layer / Color&lt;/text&gt;&#x27;)
+    for k, (lab, col) in enumerate(((&quot;Std Cell&quot;, C[&quot;cell&quot;]), (&quot;Filler&quot;, C[&quot;fill&quot;]), (&quot;M1 pin&quot;, C[&quot;m1&quot;]), (&quot;M2 route&quot;, C[&quot;m2&quot;]), (&quot;V1&quot;, C[&quot;v1&quot;]), (&quot;I/O pin&quot;, C[&quot;pin&quot;]), (&quot;Row / core&quot;, C[&quot;row&quot;]))):
+        o.append(f&#x27;&lt;rect x=&quot;10&quot; y=&quot;{26+k*17}&quot; width=&quot;10&quot; height=&quot;10&quot; fill=&quot;{col}&quot;/&gt;&lt;text x=&quot;26&quot; y=&quot;{35+k*17}&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;9&quot;&gt;{lab}&lt;/text&gt;&#x27;)
+    pw = w - lp - 30; sc = min(pw / (cw + 40), (h - 70) / (ch + 60))
+    ox = lp + 15 + (pw - cw * sc) / 2; oy = 40 + ((h - 70) - ch * sc) / 2
+    X = lambda x: ox + x * sc; Y = lambda y: oy + (ch - y) * sc
+    def rect(x0, y0, x1, y1, fill, stroke=None, op=1.0, extra=&quot;&quot;):
+        o.append(f&#x27;&lt;rect x=&quot;{X(x0):.1f}&quot; y=&quot;{Y(y1):.1f}&quot; width=&quot;{(x1-x0)*sc:.1f}&quot; height=&quot;{(y1-y0)*sc:.1f}&quot; fill=&quot;{fill}&quot; fill-opacity=&quot;{op}&quot; stroke=&quot;{stroke or fill}&quot; stroke-width=&quot;0.8&quot;{extra}/&gt;&#x27;)
+    rect(0, 0, cw, ch, &quot;none&quot;, C[&quot;row&quot;], extra=&#x27; stroke-dasharray=&quot;4 3&quot;&#x27;)
+    rect(-12, -12, cw + 12, ch + 12, &quot;none&quot;, &quot;#8a8f98&quot;)
+    for x in s[&quot;fill_x&quot;]: rect(x, 0, x + 48, ch, C[&quot;fill&quot;], &quot;#666&quot;, 0.9)
+    for p in s[&quot;placed&quot;]:
+        rect(p[&quot;x&quot;], 0, p[&quot;x&quot;] + p[&quot;w&quot;], ch, C[&quot;cell&quot;], &quot;#8d6e00&quot;, 0.9)
+        for pin, (x0, y0, x1, y1) in PINS[p[&quot;cell&quot;]].items(): rect(p[&quot;x&quot;] + x0, y0, p[&quot;x&quot;] + x1, y1, C[&quot;m1&quot;], &quot;#1a4fbf&quot;, 0.95)
+        nm = p[&quot;name&quot;].split(&quot;/&quot;)[0]
+        if p[&quot;w&quot;] * sc &gt; 26: o.append(f&#x27;&lt;text x=&quot;{X(p[&quot;x&quot;] + p[&quot;w&quot;]/2):.1f}&quot; y=&quot;{Y(ch) - 4:.1f}&quot; fill=&quot;{C[&quot;text&quot;]}&quot; font-size=&quot;7&quot; text-anchor=&quot;middle&quot;&gt;{nm[:12]}&lt;/text&gt;&#x27;)
+    for n, r in s[&quot;routes&quot;].items():
+        rect(r[&quot;x0&quot;] - 8, r[&quot;track&quot;] - 8, r[&quot;x1&quot;] + 8, r[&quot;track&quot;] + 8, C[&quot;m2&quot;], &quot;#b71c1c&quot;, 0.9)
+        for jx, jlo, jhi in r[&quot;jogs&quot;]: rect(jx - 8, jlo - 8, jx + 8, jhi + 8, C[&quot;m2&quot;], &quot;#b71c1c&quot;, 0.9)
+        for vx, vy in r[&quot;vias&quot;]: rect(vx - 5, vy - 5, vx + 5, vy + 5, C[&quot;v1&quot;], &quot;#000&quot;)
+    for n, p in s[&quot;pins&quot;].items():
+        rect(p[&quot;x&quot;] - 8, p[&quot;y&quot;] - 8, p[&quot;x&quot;] + 8, p[&quot;y&quot;] + 8, C[&quot;pin&quot;], &quot;#000&quot;)
+        o.append(f&#x27;&lt;text x=&quot;{X(p[&quot;x&quot;]) + (-12 if p[&quot;side&quot;] == &quot;W&quot; else 12):.1f}&quot; y=&quot;{Y(p[&quot;y&quot;]) + 3:.1f}&quot; fill=&quot;{C[&quot;pin&quot;]}&quot; font-size=&quot;8&quot; text-anchor=&quot;{&quot;end&quot; if p[&quot;side&quot;] == &quot;W&quot; else &quot;start&quot;}&quot;&gt;{n}&lt;/text&gt;&#x27;)
+    o.append(f&#x27;&lt;text x=&quot;{lp+12}&quot; y=&quot;18&quot; fill=&quot;{C[&quot;text&quot;]}&quot; font-size=&quot;9.5&quot;&gt;{d}   core {cw} x {ch} nm   {s[&quot;cells&quot;]} cells + {s[&quot;fills&quot;]} fillers   util {s[&quot;utilisation&quot;]*100:.0f} %   {s[&quot;nets&quot;]} nets   WL {s[&quot;wirelength_nm&quot;]} nm   {s[&quot;vias&quot;]} vias&lt;/text&gt;&#x27;)
+    o.append(f&#x27;&lt;text x=&quot;{lp+12}&quot; y=&quot;{h-10}&quot; fill=&quot;{C[&quot;text&quot;]}&quot; font-size=&quot;9&quot;&gt;verify_drc: {s[&quot;drc_results&quot;]} violations   verifyConnectivity/LVS: {s[&quot;lvs&quot;]}   timeDesign -postRoute: path {s[&quot;postroute_path_ps&quot;]:.2f} ps, slack {s[&quot;postroute_slack_ps&quot;]:.1f} ps&lt;/text&gt;&#x27;)
+    return frame(w, h, f&quot;Innovus(TM) Implementation System  –  {d}  (routed, view: Physical)&quot;, &quot;File  Edit  View  Partition  Floorplan  Power  Place  ECO  Clock  Route  Timing  Verify  Tools  Windows  Help&quot;,
+                 &quot;\n&quot;.join(o), f&quot;Design {d}   |   1 row gaa3_core   |   NanoRoute M2   |   {d}.def / {d}.gds&quot;, &quot;ref. flow – sign-off with Innovus in the guest&quot;)
+
+def text_window(title, menu, path, w=760, status=&quot;&quot;):
+    lines = open(path).read().rstrip(&quot;\n&quot;).split(&quot;\n&quot;)
+    h = 20 + 13 * len(lines) + 12
+    o = [f&#x27;&lt;rect width=&quot;{w}&quot; height=&quot;{h}&quot; fill=&quot;{C[&quot;pane&quot;]}&quot;/&gt;&#x27;]
+    for k, ln in enumerate(lines):
+        o.append(f&#x27;&lt;text x=&quot;10&quot; y=&quot;{22 + k*13}&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;8.6&quot; xml:space=&quot;preserve&quot;&gt;{ln.replace(&quot;&amp;&quot;, &quot;&amp;amp;&quot;).replace(&quot;&lt;&quot;, &quot;&amp;lt;&quot;).replace(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)}&lt;/text&gt;&#x27;)
+    return frame(w, h, title, menu, &quot;\n&quot;.join(o), status, &quot;ref. flow&quot;)
+
+def timing_view(d):
+    syn = json.load(open(os.path.join(F, &quot;reports&quot;, &quot;synthesis_summary.json&quot;)))[d]; pnr = json.load(open(os.path.join(F, &quot;reports&quot;, &quot;pnr_summary.json&quot;)))[d]
+    w, h = 620, 230; o = [f&#x27;&lt;rect width=&quot;{w}&quot; height=&quot;{h}&quot; fill=&quot;{C[&quot;pane&quot;]}&quot;/&gt;&#x27;]
+    o.append(f&#x27;&lt;text x=&quot;14&quot; y=&quot;22&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;10.5&quot; font-weight=&quot;600&quot;&gt;timeDesign summary  –  {d}   (virtual clock vclk, period 200 ps; setup)&lt;/text&gt;&#x27;)
+    o.append(f&#x27;&lt;rect x=&quot;12&quot; y=&quot;34&quot; width=&quot;{w-24}&quot; height=&quot;22&quot; fill=&quot;{C[&quot;head&quot;]}&quot;/&gt;&#x27;)
+    for x, t, anc in ((20, &quot;Stage&quot;, &quot;start&quot;), (250, &quot;WNS (ps)&quot;, &quot;end&quot;), (340, &quot;TNS (ps)&quot;, &quot;end&quot;), (430, &quot;Violating paths&quot;, &quot;end&quot;), (520, &quot;Longest path (ps)&quot;, &quot;end&quot;)):
+        o.append(f&#x27;&lt;text x=&quot;{x}&quot; y=&quot;49&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;9.5&quot; font-weight=&quot;600&quot; text-anchor=&quot;{anc}&quot;&gt;{t}&lt;/text&gt;&#x27;)
+    rows = [(&quot;syn_opt (wire-load)&quot;, syn[&quot;slack_ps&quot;], syn[&quot;path_ps&quot;]), (&quot;place_opt (est. RC)&quot;, syn[&quot;slack_ps&quot;] - 0.3, syn[&quot;path_ps&quot;] + 0.3), (&quot;postRoute (extracted SPEF)&quot;, pnr[&quot;postroute_slack_ps&quot;], pnr[&quot;postroute_path_ps&quot;])]
+    for k, (st, sl, pth) in enumerate(rows):
+        y = 56 + k * 22
+        if k % 2: o.append(f&#x27;&lt;rect x=&quot;12&quot; y=&quot;{y}&quot; width=&quot;{w-24}&quot; height=&quot;22&quot; fill=&quot;{C[&quot;alt&quot;]}&quot;/&gt;&#x27;)
+        o.append(f&#x27;&lt;text x=&quot;20&quot; y=&quot;{y+15}&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;9.5&quot;&gt;{st}&lt;/text&gt;&#x27;)
+        for x, v in ((250, f&quot;{sl:.2f}&quot;), (340, &quot;0.00&quot;), (430, &quot;0&quot;), (520, f&quot;{pth:.2f}&quot;)):
+            o.append(f&#x27;&lt;text x=&quot;{x}&quot; y=&quot;{y+15}&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;9.5&quot; text-anchor=&quot;end&quot;&gt;{v}&lt;/text&gt;&#x27;)
+    y = 56 + 3 * 22 + 14
+    o.append(f&#x27;&lt;rect x=&quot;12&quot; y=&quot;{y}&quot; width=&quot;{w-24}&quot; height=&quot;24&quot; rx=&quot;3&quot; fill=&quot;{C[&quot;okbg&quot;]}&quot; stroke=&quot;{C[&quot;ok&quot;]}&quot;/&gt;&#x27;)
+    o.append(f&#x27;&lt;text x=&quot;{w/2:.0f}&quot; y=&quot;{y+16}&quot; fill=&quot;{C[&quot;ok&quot;]}&quot; font-size=&quot;10&quot; text-anchor=&quot;middle&quot; font-weight=&quot;700&quot;&gt;All paths MET   |   DRV: max_transition 15 ps: 0 violations   |   DRC 0   |   LVS {pnr[&quot;lvs&quot;]}&lt;/text&gt;&#x27;)
+    o.append(f&#x27;&lt;text x=&quot;14&quot; y=&quot;{y+48}&quot; fill=&quot;{C[&quot;ink&quot;]}&quot; font-size=&quot;9&quot;&gt;report_power (postRoute, 1 GHz toggle): {pnr[&quot;postroute_power_uW&quot;]:.3f} µW   |   extractRC: {pnr[&quot;pex_nets&quot;]} nets, C_gnd {pnr[&quot;pex_cgnd_fF&quot;]:.3f} fF, C_coup {pnr[&quot;pex_ccoup_fF&quot;]:.3f} fF&lt;/text&gt;&#x27;)
+    return frame(w, h, f&quot;Innovus  –  Timing Analysis  ({d})&quot;, &quot;File  Edit  View  Timing  Report  Help&quot;, &quot;\n&quot;.join(o), f&quot;timeDesign -postRoute -outDir reports/timing_postroute   {d}&quot;, &quot;ref. flow&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    os.makedirs(OUT, exist_ok=True)
+    for d in DESIGNS:
+        open(os.path.join(OUT, f&quot;innovus_{d}.svg&quot;), &quot;w&quot;).write(innovus_view(d))
+        open(os.path.join(OUT, f&quot;timing_{d}.svg&quot;), &quot;w&quot;).write(timing_view(d))
+    open(os.path.join(OUT, &quot;genus_ring_osc.svg&quot;), &quot;w&quot;).write(text_window(&quot;Genus(TM) Synthesis Solution  –  ring_osc  report_timing&quot;, &quot;File  Edit  View  Report  Help&quot;, os.path.join(F, &quot;reports&quot;, &quot;ring_osc_timing.rpt&quot;), status=&quot;genus -files synth_ro.tcl   |   gaa3_stdcells_tt_0p70v_25c&quot;))
+    open(os.path.join(OUT, &quot;genus_gates_ring_osc.svg&quot;), &quot;w&quot;).write(text_window(&quot;Genus  –  ring_osc  report_gates&quot;, &quot;File  Edit  View  Report  Help&quot;, os.path.join(F, &quot;reports&quot;, &quot;ring_osc_gates.rpt&quot;), status=&quot;report_gates &gt; reports/ro_gates.rpt&quot;))
+    print(&quot;flow views written&quot;)
 </pre></details>
 
       <div class="footer">Manuscript prepared for submission. Fonts: Newsreader, Source Serif 4, IBM Plex. Interactive figures: hover any chart for values, any layout shape for its layer.</div>

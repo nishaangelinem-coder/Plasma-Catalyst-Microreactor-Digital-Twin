@@ -1,0 +1,30 @@
+// ring_osc_netlist.v -- mapped by genus_ref.py onto gaa3_stdcells_tt_0p70v_25c
+module ring_osc (en, out);
+  input en;
+  output out;
+  wire \n[0] ;
+  wire \n[10] ;
+  wire \n[1] ;
+  wire \n[2] ;
+  wire \n[3] ;
+  wire \n[4] ;
+  wire \n[5] ;
+  wire \n[6] ;
+  wire \n[7] ;
+  wire \n[8] ;
+  wire \n[9] ;
+  wire syn_net1;
+  NAND2_GAA_X1 g0 (.A(out), .B(en), .Y(syn_net1));
+  INV_GAA_X1 g1 (.A(syn_net1), .Y(\n[0] ));
+  INV_GAA_X1 \stage[0]/u_inv  (.A(\n[0] ), .Y(\n[1] ));
+  INV_GAA_X1 \stage[1]/u_inv  (.A(\n[1] ), .Y(\n[2] ));
+  INV_GAA_X1 \stage[2]/u_inv  (.A(\n[2] ), .Y(\n[3] ));
+  INV_GAA_X1 \stage[3]/u_inv  (.A(\n[3] ), .Y(\n[4] ));
+  INV_GAA_X1 \stage[4]/u_inv  (.A(\n[4] ), .Y(\n[5] ));
+  INV_GAA_X1 \stage[5]/u_inv  (.A(\n[5] ), .Y(\n[6] ));
+  INV_GAA_X1 \stage[6]/u_inv  (.A(\n[6] ), .Y(\n[7] ));
+  INV_GAA_X1 \stage[7]/u_inv  (.A(\n[7] ), .Y(\n[8] ));
+  INV_GAA_X1 \stage[8]/u_inv  (.A(\n[8] ), .Y(\n[9] ));
+  INV_GAA_X1 \stage[9]/u_inv  (.A(\n[9] ), .Y(\n[10] ));
+  INV_GAA_X1 \stage[10]/u_inv  (.A(\n[10] ), .Y(out));
+endmodule

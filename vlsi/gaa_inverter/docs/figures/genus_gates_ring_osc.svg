@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 256" role="img" style="max-width:100%;height:auto;font-family:'DejaVu Sans Mono', 'Liberation Mono', Menlo, monospace">
+<rect width="760" height="256" fill="#d9d9d9"/>
+<rect width="760" height="22" fill="#0c5cc4"/>
+<text x="8" y="15" fill="#fff" font-size="10.5" font-weight="600">Genus  –  ring_osc  report_gates</text>
+<text x="752" y="15" fill="#fff" font-size="10" text-anchor="end">–  □  ×</text>
+<rect y="22" width="760" height="24" fill="#f2f2f2"/>
+<text x="8" y="38" fill="#1a1a1a" font-size="10">File  Edit  View  Report  Help</text>
+<text x="752" y="38" fill="#1a1a1a" font-size="10" text-anchor="end">cādence</text>
+<g transform="translate(0,46)">
+<rect width="760" height="188" fill="#ffffff"/>
+<text x="10" y="22" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+<text x="10" y="35" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Genus(TM) Synthesis Solution  -  report_gates   design ring_osc   (syn)</text>
+<text x="10" y="48" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+<text x="10" y="61" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Gate             Instances   Area (um^2)   Library</text>
+<text x="10" y="74" fill="#1a1a1a" font-size="8.6" xml:space="preserve">--------------------------------------------------------------------------</text>
+<text x="10" y="87" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  INV_GAA_X1              12      0.193536   gaa3_stdcells_tt_0p70v_25c</text>
+<text x="10" y="100" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  NAND2_GAA_X1             1      0.024192   gaa3_stdcells_tt_0p70v_25c</text>
+<text x="10" y="113" fill="#1a1a1a" font-size="8.6" xml:space="preserve">--------------------------------------------------------------------------</text>
+<text x="10" y="126" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  total                   13      0.217728</text>
+<text x="10" y="139" fill="#1a1a1a" font-size="8.6" xml:space="preserve"></text>
+<text x="10" y="152" fill="#1a1a1a" font-size="8.6" xml:space="preserve">  Nets: 14   Ports: 1 in / 1 out</text>
+<text x="10" y="165" fill="#1a1a1a" font-size="8.6" xml:space="preserve">==========================================================================</text>
+</g>
+<rect y="234" width="760" height="22" fill="#f2f2f2"/>
+<text x="8" y="249" fill="#1a1a1a" font-size="9">report_gates > reports/ro_gates.rpt</text>
+<text x="752" y="249" fill="#1a1a1a" font-size="9" text-anchor="end">ref. flow</text>
+</svg>

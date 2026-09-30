@@ -1,0 +1,25 @@
+==============================================================================
+  Quantus QRC  -  Extraction Summary  (reference extractor: gaa3_pex.py; sign-off: Quantus QRC)
+==============================================================================
+  Cell            : nand2
+  Extraction type : rc_coupled, decoupled ground for VDD/VSS, coupling threshold 0 aF
+  Technology      : GAA3 PEX (ILD k=2.9, spacer k=4.5, Rs M1/M2/M3 = 22/18/15 ohm/sq, rho_c = 1e-9 ohm cm^2)
+  Nets            :    10      Devices :    4
+  Capacitors      :    20      Resistors :   42
+  Total C to gnd  :    0.341 fF     Total coupling C :    0.413 fF
+------------------------------------------------------------------------------
+  NET          C_gnd(aF)  C_coup(aF)   C_tot(aF)    R(ohm)   #R   coupled to
+------------------------------------------------------------------------------
+  VDD               35.7         0.0        35.7     841.3    9   
+  VSS               30.0         0.0        30.0     493.0    6   
+  a                140.0       159.2       299.2     617.0    6   y:53.2, int0:75.0, b:18.2, float0:12.8
+  b                 73.7       240.9       314.6     734.0    8   y:134.9, int0:75.0, a:18.2, float1:12.8
+  float0             4.5        25.6        30.1     600.0    0   a:12.8, float3:12.8  (floating dummy gate)
+  float1             4.5        25.6        30.1     600.0    0   b:12.8, float2:12.8  (floating dummy gate)
+  float2             2.3        12.8        15.1     300.0    0   float1:12.8  (floating dummy gate)
+  float3             2.3        12.8        15.1     300.0    0   float0:12.8  (floating dummy gate)
+  int0               6.6       155.7       162.4     111.1    1   a:75.0, b:75.0, y:5.7
+  y                 41.5       193.8       235.3     809.9   12   a:53.2, b:134.9, int0:5.7
+------------------------------------------------------------------------------
+  SPEF written    : nand2.spef
+==============================================================================

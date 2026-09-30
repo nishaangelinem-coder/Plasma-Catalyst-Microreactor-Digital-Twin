@@ -1,0 +1,37 @@
+{
+ "layout_cell": "nand2",
+ "schematic_cell": "nand2",
+ "layout": {
+  "ports": 5,
+  "nets": 6,
+  "instances": 4,
+  "n": 2,
+  "p": 2,
+  "port_names": [
+   "VDD",
+   "VSS",
+   "a",
+   "b",
+   "y"
+  ],
+  "unrecognised": 0
+ },
+ "schematic": {
+  "ports": 5,
+  "nets": 6,
+  "instances": 4,
+  "n": 2,
+  "p": 2,
+  "port_names": [
+   "VDD",
+   "VSS",
+   "a",
+   "b",
+   "y"
+  ]
+ },
+ "device_classes_match": true,
+ "net_classes_match": true,
+ "port_names_match": true,
+ "result": "MATCH"
+}

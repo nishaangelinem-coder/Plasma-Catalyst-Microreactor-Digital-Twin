@@ -162,6 +162,7 @@ pre.mermaid{margin:0;display:flex;justify-content:center}
       <ul>
         <li><b>A calibrated GAA nanosheet model set</b> for Cadence Spectre based on the BSIM-CMG multi-gate model [5], with a generic 3-nm-class geometry (Table I), and a dependency-free reference compact model that reproduces the same metrics for cross-checking.</li>
         <li><b>A GAA inverter standard cell</b> at a 6-track, 168-nm height with two 48-nm gate pitches, drawn to a published layer map and delivered as a Calma GDSII stream that reads back cleanly in an independent parser.</li>
+        <li><b>A complete RTL-to-GDSII implementation</b> of the three RTL designs with library views characterised from the cells (Liberty, LEF), synthesis, obstruction-aware placement and routing, DEF and GDSII stream-out, and post-route DRC, LVS, extraction and timing, all released as scripts.</li>
         <li><b>Parasitic extraction and post-layout simulation</b> of every cell: device-level gate-to-epi coupling, contact and via resistance and metal RC extracted from the GDSII into SPEF and back-annotated, showing that the three-sheet gate parasitics, not the wiring, set the post-layout delay.</li>
         <li><b>Physical verification</b> of every delivered GDSII with a 26-rule GAA3 design-rule deck and a layout-versus-schematic extraction, both released as scripts; the first DRC pass exposed {{DRC_FIRST_TOTAL}} violations that were corrected, and all cells are DRC-clean and LVS-matched.</li>
         <li><b>A NAND2 standard cell</b> that exploits the nanosheet width freedom by swapping the N and P band widths to balance the series stack in the minimum 3-pitch footprint, with its GDSII, testbench and a FinFET comparison.</li>
@@ -594,6 +595,43 @@ flowchart LR
           <div class="fig" style="padding:0;background:#000">{{VV_RO_PL}}</div>
         </div>
         <figcaption><b>Fig. 19.</b> Pre-layout versus post-layout waveforms in the ViVA convention: (a) INV_GAA_X1 FO4 transient from the schematic view and from the extracted view with markers at the 50 % crossings; (b) RO11_GAA steady-state node waveform before and after back-annotation. Reference model with extracted RC; the ADE runs on the <code>av_extracted</code> view in the guest replace these.</figcaption>
+      </figure>
+
+
+      <h3><span class="num">K.</span>RTL-to-GDSII implementation results</h3>
+      <p>The digital flow of Section III-D was exercised on the three RTL designs (the inverter, the NAND2 and the enabled ring oscillator of Listings 1, 16 and 12) with the GAA3 library views that the cell-level work produces. Characterising INV_GAA_X1 and NAND2_GAA_X1 with the post-layout model over three input slews and four loads gives the Liberty file of Listing 37 (non-linear delay tables for delay and output transition, pin capacitance from extraction, leakage and switching energy); the layouts give the technology and cell LEF of Listing 38 (site, routing layers, pin ports and the metal-2 obstruction of the NAND2). The Genus step (Listing 39) reads the RTL, elaborates vectors and generate loops, maps onto the two cells (NOT to INV, NAND to NAND2, AND to NAND2 plus INV) and writes the mapped netlist, the constraints and the gate, timing and power reports; Genus cuts the ring's combinational loop at the feedback input of the enable gate, so the reported path runs from <code>en</code> through the NAND2 and the twelve inverters to <code>out</code>. The Innovus step (Listing 40) floorplans one 168-nm row at 60 % utilisation, places the cells in chain order with fillers in the gaps, assigns the I/O pins to metal-2 tracks on the die edges, routes every net on a metal-2 track chosen so that horizontal segments, the vertical jogs to the pins and the cells' metal-2 obstructions keep the 12-nm spacing, and streams out DEF and GDSII with the cell references and the routing. The routed GDSII then goes back through the checks of Sections IV-I and IV-J: DRC against the GAA3 deck, LVS against the mapped netlist, extraction to SPEF and post-route timing with the extracted wire capacitance added to the Liberty pin loads.</p>
+      <p>Table XIII summarises synthesis and Table XIV the physical implementation; Fig. 20 shows the routed designs as the Innovus main window presents them and Fig. 21 the Genus and Innovus report windows. The inverter and NAND2 designs are single cells with two fillers each; the ring is 13 cells (twelve inverters and the enable NAND2) in a 2160 × 168 nm core, 14 nets routed on two metal-2 tracks with {{FL_RO_WL}} nm of wire and {{FL_RO_VIAS}} vias, and its en-to-out path of {{FL_RO_PATH_SYN}} ps at synthesis becomes {{FL_RO_PATH_PR}} ps after routing and extraction, well inside the 200-ps virtual clock. All three routed blocks are DRC-clean and LVS-matched to their netlists. The first routing pass was not: the router initially ignored the NAND2's cell-internal metal-2, ran the <code>b</code> net over it and shorted it to <code>y</code>, which the post-route LVS caught as a missing port and the DRC as a metal-2 spacing error; the obstruction-aware track selection and the placement rule that puts obstructed cells at the row end are the corrections. The same flow scripts drive the sign-off tools in the guest (Listings 4, 5 and 12b); the reference implementation exists so that every deliverable of the flow, from the Liberty tables to the routed GDSII, can be regenerated and checked outside the licensed environment.</p>
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table XIII.</b> Synthesis results (reference Genus step, gaa3_stdcells_tt_0p70v_25c, constraints of Listing 2, 1-GHz toggle rate for power).</caption>
+          <thead><tr><th>Design</th><th class="n">Cells</th><th>Mapping</th><th class="n">Area (µm²)</th><th class="n">Nets</th><th class="n">Longest path (ps)</th><th class="n">Slack vs 200 ps</th><th class="n">Leakage (nW)</th><th class="n">Total power (µW)</th></tr></thead>
+          <tbody>
+{{SYN_ROWS}}
+          </tbody>
+        </table>
+      </div>
+      <div class="tblwrap">
+        <table class="tbl">
+          <caption><b>Table XIV.</b> Place-and-route, sign-off checks and post-route timing (reference Innovus step; DRC with the GAA3 deck, LVS against the mapped netlist, RC from the reference extractor).</caption>
+          <thead><tr><th>Design</th><th class="n">Core (nm)</th><th class="n">Cells + fillers</th><th class="n">Utilisation</th><th class="n">Nets / tracks</th><th class="n">Wirelength (nm)</th><th class="n">Vias</th><th class="n">DRC</th><th>LVS</th><th class="n">Extracted C (fF)</th><th class="n">Post-route path (ps)</th><th class="n">Slack (ps)</th></tr></thead>
+          <tbody>
+{{PNR_ROWS}}
+          </tbody>
+        </table>
+      </div>
+      <figure>
+        <div class="fig" style="padding:0">{{IV_INV}}</div>
+        <div class="fig" style="padding:0">{{IV_NAND}}</div>
+        <div class="fig" style="padding:0">{{IV_RO}}</div>
+        <figcaption><b>Fig. 20.</b> The three routed designs in the Innovus main-window convention: placed standard cells (amber) with instance names, fillers (grey), metal-1 pins (blue), metal-2 routing (red) with via-1 (yellow), I/O pins on the die edges and the core row outline; the status line carries the verify_drc, LVS and timeDesign results of each block. Drawn from the reference flow's DEF and reports; the sign-off run in the guest produces the tool's own display.</figcaption>
+      </figure>
+      <figure>
+        <div class="fig" style="padding:0">{{GV_TIMING}}</div>
+        <div class="two">
+          <div class="fig" style="padding:0">{{GV_GATES}}</div>
+          <div class="fig" style="padding:0">{{TV_RO}}</div>
+        </div>
+        <figcaption><b>Fig. 21.</b> Report windows of the ring-oscillator implementation: Genus report_timing with the en-to-out path through the enable NAND2 and the twelve inverters (top), Genus report_gates (bottom left) and the Innovus timing summary across synthesis, placement and post-route extraction with the sign-off status line (bottom right).</figcaption>
       </figure>
 
       <h2 id="s5"><span class="num">V.</span>Discussion</h2>

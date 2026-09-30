@@ -1,0 +1,135 @@
+{
+ "design": "ring_osc",
+ "ports": {
+  "inputs": [
+   "en"
+  ],
+  "outputs": [
+   "out"
+  ]
+ },
+ "insts": [
+  {
+   "name": "g0",
+   "cell": "NAND2_GAA_X1",
+   "pins": {
+    "A": "out",
+    "B": "en",
+    "Y": "syn_net1"
+   }
+  },
+  {
+   "name": "g1",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "syn_net1",
+    "Y": "n[0]"
+   }
+  },
+  {
+   "name": "stage[0]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[0]",
+    "Y": "n[1]"
+   }
+  },
+  {
+   "name": "stage[1]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[1]",
+    "Y": "n[2]"
+   }
+  },
+  {
+   "name": "stage[2]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[2]",
+    "Y": "n[3]"
+   }
+  },
+  {
+   "name": "stage[3]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[3]",
+    "Y": "n[4]"
+   }
+  },
+  {
+   "name": "stage[4]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[4]",
+    "Y": "n[5]"
+   }
+  },
+  {
+   "name": "stage[5]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[5]",
+    "Y": "n[6]"
+   }
+  },
+  {
+   "name": "stage[6]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[6]",
+    "Y": "n[7]"
+   }
+  },
+  {
+   "name": "stage[7]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[7]",
+    "Y": "n[8]"
+   }
+  },
+  {
+   "name": "stage[8]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[8]",
+    "Y": "n[9]"
+   }
+  },
+  {
+   "name": "stage[9]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[9]",
+    "Y": "n[10]"
+   }
+  },
+  {
+   "name": "stage[10]/u_inv",
+   "cell": "INV_GAA_X1",
+   "pins": {
+    "A": "n[10]",
+    "Y": "out"
+   }
+  }
+ ],
+ "nets": [
+  "en",
+  "n[0]",
+  "n[10]",
+  "n[1]",
+  "n[2]",
+  "n[3]",
+  "n[4]",
+  "n[5]",
+  "n[6]",
+  "n[7]",
+  "n[8]",
+  "n[9]",
+  "out",
+  "syn_net1"
+ ],
+ "break_at": "g0"
+}

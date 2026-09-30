@@ -66,7 +66,9 @@
      "M3",
      225.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 30.02,
+   "ccoup_wire_aF": 11.89
   },
   "BLB": {
    "cgnd_aF": 19.25,
@@ -99,7 +101,9 @@
      "V1",
      35.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 19.25,
+   "ccoup_wire_aF": 5.29
   },
   "QB": {
    "cgnd_aF": 117.29,
@@ -141,7 +145,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 18.29,
+   "ccoup_wire_aF": 8.32
   },
   "Q": {
    "cgnd_aF": 117.29,
@@ -183,7 +189,9 @@
      "V0",
      45.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 18.29,
+   "ccoup_wire_aF": 8.32
   },
   "BL": {
    "cgnd_aF": 19.25,
@@ -216,7 +224,9 @@
      "V1",
      35.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 19.25,
+   "ccoup_wire_aF": 5.29
   },
   "VSS": {
    "cgnd_aF": 27.94,
@@ -266,7 +276,9 @@
      "V1",
      35.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 27.94,
+   "ccoup_wire_aF": 0
   },
   "VDD": {
    "cgnd_aF": 17.16,
@@ -312,7 +324,9 @@
      "V1",
      35.0
     ]
-   ]
+   ],
+   "cgnd_wire_aF": 17.16,
+   "ccoup_wire_aF": 0
   }
  },
  "devices": 6,

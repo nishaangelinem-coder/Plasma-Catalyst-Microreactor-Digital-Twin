@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 714 672" width="714" height="672" font-family="ui-monospace, monospace">
+<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#e53935" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="#b71c1c" stroke-width="1.5"/></pattern></defs>
+<polygon points="213.0,336.0 501.0,336.0 501.0,84.0 213.0,84.0" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 g0 NWELL</title></polygon>
+<polygon points="69.0,336.0 213.0,336.0 213.0,84.0 69.0,84.0" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 fill NWELL</title></polygon>
+<polygon points="501.0,336.0 645.0,336.0 645.0,84.0 501.0,84.0" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 fill NWELL</title></polygon>
+<polygon points="237.0,486.0 477.0,486.0 477.0,396.0 237.0,396.0" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 g0 NS_N</title></polygon>
+<polygon points="237.0,321.0 477.0,321.0 477.0,186.0 237.0,186.0" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 g0 NS_P</title></polygon>
+<polygon points="243.0,474.0 471.0,474.0 471.0,468.0 243.0,468.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 g0 sheet</title></polygon>
+<polygon points="243.0,306.0 471.0,306.0 471.0,300.0 243.0,300.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 g0 sheet</title></polygon>
+<polygon points="243.0,453.0 471.0,453.0 471.0,447.0 243.0,447.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 g0 sheet</title></polygon>
+<polygon points="243.0,273.0 471.0,273.0 471.0,267.0 243.0,267.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 g0 sheet</title></polygon>
+<polygon points="243.0,432.0 471.0,432.0 471.0,426.0 243.0,426.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 g0 sheet</title></polygon>
+<polygon points="243.0,240.0 471.0,240.0 471.0,234.0 243.0,234.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 g0 sheet</title></polygon>
+<polygon points="336.0,546.0 378.0,546.0 378.0,126.0 336.0,126.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 g0 gate</title></polygon>
+<polygon points="192.0,546.0 234.0,546.0 234.0,126.0 192.0,126.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 g0 dummy</title></polygon>
+<polygon points="480.0,546.0 522.0,546.0 522.0,126.0 480.0,126.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 g0 dummy</title></polygon>
+<polygon points="48.0,546.0 90.0,546.0 90.0,126.0 48.0,126.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 fill dummy</title></polygon>
+<polygon points="192.0,546.0 234.0,546.0 234.0,126.0 192.0,126.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 fill dummy</title></polygon>
+<polygon points="480.0,546.0 522.0,546.0 522.0,126.0 480.0,126.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 fill dummy</title></polygon>
+<polygon points="624.0,546.0 666.0,546.0 666.0,126.0 624.0,126.0" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 fill dummy</title></polygon>
+<polygon points="213.0,348.0 501.0,348.0 501.0,324.0 213.0,324.0" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 g0 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="264.0,492.0 324.0,492.0 324.0,390.0 264.0,390.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 g0 S</title></polygon>
+<polygon points="408.0,492.0 468.0,492.0 468.0,390.0 408.0,390.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 g0 D</title></polygon>
+<polygon points="264.0,327.0 324.0,327.0 324.0,180.0 264.0,180.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 g0 S</title></polygon>
+<polygon points="408.0,327.0 468.0,327.0 468.0,180.0 408.0,180.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 g0 D</title></polygon>
+<polygon points="330.0,360.0 384.0,360.0 384.0,312.0 330.0,312.0" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 g0 CB</title></polygon>
+<polygon points="201.0,624.0 513.0,624.0 513.0,552.0 201.0,552.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 g0 VSS rail</title></polygon>
+<polygon points="201.0,120.0 513.0,120.0 513.0,48.0 201.0,48.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 g0 VDD rail</title></polygon>
+<polygon points="270.0,588.0 318.0,588.0 318.0,396.0 270.0,396.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 g0 VSS strap</title></polygon>
+<polygon points="270.0,276.0 318.0,276.0 318.0,84.0 270.0,84.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 g0 VDD strap</title></polygon>
+<polygon points="414.0,486.0 462.0,486.0 462.0,186.0 414.0,186.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 g0 Y</title></polygon>
+<polygon points="330.0,360.0 378.0,360.0 378.0,312.0 330.0,312.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 g0 A</title></polygon>
+<polygon points="57.0,624.0 225.0,624.0 225.0,552.0 57.0,552.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 fill VSS rail</title></polygon>
+<polygon points="57.0,120.0 225.0,120.0 225.0,48.0 57.0,48.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 fill VDD rail</title></polygon>
+<polygon points="489.0,624.0 657.0,624.0 657.0,552.0 489.0,552.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 fill VSS rail</title></polygon>
+<polygon points="489.0,120.0 657.0,120.0 657.0,48.0 489.0,48.0" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 fill VDD rail</title></polygon>
+<polygon points="279.0,456.0 309.0,456.0 309.0,426.0 279.0,426.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 g0 V0</title></polygon>
+<polygon points="279.0,267.0 309.0,267.0 309.0,237.0 279.0,237.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 g0 V0</title></polygon>
+<polygon points="423.0,456.0 453.0,456.0 453.0,426.0 423.0,426.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 g0 V0</title></polygon>
+<polygon points="423.0,270.0 453.0,270.0 453.0,240.0 423.0,240.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 g0 V0</title></polygon>
+<polygon points="339.0,351.0 369.0,351.0 369.0,321.0 339.0,321.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 g0 V0</title></polygon>
+<polygon points="414.0,360.0 462.0,360.0 462.0,312.0 414.0,312.0" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 g0 Y pin</title></polygon>
+<polygon points="330.0,360.0 378.0,360.0 378.0,312.0 330.0,312.0" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 g0 A pin</title></polygon>
+<polygon points="213.0,588.0 501.0,588.0 501.0,84.0 213.0,84.0" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 g0 prBoundary</title></polygon>
+<polygon points="69.0,588.0 213.0,588.0 213.0,84.0 69.0,84.0" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 fill prBoundary</title></polygon>
+<polygon points="501.0,588.0 645.0,588.0 645.0,84.0 501.0,84.0" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 fill prBoundary</title></polygon>
+<polygon points="69.0,588.0 645.0,588.0 645.0,84.0 69.0,84.0" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 core</title></polygon>
+<text x="222.0" y="340.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">a</text>
+<text x="528.0" y="340.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">y</text>
+<text x="93.0" y="340.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">a</text>
+<text x="621.0" y="340.0" text-anchor="middle" font-size="12" font-weight="700" fill="#111">y</text>
+</svg>

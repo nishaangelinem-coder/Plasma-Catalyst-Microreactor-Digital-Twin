@@ -1,0 +1,14 @@
+==========================================================================
+  report_timing  design nand2   (postRoute, extracted RC)
+==========================================================================
+  Path 1: MET (152.3 ps)  Setup check with pin y against virtual clock vclk (period 200 ps)
+  Startpoint: a (input port, input delay 20 ps)   Endpoint: y (output port, output delay 20 ps)
+  Required time 180.0 ps   Arrival 27.65 ps   Slack 152.35 ps
+--------------------------------------------------------------------------
+  Pin / arc                               Cell             Delay  Arrival
+--------------------------------------------------------------------------
+  a (in)                                                   20.00    20.00
+  g0/A->Y NAND2_GAA_X1                    NAND2_GAA_X1      7.65    27.65
+--------------------------------------------------------------------------
+  Data arrival at y: 27.65 ps    output slew 6.76 ps    load 1.335 fF
+==========================================================================

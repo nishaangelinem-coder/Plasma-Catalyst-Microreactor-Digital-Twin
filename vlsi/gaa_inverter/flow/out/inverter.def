@@ -1,0 +1,19 @@
+VERSION 5.8 ;
+DESIGN inverter ;
+UNITS DISTANCE MICRONS 1000 ;
+DIEAREA ( 0 0 ) ( 192 168 ) ;
+ROW row_0 gaa3_core 0 0 N DO 4 BY 1 STEP 48 0 ;
+COMPONENTS 3 ;
+  - g0 INV_GAA_X1 + PLACED ( 48 0 ) N ;
+  - FILL0 FILL_GAA_X1 + PLACED ( 0 0 ) N ;
+  - FILL1 FILL_GAA_X1 + PLACED ( 144 0 ) N ;
+END COMPONENTS
+PINS 2 ;
+  - a + NET a + DIRECTION INPUT + LAYER M2 ( -8 -8 ) ( 8 8 ) + PLACED ( 8 84 ) N ;
+  - y + NET y + DIRECTION OUTPUT + LAYER M2 ( -8 -8 ) ( 8 8 ) + PLACED ( 184 84 ) N ;
+END PINS
+NETS 2 ;
+  - a ( g0 A ) ( PIN a ) + ROUTED M2 ( 8 84 ) ( 95 84 ) ;
+  - y ( g0 Y ) ( PIN y ) + ROUTED M2 ( 123 84 ) ( 184 84 ) ;
+END NETS
+END DESIGN

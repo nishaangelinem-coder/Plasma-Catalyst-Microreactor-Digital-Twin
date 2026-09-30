@@ -91,7 +91,7 @@ def tran_nand(mode, cl, cout, cc_a, cc_b, cx, rout, tr=12e-12, tstop=80e-12, dt=
         return float("nan")
     h = V / 2
     tphl = cross(vout, h, False, t0) - cross(vin, h, True, t0); tplh = cross(vout, h, True, t1) - cross(vin, h, False, t1)
-    return dict(tpHL=tphl, tpLH=tplh, tpd=0.5 * (tphl + tplh), E_cycle=e)
+    return dict(tpHL=tphl, tpLH=tplh, tpd=0.5 * (tphl + tplh), E_cycle=e, wave=dict(t=ts, vin=vin, vout=vout))
 
 def ro_post(cnode, ccoup, rnet, cdrv_frac=0.3, n=11, vdd=V, tstop=600e-12, dt=8e-15):
     """Ring with two nodes per net: driver side (fraction cdrv_frac of C, contacts/M1) -> R -> receiver side (rest, + loads).

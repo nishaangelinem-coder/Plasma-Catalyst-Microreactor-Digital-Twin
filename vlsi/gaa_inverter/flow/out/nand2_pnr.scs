@@ -1,0 +1,6 @@
+simulator lang=spectre
+include "../../spectre/gaa_inv_tb.scs" section=models
+include "../../spectre/gaa_nand2_tb.scs" section=models
+subckt nand2 (a b y VDD VSS)
+    X0 (a b y VDD VSS) NAND2_GAA_X1
+ends nand2

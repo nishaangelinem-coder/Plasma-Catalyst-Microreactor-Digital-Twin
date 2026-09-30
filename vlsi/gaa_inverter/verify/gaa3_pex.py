@@ -63,17 +63,21 @@ def extract(path):
             else:
                 kind = "int" if n in dev_nets else "float"
                 nm = f"{kind}{counters[kind]}"; counters[kind] += 1
-            nets[n] = dict(name=nm, cgnd=0.0, coup={}, r=0.0, elems=[], floating=(n not in dev_nets and not names.get(n)))
+            nets[n] = dict(name=nm, cgnd=0.0, coup={}, r=0.0, elems=[], floating=(n not in dev_nets and not names.get(n)), cgnd_dev=0.0, coup_dev={})
         return nets[n]
     def couple(n1, n2, c, tag):
         if n1 is None or n2 is None or c <= 0: return
         if n1 == n2: return
         g1, g2 = names.get(n1) in lvs.GLOBALS, names.get(n2) in lvs.GLOBALS
         if g1 and g2: return
-        if g2: net(n1)["cgnd"] += c; return
-        if g1: net(n2)["cgnd"] += c; return
+        dev = tag == "gsd"
+        if g2: net(n1)["cgnd"] += c; net(n1)["cgnd_dev"] += c if dev else 0; return
+        if g1: net(n2)["cgnd"] += c; net(n2)["cgnd_dev"] += c if dev else 0; return
         net(n1)["coup"][n2] = net(n1)["coup"].get(n2, 0.0) + c
         net(n2)["coup"][n1] = net(n2)["coup"].get(n1, 0.0) + c
+        if dev:
+            net(n1)["coup_dev"][n2] = net(n1)["coup_dev"].get(n2, 0.0) + c
+            net(n2)["coup_dev"][n1] = net(n2)["coup_dev"].get(n1, 0.0) + c
     # ---- device-level gate-to-S/D parasitics
     for d in devices:
         if d.get("bad"): continue
@@ -125,7 +129,9 @@ def extract(path):
         out["nets"][v["name"]] = dict(cgnd_aF=round(v["cgnd"], 2), coup_aF={nets[m]["name"]: round(c, 2) for m, c in v["coup"].items()},
                                      ctotal_aF=round(v["cgnd"] + sum(v["coup"].values()), 2), r_ohm=round(v["r"], 1),
                                      n_res=len(v["elems"]), floating=v["floating"],
-                                     elems=[(e[0], round(e[1], 1)) for e in v["elems"]])
+                                     elems=[(e[0], round(e[1], 1)) for e in v["elems"]],
+                                     cgnd_wire_aF=round(v["cgnd"] - v["cgnd_dev"], 2),
+                                     ccoup_wire_aF=round(sum(v["coup"].values()) - sum(v["coup_dev"].values()), 2))
     out["totals"] = dict(nets=len(nets), cgnd_aF=round(sum(v["cgnd"] for v in nets.values()), 2),
                          ccoup_aF=round(sum(sum(v["coup"].values()) for v in nets.values()) / 2, 2),
                          resistors=sum(len(v["elems"]) for v in nets.values()),
