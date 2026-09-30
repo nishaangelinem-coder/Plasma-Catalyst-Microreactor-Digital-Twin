@@ -5,6 +5,8 @@ R = os.path.dirname(os.path.abspath(__file__)); B = os.path.dirname(R)
 def rd(p): return open(os.path.join(B, p), encoding="utf-8").read()
 res = json.load(open(os.path.join(B, "spectre/results.json")))
 fin = json.load(open(os.path.join(B, "spectre/results_finfet.json")))
+ro_g = json.load(open(os.path.join(B, "spectre/results_ro.json")))
+ro_f = json.load(open(os.path.join(B, "spectre/results_ro_finfet.json")))
 tpl = rd("docs/template.html")
 
 # ---------------- Fig. 1: device cross-sections (hand-drawn SVG, theme tokens) ----------------
@@ -84,6 +86,11 @@ LISTINGS = [
     ("8", "README.md", "VMware Workstation guest set-up and run commands", True),
     ("9", "rtl/inverter_tb.v", "Self-checking testbench (RTL and gate level)", True),
     ("10", "spectre/ref_model.py", "Reference compact model and figure generator", True),
+    ("11", "spectre/gaa_ro11_tb.scs", "Spectre testbench: 11-stage FO3 ring oscillator with supply sweep", False),
+    ("12", "rtl/ring_osc.v", "Ring-oscillator RTL with preserved stages", False),
+    ("12b", "genus/synth_ro.tcl", "Genus script preserving the oscillator loop", True),
+    ("13", "layout/gen_gaa_ro_gds.py", "Hierarchical RO11 GDSII generator (SREF placement and M2 wiring)", True),
+    ("14", "spectre/ro.py", "Ring-oscillator reference simulation and figures", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -117,6 +124,28 @@ def finfet_sub():
         "E_DELTA": (f"+{de:.0f} %" if de >= 0 else f"−{-de:.0f} %"),
     }
 
+# ---------------- ring-oscillator numbers ----------------
+def ro_sub():
+    gn, fn = ro_g["nominal"], ro_f["nominal"]
+    g_lo = ro_g["sweep"][0]; f_lo = ro_f["sweep"][0]
+    edp_g = gn["E_stage_J"] * gn["t_stage_s"]; edp_f = fn["E_stage_J"] * fn["t_stage_s"]
+    rows = []
+    for a, b in zip(ro_g["sweep"], ro_f["sweep"]):
+        rows.append(f'            <tr><td>{a["VDD"]:.2f} V</td><td class="n">{a["f_Hz"]/1e9:.1f} GHz</td><td class="n">{a["t_stage_s"]*1e12:.2f} ps</td>'
+                    f'<td class="n">{a["P_W"]*1e6:.1f} µW</td><td class="n">{a["E_stage_J"]*1e18:.0f} aJ</td>'
+                    f'<td class="n">{b["f_Hz"]/1e9:.1f} GHz</td><td class="n">{b["t_stage_s"]*1e12:.2f} ps</td><td class="n">{b["P_W"]*1e6:.1f} µW</td>'
+                    f'<td class="n">+{(a["f_Hz"]/b["f_Hz"]-1)*100:.0f} %</td></tr>')
+    return {
+        "RO_CNODE": f"{ro_g['C_node_fF']:.2f}",
+        "RO_F": f"{gn['f_Hz']/1e9:.1f}", "RO_TS": f"{gn['t_stage_s']*1e12:.2f}", "RO_P": f"{gn['P_W']*1e6:.0f}", "RO_E": f"{gn['E_stage_J']*1e18:.0f}",
+        "RO_FF": f"{fn['f_Hz']/1e9:.1f}", "RO_TSF": f"{fn['t_stage_s']*1e12:.2f}",
+        "RO_FGAIN": f"{(gn['f_Hz']/fn['f_Hz']-1)*100:.0f}", "RO_FGAIN_LO": f"{(g_lo['f_Hz']/f_lo['f_Hz']-1)*100:.0f}",
+        "RO_EDPGAIN": f"{(1-edp_g/edp_f)*100:.0f}",
+        "RO_ROWS": "\n".join(rows),
+        "FIG_RO_WAVE": rd("spectre/fig_ro_wave.svg"), "FIG_RO_FVDD": rd("spectre/fig_ro_fvdd.svg"),
+        "FIG_RO_PVDD": rd("spectre/fig_ro_pvdd.svg"), "FIG_RO_LAYOUT": rd("layout/gaa_ro11.svg"),
+    }
+
 # ---------------- numbers ----------------
 d, st, f1, f4 = res["device"], res["static"], res["fo1"], res["fo4"]
 mv = lambda v: f"{v*1e3:.0f}"
@@ -134,6 +163,7 @@ sub = {
     "PDYN1": f"{f1['E_cycle']*1e9*1e6:.2f}", "PDYN4": f"{f4['E_cycle']*1e9*1e6:.2f}",
     "PSTAT": f"{res['P_static_pW']/1e3:.2f}", "DYNSTAT": f"{f4['E_cycle']*1e9/(res['P_static_pW']*1e-12):.0f}",
     **finfet_sub(),
+    **ro_sub(),
     "FIG_DEVICE": device_svg(), "FIG_LAYOUT": rd("layout/gaa_inverter.svg"),
     "FIG_IDVG": rd("spectre/fig_idvg.svg"), "FIG_VTC": rd("spectre/fig_vtc.svg"),
     "FIG_GAIN": rd("spectre/fig_gain.svg"), "FIG_TRAN": rd("spectre/fig_tran.svg"),

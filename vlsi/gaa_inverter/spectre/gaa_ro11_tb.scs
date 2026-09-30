@@ -1,0 +1,46 @@
+// gaa_ro11_tb.scs -- Spectre testbench: 11-stage FO3-loaded GAA nanosheet ring oscillator
+// Run: spectre gaa_ro11_tb.scs +log ro.log    (reuses the model cards and INV_GAA_X1 of gaa_inv_tb.scs)
+simulator lang=spectre
+global 0 vdd!
+include "gaa_inv_tb.scs" section=models      // model nsheet_n / nsheet_p + subckt INV_GAA_X1
+
+parameters vsup=0.70 nstage=11
+Vdd (vdd! 0) vsource dc=vsup
+
+// ring: n1 -> n2 -> ... -> n11 -> n1 ; each node also drives two dummy inverters (FO3)
+X1  (n11 n1  vdd! 0) INV_GAA_X1
+X2  (n1  n2  vdd! 0) INV_GAA_X1
+X3  (n2  n3  vdd! 0) INV_GAA_X1
+X4  (n3  n4  vdd! 0) INV_GAA_X1
+X5  (n4  n5  vdd! 0) INV_GAA_X1
+X6  (n5  n6  vdd! 0) INV_GAA_X1
+X7  (n6  n7  vdd! 0) INV_GAA_X1
+X8  (n7  n8  vdd! 0) INV_GAA_X1
+X9  (n8  n9  vdd! 0) INV_GAA_X1
+X10 (n9  n10 vdd! 0) INV_GAA_X1
+X11 (n10 n11 vdd! 0) INV_GAA_X1
+// FO3 dummy loads (two extra gate loads per node)
+XD1a (n1 d1a vdd! 0) INV_GAA_X1   XD1b (n1 d1b vdd! 0) INV_GAA_X1
+XD2a (n2 d2a vdd! 0) INV_GAA_X1   XD2b (n2 d2b vdd! 0) INV_GAA_X1
+XD3a (n3 d3a vdd! 0) INV_GAA_X1   XD3b (n3 d3b vdd! 0) INV_GAA_X1
+XD4a (n4 d4a vdd! 0) INV_GAA_X1   XD4b (n4 d4b vdd! 0) INV_GAA_X1
+XD5a (n5 d5a vdd! 0) INV_GAA_X1   XD5b (n5 d5b vdd! 0) INV_GAA_X1
+XD6a (n6 d6a vdd! 0) INV_GAA_X1   XD6b (n6 d6b vdd! 0) INV_GAA_X1
+XD7a (n7 d7a vdd! 0) INV_GAA_X1   XD7b (n7 d7b vdd! 0) INV_GAA_X1
+XD8a (n8 d8a vdd! 0) INV_GAA_X1   XD8b (n8 d8b vdd! 0) INV_GAA_X1
+XD9a (n9 d9a vdd! 0) INV_GAA_X1   XD9b (n9 d9b vdd! 0) INV_GAA_X1
+XD10a (n10 d10a vdd! 0) INV_GAA_X1 XD10b (n10 d10b vdd! 0) INV_GAA_X1
+XD11a (n11 d11a vdd! 0) INV_GAA_X1 XD11b (n11 d11b vdd! 0) INV_GAA_X1
+
+ic n1=0.3                                     // kick-start the loop
+tran tran stop=2n step=5f errpreset=conservative ic=node
+sweepVdd sweep param=vsup start=0.5 stop=0.8 step=0.05 {
+    tranV tran stop=2n step=5f ic=node
+}
+
+export fosc   = 1/(cross(sig=v(n1) dir='rise n=12 thresh=vsup/2) - cross(sig=v(n1) dir='rise n=11 thresh=vsup/2))
+export tstage = 1/(2*nstage*fosc)
+export Pavg   = average(-i(Vdd)*vsup, from=1n, to=2n)
+export Estage = Pavg/(fosc*nstage)
+saveOptions options save=selected
+save n1 n2 n11 Vdd:p

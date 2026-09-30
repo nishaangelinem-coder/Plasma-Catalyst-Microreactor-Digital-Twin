@@ -11,6 +11,7 @@ Design and implementation of a gate-all-around (GAA) nanosheet CMOS inverter
 | Synthesis | Genus | `genus/synth.tcl`, `genus/constraints.sdc` | mapped netlist, SDF |
 | Place & route | Innovus | `innovus/pnr.tcl`, `innovus/mmmc.tcl` | DEF, SPEF, **`inverter.gds`** |
 | Reference check | Python (no deps) | `spectre/ref_model.py` | `results.json`, SVG figures |
+| Ring oscillator | Spectre, Genus, Python | `spectre/gaa_ro11_tb.scs`, `rtl/ring_osc.v`, `genus/synth_ro.tcl`, `spectre/ro.py`, `layout/gen_gaa_ro_gds.py` | `results_ro*.json`, `layout/gaa_ro11.gds` |
 
 `layout/gaa_inverter.gds` is a valid Calma GDSII stream (1 nm database unit,
 library `GAA3_INV_LIB`, cell `INV_GAA_X1`, 32 boundaries, 4 pin texts).
@@ -39,6 +40,9 @@ and read back with `gdstk`.
 cd spectre && spectre gaa_inv_tb.scs +log spectre.log       # BSIM-CMG nanosheet models
 python3 ref_model.py                                        # reference metrics for cross-check
 GAA_TECH=finfet python3 ref_model.py                        # 5-nm-class FinFET baseline (Table V)
+python3 ro.py && GAA_TECH=finfet python3 ro.py && python3 ro.py --figs   # RO11 FO3 sweep (Table VI)
+spectre gaa_ro11_tb.scs +log ro.log                         # RO11 in Spectre
+cd ../layout && python3 gen_gaa_ro_gds.py                   # hierarchical RO11 GDSII
 ```
 In Virtuoso: `File > Import > Stream` the GDS in `layout/` (layer map
 `layout/gaa3.layermap`) to obtain the `INV_GAA_X1 layout` cellview, run DRC/LVS,

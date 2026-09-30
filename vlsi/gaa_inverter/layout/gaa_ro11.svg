@@ -1,0 +1,357 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1763 358" width="1763" height="358" font-family="ui-monospace, monospace">
+<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#e53935" opacity="0.35"/><line x1="0" y1="0" x2="0" y2="6" stroke="#b71c1c" stroke-width="1.5"/></pattern></defs>
+<polygon points="36.8,179.2 190.4,179.2 190.4,44.8 36.8,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv0 NWELL</title></polygon>
+<polygon points="190.4,179.2 344.0,179.2 344.0,44.8 190.4,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv1 NWELL</title></polygon>
+<polygon points="344.0,179.2 497.6,179.2 497.6,44.8 344.0,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv2 NWELL</title></polygon>
+<polygon points="497.6,179.2 651.2,179.2 651.2,44.8 497.6,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv3 NWELL</title></polygon>
+<polygon points="651.2,179.2 804.8,179.2 804.8,44.8 651.2,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv4 NWELL</title></polygon>
+<polygon points="804.8,179.2 958.4,179.2 958.4,44.8 804.8,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv5 NWELL</title></polygon>
+<polygon points="958.4,179.2 1112.0,179.2 1112.0,44.8 958.4,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv6 NWELL</title></polygon>
+<polygon points="1112.0,179.2 1265.6,179.2 1265.6,44.8 1112.0,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv7 NWELL</title></polygon>
+<polygon points="1265.6,179.2 1419.2,179.2 1419.2,44.8 1265.6,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv8 NWELL</title></polygon>
+<polygon points="1419.2,179.2 1572.8,179.2 1572.8,44.8 1419.2,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv9 NWELL</title></polygon>
+<polygon points="1572.8,179.2 1726.4,179.2 1726.4,44.8 1572.8,44.8" fill="#c9b458" fill-opacity="0.22" stroke="#a08b2e" stroke-width="1"><title>L1:0 inv10 NWELL</title></polygon>
+<polygon points="49.6,259.2 177.6,259.2 177.6,211.2 49.6,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv0 NS_N</title></polygon>
+<polygon points="49.6,171.2 177.6,171.2 177.6,99.2 49.6,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv0 NS_P</title></polygon>
+<polygon points="203.2,259.2 331.2,259.2 331.2,211.2 203.2,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv1 NS_N</title></polygon>
+<polygon points="203.2,171.2 331.2,171.2 331.2,99.2 203.2,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv1 NS_P</title></polygon>
+<polygon points="356.8,259.2 484.8,259.2 484.8,211.2 356.8,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv2 NS_N</title></polygon>
+<polygon points="356.8,171.2 484.8,171.2 484.8,99.2 356.8,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv2 NS_P</title></polygon>
+<polygon points="510.4,259.2 638.4,259.2 638.4,211.2 510.4,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv3 NS_N</title></polygon>
+<polygon points="510.4,171.2 638.4,171.2 638.4,99.2 510.4,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv3 NS_P</title></polygon>
+<polygon points="664.0,259.2 792.0,259.2 792.0,211.2 664.0,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv4 NS_N</title></polygon>
+<polygon points="664.0,171.2 792.0,171.2 792.0,99.2 664.0,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv4 NS_P</title></polygon>
+<polygon points="817.6,259.2 945.6,259.2 945.6,211.2 817.6,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv5 NS_N</title></polygon>
+<polygon points="817.6,171.2 945.6,171.2 945.6,99.2 817.6,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv5 NS_P</title></polygon>
+<polygon points="971.2,259.2 1099.2,259.2 1099.2,211.2 971.2,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv6 NS_N</title></polygon>
+<polygon points="971.2,171.2 1099.2,171.2 1099.2,99.2 971.2,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv6 NS_P</title></polygon>
+<polygon points="1124.8,259.2 1252.8,259.2 1252.8,211.2 1124.8,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv7 NS_N</title></polygon>
+<polygon points="1124.8,171.2 1252.8,171.2 1252.8,99.2 1124.8,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv7 NS_P</title></polygon>
+<polygon points="1278.4,259.2 1406.4,259.2 1406.4,211.2 1278.4,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv8 NS_N</title></polygon>
+<polygon points="1278.4,171.2 1406.4,171.2 1406.4,99.2 1278.4,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv8 NS_P</title></polygon>
+<polygon points="1432.0,259.2 1560.0,259.2 1560.0,211.2 1432.0,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv9 NS_N</title></polygon>
+<polygon points="1432.0,171.2 1560.0,171.2 1560.0,99.2 1432.0,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv9 NS_P</title></polygon>
+<polygon points="1585.6,259.2 1713.6,259.2 1713.6,211.2 1585.6,211.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv10 NS_N</title></polygon>
+<polygon points="1585.6,171.2 1713.6,171.2 1713.6,99.2 1585.6,99.2" fill="#4caf50" fill-opacity="0.55" stroke="#2e7d32" stroke-width="1"><title>L2:0 inv10 NS_P</title></polygon>
+<polygon points="52.8,252.8 174.4,252.8 174.4,249.6 52.8,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv0 sheet</title></polygon>
+<polygon points="52.8,163.2 174.4,163.2 174.4,160.0 52.8,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv0 sheet</title></polygon>
+<polygon points="52.8,241.6 174.4,241.6 174.4,238.4 52.8,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv0 sheet</title></polygon>
+<polygon points="52.8,145.6 174.4,145.6 174.4,142.4 52.8,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv0 sheet</title></polygon>
+<polygon points="52.8,230.4 174.4,230.4 174.4,227.2 52.8,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv0 sheet</title></polygon>
+<polygon points="52.8,128.0 174.4,128.0 174.4,124.8 52.8,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv0 sheet</title></polygon>
+<polygon points="206.4,252.8 328.0,252.8 328.0,249.6 206.4,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv1 sheet</title></polygon>
+<polygon points="206.4,163.2 328.0,163.2 328.0,160.0 206.4,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv1 sheet</title></polygon>
+<polygon points="206.4,241.6 328.0,241.6 328.0,238.4 206.4,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv1 sheet</title></polygon>
+<polygon points="206.4,145.6 328.0,145.6 328.0,142.4 206.4,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv1 sheet</title></polygon>
+<polygon points="206.4,230.4 328.0,230.4 328.0,227.2 206.4,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv1 sheet</title></polygon>
+<polygon points="206.4,128.0 328.0,128.0 328.0,124.8 206.4,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv1 sheet</title></polygon>
+<polygon points="360.0,252.8 481.6,252.8 481.6,249.6 360.0,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv2 sheet</title></polygon>
+<polygon points="360.0,163.2 481.6,163.2 481.6,160.0 360.0,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv2 sheet</title></polygon>
+<polygon points="360.0,241.6 481.6,241.6 481.6,238.4 360.0,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv2 sheet</title></polygon>
+<polygon points="360.0,145.6 481.6,145.6 481.6,142.4 360.0,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv2 sheet</title></polygon>
+<polygon points="360.0,230.4 481.6,230.4 481.6,227.2 360.0,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv2 sheet</title></polygon>
+<polygon points="360.0,128.0 481.6,128.0 481.6,124.8 360.0,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv2 sheet</title></polygon>
+<polygon points="513.6,252.8 635.2,252.8 635.2,249.6 513.6,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv3 sheet</title></polygon>
+<polygon points="513.6,163.2 635.2,163.2 635.2,160.0 513.6,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv3 sheet</title></polygon>
+<polygon points="513.6,241.6 635.2,241.6 635.2,238.4 513.6,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv3 sheet</title></polygon>
+<polygon points="513.6,145.6 635.2,145.6 635.2,142.4 513.6,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv3 sheet</title></polygon>
+<polygon points="513.6,230.4 635.2,230.4 635.2,227.2 513.6,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv3 sheet</title></polygon>
+<polygon points="513.6,128.0 635.2,128.0 635.2,124.8 513.6,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv3 sheet</title></polygon>
+<polygon points="667.2,252.8 788.8,252.8 788.8,249.6 667.2,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv4 sheet</title></polygon>
+<polygon points="667.2,163.2 788.8,163.2 788.8,160.0 667.2,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv4 sheet</title></polygon>
+<polygon points="667.2,241.6 788.8,241.6 788.8,238.4 667.2,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv4 sheet</title></polygon>
+<polygon points="667.2,145.6 788.8,145.6 788.8,142.4 667.2,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv4 sheet</title></polygon>
+<polygon points="667.2,230.4 788.8,230.4 788.8,227.2 667.2,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv4 sheet</title></polygon>
+<polygon points="667.2,128.0 788.8,128.0 788.8,124.8 667.2,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv4 sheet</title></polygon>
+<polygon points="820.8,252.8 942.4,252.8 942.4,249.6 820.8,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv5 sheet</title></polygon>
+<polygon points="820.8,163.2 942.4,163.2 942.4,160.0 820.8,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv5 sheet</title></polygon>
+<polygon points="820.8,241.6 942.4,241.6 942.4,238.4 820.8,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv5 sheet</title></polygon>
+<polygon points="820.8,145.6 942.4,145.6 942.4,142.4 820.8,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv5 sheet</title></polygon>
+<polygon points="820.8,230.4 942.4,230.4 942.4,227.2 820.8,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv5 sheet</title></polygon>
+<polygon points="820.8,128.0 942.4,128.0 942.4,124.8 820.8,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv5 sheet</title></polygon>
+<polygon points="974.4,252.8 1096.0,252.8 1096.0,249.6 974.4,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv6 sheet</title></polygon>
+<polygon points="974.4,163.2 1096.0,163.2 1096.0,160.0 974.4,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv6 sheet</title></polygon>
+<polygon points="974.4,241.6 1096.0,241.6 1096.0,238.4 974.4,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv6 sheet</title></polygon>
+<polygon points="974.4,145.6 1096.0,145.6 1096.0,142.4 974.4,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv6 sheet</title></polygon>
+<polygon points="974.4,230.4 1096.0,230.4 1096.0,227.2 974.4,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv6 sheet</title></polygon>
+<polygon points="974.4,128.0 1096.0,128.0 1096.0,124.8 974.4,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv6 sheet</title></polygon>
+<polygon points="1128.0,252.8 1249.6,252.8 1249.6,249.6 1128.0,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv7 sheet</title></polygon>
+<polygon points="1128.0,163.2 1249.6,163.2 1249.6,160.0 1128.0,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv7 sheet</title></polygon>
+<polygon points="1128.0,241.6 1249.6,241.6 1249.6,238.4 1128.0,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv7 sheet</title></polygon>
+<polygon points="1128.0,145.6 1249.6,145.6 1249.6,142.4 1128.0,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv7 sheet</title></polygon>
+<polygon points="1128.0,230.4 1249.6,230.4 1249.6,227.2 1128.0,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv7 sheet</title></polygon>
+<polygon points="1128.0,128.0 1249.6,128.0 1249.6,124.8 1128.0,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv7 sheet</title></polygon>
+<polygon points="1281.6,252.8 1403.2,252.8 1403.2,249.6 1281.6,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv8 sheet</title></polygon>
+<polygon points="1281.6,163.2 1403.2,163.2 1403.2,160.0 1281.6,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv8 sheet</title></polygon>
+<polygon points="1281.6,241.6 1403.2,241.6 1403.2,238.4 1281.6,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv8 sheet</title></polygon>
+<polygon points="1281.6,145.6 1403.2,145.6 1403.2,142.4 1281.6,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv8 sheet</title></polygon>
+<polygon points="1281.6,230.4 1403.2,230.4 1403.2,227.2 1281.6,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv8 sheet</title></polygon>
+<polygon points="1281.6,128.0 1403.2,128.0 1403.2,124.8 1281.6,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv8 sheet</title></polygon>
+<polygon points="1435.2,252.8 1556.8,252.8 1556.8,249.6 1435.2,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv9 sheet</title></polygon>
+<polygon points="1435.2,163.2 1556.8,163.2 1556.8,160.0 1435.2,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv9 sheet</title></polygon>
+<polygon points="1435.2,241.6 1556.8,241.6 1556.8,238.4 1435.2,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv9 sheet</title></polygon>
+<polygon points="1435.2,145.6 1556.8,145.6 1556.8,142.4 1435.2,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv9 sheet</title></polygon>
+<polygon points="1435.2,230.4 1556.8,230.4 1556.8,227.2 1435.2,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv9 sheet</title></polygon>
+<polygon points="1435.2,128.0 1556.8,128.0 1556.8,124.8 1435.2,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv9 sheet</title></polygon>
+<polygon points="1588.8,252.8 1710.4,252.8 1710.4,249.6 1588.8,249.6" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv10 sheet</title></polygon>
+<polygon points="1588.8,163.2 1710.4,163.2 1710.4,160.0 1588.8,160.0" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv10 sheet</title></polygon>
+<polygon points="1588.8,241.6 1710.4,241.6 1710.4,238.4 1588.8,238.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv10 sheet</title></polygon>
+<polygon points="1588.8,145.6 1710.4,145.6 1710.4,142.4 1588.8,142.4" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv10 sheet</title></polygon>
+<polygon points="1588.8,230.4 1710.4,230.4 1710.4,227.2 1588.8,227.2" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv10 sheet</title></polygon>
+<polygon points="1588.8,128.0 1710.4,128.0 1710.4,124.8 1588.8,124.8" fill="#1b5e20" fill-opacity="0.9" stroke="#1b5e20" stroke-width="1"><title>L2:1 inv10 sheet</title></polygon>
+<polygon points="102.4,291.2 124.8,291.2 124.8,67.2 102.4,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv0 gate</title></polygon>
+<polygon points="25.6,291.2 48.0,291.2 48.0,67.2 25.6,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv0 dummy</title></polygon>
+<polygon points="179.2,291.2 201.6,291.2 201.6,67.2 179.2,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv0 dummy</title></polygon>
+<polygon points="256.0,291.2 278.4,291.2 278.4,67.2 256.0,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv1 gate</title></polygon>
+<polygon points="179.2,291.2 201.6,291.2 201.6,67.2 179.2,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv1 dummy</title></polygon>
+<polygon points="332.8,291.2 355.2,291.2 355.2,67.2 332.8,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv1 dummy</title></polygon>
+<polygon points="409.6,291.2 432.0,291.2 432.0,67.2 409.6,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv2 gate</title></polygon>
+<polygon points="332.8,291.2 355.2,291.2 355.2,67.2 332.8,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv2 dummy</title></polygon>
+<polygon points="486.4,291.2 508.8,291.2 508.8,67.2 486.4,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv2 dummy</title></polygon>
+<polygon points="563.2,291.2 585.6,291.2 585.6,67.2 563.2,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv3 gate</title></polygon>
+<polygon points="486.4,291.2 508.8,291.2 508.8,67.2 486.4,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv3 dummy</title></polygon>
+<polygon points="640.0,291.2 662.4,291.2 662.4,67.2 640.0,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv3 dummy</title></polygon>
+<polygon points="716.8,291.2 739.2,291.2 739.2,67.2 716.8,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv4 gate</title></polygon>
+<polygon points="640.0,291.2 662.4,291.2 662.4,67.2 640.0,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv4 dummy</title></polygon>
+<polygon points="793.6,291.2 816.0,291.2 816.0,67.2 793.6,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv4 dummy</title></polygon>
+<polygon points="870.4,291.2 892.8,291.2 892.8,67.2 870.4,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv5 gate</title></polygon>
+<polygon points="793.6,291.2 816.0,291.2 816.0,67.2 793.6,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv5 dummy</title></polygon>
+<polygon points="947.2,291.2 969.6,291.2 969.6,67.2 947.2,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv5 dummy</title></polygon>
+<polygon points="1024.0,291.2 1046.4,291.2 1046.4,67.2 1024.0,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv6 gate</title></polygon>
+<polygon points="947.2,291.2 969.6,291.2 969.6,67.2 947.2,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv6 dummy</title></polygon>
+<polygon points="1100.8,291.2 1123.2,291.2 1123.2,67.2 1100.8,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv6 dummy</title></polygon>
+<polygon points="1177.6,291.2 1200.0,291.2 1200.0,67.2 1177.6,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv7 gate</title></polygon>
+<polygon points="1100.8,291.2 1123.2,291.2 1123.2,67.2 1100.8,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv7 dummy</title></polygon>
+<polygon points="1254.4,291.2 1276.8,291.2 1276.8,67.2 1254.4,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv7 dummy</title></polygon>
+<polygon points="1331.2,291.2 1353.6,291.2 1353.6,67.2 1331.2,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv8 gate</title></polygon>
+<polygon points="1254.4,291.2 1276.8,291.2 1276.8,67.2 1254.4,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv8 dummy</title></polygon>
+<polygon points="1408.0,291.2 1430.4,291.2 1430.4,67.2 1408.0,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv8 dummy</title></polygon>
+<polygon points="1484.8,291.2 1507.2,291.2 1507.2,67.2 1484.8,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv9 gate</title></polygon>
+<polygon points="1408.0,291.2 1430.4,291.2 1430.4,67.2 1408.0,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv9 dummy</title></polygon>
+<polygon points="1561.6,291.2 1584.0,291.2 1584.0,67.2 1561.6,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv9 dummy</title></polygon>
+<polygon points="1638.4,291.2 1660.8,291.2 1660.8,67.2 1638.4,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv10 gate</title></polygon>
+<polygon points="1561.6,291.2 1584.0,291.2 1584.0,67.2 1561.6,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv10 dummy</title></polygon>
+<polygon points="1715.2,291.2 1737.6,291.2 1737.6,67.2 1715.2,67.2" fill="url(#hatch)" fill-opacity="0.75" stroke="#b71c1c" stroke-width="1"><title>L3:0 inv10 dummy</title></polygon>
+<polygon points="36.8,185.6 190.4,185.6 190.4,172.8 36.8,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv0 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="190.4,185.6 344.0,185.6 344.0,172.8 190.4,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv1 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="344.0,185.6 497.6,185.6 497.6,172.8 344.0,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv2 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="497.6,185.6 651.2,185.6 651.2,172.8 497.6,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv3 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="651.2,185.6 804.8,185.6 804.8,172.8 651.2,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv4 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="804.8,185.6 958.4,185.6 958.4,172.8 804.8,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv5 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="958.4,185.6 1112.0,185.6 1112.0,172.8 958.4,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv6 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="1112.0,185.6 1265.6,185.6 1265.6,172.8 1112.0,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv7 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="1265.6,185.6 1419.2,185.6 1419.2,172.8 1265.6,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv8 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="1419.2,185.6 1572.8,185.6 1572.8,172.8 1419.2,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv9 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="1572.8,185.6 1726.4,185.6 1726.4,172.8 1572.8,172.8" fill="none" fill-opacity="0.9" stroke="#b71c1c" stroke-width="1" stroke-dasharray="4 3"><title>L3:1 inv10 cut (N/P share gate: no cut on active gate)</title></polygon>
+<polygon points="64.0,262.4 96.0,262.4 96.0,208.0 64.0,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv0 S</title></polygon>
+<polygon points="131.2,262.4 163.2,262.4 163.2,208.0 131.2,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv0 D</title></polygon>
+<polygon points="64.0,174.4 96.0,174.4 96.0,96.0 64.0,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv0 S</title></polygon>
+<polygon points="131.2,174.4 163.2,174.4 163.2,96.0 131.2,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv0 D</title></polygon>
+<polygon points="217.6,262.4 249.6,262.4 249.6,208.0 217.6,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv1 S</title></polygon>
+<polygon points="284.8,262.4 316.8,262.4 316.8,208.0 284.8,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv1 D</title></polygon>
+<polygon points="217.6,174.4 249.6,174.4 249.6,96.0 217.6,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv1 S</title></polygon>
+<polygon points="284.8,174.4 316.8,174.4 316.8,96.0 284.8,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv1 D</title></polygon>
+<polygon points="371.2,262.4 403.2,262.4 403.2,208.0 371.2,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv2 S</title></polygon>
+<polygon points="438.4,262.4 470.4,262.4 470.4,208.0 438.4,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv2 D</title></polygon>
+<polygon points="371.2,174.4 403.2,174.4 403.2,96.0 371.2,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv2 S</title></polygon>
+<polygon points="438.4,174.4 470.4,174.4 470.4,96.0 438.4,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv2 D</title></polygon>
+<polygon points="524.8,262.4 556.8,262.4 556.8,208.0 524.8,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv3 S</title></polygon>
+<polygon points="592.0,262.4 624.0,262.4 624.0,208.0 592.0,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv3 D</title></polygon>
+<polygon points="524.8,174.4 556.8,174.4 556.8,96.0 524.8,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv3 S</title></polygon>
+<polygon points="592.0,174.4 624.0,174.4 624.0,96.0 592.0,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv3 D</title></polygon>
+<polygon points="678.4,262.4 710.4,262.4 710.4,208.0 678.4,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv4 S</title></polygon>
+<polygon points="745.6,262.4 777.6,262.4 777.6,208.0 745.6,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv4 D</title></polygon>
+<polygon points="678.4,174.4 710.4,174.4 710.4,96.0 678.4,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv4 S</title></polygon>
+<polygon points="745.6,174.4 777.6,174.4 777.6,96.0 745.6,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv4 D</title></polygon>
+<polygon points="832.0,262.4 864.0,262.4 864.0,208.0 832.0,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv5 S</title></polygon>
+<polygon points="899.2,262.4 931.2,262.4 931.2,208.0 899.2,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv5 D</title></polygon>
+<polygon points="832.0,174.4 864.0,174.4 864.0,96.0 832.0,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv5 S</title></polygon>
+<polygon points="899.2,174.4 931.2,174.4 931.2,96.0 899.2,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv5 D</title></polygon>
+<polygon points="985.6,262.4 1017.6,262.4 1017.6,208.0 985.6,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv6 S</title></polygon>
+<polygon points="1052.8,262.4 1084.8,262.4 1084.8,208.0 1052.8,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv6 D</title></polygon>
+<polygon points="985.6,174.4 1017.6,174.4 1017.6,96.0 985.6,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv6 S</title></polygon>
+<polygon points="1052.8,174.4 1084.8,174.4 1084.8,96.0 1052.8,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv6 D</title></polygon>
+<polygon points="1139.2,262.4 1171.2,262.4 1171.2,208.0 1139.2,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv7 S</title></polygon>
+<polygon points="1206.4,262.4 1238.4,262.4 1238.4,208.0 1206.4,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv7 D</title></polygon>
+<polygon points="1139.2,174.4 1171.2,174.4 1171.2,96.0 1139.2,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv7 S</title></polygon>
+<polygon points="1206.4,174.4 1238.4,174.4 1238.4,96.0 1206.4,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv7 D</title></polygon>
+<polygon points="1292.8,262.4 1324.8,262.4 1324.8,208.0 1292.8,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv8 S</title></polygon>
+<polygon points="1360.0,262.4 1392.0,262.4 1392.0,208.0 1360.0,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv8 D</title></polygon>
+<polygon points="1292.8,174.4 1324.8,174.4 1324.8,96.0 1292.8,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv8 S</title></polygon>
+<polygon points="1360.0,174.4 1392.0,174.4 1392.0,96.0 1360.0,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv8 D</title></polygon>
+<polygon points="1446.4,262.4 1478.4,262.4 1478.4,208.0 1446.4,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv9 S</title></polygon>
+<polygon points="1513.6,262.4 1545.6,262.4 1545.6,208.0 1513.6,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv9 D</title></polygon>
+<polygon points="1446.4,174.4 1478.4,174.4 1478.4,96.0 1446.4,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv9 S</title></polygon>
+<polygon points="1513.6,174.4 1545.6,174.4 1545.6,96.0 1513.6,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv9 D</title></polygon>
+<polygon points="1600.0,262.4 1632.0,262.4 1632.0,208.0 1600.0,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv10 S</title></polygon>
+<polygon points="1667.2,262.4 1699.2,262.4 1699.2,208.0 1667.2,208.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv10 D</title></polygon>
+<polygon points="1600.0,174.4 1632.0,174.4 1632.0,96.0 1600.0,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv10 S</title></polygon>
+<polygon points="1667.2,174.4 1699.2,174.4 1699.2,96.0 1667.2,96.0" fill="#9e9e9e" fill-opacity="0.9" stroke="#616161" stroke-width="1"><title>L4:0 inv10 D</title></polygon>
+<polygon points="99.2,192.0 128.0,192.0 128.0,166.4 99.2,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv0 CB</title></polygon>
+<polygon points="252.8,192.0 281.6,192.0 281.6,166.4 252.8,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv1 CB</title></polygon>
+<polygon points="406.4,192.0 435.2,192.0 435.2,166.4 406.4,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv2 CB</title></polygon>
+<polygon points="560.0,192.0 588.8,192.0 588.8,166.4 560.0,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv3 CB</title></polygon>
+<polygon points="713.6,192.0 742.4,192.0 742.4,166.4 713.6,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv4 CB</title></polygon>
+<polygon points="867.2,192.0 896.0,192.0 896.0,166.4 867.2,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv5 CB</title></polygon>
+<polygon points="1020.8,192.0 1049.6,192.0 1049.6,166.4 1020.8,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv6 CB</title></polygon>
+<polygon points="1174.4,192.0 1203.2,192.0 1203.2,166.4 1174.4,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv7 CB</title></polygon>
+<polygon points="1328.0,192.0 1356.8,192.0 1356.8,166.4 1328.0,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv8 CB</title></polygon>
+<polygon points="1481.6,192.0 1510.4,192.0 1510.4,166.4 1481.6,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv9 CB</title></polygon>
+<polygon points="1635.2,192.0 1664.0,192.0 1664.0,166.4 1635.2,166.4" fill="#212121" fill-opacity="0.9" stroke="#000000" stroke-width="1"><title>L5:0 inv10 CB</title></polygon>
+<polygon points="30.4,332.8 196.8,332.8 196.8,294.4 30.4,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv0 VSS rail</title></polygon>
+<polygon points="30.4,64.0 196.8,64.0 196.8,25.6 30.4,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv0 VDD rail</title></polygon>
+<polygon points="67.2,313.6 92.8,313.6 92.8,211.2 67.2,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv0 VSS strap</title></polygon>
+<polygon points="67.2,171.2 92.8,171.2 92.8,44.8 67.2,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv0 VDD strap</title></polygon>
+<polygon points="134.4,259.2 160.0,259.2 160.0,99.2 134.4,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv0 Y</title></polygon>
+<polygon points="94.4,192.0 132.8,192.0 132.8,166.4 94.4,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv0 A</title></polygon>
+<polygon points="184.0,332.8 350.4,332.8 350.4,294.4 184.0,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv1 VSS rail</title></polygon>
+<polygon points="184.0,64.0 350.4,64.0 350.4,25.6 184.0,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv1 VDD rail</title></polygon>
+<polygon points="220.8,313.6 246.4,313.6 246.4,211.2 220.8,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv1 VSS strap</title></polygon>
+<polygon points="220.8,171.2 246.4,171.2 246.4,44.8 220.8,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv1 VDD strap</title></polygon>
+<polygon points="288.0,259.2 313.6,259.2 313.6,99.2 288.0,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv1 Y</title></polygon>
+<polygon points="248.0,192.0 286.4,192.0 286.4,166.4 248.0,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv1 A</title></polygon>
+<polygon points="337.6,332.8 504.0,332.8 504.0,294.4 337.6,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv2 VSS rail</title></polygon>
+<polygon points="337.6,64.0 504.0,64.0 504.0,25.6 337.6,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv2 VDD rail</title></polygon>
+<polygon points="374.4,313.6 400.0,313.6 400.0,211.2 374.4,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv2 VSS strap</title></polygon>
+<polygon points="374.4,171.2 400.0,171.2 400.0,44.8 374.4,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv2 VDD strap</title></polygon>
+<polygon points="441.6,259.2 467.2,259.2 467.2,99.2 441.6,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv2 Y</title></polygon>
+<polygon points="401.6,192.0 440.0,192.0 440.0,166.4 401.6,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv2 A</title></polygon>
+<polygon points="491.2,332.8 657.6,332.8 657.6,294.4 491.2,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv3 VSS rail</title></polygon>
+<polygon points="491.2,64.0 657.6,64.0 657.6,25.6 491.2,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv3 VDD rail</title></polygon>
+<polygon points="528.0,313.6 553.6,313.6 553.6,211.2 528.0,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv3 VSS strap</title></polygon>
+<polygon points="528.0,171.2 553.6,171.2 553.6,44.8 528.0,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv3 VDD strap</title></polygon>
+<polygon points="595.2,259.2 620.8,259.2 620.8,99.2 595.2,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv3 Y</title></polygon>
+<polygon points="555.2,192.0 593.6,192.0 593.6,166.4 555.2,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv3 A</title></polygon>
+<polygon points="644.8,332.8 811.2,332.8 811.2,294.4 644.8,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv4 VSS rail</title></polygon>
+<polygon points="644.8,64.0 811.2,64.0 811.2,25.6 644.8,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv4 VDD rail</title></polygon>
+<polygon points="681.6,313.6 707.2,313.6 707.2,211.2 681.6,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv4 VSS strap</title></polygon>
+<polygon points="681.6,171.2 707.2,171.2 707.2,44.8 681.6,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv4 VDD strap</title></polygon>
+<polygon points="748.8,259.2 774.4,259.2 774.4,99.2 748.8,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv4 Y</title></polygon>
+<polygon points="708.8,192.0 747.2,192.0 747.2,166.4 708.8,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv4 A</title></polygon>
+<polygon points="798.4,332.8 964.8,332.8 964.8,294.4 798.4,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv5 VSS rail</title></polygon>
+<polygon points="798.4,64.0 964.8,64.0 964.8,25.6 798.4,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv5 VDD rail</title></polygon>
+<polygon points="835.2,313.6 860.8,313.6 860.8,211.2 835.2,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv5 VSS strap</title></polygon>
+<polygon points="835.2,171.2 860.8,171.2 860.8,44.8 835.2,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv5 VDD strap</title></polygon>
+<polygon points="902.4,259.2 928.0,259.2 928.0,99.2 902.4,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv5 Y</title></polygon>
+<polygon points="862.4,192.0 900.8,192.0 900.8,166.4 862.4,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv5 A</title></polygon>
+<polygon points="952.0,332.8 1118.4,332.8 1118.4,294.4 952.0,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv6 VSS rail</title></polygon>
+<polygon points="952.0,64.0 1118.4,64.0 1118.4,25.6 952.0,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv6 VDD rail</title></polygon>
+<polygon points="988.8,313.6 1014.4,313.6 1014.4,211.2 988.8,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv6 VSS strap</title></polygon>
+<polygon points="988.8,171.2 1014.4,171.2 1014.4,44.8 988.8,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv6 VDD strap</title></polygon>
+<polygon points="1056.0,259.2 1081.6,259.2 1081.6,99.2 1056.0,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv6 Y</title></polygon>
+<polygon points="1016.0,192.0 1054.4,192.0 1054.4,166.4 1016.0,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv6 A</title></polygon>
+<polygon points="1105.6,332.8 1272.0,332.8 1272.0,294.4 1105.6,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv7 VSS rail</title></polygon>
+<polygon points="1105.6,64.0 1272.0,64.0 1272.0,25.6 1105.6,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv7 VDD rail</title></polygon>
+<polygon points="1142.4,313.6 1168.0,313.6 1168.0,211.2 1142.4,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv7 VSS strap</title></polygon>
+<polygon points="1142.4,171.2 1168.0,171.2 1168.0,44.8 1142.4,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv7 VDD strap</title></polygon>
+<polygon points="1209.6,259.2 1235.2,259.2 1235.2,99.2 1209.6,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv7 Y</title></polygon>
+<polygon points="1169.6,192.0 1208.0,192.0 1208.0,166.4 1169.6,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv7 A</title></polygon>
+<polygon points="1259.2,332.8 1425.6,332.8 1425.6,294.4 1259.2,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv8 VSS rail</title></polygon>
+<polygon points="1259.2,64.0 1425.6,64.0 1425.6,25.6 1259.2,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv8 VDD rail</title></polygon>
+<polygon points="1296.0,313.6 1321.6,313.6 1321.6,211.2 1296.0,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv8 VSS strap</title></polygon>
+<polygon points="1296.0,171.2 1321.6,171.2 1321.6,44.8 1296.0,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv8 VDD strap</title></polygon>
+<polygon points="1363.2,259.2 1388.8,259.2 1388.8,99.2 1363.2,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv8 Y</title></polygon>
+<polygon points="1323.2,192.0 1361.6,192.0 1361.6,166.4 1323.2,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv8 A</title></polygon>
+<polygon points="1412.8,332.8 1579.2,332.8 1579.2,294.4 1412.8,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv9 VSS rail</title></polygon>
+<polygon points="1412.8,64.0 1579.2,64.0 1579.2,25.6 1412.8,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv9 VDD rail</title></polygon>
+<polygon points="1449.6,313.6 1475.2,313.6 1475.2,211.2 1449.6,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv9 VSS strap</title></polygon>
+<polygon points="1449.6,171.2 1475.2,171.2 1475.2,44.8 1449.6,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv9 VDD strap</title></polygon>
+<polygon points="1516.8,259.2 1542.4,259.2 1542.4,99.2 1516.8,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv9 Y</title></polygon>
+<polygon points="1476.8,192.0 1515.2,192.0 1515.2,166.4 1476.8,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv9 A</title></polygon>
+<polygon points="1566.4,332.8 1732.8,332.8 1732.8,294.4 1566.4,294.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv10 VSS rail</title></polygon>
+<polygon points="1566.4,64.0 1732.8,64.0 1732.8,25.6 1566.4,25.6" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv10 VDD rail</title></polygon>
+<polygon points="1603.2,313.6 1628.8,313.6 1628.8,211.2 1603.2,211.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv10 VSS strap</title></polygon>
+<polygon points="1603.2,171.2 1628.8,171.2 1628.8,44.8 1603.2,44.8" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv10 VDD strap</title></polygon>
+<polygon points="1670.4,259.2 1696.0,259.2 1696.0,99.2 1670.4,99.2" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv10 Y</title></polygon>
+<polygon points="1630.4,192.0 1668.8,192.0 1668.8,166.4 1630.4,166.4" fill="#1e88e5" fill-opacity="0.62" stroke="#0d47a1" stroke-width="1"><title>L7:0 inv10 A</title></polygon>
+<polygon points="72.0,243.2 88.0,243.2 88.0,227.2 72.0,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv0 V0</title></polygon>
+<polygon points="72.0,144.0 88.0,144.0 88.0,128.0 72.0,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv0 V0</title></polygon>
+<polygon points="139.2,243.2 155.2,243.2 155.2,227.2 139.2,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv0 V0</title></polygon>
+<polygon points="139.2,144.0 155.2,144.0 155.2,128.0 139.2,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv0 V0</title></polygon>
+<polygon points="105.6,187.2 121.6,187.2 121.6,171.2 105.6,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv0 V0</title></polygon>
+<polygon points="225.6,243.2 241.6,243.2 241.6,227.2 225.6,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv1 V0</title></polygon>
+<polygon points="225.6,144.0 241.6,144.0 241.6,128.0 225.6,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv1 V0</title></polygon>
+<polygon points="292.8,243.2 308.8,243.2 308.8,227.2 292.8,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv1 V0</title></polygon>
+<polygon points="292.8,144.0 308.8,144.0 308.8,128.0 292.8,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv1 V0</title></polygon>
+<polygon points="259.2,187.2 275.2,187.2 275.2,171.2 259.2,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv1 V0</title></polygon>
+<polygon points="379.2,243.2 395.2,243.2 395.2,227.2 379.2,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv2 V0</title></polygon>
+<polygon points="379.2,144.0 395.2,144.0 395.2,128.0 379.2,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv2 V0</title></polygon>
+<polygon points="446.4,243.2 462.4,243.2 462.4,227.2 446.4,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv2 V0</title></polygon>
+<polygon points="446.4,144.0 462.4,144.0 462.4,128.0 446.4,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv2 V0</title></polygon>
+<polygon points="412.8,187.2 428.8,187.2 428.8,171.2 412.8,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv2 V0</title></polygon>
+<polygon points="532.8,243.2 548.8,243.2 548.8,227.2 532.8,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv3 V0</title></polygon>
+<polygon points="532.8,144.0 548.8,144.0 548.8,128.0 532.8,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv3 V0</title></polygon>
+<polygon points="600.0,243.2 616.0,243.2 616.0,227.2 600.0,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv3 V0</title></polygon>
+<polygon points="600.0,144.0 616.0,144.0 616.0,128.0 600.0,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv3 V0</title></polygon>
+<polygon points="566.4,187.2 582.4,187.2 582.4,171.2 566.4,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv3 V0</title></polygon>
+<polygon points="686.4,243.2 702.4,243.2 702.4,227.2 686.4,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv4 V0</title></polygon>
+<polygon points="686.4,144.0 702.4,144.0 702.4,128.0 686.4,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv4 V0</title></polygon>
+<polygon points="753.6,243.2 769.6,243.2 769.6,227.2 753.6,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv4 V0</title></polygon>
+<polygon points="753.6,144.0 769.6,144.0 769.6,128.0 753.6,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv4 V0</title></polygon>
+<polygon points="720.0,187.2 736.0,187.2 736.0,171.2 720.0,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv4 V0</title></polygon>
+<polygon points="840.0,243.2 856.0,243.2 856.0,227.2 840.0,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv5 V0</title></polygon>
+<polygon points="840.0,144.0 856.0,144.0 856.0,128.0 840.0,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv5 V0</title></polygon>
+<polygon points="907.2,243.2 923.2,243.2 923.2,227.2 907.2,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv5 V0</title></polygon>
+<polygon points="907.2,144.0 923.2,144.0 923.2,128.0 907.2,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv5 V0</title></polygon>
+<polygon points="873.6,187.2 889.6,187.2 889.6,171.2 873.6,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv5 V0</title></polygon>
+<polygon points="993.6,243.2 1009.6,243.2 1009.6,227.2 993.6,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv6 V0</title></polygon>
+<polygon points="993.6,144.0 1009.6,144.0 1009.6,128.0 993.6,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv6 V0</title></polygon>
+<polygon points="1060.8,243.2 1076.8,243.2 1076.8,227.2 1060.8,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv6 V0</title></polygon>
+<polygon points="1060.8,144.0 1076.8,144.0 1076.8,128.0 1060.8,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv6 V0</title></polygon>
+<polygon points="1027.2,187.2 1043.2,187.2 1043.2,171.2 1027.2,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv6 V0</title></polygon>
+<polygon points="1147.2,243.2 1163.2,243.2 1163.2,227.2 1147.2,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv7 V0</title></polygon>
+<polygon points="1147.2,144.0 1163.2,144.0 1163.2,128.0 1147.2,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv7 V0</title></polygon>
+<polygon points="1214.4,243.2 1230.4,243.2 1230.4,227.2 1214.4,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv7 V0</title></polygon>
+<polygon points="1214.4,144.0 1230.4,144.0 1230.4,128.0 1214.4,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv7 V0</title></polygon>
+<polygon points="1180.8,187.2 1196.8,187.2 1196.8,171.2 1180.8,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv7 V0</title></polygon>
+<polygon points="1300.8,243.2 1316.8,243.2 1316.8,227.2 1300.8,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv8 V0</title></polygon>
+<polygon points="1300.8,144.0 1316.8,144.0 1316.8,128.0 1300.8,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv8 V0</title></polygon>
+<polygon points="1368.0,243.2 1384.0,243.2 1384.0,227.2 1368.0,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv8 V0</title></polygon>
+<polygon points="1368.0,144.0 1384.0,144.0 1384.0,128.0 1368.0,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv8 V0</title></polygon>
+<polygon points="1334.4,187.2 1350.4,187.2 1350.4,171.2 1334.4,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv8 V0</title></polygon>
+<polygon points="1454.4,243.2 1470.4,243.2 1470.4,227.2 1454.4,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv9 V0</title></polygon>
+<polygon points="1454.4,144.0 1470.4,144.0 1470.4,128.0 1454.4,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv9 V0</title></polygon>
+<polygon points="1521.6,243.2 1537.6,243.2 1537.6,227.2 1521.6,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv9 V0</title></polygon>
+<polygon points="1521.6,144.0 1537.6,144.0 1537.6,128.0 1521.6,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv9 V0</title></polygon>
+<polygon points="1488.0,187.2 1504.0,187.2 1504.0,171.2 1488.0,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv9 V0</title></polygon>
+<polygon points="1608.0,243.2 1624.0,243.2 1624.0,227.2 1608.0,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv10 V0</title></polygon>
+<polygon points="1608.0,144.0 1624.0,144.0 1624.0,128.0 1608.0,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv10 V0</title></polygon>
+<polygon points="1675.2,243.2 1691.2,243.2 1691.2,227.2 1675.2,227.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv10 V0</title></polygon>
+<polygon points="1675.2,144.0 1691.2,144.0 1691.2,128.0 1675.2,128.0" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv10 V0</title></polygon>
+<polygon points="1641.6,187.2 1657.6,187.2 1657.6,171.2 1641.6,171.2" fill="#ffffff" fill-opacity="1.0" stroke="#000000" stroke-width="1"><title>L6:0 inv10 V0</title></polygon>
+<polygon points="134.4,192.0 160.0,192.0 160.0,166.4 134.4,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv0 Y pin</title></polygon>
+<polygon points="94.4,192.0 132.8,192.0 132.8,166.4 94.4,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv0 A pin</title></polygon>
+<polygon points="288.0,192.0 313.6,192.0 313.6,166.4 288.0,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv1 Y pin</title></polygon>
+<polygon points="248.0,192.0 286.4,192.0 286.4,166.4 248.0,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv1 A pin</title></polygon>
+<polygon points="441.6,192.0 467.2,192.0 467.2,166.4 441.6,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv2 Y pin</title></polygon>
+<polygon points="401.6,192.0 440.0,192.0 440.0,166.4 401.6,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv2 A pin</title></polygon>
+<polygon points="595.2,192.0 620.8,192.0 620.8,166.4 595.2,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv3 Y pin</title></polygon>
+<polygon points="555.2,192.0 593.6,192.0 593.6,166.4 555.2,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv3 A pin</title></polygon>
+<polygon points="748.8,192.0 774.4,192.0 774.4,166.4 748.8,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv4 Y pin</title></polygon>
+<polygon points="708.8,192.0 747.2,192.0 747.2,166.4 708.8,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv4 A pin</title></polygon>
+<polygon points="902.4,192.0 928.0,192.0 928.0,166.4 902.4,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv5 Y pin</title></polygon>
+<polygon points="862.4,192.0 900.8,192.0 900.8,166.4 862.4,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv5 A pin</title></polygon>
+<polygon points="1056.0,192.0 1081.6,192.0 1081.6,166.4 1056.0,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv6 Y pin</title></polygon>
+<polygon points="1016.0,192.0 1054.4,192.0 1054.4,166.4 1016.0,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv6 A pin</title></polygon>
+<polygon points="1209.6,192.0 1235.2,192.0 1235.2,166.4 1209.6,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv7 Y pin</title></polygon>
+<polygon points="1169.6,192.0 1208.0,192.0 1208.0,166.4 1169.6,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv7 A pin</title></polygon>
+<polygon points="1363.2,192.0 1388.8,192.0 1388.8,166.4 1363.2,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv8 Y pin</title></polygon>
+<polygon points="1323.2,192.0 1361.6,192.0 1361.6,166.4 1323.2,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv8 A pin</title></polygon>
+<polygon points="1516.8,192.0 1542.4,192.0 1542.4,166.4 1516.8,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv9 Y pin</title></polygon>
+<polygon points="1476.8,192.0 1515.2,192.0 1515.2,166.4 1476.8,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv9 A pin</title></polygon>
+<polygon points="1670.4,192.0 1696.0,192.0 1696.0,166.4 1670.4,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv10 Y pin</title></polygon>
+<polygon points="1630.4,192.0 1668.8,192.0 1668.8,166.4 1630.4,166.4" fill="none" fill-opacity="1.0" stroke="#0d47a1" stroke-width="1" stroke-dasharray="4 3"><title>L7:1 inv10 A pin</title></polygon>
+<polygon points="36.8,313.6 190.4,313.6 190.4,44.8 36.8,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv0 prBoundary</title></polygon>
+<polygon points="190.4,313.6 344.0,313.6 344.0,44.8 190.4,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv1 prBoundary</title></polygon>
+<polygon points="344.0,313.6 497.6,313.6 497.6,44.8 344.0,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv2 prBoundary</title></polygon>
+<polygon points="497.6,313.6 651.2,313.6 651.2,44.8 497.6,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv3 prBoundary</title></polygon>
+<polygon points="651.2,313.6 804.8,313.6 804.8,44.8 651.2,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv4 prBoundary</title></polygon>
+<polygon points="804.8,313.6 958.4,313.6 958.4,44.8 804.8,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv5 prBoundary</title></polygon>
+<polygon points="958.4,313.6 1112.0,313.6 1112.0,44.8 958.4,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv6 prBoundary</title></polygon>
+<polygon points="1112.0,313.6 1265.6,313.6 1265.6,44.8 1112.0,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv7 prBoundary</title></polygon>
+<polygon points="1265.6,313.6 1419.2,313.6 1419.2,44.8 1265.6,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv8 prBoundary</title></polygon>
+<polygon points="1419.2,313.6 1572.8,313.6 1572.8,44.8 1419.2,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv9 prBoundary</title></polygon>
+<polygon points="1572.8,313.6 1726.4,313.6 1726.4,44.8 1572.8,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 inv10 prBoundary</title></polygon>
+<polygon points="36.8,313.6 1726.4,313.6 1726.4,44.8 36.8,44.8" fill="none" fill-opacity="1.0" stroke="#8a8f98" stroke-width="1" stroke-dasharray="4 3"><title>L235:0 prBoundary</title></polygon>
+<text x="1683.2" y="138.4" text-anchor="middle" font-size="12" font-weight="700" fill="#111">OUT</text>
+</svg>
