@@ -209,7 +209,7 @@ def build_inverter() -> GdsCell:
     # -- source/drain trench contacts -----------------------------------------
     sd = t["SD_W"]
     src_x0 = xc - lg2 - 4 - sd          # 14..34
-    drn_x0 = xc + lg2 + 4               # 62..82
+    drn_x0 = xc + lg2 + 10              # 65..85 (output bar 12 nm from the input pad)
     for (y0, y1) in ((n_y0 - 2, n_y1 + 2), (p_y0 - 2, p_y1 + 2)):
         c.rect(*L["SDC"], src_x0, y0, src_x0 + sd, y1, "S")
         c.rect(*L["SDC"], drn_x0, y0, drn_x0 + sd, y1, "D")
@@ -225,24 +225,24 @@ def build_inverter() -> GdsCell:
     # source straps to rails
     sx = src_x0 + sd // 2
     c.rect(*L["M1"], sx - m1 // 2, 0, sx + m1 // 2, n_y1, "VSS strap")
-    c.rect(*L["M1"], sx - m1 // 2, p_y0, sx + m1 // 2, CELL_H, "VDD strap")
+    c.rect(*L["M1"], sx - m1 // 2, CELL_H // 2 + 20, sx + m1 // 2, CELL_H, "VDD strap")   # starts 12 nm above the A pad
     # output: vertical M1 joining N and P drains
     dx = drn_x0 + sd // 2
     c.rect(*L["M1"], dx - m1 // 2, n_y0, dx + m1 // 2, p_y1, "Y")
     c.rect(*L["M1_PIN"], dx - m1 // 2, CELL_H // 2 - 8, dx + m1 // 2, CELL_H // 2 + 8, "Y pin")
     # input: M1 landing pad over gate contact
-    c.rect(*L["M1"], xc - 12, CELL_H // 2 - 8, xc + 12, CELL_H // 2 + 8, "A")
-    c.rect(*L["M1_PIN"], xc - 12, CELL_H // 2 - 8, xc + 12, CELL_H // 2 + 8, "A pin")
+    c.rect(*L["M1"], xc - 9, CELL_H // 2 - 8, xc + 7, CELL_H // 2 + 8, "A")            # 16-nm pad, 12 nm from the Y bar
+    c.rect(*L["M1_PIN"], xc - 9, CELL_H // 2 - 8, xc + 7, CELL_H // 2 + 8, "A pin")
 
     # -- via-0 --------------------------------------------------------------------
     v = t["V0"] // 2
-    for (x, y) in ((sx, (n_y0 + n_y1) // 2), (sx, (p_y0 + p_y1) // 2),
+    for (x, y) in ((sx, (n_y0 + n_y1) // 2), (sx, (p_y0 + p_y1) // 2 + 1),   # P source via 1 nm up: enclosed by the shortened strap
                    (dx, (n_y0 + n_y1) // 2), (dx, (p_y0 + p_y1) // 2),
-                   (xc, CELL_H // 2)):
+                   (xc - 1, CELL_H // 2)):
         c.rect(*L["V0"], x - v, y - v, x + v, y + v, "V0")
 
     # -- pin labels ---------------------------------------------------------------
-    c.label(*L["M1_TEXT"], xc, CELL_H // 2, "A")
+    c.label(*L["M1_TEXT"], xc - 1, CELL_H // 2, "A")
     c.label(*L["M1_TEXT"], dx, CELL_H // 2, "Y")
     c.label(*L["M1_TEXT"], CELL_W // 2, CELL_H, "VDD")
     c.label(*L["M1_TEXT"], CELL_W // 2, 0, "VSS")

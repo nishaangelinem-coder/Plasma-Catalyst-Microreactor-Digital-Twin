@@ -1,0 +1,41 @@
+{
+ "layout_cell": "SRAM6T_GAA_HD",
+ "schematic_cell": "SRAM6T_GAA_HD",
+ "layout": {
+  "ports": 7,
+  "nets": 7,
+  "instances": 6,
+  "n": 4,
+  "p": 2,
+  "port_names": [
+   "BL",
+   "BLB",
+   "Q",
+   "QB",
+   "VDD",
+   "VSS",
+   "WL"
+  ],
+  "unrecognised": 0
+ },
+ "schematic": {
+  "ports": 7,
+  "nets": 7,
+  "instances": 6,
+  "n": 4,
+  "p": 2,
+  "port_names": [
+   "BL",
+   "BLB",
+   "Q",
+   "QB",
+   "VDD",
+   "VSS",
+   "WL"
+  ]
+ },
+ "device_classes_match": true,
+ "net_classes_match": true,
+ "port_names_match": true,
+ "result": "MATCH"
+}

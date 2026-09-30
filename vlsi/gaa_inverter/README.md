@@ -12,6 +12,7 @@ Design and implementation of a gate-all-around (GAA) nanosheet CMOS inverter
 | Place & route | Innovus | `innovus/pnr.tcl`, `innovus/mmmc.tcl` | DEF, SPEF, **`inverter.gds`** |
 | NAND2 cell | Spectre, Genus/Innovus, Python | `spectre/gaa_nand2_tb.scs`, `rtl/nand2.v`, `spectre/nand2.py`, `layout/gen_gaa_nand2_gds.py` | `results_nand2*.json`, `layout/gaa_nand2.gds` |
 | 6T SRAM bitcell | Spectre, Python | `spectre/gaa_sram6t_tb.scs`, `spectre/sram6t.py`, `layout/gen_gaa_sram6t_gds.py` | `results_sram6t*.json`, `layout/gaa_sram6t.gds` |
+| DRC / LVS | Pegasus (sign-off), Python+gdstk (reference) | `verify/gaa3_drc.py`, `verify/gaa3_lvs.py`, `verify/run_all.sh` | `verify/*.drc.sum`, `verify/*.lvs.rpt` (all cells DRC-clean, LVS MATCH) |
 | Reference check | Python (no deps) | `spectre/ref_model.py` | `results.json`, SVG figures |
 | Ring oscillator | Spectre, Genus, Python | `spectre/gaa_ro11_tb.scs`, `rtl/ring_osc.v`, `genus/synth_ro.tcl`, `spectre/ro.py`, `layout/gen_gaa_ro_gds.py` | `results_ro*.json`, `layout/gaa_ro11.gds` |
 
@@ -64,6 +65,11 @@ cd ../innovus && innovus -init  pnr.tcl   -log logs/innovus
 ```
 
 ## 4. Verifying the GDSII
+
+```bash
+./verify/run_all.sh      # regenerates the four cells, runs the 26-rule GAA3 DRC and the LVS extraction
+```
+
 
 ```bash
 python3 -c "import gdstk; l=gdstk.read_gds('layout/gaa_inverter.gds'); \

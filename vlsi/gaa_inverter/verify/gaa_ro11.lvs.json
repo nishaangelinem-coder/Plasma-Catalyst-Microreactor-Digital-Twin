@@ -1,0 +1,33 @@
+{
+ "layout_cell": "RO11_GAA",
+ "schematic_cell": "RO11_GAA",
+ "layout": {
+  "ports": 3,
+  "nets": 13,
+  "instances": 22,
+  "n": 11,
+  "p": 11,
+  "port_names": [
+   "OUT",
+   "VDD",
+   "VSS"
+  ],
+  "unrecognised": 0
+ },
+ "schematic": {
+  "ports": 3,
+  "nets": 13,
+  "instances": 22,
+  "n": 11,
+  "p": 11,
+  "port_names": [
+   "OUT",
+   "VDD",
+   "VSS"
+  ]
+ },
+ "device_classes_match": true,
+ "net_classes_match": true,
+ "port_names_match": true,
+ "result": "MATCH"
+}

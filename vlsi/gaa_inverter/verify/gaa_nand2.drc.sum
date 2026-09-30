@@ -1,0 +1,41 @@
+==============================================================================
+  GAA3 DRC  -  SUMMARY REPORT  (reference checker: gaa3_drc.py; sign-off: Pegasus DRC)
+==============================================================================
+  Layout file  : gaa_nand2.gds
+  Top cell     : NAND2_GAA_X1      polygons (flat): 45
+  Rule deck    : GAA3_DRC v1.0   rules checked: 26
+  Extent (nm)  : (-7, -12) - (151, 180)
+------------------------------------------------------------------------------
+  RULECHECK   TYPE       VALUE    RESULTS   DESCRIPTION
+------------------------------------------------------------------------------
+  NW.W.1      width         40          0   NWELL minimum width
+  NS.W.1      width         15          0   NSHEET (sheet band) minimum width
+  NS.S.1      spacing       16          0   NSHEET to NSHEET spacing (single diffusion break gap)
+  NS.E.NW     encl_in        4          0   P-type NSHEET enclosed by NWELL (inside well)
+  NS.S.NW     spto_out      10          0   N-type NSHEET spacing to NWELL (outside well)
+  GATE.W.1    width         14          0   GATE minimum width (Lg)
+  GATE.S.1    spacing       34          0   GATE to GATE spacing (CPP - Lg)
+  GATE.E.NS   ext           10          0   GATE extension past NSHEET band
+  SDC.W.1     width         14          0   SDC (trench contact) minimum width
+  SDC.S.1     spacing       12          0   SDC to SDC spacing
+  SDC.S.GATE  spto           4          0   SDC to GATE spacing
+  SDC.O.NS    overlap        0          0   SDC must land on NSHEET (or on CB for a butted contact)
+  CB.O.GATE   overlap        0          0   CB (gate contact) must land on GATE
+  V0.W.1      width         10          0   V0 width
+  V0.E.M1     encl           3          0   V0 enclosed by M1
+  V0.E.LOW    encl_any       2          0   V0 enclosed by SDC or CB
+  M1.W.1      width         16          0   M1 minimum width
+  M1.S.1      spacing       12          0   M1 to M1 spacing
+  V1.W.1      width         10          0   V1 width
+  V1.E.M1     encl           3          0   V1 enclosed by M1
+  V1.E.M2     encl           3          0   V1 enclosed by M2
+  M2.W.1      width         16          0   M2 minimum width
+  M2.S.1      spacing       12          0   M2 to M2 spacing
+  V2.E.M2     encl           3          0   V2 enclosed by M2
+  V2.E.M3     encl           3          0   V2 enclosed by M3
+  M3.W.1      width         16          0   M3 minimum width
+------------------------------------------------------------------------------
+  TOTAL RULECHECKS WITH RESULTS : 0
+  TOTAL RESULTS                 : 0
+  DRC STATUS                    : CLEAN
+==============================================================================

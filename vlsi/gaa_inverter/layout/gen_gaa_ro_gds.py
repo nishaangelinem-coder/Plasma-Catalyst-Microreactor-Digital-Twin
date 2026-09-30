@@ -13,7 +13,7 @@ N = 11
 CW, CH = inv.CELL_W, inv.CELL_H
 L_V1, L_M2, L_M2PIN, L_M2TXT = (8, 0), (9, 0), (9, 1), (9, 2)
 Y_A = CH // 2                 # input pad row  (y = 84)
-X_A, X_Y = 48, 69             # A pad and Y bar centres inside a cell
+X_A, X_Y = 47, 75             # A pad and Y bar centres inside a cell
 M2W, V1 = 16, 10
 inv.STYLE.update({L_V1: ("#ffeb3b", "#8d6e00", 1.0), L_M2: ("#8e24aa", "#4a148c", 0.55), L_M2PIN: ("none", "#4a148c", 1.0)})
 

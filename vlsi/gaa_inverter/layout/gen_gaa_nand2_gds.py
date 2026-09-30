@@ -46,8 +46,8 @@ def build_nand2():
         c.rect(*L["SDC"], x - SD // 2, p_y0 - 2, x + SD // 2, p_y1 + 2, "SDC P")
     # gate contacts in the mid region (y 69..104)
     ym = (n_y1 + p_y0) // 2                    # 86
-    for name, gx in gates.items():
-        c.rect(*L["CB"], gx - lg2 - 2, ym - 8, gx + lg2 + 2, ym + 8, f"CB {name}")
+    c.rect(*L["CB"], CPP - lg2 - 2, ym - 8, CPP + lg2 + 2, ym + 8, "CB A")
+    c.rect(*L["CB"], 2 * CPP - lg2 - 4, ym - 8, 2 * CPP + lg2 + 2, ym + 8, "CB B (extended over the via)")
     # rails
     c.rect(*L["M1"], -4, -RW, CW + 4, RW, "VSS rail")
     c.rect(*L["M1"], -4, CH - RW, CW + 4, CH + RW, "VDD rail")

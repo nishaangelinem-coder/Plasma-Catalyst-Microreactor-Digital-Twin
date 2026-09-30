@@ -1,0 +1,224 @@
+{
+ "gds": "gaa_sram6t.gds",
+ "cell": "SRAM6T_GAA_HD",
+ "rules": [
+  {
+   "rule": "NW.W.1",
+   "kind": "width",
+   "value": 40,
+   "desc": "NWELL minimum width",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "NS.W.1",
+   "kind": "width",
+   "value": 15,
+   "desc": "NSHEET (sheet band) minimum width",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "NS.S.1",
+   "kind": "spacing",
+   "value": 16,
+   "desc": "NSHEET to NSHEET spacing (single diffusion break gap)",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "NS.E.NW",
+   "kind": "encl_in",
+   "value": 4,
+   "desc": "P-type NSHEET enclosed by NWELL (inside well)",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "NS.S.NW",
+   "kind": "spto_out",
+   "value": 10,
+   "desc": "N-type NSHEET spacing to NWELL (outside well)",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "GATE.W.1",
+   "kind": "width",
+   "value": 14,
+   "desc": "GATE minimum width (Lg)",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "GATE.S.1",
+   "kind": "spacing",
+   "value": 34,
+   "desc": "GATE to GATE spacing (CPP - Lg)",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "GATE.E.NS",
+   "kind": "ext",
+   "value": 10,
+   "desc": "GATE extension past NSHEET band",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "SDC.W.1",
+   "kind": "width",
+   "value": 14,
+   "desc": "SDC (trench contact) minimum width",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "SDC.S.1",
+   "kind": "spacing",
+   "value": 12,
+   "desc": "SDC to SDC spacing",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "SDC.S.GATE",
+   "kind": "spto",
+   "value": 4,
+   "desc": "SDC to GATE spacing",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "SDC.O.NS",
+   "kind": "overlap",
+   "value": 0,
+   "desc": "SDC must land on NSHEET (or on CB for a butted contact)",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "CB.O.GATE",
+   "kind": "overlap",
+   "value": 0,
+   "desc": "CB (gate contact) must land on GATE",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "V0.W.1",
+   "kind": "width",
+   "value": 10,
+   "desc": "V0 width",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "V0.E.M1",
+   "kind": "encl",
+   "value": 3,
+   "desc": "V0 enclosed by M1",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "V0.E.LOW",
+   "kind": "encl_any",
+   "value": 2,
+   "desc": "V0 enclosed by SDC or CB",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "M1.W.1",
+   "kind": "width",
+   "value": 16,
+   "desc": "M1 minimum width",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "M1.S.1",
+   "kind": "spacing",
+   "value": 12,
+   "desc": "M1 to M1 spacing",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "V1.W.1",
+   "kind": "width",
+   "value": 10,
+   "desc": "V1 width",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "V1.E.M1",
+   "kind": "encl",
+   "value": 3,
+   "desc": "V1 enclosed by M1",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "V1.E.M2",
+   "kind": "encl",
+   "value": 3,
+   "desc": "V1 enclosed by M2",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "M2.W.1",
+   "kind": "width",
+   "value": 16,
+   "desc": "M2 minimum width",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "M2.S.1",
+   "kind": "spacing",
+   "value": 12,
+   "desc": "M2 to M2 spacing",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "V2.E.M2",
+   "kind": "encl",
+   "value": 3,
+   "desc": "V2 enclosed by M2",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "V2.E.M3",
+   "kind": "encl",
+   "value": 3,
+   "desc": "V2 enclosed by M3",
+   "count": 0,
+   "boxes": []
+  },
+  {
+   "rule": "M3.W.1",
+   "kind": "width",
+   "value": 16,
+   "desc": "M3 minimum width",
+   "count": 0,
+   "boxes": []
+  }
+ ],
+ "total": 0,
+ "polygons": 70,
+ "bbox_nm": [
+  -12.0,
+  -12.0,
+  228.0,
+  108.0
+ ],
+ "deck": "GAA3_DRC v1.0",
+ "checked": 26
+}

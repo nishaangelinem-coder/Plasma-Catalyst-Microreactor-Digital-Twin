@@ -1,0 +1,20 @@
+==============================================================================
+  GAA3 LVS  -  CELL COMPARISON RESULTS  (reference extractor: gaa3_lvs.py; sign-off: Pegasus LVS)
+==============================================================================
+  LAYOUT CELL    : SRAM6T_GAA_HD
+  SCHEMATIC CELL : SRAM6T_GAA_HD
+------------------------------------------------------------------------------
+  OBJECT            LAYOUT   SCHEMATIC   STATUS
+------------------------------------------------------------------------------
+  Ports                  7           7   ok
+  Nets                   7           7   ok
+  Instances              6           6   ok
+    NMOS (nsheet_n)         4           4   ok
+    PMOS (nsheet_p)         2           2   ok
+------------------------------------------------------------------------------
+  Port names     : layout ['BL', 'BLB', 'Q', 'QB', 'VDD', 'VSS', 'WL']
+                   schematic ['BL', 'BLB', 'Q', 'QB', 'VDD', 'VSS', 'WL']
+  Device classes : match   Net classes : match
+------------------------------------------------------------------------------
+  RESULT         : MATCH
+==============================================================================

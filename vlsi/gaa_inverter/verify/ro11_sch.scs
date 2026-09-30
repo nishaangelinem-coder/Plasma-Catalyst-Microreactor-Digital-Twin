@@ -1,0 +1,19 @@
+// ro11_sch.scs -- schematic netlist of the 11-stage ring (LVS source for RO11_GAA);
+// the FO3 dummy loads of gaa_ro11_tb.scs are a testbench artefact and are not in the layout.
+simulator lang=spectre
+include "../spectre/gaa_inv_tb.scs" section=models
+subckt RO11_GAA (OUT VDD VSS)
+    X1  (n0  n1  VDD VSS) INV_GAA_X1
+    X2  (n1  n2  VDD VSS) INV_GAA_X1
+    X3  (n2  n3  VDD VSS) INV_GAA_X1
+    X4  (n3  n4  VDD VSS) INV_GAA_X1
+    X5  (n4  n5  VDD VSS) INV_GAA_X1
+    X6  (n5  n6  VDD VSS) INV_GAA_X1
+    X7  (n6  n7  VDD VSS) INV_GAA_X1
+    X8  (n7  n8  VDD VSS) INV_GAA_X1
+    X9  (n8  n9  VDD VSS) INV_GAA_X1
+    X10 (n9  n10 VDD VSS) INV_GAA_X1
+    X11 (n10 n0  VDD VSS) INV_GAA_X1
+    // n0 is also the observed output (OUT pin on the feedback net)
+    R0  (n0 OUT) resistor r=0
+ends RO11_GAA

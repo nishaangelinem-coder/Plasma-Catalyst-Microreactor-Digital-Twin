@@ -1,0 +1,37 @@
+{
+ "layout_cell": "NAND2_GAA_X1",
+ "schematic_cell": "NAND2_GAA_X1",
+ "layout": {
+  "ports": 5,
+  "nets": 6,
+  "instances": 4,
+  "n": 2,
+  "p": 2,
+  "port_names": [
+   "A",
+   "B",
+   "VDD",
+   "VSS",
+   "Y"
+  ],
+  "unrecognised": 0
+ },
+ "schematic": {
+  "ports": 5,
+  "nets": 6,
+  "instances": 4,
+  "n": 2,
+  "p": 2,
+  "port_names": [
+   "A",
+   "B",
+   "VDD",
+   "VSS",
+   "Y"
+  ]
+ },
+ "device_classes_match": true,
+ "net_classes_match": true,
+ "port_names_match": true,
+ "result": "MATCH"
+}

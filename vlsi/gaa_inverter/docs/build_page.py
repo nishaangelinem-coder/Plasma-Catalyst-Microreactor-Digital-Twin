@@ -107,6 +107,13 @@ LISTINGS = [
     ("23", "docs/gen_schematics_virtuoso.py", "Virtuoso-convention schematic renderings of Fig. 3", True),
     ("24", "docs/render_pngs.py", "PNG rendering of all schematics, waveforms and layouts (headless Chromium)", True),
     ("25", "docs/gen_viva.py", "ViVA-convention waveform panels of Fig. 9", True),
+    ("26", "verify/gaa3_drc.py", "GAA3 design-rule deck and reference DRC checker (gdstk booleans)", True),
+    ("27", "verify/gaa3_lvs.py", "Reference LVS: device extraction from GDSII and comparison with the Spectre subcircuit", True),
+    ("28", "verify/ro11_sch.scs", "Schematic netlist of the ring for LVS", True),
+    ("29", "verify/gaa3_drc_all.sum", "DRC summary reports of the four cells (final pass)", True),
+    ("30", "verify/gaa3_lvs_all.rpt", "LVS comparison reports of the four cells", True),
+    ("31", "verify/run_all.sh", "One-command regeneration of the GDSII cells, DRC and LVS", True),
+    ("32", "docs/gen_verif_views.py", "Pegasus-convention DRC/LVS results-viewer renderings of Figs. 16-17", True),
 ]
 def listing(num, path, title, collapsed):
     code = html.escape(rd(path))
@@ -202,6 +209,33 @@ def sram_sub():
     d["FIG_SRAM_BUTTERFLY"] = rd("spectre/fig_sram_butterfly.svg"); d["FIG_SRAM_SNM"] = rd("spectre/fig_sram_snm_vdd.svg")
     return d
 
+# ---------------- physical verification ----------------
+FIRST_PASS = {  # first DRC run on the layouts as originally drawn (per cell), before correction
+    "INV": {"M1.S.1": 2}, "NAND2": {"V0.E.LOW": 1}, "RO11": {"NS.S.1": 11, "M1.S.1": 22, "M2.S.1": 2},
+    "SRAM": {"NS.E.NW": 2, "SDC.S.GATE": 2, "V0.E.M1": 14, "V0.E.LOW": 8, "M1.W.1": 4, "M1.S.1": 1, "V1.E.M1": 6, "V1.E.M2": 2, "M2.S.1": 2},
+}
+def verif_sub():
+    V = os.path.join(B, "verify")
+    drc = {k: json.load(open(os.path.join(V, f + ".drc.json"))) for k, f in (("INV", "gaa_inverter"), ("NAND2", "gaa_nand2"), ("RO11", "gaa_ro11"), ("SRAM", "gaa_sram6t"))}
+    lvs = {k: json.load(open(os.path.join(V, f + ".lvs.json"))) for k, f in (("INV", "gaa_inverter"), ("NAND2", "gaa_nand2"), ("RO11", "gaa_ro11"), ("SRAM", "gaa_sram6t"))}
+    rows = []
+    for r in drc["INV"]["rules"]:
+        cells = [FIRST_PASS[k].get(r["rule"], 0) for k in ("INV", "NAND2", "RO11", "SRAM")]
+        final = sum(next(x["count"] for x in drc[k]["rules"] if x["rule"] == r["rule"]) for k in drc)
+        cell_td = "".join(f'<td class="n">{("<b>%d</b>" % c) if c else "0"}</td>' for c in cells)
+        rows.append(f'            <tr><td>{r["rule"]}</td><td>{r["kind"]}</td><td class="n">{r["value"]}</td><td>{html.escape(r["desc"])}</td>{cell_td}<td class="n">{final}</td></tr>')
+    tot = [sum(FIRST_PASS[k].values()) for k in ("INV", "NAND2", "RO11", "SRAM")]
+    rows.append(f'            <tr><td><b>Total</b></td><td></td><td></td><td>26 rules</td>' + "".join(f'<td class="n"><b>{x}</b></td>' for x in tot) + f'<td class="n"><b>{sum(d["total"] for d in drc.values())}</b></td></tr>')
+    lrows = []
+    for k, r in lvs.items():
+        L, S = r["layout"], r["schematic"]
+        lrows.append(f'            <tr><td>{r["layout_cell"]}</td><td class="n">{L["ports"]} / {S["ports"]}</td><td class="n">{L["nets"]} / {S["nets"]}</td>'
+                     f'<td class="n">{L["instances"]} / {S["instances"]}</td><td class="n">{L["n"]} / {S["n"]}</td><td class="n">{L["p"]} / {S["p"]}</td>'
+                     f'<td>{", ".join(L["port_names"])}</td><td><b>{r["result"]}</b></td></tr>')
+    return {"DRC_ROWS": "\n".join(rows), "LVS_ROWS": "\n".join(lrows), "DRC_FIRST_TOTAL": str(sum(tot)),
+            "DRCV_INV": rd("docs/figures/drc_inv.svg"), "DRCV_NAND2": rd("docs/figures/drc_nand2.svg"), "DRCV_RO11": rd("docs/figures/drc_ro11.svg"), "DRCV_SRAM": rd("docs/figures/drc_sram6t.svg"),
+            "LVSV_INV": rd("docs/figures/lvs_inv.svg"), "LVSV_NAND2": rd("docs/figures/lvs_nand2.svg"), "LVSV_RO11": rd("docs/figures/lvs_ro11.svg"), "LVSV_SRAM": rd("docs/figures/lvs_sram6t.svg")}
+
 # ---------------- numbers ----------------
 d, st, f1, f4 = res["device"], res["static"], res["fo1"], res["fo4"]
 mv = lambda v: f"{v*1e3:.0f}"
@@ -222,6 +256,7 @@ sub = {
     **ro_sub(),
     **nand_sub(),
     **sram_sub(),
+    **verif_sub(),
     "FIG_DEVICE": device_svg(),
     "SCH_INV": rd("docs/figures/schematic_inv_page.svg"), "SCH_NAND2": rd("docs/figures/schematic_nand2_page.svg"),
     "SCH_RO11": rd("docs/figures/schematic_ro11_page.svg"), "SCH_SRAM": rd("docs/figures/schematic_sram6t_page.svg"),
