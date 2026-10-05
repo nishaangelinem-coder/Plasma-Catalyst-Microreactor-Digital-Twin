@@ -1,0 +1,16 @@
+gan 0.8 27.0 fRO=8.07e+08
+gan 0.9 27.0 fRO=1.033e+09
+gan 1.0 27.0 fRO=1.259e+09
+gan 1.1 27.0 fRO=1.479e+09
+gan 1.2 27.0 fRO=1.693e+09
+gan 1.3 27.0 fRO=1.899e+09
+gan 1.4 27.0 fRO=2.096e+09
+gan 1.5 27.0 fRO=2.284e+09
+gan 1.2 125.0 fRO=1.825e+09
+gan 1.2 85.0 fRO=1.78e+09
+gan 1.2 27.0 fRO=1.693e+09
+gan 1.2 -40.0 fRO=1.579e+09
+gan 1.2 150.0 fRO=1.845e+09
+gan 1.2 200.0 fRO=1.864e+09
+wrote results/vdd_sweep.csv and results/temp_sweep.csv
+GAN_RERUN_DONE
