@@ -17,9 +17,9 @@ def fig_vtc():
     fig, (ax, bx) = plt.subplots(1, 2, figsize=(COL2, 2.5))
     for pl in PLATFORM_ORDER:
         w = np.load(os.path.join(RES, f"waveforms_{pl}.npz")); vdd = PLATFORMS[pl]["vdd"]
-        ax.plot(w["vin"] / vdd, w["vout"] / vdd, LS[pl], color=COLOR[pl], label=f"{LABEL[pl]} ({vdd} V)")
+        ax.plot(w["vin"] / vdd, w["vout"] / vdd, ls=LS[pl], color=COLOR[pl], label=f"{LABEL[pl]} ({vdd} V)")
         g = np.abs(np.gradient(w["vout"], w["vin"]))
-        bx.plot(w["vin"] / vdd, g, LS[pl], color=COLOR[pl], label=LABEL[pl])
+        bx.plot(w["vin"] / vdd, g, ls=LS[pl], color=COLOR[pl], label=LABEL[pl])
     ax.plot([0, 1], [0, 1], ":", color="#c3c2b7", lw=0.7)
     ax.set_xlabel("$V_{in}/V_{DD}$"); ax.set_ylabel("$V_{out}/V_{DD}$"); ax.legend(fontsize=6, loc="upper right")
     bx.set_xlabel("$V_{in}/V_{DD}$"); bx.set_ylabel("$|dV_{out}/dV_{in}|$"); bx.set_xlim(0.2, 0.8)

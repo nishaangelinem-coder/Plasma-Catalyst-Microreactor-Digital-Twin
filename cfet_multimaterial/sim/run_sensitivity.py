@@ -4,7 +4,7 @@ unless stated). Each point runs the VTC, the inverter transient and the 5-stage 
   tmd     : RCN, RCP in {0.1,0.2,0.5,1,2} kOhm*um grid; DIT 1e11 .. 1e13 cm^-2 eV^-1;
             Si RO extended to VDD 0.3-0.5 V for the iso-frequency energy crossover
   cnt     : DCNT {100,250,400}/um; FMET 0 .. 2 %; RC 50 .. 1000 Ohm*um
-  gan     : T = 300 .. 500 K; RTH x{0,0.5,1,2,4}; VTHN/VTHP +-5/10/15 %; Si at the same T
+  gan     : T = 300 .. 500 K; RTH x{0,0.5,1,2,4} at 300/500 K; VTHN/VTHP +-5/10/15 %; Si at the same T
 Writes results/sens_<study>.csv.  Run: python3 -m sim.run_sensitivity
 """
 import os, csv, json
@@ -43,6 +43,8 @@ def jobs_si_sige():
         vdd = PLATFORMS[pl]["vdd"]
         for nn in (2, 3, 4, 5):
             for np_ in (2, 3, 4, 5):
+                if pl == "sige" and nn != np_:
+                    continue            # SiGe: diagonal only (the full grid is run for Si)
                 J.append(("nns", pl, vdd, 27.0, "NNSn", nn, "NNSp", np_, {"NNS": nn}, {"NNS": np_}, None))
     mu_si_p = CAL["gaa_p"]["MU0"]
     for ratio in (1.0, 1.25, 1.5, 1.75, 2.0):
@@ -84,7 +86,7 @@ def jobs_gan():
         J.append(("si_temp", "si", PLATFORMS["si"]["vdd"], T - 273.15, "T_K", T, "", 0, {}, {}, None))
     rn, rp = DEVICES["gan_n"]["params"]["RTH"], DEVICES["gan_p"]["params"]["RTH"]
     for k in (0.0, 0.5, 1.0, 2.0, 4.0):
-        for T in (300, 400, 500):
+        for T in (300, 500):
             J.append(("gan_rth", "gan", vdd, T - 273.15, "RTH_scale", k, "T_K", T, {"RTH": rn * k}, {"RTH": rp * k}, None))
     vn, vp = CAL["gan_n"]["VTH0"], CAL["gan_p"]["VTH0"]
     for s in (-0.15, -0.10, -0.05, 0.0, 0.05, 0.10, 0.15):

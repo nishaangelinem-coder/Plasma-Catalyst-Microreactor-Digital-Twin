@@ -1,1 +1,2 @@
 + python3 -m sim.run_nominal gan
++ python3 -m sim.run_sweeps
