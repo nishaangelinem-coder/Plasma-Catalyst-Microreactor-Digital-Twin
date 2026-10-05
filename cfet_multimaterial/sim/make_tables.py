@@ -97,8 +97,9 @@ def tab_mc():
     if not s:
         open(os.path.join(TAB, "tab_mc.tex"), "w").write("\\begin{tabular}{l}pending\\end{tabular}\n")
         return {pl: {"Y_f_pct": "nan", "Y_func_pct": "nan", "f_sigma_over_mu_pct": "nan"} for pl in PLATFORM_ORDER}
-    L = ["\\begin{tabular}{lrrrrrrr}", "\\hline",
-         "Platform & $N_{RO}$ & $\\bar f_{RO}$ (GHz) & $\\sigma_f/\\bar f$ (\\%) & $Y_f$ (\\%) & $\\bar E_{cycle}$ (fJ) & $N_{inv}$ & $Y_{func}$ (\\%) \\\\", "\\hline"]
+    L = ["\\setlength{\\tabcolsep}{3pt}\\begin{tabular}{@{}lrrrrrrr@{}}", "\\hline",
+         "Platform & $N_{RO}$ & $\\bar f_{RO}$ & $\\sigma_f/\\bar f$ & $Y_f$ & $\\bar E_{cycle}$ & $N_{inv}$ & $Y_{func}$ \\\\",
+         " & & (GHz) & (\\%) & (\\%) & (fJ) & & (\\%) \\\\", "\\hline"]
     for pl in PLATFORM_ORDER:
         r = s[pl]
         L.append(f"{NAME[pl]} & {int(F(r,'N_ro'))} & {F(r,'f_mean_GHz'):.2f} & {F(r,'f_sigma_over_mu_pct'):.1f} & {F(r,'Y_f_pct'):.1f} & "

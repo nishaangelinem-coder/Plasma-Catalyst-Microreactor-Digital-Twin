@@ -35,3 +35,9 @@ gan 0 fRO=1.74e+09
 gan 20 fRO=1.667e+09
 gan 40 fRO=1.611e+09
 gan 60 fRO=1.896e+09
+gan 80 fRO=1.546e+09
+gan 100 fRO=1.462e+09
+gan 120 fRO=1.496e+09
+gan 140 fRO=1.616e+09
+wrote results/mc_ro.csv
+wrote results/mc_yield_summary.csv

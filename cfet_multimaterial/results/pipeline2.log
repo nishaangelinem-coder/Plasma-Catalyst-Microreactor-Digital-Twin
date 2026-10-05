@@ -1,2 +1,4 @@
 + python3 -m sim.run_sensitivity
 + python3 -m sim.run_montecarlo 150 1000
++ echo PIPELINE_DONE
+PIPELINE_DONE

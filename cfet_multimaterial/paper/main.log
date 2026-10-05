@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.5)  5 OCT 2026 13:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.10.5)  5 OCT 2026 15:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -311,6 +311,9 @@ ference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }
 \sf@top=\skip59
 \sf@bottom=\skip60
 )
+(/usr/share/texlive/texmf-dist/tex/latex/xurl/xurl.sty
+Package: xurl 2022/01/09 v 0.10 modify URL breaks
+)
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2024-01-20 v7.01h Hypertext links for LaTeX
 
@@ -383,6 +386,7 @@ File: puenc.def 2024-01-20 v7.01h Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
+Package hyperref Info: Option `breaklinks' set `true' on input line 4062.
 Package hyperref Info: Hyper figures OFF on input line 4179.
 Package hyperref Info: Link nesting OFF on input line 4184.
 Package hyperref Info: Hyper index ON on input line 4187.
@@ -453,24 +457,24 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
 
 -- Lines per column: 58 (exact).
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -498,58 +502,58 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 9.
+Package hyperref Info: Link coloring OFF on input line 10.
 
 (./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-LaTeX Font Info:    Calculating math sizes for size <24> on input line 18.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 18.
+LaTeX Font Info:    Calculating math sizes for size <24> on input line 19.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 19.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 18.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 19.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
-8.
+9.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 1789) in paragraph at lines 18--18
+Underfull \hbox (badness 1789) in paragraph at lines 19--19
 [][][]\OT1/ptm/m/n/8 Simulation sources, Verilog-A mod-els, Ca-dence scripts, G
 DSII lay-
  []
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 32--33
+Underfull \hbox (badness 1748) in paragraph at lines 33--34
 []\OT1/ptm/m/n/10 This pa-per makes four con-tri-bu-tions. First, a uni-fied
  []
 
 
-Underfull \hbox (badness 2538) in paragraph at lines 32--33
+Underfull \hbox (badness 2538) in paragraph at lines 33--34
 \OT1/ptm/m/n/10 com-pact model (UCM-CFET) with one core and four
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--41
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
 []\OT1/ptm/m/n/8 baseline logic
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 43--43
+Underfull \hbox (badness 10000) in paragraph at lines 44--44
 []\OT1/ptm/m/n/8 low-$\OML/cmm/m/it/8 V[]$\OT1/ptm/m/n/8 , contact-
  []
 
 
-Underfull \hbox (badness 2735) in paragraph at lines 44--44
+Underfull \hbox (badness 2735) in paragraph at lines 45--45
 []\OT1/ptm/m/n/8 quasi-ballistic post-Si
  []
 
@@ -557,7 +561,7 @@ Underfull \hbox (badness 2735) in paragraph at lines 44--44
 File: ../figures/fig01_cfet_stacks.png Graphic file (type png)
 <use ../figures/fig01_cfet_stacks.png>
 Package pdftex.def Info: ../figures/fig01_cfet_stacks.png  used on input line 5
-0.
+1.
 (pdftex.def)             Requested size: 252.0pt x 86.23134pt.
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-
 dist/fonts/enc/dvips/base/8r.enc}
@@ -568,13 +572,13 @@ dist/fonts/enc/dvips/base/8r.enc}
 File: ../figures/fig02_calibration_idvg.png Graphic file (type png)
 <use ../figures/fig02_calibration_idvg.png>
 Package pdftex.def Info: ../figures/fig02_calibration_idvg.png  used on input l
-ine 91.
+ine 92.
 (pdftex.def)             Requested size: 516.0pt x 445.77312pt.
 <../figures/fig03_calibration_idvd.png, id=180, 501.3129pt x 403.9893pt>
 File: ../figures/fig03_calibration_idvd.png Graphic file (type png)
 <use ../figures/fig03_calibration_idvd.png>
 Package pdftex.def Info: ../figures/fig03_calibration_idvd.png  used on input l
-ine 96.
+ine 97.
 (pdftex.def)             Requested size: 516.0pt x 415.87321pt.
  [2 <../figures/fig01_cfet_stacks.png>]
 (./tables/tab_devparams.tex) (./tables/tab_calibration.tex)
@@ -582,7 +586,7 @@ ine 96.
 File: ../figures/fig04_calibration_mape.png Graphic file (type png)
 <use ../figures/fig04_calibration_mape.png>
 Package pdftex.def Info: ../figures/fig04_calibration_mape.png  used on input l
-ine 116.
+ine 117.
 (pdftex.def)             Requested size: 252.0pt x 80.41058pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -590,12 +594,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 <../schematics/inv_cfet.png, id=218, 306.6657pt x 312.6882pt>
 File: ../schematics/inv_cfet.png Graphic file (type png)
 <use ../schematics/inv_cfet.png>
-Package pdftex.def Info: ../schematics/inv_cfet.png  used on input line 124.
+Package pdftex.def Info: ../schematics/inv_cfet.png  used on input line 125.
 (pdftex.def)             Requested size: 120.95892pt x 123.33156pt.
 <../schematics/ro5_cfet.png, id=219, 625.8582pt x 251.2587pt>
 File: ../schematics/ro5_cfet.png Graphic file (type png)
 <use ../schematics/ro5_cfet.png>
-Package pdftex.def Info: ../schematics/ro5_cfet.png  used on input line 125.
+Package pdftex.def Info: ../schematics/ro5_cfet.png  used on input line 126.
 (pdftex.def)             Requested size: 120.95892pt x 48.56009pt.
  [3 <../figures/fig02_calibration_idvg.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -605,44 +609,44 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 File: ../figures/fig05_inverter_vtc.png Graphic file (type png)
 <use ../figures/fig05_inverter_vtc.png>
 Package pdftex.def Info: ../figures/fig05_inverter_vtc.png  used on input line 
-138.
+139.
 (pdftex.def)             Requested size: 252.0pt x 83.23355pt.
 <../figures/fig06_inverter_ro_fom.png, id=244, 502.0356pt x 268.8444pt>
 File: ../figures/fig06_inverter_ro_fom.png Graphic file (type png)
 <use ../figures/fig06_inverter_ro_fom.png>
 Package pdftex.def Info: ../figures/fig06_inverter_ro_fom.png  used on input li
-ne 143.
+ne 144.
 (pdftex.def)             Requested size: 252.0pt x 134.94696pt.
 <../figures/fig07_ro_waveforms.png, id=245, 242.8272pt x 375.804pt>
 File: ../figures/fig07_ro_waveforms.png Graphic file (type png)
 <use ../figures/fig07_ro_waveforms.png>
 Package pdftex.def Info: ../figures/fig07_ro_waveforms.png  used on input line 
-148.
+149.
 (pdftex.def)             Requested size: 252.0pt x 390.0184pt.
  (./tables/tab_nominal.tex)
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 160.
+(hyperref)                removing `math shift' on input line 161.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 160.
+(hyperref)                removing `subscript' on input line 161.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 160.
+(hyperref)                removing `math shift' on input line 161.
 
 <../figures/fig08_vdd_sweep.png, id=249, 501.5538pt x 316.7835pt>
 File: ../figures/fig08_vdd_sweep.png Graphic file (type png)
 <use ../figures/fig08_vdd_sweep.png>
-Package pdftex.def Info: ../figures/fig08_vdd_sweep.png  used on input line 162
+Package pdftex.def Info: ../figures/fig08_vdd_sweep.png  used on input line 163
 .
 (pdftex.def)             Requested size: 516.0pt x 325.93777pt.
 <../figures/fig09_temperature.png, id=250, 500.5902pt x 151.767pt>
 File: ../figures/fig09_temperature.png Graphic file (type png)
 <use ../figures/fig09_temperature.png>
 Package pdftex.def Info: ../figures/fig09_temperature.png  used on input line 1
-67.
+68.
 (pdftex.def)             Requested size: 516.0pt x 156.4468pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -654,25 +658,25 @@ verter_ro_fom.png>]
 File: ../figures/fig10_si_sige_sensitivity.png Graphic file (type png)
 <use ../figures/fig10_si_sige_sensitivity.png>
 Package pdftex.def Info: ../figures/fig10_si_sige_sensitivity.png  used on inpu
-t line 176.
+t line 177.
 (pdftex.def)             Requested size: 516.0pt x 162.66464pt.
 <../figures/fig11_tmd_contact_crossover.png, id=273, 501.7947pt x 157.7895pt>
 File: ../figures/fig11_tmd_contact_crossover.png Graphic file (type png)
 <use ../figures/fig11_tmd_contact_crossover.png>
 Package pdftex.def Info: ../figures/fig11_tmd_contact_crossover.png  used on in
-put line 181.
+put line 182.
 (pdftex.def)             Requested size: 516.0pt x 162.26978pt.
-<../figures/fig12_cnt_sensitivity.png, id=274, 502.0356pt x 150.5625pt>
+<../figures/fig12_cnt_sensitivity.png, id=274, 502.2765pt x 157.3077pt>
 File: ../figures/fig12_cnt_sensitivity.png Graphic file (type png)
 <use ../figures/fig12_cnt_sensitivity.png>
 Package pdftex.def Info: ../figures/fig12_cnt_sensitivity.png  used on input li
-ne 186.
-(pdftex.def)             Requested size: 516.0pt x 154.75945pt.
+ne 187.
+(pdftex.def)             Requested size: 516.0pt x 161.61346pt.
 <../figures/fig13_gan_thermal.png, id=275, 502.5174pt x 158.2713pt>
 File: ../figures/fig13_gan_thermal.png Graphic file (type png)
 <use ../figures/fig13_gan_thermal.png>
 Package pdftex.def Info: ../figures/fig13_gan_thermal.png  used on input line 1
-91.
+92.
 (pdftex.def)             Requested size: 516.0pt x 162.52133pt.
  [6 <../figures/fig07_ro_waveforms.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -680,27 +684,27 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 198.
+(hyperref)                removing `math shift' on input line 199.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 198.
+(hyperref)                removing `subscript' on input line 199.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 198.
+(hyperref)                removing `math shift' on input line 199.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 198.
+(hyperref)                removing `math shift' on input line 199.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 198.
+(hyperref)                removing `subscript' on input line 199.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 198.
+(hyperref)                removing `math shift' on input line 199.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -713,111 +717,63 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8 <../figures/fig10_si_sige_sensitivity.png> <../figures/fig11_tmd_contact_cr
 ossover.png> <../figures/fig12_cnt_sensitivity.png>]
-
-LaTeX Warning: File `fig14_montecarlo.png' not found on input line 206.
-
-
-! Package pdftex.def Error: File `fig14_montecarlo.png' not found: using draft 
-setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.206 ...s[width=\textwidth]{fig14_montecarlo.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-(./tables/tab_mc.tex)
-<../figures/fig_layout_inverters.png, id=312, 517.4532pt x 198.7425pt>
+<../figures/fig14_montecarlo.png, id=312, 501.3129pt x 303.0522pt>
+File: ../figures/fig14_montecarlo.png Graphic file (type png)
+<use ../figures/fig14_montecarlo.png>
+Package pdftex.def Info: ../figures/fig14_montecarlo.png  used on input line 20
+7.
+(pdftex.def)             Requested size: 516.0pt x 311.9669pt.
+ (./tables/tab_mc.tex) [9 <../figures/fig13_gan_thermal.png>]
+<../figures/fig_layout_inverters.png, id=325, 517.4532pt x 198.7425pt>
 File: ../figures/fig_layout_inverters.png Graphic file (type png)
 <use ../figures/fig_layout_inverters.png>
 Package pdftex.def Info: ../figures/fig_layout_inverters.png  used on input lin
-e 220.
+e 221.
 (pdftex.def)             Requested size: 516.0pt x 198.18704pt.
- [9 <../figures/fig13_gan_thermal.png>]
+<../figures/fig15_selection_chart.png, id=327, 264.7491pt x 215.3646pt>
+File: ../figures/fig15_selection_chart.png Graphic file (type png)
+<use ../figures/fig15_selection_chart.png>
+Package pdftex.def Info: ../figures/fig15_selection_chart.png  used on input li
+ne 229.
+(pdftex.def)             Requested size: 226.79846pt x 184.5001pt.
 
-LaTeX Warning: File `fig15_selection_chart.png' not found on input line 228.
-
-
-! Package pdftex.def Error: File `fig15_selection_chart.png' not found: using d
-raft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.228 ...9\columnwidth]{fig15_selection_chart.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 241--241
+Underfull \hbox (badness 10000) in paragraph at lines 242--242
 []\OT1/ptm/m/n/8 Better p/n bal-ance with Si-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--242
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
 []\OT1/ptm/m/n/8 Lowest $\OML/cmm/m/it/8 V[]$\OT1/ptm/m/n/8 , leakage-sensitive
 
  []
 
 
-Underfull \hbox (badness 2591) in paragraph at lines 243--243
+Underfull \hbox (badness 2591) in paragraph at lines 244--244
 []\OT1/ptm/m/n/8 Highest per-for-mance post-Si re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 244--244
+Underfull \hbox (badness 10000) in paragraph at lines 245--245
 []\OT1/ptm/m/n/8 High-temperature / in-te-grated
  []
 
 
-Overfull \hbox (3.84338pt too wide) in paragraph at lines 237--246
+Overfull \hbox (3.84338pt too wide) in paragraph at lines 238--247
  [][] 
  []
 
+[10 <../figures/fig14_montecarlo.png>]
+Underfull \vbox (badness 1259) has occurred while \output is active []
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [10]
-
-LaTeX Warning: Text page 11 contains only floats.
-
-(./main.bbl
+ (./main.bbl
 
 Package balance Warning: You have called \balance in second column
 (balance)                Columns might not be balanced.
 
-[11 <../figures/fig_layout_inverters.png>]
+[11 <../figures/fig_layout_inverters.png> <../figures/fig15_selection_chart.png
+>]
 Underfull \hbox (badness 4108) in paragraph at lines 152--156
 []\OT1/ptm/m/n/8 J. Deng and H.-S. P. Wong, ``A com-pact SPICE model for
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 168--172
-[]\OT1/ptm/m/n/8 ------, \OT1/ptm/m/it/8 Vir-tu-oso ADE Ex-plorer and Vir-tu-os
-o ADE As-sem-bler
- []
-
-
-Underfull \hbox (badness 5756) in paragraph at lines 168--172
-\OT1/ptm/m/it/8 User Guides\OT1/ptm/m/n/8 , Ca-dence De-sign Sys-tems, Inc., Sa
-n Jose, CA,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 168--172
-\OT1/ptm/m/n/8 USA, 2024, vir-tu-oso IC23.1 doc-u-men-ta-tion. Avail-able: []$h
-ttps :
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 168--172
-\OT1/ptm/m/n/8 / / www . cadence . com / en[]US / home / tools / custom-[]ic-[]
-analog-[]rf-[]design /
  []
 
 )
@@ -833,11 +789,11 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 943D2547D55540ED71E178BE7C3BA683;3398.
  ) 
 Here is how much of TeX's memory you used:
- 12720 strings out of 476182
- 204011 string characters out of 5795595
- 1961975 words of memory out of 5000000
- 34446 multiletter control sequences out of 15000+600000
- 608251 words of font info for 142 fonts, out of 8000000 for 9000
+ 12701 strings out of 476182
+ 203293 string characters out of 5795595
+ 1966975 words of memory out of 5000000
+ 34424 multiletter control sequences out of 15000+600000
+ 607115 words of font info for 141 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,14n,79p,2188b,591s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
@@ -862,10 +818,10 @@ ic/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier
 sr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (12 pages, 3203725 bytes).
+Output written on main.pdf (12 pages, 3553021 bytes).
 PDF statistics:
- 476 PDF objects out of 1000 (max. 8388607)
- 377 compressed objects within 4 object streams
+ 484 PDF objects out of 1000 (max. 8388607)
+ 381 compressed objects within 4 object streams
  95 named destinations out of 1000 (max. 500000)
- 273 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 283 words of extra memory for PDF output out of 10000 (max. 10000000)
 

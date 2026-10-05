@@ -1,7 +1,8 @@
 \documentclass[journal]{IEEEtran}
 \usepackage{amsmath,amssymb,graphicx,booktabs,multirow,url,xcolor,balance}
 \usepackage[caption=false,font=footnotesize]{subfig}
-\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage[hidelinks,breaklinks]{hyperref}
 \graphicspath{{../figures/}{../schematics/}{../layout/png/}}
 \input{numbers.tex}
 \newcommand{\ucm}{UCM-CFET}
@@ -213,7 +214,7 @@ Fig.~\ref{fig:gan}a compares the GaN and Si CFET ROs from 300 to 500~K. Both spe
 \centering\scriptsize
 \input{tables/tab_mc.tex}
 \end{table}
-Monte Carlo was run only after the nominal VTCs, RO start-up and extraction had been verified for all platforms. The random variables are the physical model parameters listed in Section~III (Si: $V_{TH0}$ with $\sigma=20$~mV including work-function shift, $W_{NS}$ with $\sigma=1$~nm, $R_{SD}$ 10\%; SiGe adds 10\% on the p-mobility as a composition proxy; TMD: $R_C$ 30\% log-normal, $V_{TH0}$ 50~mV, mobility 20\%, $D_{it}$ 0.3~decades; CNT: density 15\%, metallic fraction log-normal around $10^{-6}$ with 0.5~decades, $R_C$ 30\%; GaN: $V_{TH0}$ 50~mV including trap shift, mobility 10\%, $R_{th}$ 20\%), drawn independently for the n- and p-device, with the same seeded generator for every platform. %%MCTEXT
+Monte Carlo was run only after the nominal VTCs, RO start-up and extraction had been verified for all platforms. The random variables are the physical model parameters listed in Section~III (Si: $V_{TH0}$ with $\sigma=20$~mV including work-function shift, $W_{NS}$ with $\sigma=1$~nm, $R_{SD}$ 10\%; SiGe adds 10\% on the p-mobility as a composition proxy; TMD: $R_C$ 30\% log-normal, $V_{TH0}$ 50~mV, mobility 20\%, $D_{it}$ 0.3~decades; CNT: density 15\%, metallic fraction log-normal around $10^{-6}$ with 0.5~decades, $R_C$ 30\%; GaN: $V_{TH0}$ 50~mV including trap shift, mobility 10\%, $R_{th}$ 20\%), drawn independently for the n- and p-device, with the same seeded generator for every platform. Table~\ref{tab:mc} and Fig.~\ref{fig:mc} give the outcome. All 150 RO samples of every platform oscillate and all five inverter populations pass the functional criterion in $\geq99.9$\% of the 1000 samples (the single GaN failure is a low-$NM_L$ sample at $0.095V_{DD}$). The frequency spread separates the platforms: $\sigma_f/\bar f$ is \sigfsige\% and \sigfsi\% for the SiGe and Si cells, \sigfgan\% for GaN, \sigfcnt\% for CNT and \sigftmd\% for TMD, and the frequency yield at $f_{target}=0.9f_{RO,nom}$ follows the same order (\yfsige, \yfsi, \yfgan, \yfcnt\ and \yftmd\%). The TMD spread is dominated by the log-normal contact-resistance variation (a 30\% $R_C$ change moves $f_{RO}$ by about 20\%, Fig.~\ref{fig:tmd}b) and by the 50~mV threshold variation on a 0.5~V supply; the CNT spread comes from the tube-density term, which enters the drive current linearly; the GaN spread is a threshold-voltage effect. The energy per cycle is far less sensitive than the frequency for every platform (Fig.~\ref{fig:mc}b), as expected for a quantity set by the switched charge, so the variability penalty of the emerging platforms is a timing-closure penalty rather than an energy penalty.
 
 \subsection{Conceptual layout}
 \begin{figure*}[!t]
@@ -226,10 +227,10 @@ Fig.~\ref{fig:layout} shows conceptual layouts generated with a generic 3-nm-cla
 \section{Material-Selection Map}
 \begin{figure}[!t]
 \centering\includegraphics[width=0.9\columnwidth]{fig15_selection_chart.png}
-\caption{Material-selection chart: speed, energy efficiency, low-$V_{DD}$ capability, temperature tolerance ($f_{125^\circ C}/f_{27^\circ C}$) and variability ($1/\sigma_f$), each normalised to the best platform.}
+\caption{Material-selection chart: speed, energy efficiency, low-$V_{DD}$ capability, temperature stability ($1/|\Delta f/f|$ between 27 and 125$^\circ$C) and variability ($1/\sigma_f$), each normalised to the best platform.}
 \label{fig:selection}
 \end{figure}
-Fig.~\ref{fig:selection} condenses the results. %%SELTEXT
+Fig.~\ref{fig:selection} condenses the results on five normalised axes, and Table~\ref{tab:selection} states the resulting recommendations. No platform dominates. The CNT CFET has the highest speed and the second-lowest energy but needs a metallic-tube fraction below $5\times10^{-3}$ and carries a 10\% frequency spread from density variation. The TMD CFET has the lowest absolute energy per cycle and the lowest supply, but at equal frequency it beats Si only with contacts below \rcCritical~k$\Omega\cdot\mu$m per side, and its 34\% frequency spread makes it the hardest platform to close timing on. The Si and SiGe CFETs are the reference: SiGe buys 6--10\% speed and a balanced inverter at no energy cost and with the lowest variability of all platforms. The GaN CFET has the best temperature stability of the frequency (\tcfgan~ppm/K) and keeps a functional inverter to 150$^\circ$C, but with the projected p-GaN device it pays 1--2 orders of magnitude in energy per cycle and, within a subthreshold-only leakage model, does not out-leak Si at high temperature; it is the platform whose ranking depends most on a device (the p-channel) that does not yet exist in the required form.
 \begin{table}[!t]
 \caption{Selection map derived from the simulations.}
 \label{tab:selection}
