@@ -122,7 +122,25 @@ def main():
         M += macro(f"pavg{pl}", f"{F(r,'Pavg')*1e6:.1f}") + macro(f"vm{pl}", f"{F(i,'VM')/vdd:.2f}") + macro(f"gain{pl}", f"{F(i,'gain'):.0f}")
         M += macro(f"nml{pl}", f"{F(i,'NML')/vdd:.2f}") + macro(f"nmh{pl}", f"{F(i,'NMH')/vdd:.2f}") + macro(f"pdp{pl}", f"{F(r,'PDP')*1e15:.3f}")
         M += macro(f"yf{pl}", f"{F(mc[pl],'Y_f_pct'):.0f}") + macro(f"yfunc{pl}", f"{F(mc[pl],'Y_func_pct'):.0f}") + macro(f"sigf{pl}", f"{F(mc[pl],'f_sigma_over_mu_pct'):.1f}")
+    # VDD sweep end points and the sweep-range energy/frequency spans
+    vs = [r for r in rd("vdd_sweep.csv") if r["osc"] == "True"]
+    for pl in PLATFORM_ORDER:
+        q = sorted([r for r in vs if r["platform"] == pl], key=lambda r: float(r["vdd"]))
+        if q:
+            M += macro(f"vddlo{pl}", f"{float(q[0]['vdd']):.2g}") + macro(f"vddhi{pl}", f"{float(q[-1]['vdd']):.2g}")
+            M += macro(f"frolo{pl}", f"{F(q[0],'fRO')*1e-9:.2f}") + macro(f"frohi{pl}", f"{F(q[-1],'fRO')*1e-9:.2f}")
+            M += macro(f"ecyclo{pl}", f"{F(q[0],'Ecycle')*1e15:.2f}") + macro(f"ecychi{pl}", f"{F(q[-1],'Ecycle')*1e15:.2f}")
+            M += macro(f"pdplo{pl}", f"{F(q[0],'PDP')*1e15:.3f}") + macro(f"pdphi{pl}", f"{F(q[-1],'PDP')*1e15:.3f}")
     # temperature
+    ts = [r for r in rd("temp_sweep.csv") if r["osc"] == "True"]
+    for pl in PLATFORM_ORDER:
+        q = {float(r["temp_c"]): r for r in ts if r["platform"] == pl}
+        if 27.0 in q and 125.0 in q and -40.0 in q:
+            M += macro(f"fratioHot{pl}", f"{F(q[125.0],'fRO')/F(q[27.0],'fRO'):.2f}") + macro(f"fratioCold{pl}", f"{F(q[-40.0],'fRO')/F(q[27.0],'fRO'):.2f}")
+            M += macro(f"pstatHot{pl}", f"{F(q[125.0],'Pstat')*1e9:.1f}") + macro(f"pstatNom{pl}", f"{F(q[27.0],'Pstat')*1e9:.2f}")
+            M += macro(f"pstatRatio{pl}", f"{F(q[125.0],'Pstat')/F(q[27.0],'Pstat'):.0f}")
+        if 200.0 in q and 27.0 in q:
+            M += macro(f"fratioTwoHundred{pl}", f"{F(q[200.0],'fRO')/F(q[27.0],'fRO'):.2f}") + macro(f"pstatTwoHundred{pl}", f"{F(q[200.0],'Pstat')*1e9:.1f}")
     for r in rd("temp_sweep.csv"):
         if r["osc"] == "True":
             M += macro(f"fT{r['platform']}{str(int(F(r,'temp_c'))).replace('-', 'm')}", f"{F(r,'fRO')*1e-9:.2f}")
