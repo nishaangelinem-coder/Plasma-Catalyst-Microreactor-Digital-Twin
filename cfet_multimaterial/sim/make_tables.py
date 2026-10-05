@@ -144,6 +144,61 @@ def main():
     for r in rd("temp_sweep.csv"):
         if r["osc"] == "True":
             M += macro(f"fT{r['platform']}{str(int(F(r,'temp_c'))).replace('-', 'm')}", f"{F(r,'fRO')*1e-9:.2f}")
+    # sensitivity studies
+    def srows(name, study):
+        return [r for r in rd(name) if r["study"] == study]
+    q = srows("sens_si_sige.csv", "mup_ratio")
+    if q:
+        ratios = [F(r, "x1") for r in q]; mis = [F(r, "tpLH") / F(r, "tpHL") for r in q]
+        M += macro("mupMisOne", f"{mis[0]:.2f}") + macro("mupMisTwo", f"{mis[-1]:.2f}")
+        bal = np.interp(1.0, mis[::-1], ratios[::-1]) if min(mis) < 1 < max(mis) else float("nan")
+        M += macro("mupBalance", f"{bal:.2f}") + macro("mupFgain", f"{100*(F(q[-1],'fRO')/F(q[0],'fRO')-1):.0f}")
+    q = srows("sens_si_sige.csv", "nns")
+    if q:
+        si = {(int(F(r, "x1")), int(F(r, "x2"))): r for r in q if r["platform"] == "si"}
+        M += macro("nnsFtwo", f"{F(si[(2,2)],'fRO')*1e-9:.1f}") + macro("nnsFfive", f"{F(si[(5,5)],'fRO')*1e-9:.1f}")
+        M += macro("nnsEtwo", f"{F(si[(2,2)],'Ecycle')*1e15:.2f}") + macro("nnsEfive", f"{F(si[(5,5)],'Ecycle')*1e15:.2f}")
+        M += macro("nnsVMtwofive", f"{F(si[(2,5)],'VM')/0.7:.2f}") + macro("nnsVMfivetwo", f"{F(si[(5,2)],'VM')/0.7:.2f}")
+        M += macro("nnsFtwofive", f"{F(si[(2,5)],'fRO')*1e-9:.1f}") + macro("nnsFfivetwo", f"{F(si[(5,2)],'fRO')*1e-9:.1f}")
+    q = srows("sens_tmd.csv", "tmd_rc")
+    if q:
+        g = {(F(r, "x1"), F(r, "x2")): r for r in q}
+        M += macro("tmdFlo", f"{F(g[(2.0,2.0)],'fRO')*1e-9:.2f}") + macro("tmdFhi", f"{F(g[(0.1,0.1)],'fRO')*1e-9:.2f}")
+        M += macro("tmdElo", f"{F(g[(2.0,2.0)],'Ecycle')*1e15:.2f}") + macro("tmdEhi", f"{F(g[(0.1,0.1)],'Ecycle')*1e15:.2f}")
+    q = srows("sens_tmd.csv", "tmd_dit")
+    if q:
+        M += macro("ditPstatRatio", f"{F(q[-1],'Pstat')/F(q[0],'Pstat'):.0f}") + macro("ditFratio", f"{F(q[-1],'fRO')/F(q[0],'fRO'):.2f}") + macro("ditGainLo", f"{F(q[-1],'gain'):.1f}")
+    q = srows("sens_cnt.csv", "cnt_density")
+    if q:
+        M += macro("cntFdlo", f"{F(q[0],'fRO')*1e-9:.1f}") + macro("cntFdhi", f"{F(q[-1],'fRO')*1e-9:.1f}")
+    q = srows("sens_cnt.csv", "cnt_fmet")
+    if q:
+        d = {F(r, "x1"): r for r in q}
+        M += macro("fmetPzero", f"{F(d[0.0],'Pstat')*1e9:.2f}") + macro("fmetPtwo", f"{F(d[0.02],'Pstat')*1e6:.1f}") + macro("fmetPhalf", f"{F(d[0.005],'Pstat')*1e6:.2f}")
+        M += macro("fmetGainHalf", f"{F(d[0.005],'gain'):.1f}") + macro("fmetGainOne", f"{F(d[0.01],'gain'):.1f}") + macro("fmetEtwo", f"{F(d[0.02],'Ecycle')/F(d[0.0],'Ecycle'):.2f}")
+        M += macro("fmetPmilli", f"{F(d[0.001],'Pstat')*1e9:.0f}") + macro("fmetGainMilli", f"{F(d[0.001],'gain'):.1f}")
+    q = srows("sens_cnt.csv", "cnt_rc")
+    if q:
+        M += macro("cntFrcLo", f"{F(q[0],'fRO')*1e-9:.1f}") + macro("cntFrcHi", f"{F(q[-1],'fRO')*1e-9:.1f}")
+    q = srows("sens_gan.csv", "gan_rth")
+    if q:
+        d = {(F(r, "x1"), F(r, "x2")): r for r in q}
+        M += macro("rthPenaltyThree", f"{100*(F(d[(4.0,300)],'tpd')/F(d[(0.0,300)],'tpd')-1):.1f}") + macro("rthPenaltyFive", f"{100*(F(d[(4.0,500)],'tpd')/F(d[(0.0,500)],'tpd')-1):.1f}")
+        M += macro("rthNMLfiveNom", f"{F(d[(1.0,500)],'NML')/1.2:.3f}") + macro("rthNMLfiveFour", f"{F(d[(4.0,500)],'NML')/1.2:.3f}") + macro("rthGainFiveNom", f"{F(d[(1.0,500)],'gain'):.1f}")
+    q = srows("sens_gan.csv", "gan_temp"); qs = srows("sens_gan.csv", "si_temp")
+    if q:
+        d = {F(r, "x1"): r for r in q}; ds = {F(r, "x1"): r for r in qs}
+        M += macro("ganGainFourHundred", f"{F(d[400],'gain'):.1f}") + macro("ganGainFourFifty", f"{F(d[450],'gain'):.1f}") + macro("ganNMLFourFifty", f"{F(d[450],'NML')/1.2:.3f}")
+        M += macro("siGainFiveHundred", f"{F(ds[500],'gain'):.1f}") + macro("siNMLFiveHundred", f"{F(ds[500],'NML')/0.7:.2f}")
+        M += macro("ganPstatFiveHundred", f"{F(d[500],'Pstat')*1e6:.2f}") + macro("siPstatFiveHundred", f"{F(ds[500],'Pstat')*1e9:.0f}")
+    q = srows("sens_gan.csv", "gan_vth")
+    if q:
+        d = {F(r, "x1"): r for r in q}
+        M += macro("vthFminus", f"{F(d[-0.15],'fRO')*1e-9:.2f}") + macro("vthFplus", f"{F(d[0.15],'fRO')*1e-9:.2f}") + macro("vthPratio", f"{F(d[-0.15],'Pstat')/F(d[0.15],'Pstat'):.0f}")
+    q = srows("sens_gan.csv", "gan_vth_skew")
+    if q:
+        d = {F(r, "x1"): r for r in q}
+        M += macro("skewVMlo", f"{F(d[-0.15],'VM')/1.2:.2f}") + macro("skewVMhi", f"{F(d[0.15],'VM')/1.2:.2f}") + macro("skewFspread", f"{100*(F(d[0.15],'fRO')-F(d[-0.15],'fRO'))/F(d[0.0],'fRO'):.1f}")
     # tmd crossover and gan tcf
     for r in (csv.reader(open(os.path.join(RES, "tmd_crossover.csv"))) if os.path.exists(os.path.join(RES, "tmd_crossover.csv")) else []):
         if r[0] == "RC_critical_kohm_um": M += macro("rcCritical", f"{float(r[1]):.2f}")

@@ -61,13 +61,13 @@ def fig_tmd():
         E[i, j] = f(r, "Ecycle") * 1e15; F[i, j] = f(r, "fRO") * 1e-9
     # Si iso-frequency energy: interpolate Si E_cycle(f) from the low-VDD + VDD sweep points
     si = rows("sens_tmd.csv", "si_lowvdd") + [r for r in csv.DictReader(open(os.path.join(RES, "vdd_sweep.csv"))) if r["platform"] == "si"]
-    fs = np.array([f(r, "fRO") for r in si]); es = np.array([f(r, "Ecycle") for r in si]); o = np.argsort(fs)
+    fs = np.array([f(r, "fRO") * 1e-9 for r in si]); es = np.array([f(r, "Ecycle") for r in si]); o = np.argsort(fs)   # GHz, fJ
     fs, es = fs[o], es[o] * 1e15
     Esi = np.interp(np.log(F), np.log(fs), es)     # Si energy/cycle at the TMD frequency
     ratio = E / Esi
     fig, axes = plt.subplots(1, 3, figsize=(COL2, 2.4))
     ax = axes[0]
-    im = ax.imshow(np.log10(ratio), origin="lower", cmap="RdBu_r", vmin=-1, vmax=1)
+    im = ax.imshow(np.log10(ratio), origin="lower", cmap="RdBu_r", vmin=-0.25, vmax=0.25)
     cs = ax.contour(ratio, levels=[1.0], colors="k", linewidths=1.0)
     ax.clabel(cs, fmt={1.0: "$E_{TMD}=E_{Si}$"}, fontsize=6)
     for i in range(5):
@@ -82,12 +82,13 @@ def fig_tmd():
     ax.set_xlabel("$R_{C,n}$ (kΩ·µm)"); ax.set_ylabel("5-stage $f_{RO}$ (GHz)"); ax.legend(fontsize=5.5, ncol=1)
     rr = rows("sens_tmd.csv", "tmd_dit"); ax = axes[2]
     x = [f(r, "x1") for r in rr]
-    ax.semilogx(x, [f(r, "fRO") * 1e-9 for r in rr], "o-", color=COLOR["tmd"], label="$f_{RO}$ (GHz)")
-    ax.semilogx(x, [f(r, "NML") / 0.5 * 10 for r in rr], "s--", color=COLOR["si"], label="$NM_L/V_{DD}$ ×10")
-    ax.semilogx(x, [f(r, "gain") for r in rr], "^:", color=COLOR["cnt"], label="gain $A_V$")
-    ax.set_xlabel("$D_{it}$ (cm$^{-2}$ eV$^{-1}$)"); ax.legend(fontsize=6)
+    ax.loglog(x, [f(r, "Pstat") / f(rr[0], "Pstat") for r in rr], "v-", color=COLOR["gan"], label="static power")
+    ax.loglog(x, [f(r, "fRO") / f(rr[0], "fRO") for r in rr], "o-", color=COLOR["tmd"], label="$f_{RO}$")
+    ax.loglog(x, [f(r, "gain") / f(rr[0], "gain") for r in rr], "^:", color=COLOR["cnt"], label="gain $A_V$")
+    ax.loglog(x, [f(r, "NML") / f(rr[0], "NML") for r in rr], "s--", color=COLOR["si"], label="$NM_L$")
+    ax.set_xlabel("$D_{it}$ (cm$^{-2}$ eV$^{-1}$)"); ax.set_ylabel("normalised to $D_{it}=10^{11}$"); ax.legend(fontsize=6)
     for ax, l in zip(axes, "abc"):
-        panel_label(ax, f"({l})", 0.03, 0.96)
+        panel_label(ax, f"({l})", 0.03, 0.96) if l != "a" else ax.set_title("(a)", loc="left", fontsize=8.5, fontweight="bold")
     fig.tight_layout(w_pad=1.0); save(fig, "fig11_tmd_contact_crossover")
     # report critical RC along the diagonal
     diag = np.array([ratio[i, i] for i in range(5)])
@@ -100,22 +101,30 @@ def fig_tmd():
 
 
 def fig_cnt():
-    fig, axes = plt.subplots(1, 3, figsize=(COL2, 2.3))
-    for ax, study, xl, lab in zip(axes, ("cnt_density", "cnt_fmet", "cnt_rc"), ("CNT density (µm$^{-1}$)", "metallic fraction $F_{met}$", "$R_C$ (Ω·µm)"), "abc"):
+    nom = dict(cnt_density=250.0, cnt_fmet=1e-4, cnt_rc=50.0)
+    fig, axes = plt.subplots(1, 3, figsize=(COL2, 2.4))
+    for ax, study, xl, lab in zip(axes, ("cnt_density", "cnt_fmet", "cnt_rc"),
+                                  ("CNT density (µm$^{-1}$)", "metallic fraction $F_{met}$", "$R_C$ per side (Ω·µm)"), "abc"):
         rr = rows("sens_cnt.csv", study); x = np.array([f(r, "x1") for r in rr])
-        fr = np.array([f(r, "fRO") * 1e-9 for r in rr]); ps = np.array([f(r, "Pstat") * 1e9 for r in rr]); pdp = np.array([f(r, "PDP") * 1e15 for r in rr])
+        k0 = int(np.argmin(np.abs(x - nom[study])))
         if study == "cnt_fmet":
             x = np.where(x == 0, 3e-5, x)
+        for key, lab2, mk, c in (("fRO", "$f_{RO}$", "o-", COLOR["cnt"]), ("Ecycle", "$E_{cycle}$", "s--", COLOR["si"]),
+                                 ("gain", "gain $A_V$", "^:", COLOR["sige"]), ("Pstat", "static power", "v-.", COLOR["gan"])):
+            v = np.array([f(r, key) for r in rr])
+            ax.plot(x, v / v[k0], mk, color=c, label=lab2, ms=3.5)
+        if study == "cnt_fmet":
+            g0 = f(rr[k0], "gain")
+            ax.axhline(10 / g0, ls=":", color="k", lw=0.8); ax.text(x.min(), 10 / g0 * 1.1, "$A_V$ = 10", fontsize=6)
+        ax.set_yscale("log")
+        if study != "cnt_density":
             ax.set_xscale("log")
-        elif study == "cnt_rc":
-            ax.set_xscale("log")
-        ax.plot(x, fr / fr[np.argmin(np.abs(x - (250 if study == "cnt_density" else (1e-4 if study == "cnt_fmet" else 50))))], "o-", color=COLOR["cnt"], label="$f_{RO}$ (norm.)")
-        ax.plot(x, pdp / pdp[0], "s--", color=COLOR["si"], label="PDP (norm.)")
-        ax2 = ax.twinx(); ax2.grid(False)
-        ax2.semilogy(x, ps, "^:", color=COLOR["gan"]); ax2.set_ylabel("static power (nW)", color=COLOR["gan"], fontsize=7); ax2.tick_params(axis="y", colors=COLOR["gan"], labelsize=6.5)
-        ax.set_xlabel(xl); ax.set_ylabel("normalised"); ax.legend(fontsize=6, loc="upper left")
-        panel_label(ax, f"({lab})", 0.03, 0.96)
-    fig.tight_layout(w_pad=1.6); save(fig, "fig12_cnt_sensitivity")
+        if study == "cnt_fmet":
+            ax.set_xticks([3e-5, 1e-4, 1e-3, 1e-2]); ax.set_xticklabels(["0", "$10^{-4}$", "$10^{-3}$", "$10^{-2}$"])
+        ax.set_xlabel(xl); ax.set_ylabel("normalised to nominal")
+        if lab == "a": ax.legend(fontsize=6, loc="upper left")
+        panel_label(ax, f"({lab})", 0.03, 0.96) if lab != "a" else ax.set_title("(a)", loc="left", fontsize=8.5, fontweight="bold")
+    fig.tight_layout(w_pad=1.0); save(fig, "fig12_cnt_sensitivity")
 
 
 def fig_gan():
@@ -126,15 +135,17 @@ def fig_gan():
     ax.plot(T, fg / fg[0], "v-", color=COLOR["gan"], label="CFET-GaN $f_{RO}$"); ax.plot(T, fs_ / fs_[0], "o--", color=COLOR["si"], label="CFET-Si $f_{RO}$")
     ax.plot(T, [f(r, "Pstat") / f(g[0], "Pstat") for r in g], "v:", color=COLOR["gan"], alpha=0.6, label="GaN static P")
     ax.plot(T, [f(r, "Pstat") / f(s[0], "Pstat") for r in s], "o:", color=COLOR["si"], alpha=0.6, label="Si static P")
-    ax.set_yscale("log"); ax.set_xlabel("T (K)"); ax.set_ylabel("normalised to 300 K"); ax.legend(fontsize=5.5)
+    ax.set_yscale("log"); ax.set_xlabel("T (K)"); ax.set_ylabel("normalised to 300 K"); ax.legend(fontsize=5.5, loc="upper left", bbox_to_anchor=(0.0, 0.98))
     tcf_g = (fg[-1] - fg[0]) / fg[0] / (T[-1] - T[0]) * 1e6; tcf_s = (fs_[-1] - fs_[0]) / fs_[0] / (T[-1] - T[0]) * 1e6
-    ax.text(0.97, 0.03, f"TCF: GaN {tcf_g:.0f}, Si {tcf_s:.0f} ppm/K", transform=ax.transAxes, ha="right", va="bottom", fontsize=6)
+    ax.text(0.03, 0.62, f"TCF (300–500 K):\nGaN {tcf_g:.0f} ppm/K\nSi {tcf_s:.0f} ppm/K", transform=ax.transAxes, ha="left", va="top", fontsize=6)
     ax = axes[1]
     rr = rows("sens_gan.csv", "gan_rth")
-    for Tk, c in zip((300, 400, 500), (0.35, 0.6, 0.9)):
-        q = [r for r in rr if f(r, "x2") == Tk]
-        ax.plot([f(r, "x1") for r in q], [f(r, "tpd") * 1e12 for r in q], "v-", color=plt.cm.Oranges(c), label=f"T={Tk} K")
-    ax.set_xlabel("$R_{th}/R_{th,nom}$"); ax.set_ylabel("$t_{pd}$ from RO (ps)"); ax.legend(fontsize=6)
+    for Tk, c in zip((300, 500), (0.45, 0.9)):
+        q = [r for r in rr if f(r, "x2") == Tk]; xs = [f(r, "x1") for r in q]
+        ax.plot(xs, [f(r, "NML") / 1.2 for r in q], "v-", color=plt.cm.Oranges(c), label=f"$NM_L/V_{{DD}}$, {Tk} K")
+        ax.plot(xs, [f(r, "gain") / 100 for r in q], "^--", color=plt.cm.Oranges(c), mfc="none", label=f"$A_V/100$, {Tk} K")
+    ax.axhline(0.1, ls=":", color="k", lw=0.8); ax.text(4.0, 0.105, "$NM_L$=0.1$V_{DD}$ / $A_V$=10 limit", ha="right", fontsize=6)
+    ax.set_xlabel("$R_{th}/R_{th,nom}$"); ax.set_ylabel("inverter margin"); ax.legend(fontsize=5.5, loc="center right"); ax.set_ylim(-0.02, 0.36)
     ax = axes[2]
     rr = rows("sens_gan.csv", "gan_vth"); rs = rows("sens_gan.csv", "gan_vth_skew")
     ax.plot([100 * f(r, "x1") for r in rr], [f(r, "fRO") * 1e-9 for r in rr], "v-", color=COLOR["gan"], label="common $\\Delta V_{TH}$")

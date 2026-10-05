@@ -1,0 +1,2 @@
+wrote results/mc_inverter.csv
+si 0 fRO=1.925e+10

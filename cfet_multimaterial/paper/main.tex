@@ -35,7 +35,7 @@ This paper makes four contributions. First, a unified compact model (\ucm) with 
 \caption{The five CFET material platforms and their maturity.}
 \label{tab:platforms}
 \centering\footnotesize
-\begin{tabular}{@{}lllp{2.55cm}c@{}}
+\setlength{\tabcolsep}{3pt}\begin{tabular}{@{}lllp{2.6cm}c@{}}
 \hline
 ID & Bottom (n) & Top (p) & Purpose (maturity) & $V_{DD}$ \\ \hline
 CFET-Si & Si GAA NS & Si GAA NS & baseline logic (advanced node) & 0.7 V \\
@@ -56,15 +56,15 @@ CFET-GaN & n-GaN & p-GaN (proj.) & high-$T$, power-control (exploratory) & 1.2 V
 \subsection{Core equations}
 All nine devices share the four-terminal interface (d, g, s, b; b is a reference terminal tied to the source in every circuit) and internal nodes $d_i$, $s_i$ (series resistance) and $t_j$ (temperature rise). With $V_T = k_BT_{dev}/q$, the model uses an EKV-type smooth overdrive \cite{Enz1995}
 \begin{equation}
-V_{ov} = 2nV_T \ln\!\left[1+\exp\!\left(\frac{V_{GS}-V_{TH,eff}}{2nV_T}\right)\right],
+V_{ov} = 2nV_T \ln\!\left[1+e^{(V_{GS}-V_{TH,eff})/2nV_T}\right],
 \label{eq:vov}
 \end{equation}
 so that $V_{ov}^2 \propto \exp[(V_{GS}-V_{TH})/nV_T]$ in weak inversion (subthreshold slope $nV_T\ln 10$) and $V_{ov}\to V_{GS}-V_{TH}$ in strong inversion. Drain-induced barrier lowering enters as $V_{TH,eff} = V_{TH,T} - \eta\sqrt{V_{DS}^2+\delta^2}$ and the temperature dependence as $V_{TH,T} = V_{TH0}+k_{VTH}(T_{dev}-T_{nom})$, $\mu_T=\mu_0(T_{dev}/T_{nom})^{-m_\mu}$. The drift--diffusion branch with velocity saturation is
-\begin{equation}
-I_D = I_{sat}\tanh\!\left(\frac{2V_{DS}}{V_{dsat}}\right)\left(1+\lambda|V_{DS}|\right),\quad
-I_{sat} = \frac{\beta V_{ov}^2}{2\left(1+\dfrac{V_{ov}}{V_{sat,v}}\right)},
+\begin{align}
+I_D &= I_{sat}\tanh\!\left(\frac{2V_{DS}}{V_{dsat}}\right)\left(1+\lambda|V_{DS}|\right),\nonumber\\
+I_{sat} &= \frac{\beta V_{ov}^2}{2\left(1+V_{ov}/V_{sat,v}\right)},
 \label{eq:id}
-\end{equation}
+\end{align}
 with $\beta=\mu_T C_{ox,eff}W/L$, $V_{sat,v}=v_{sat}L/\mu_T$ and $V_{dsat}=V_{ov}/(1+V_{ov}/V_{sat,v})$. The factor 2 in the $\tanh$ argument makes the low-$V_{DS}$ conductance exactly $\beta V_{ov}$ while the saturation current retains the square law for long channels and the velocity-saturated limit $C_{ox}Wv_{sat}V_{ov}/2$ for short channels \cite{Lundstrom2002}; the function is odd in $V_{DS}$ and infinitely differentiable, which is what the Newton iterations of a circuit simulator need. Series resistances $R_S=R_{SW}/W$ and $R_D=R_{DW}/W$ act between the external and internal nodes.
 
 \subsection{Terminal charges}
@@ -77,9 +77,10 @@ with $V_{ov}$ evaluated without DIBL so that each charge depends only on its own
 
 \subsection{Material blocks}
 \emph{Si and SiGe nanosheets} use the core with $W_{eff}=N_{NS}\cdot 2(W_{NS}+T_{NS})$. \emph{MoS$_2$/WSe$_2$} add the quantum capacitance in series, $C_{ox,eff}=C_{ox}C_q/(C_{ox}+C_q)$, a trap-limited ideality $n=n_0(1+qD_{it}/C_{ox})$ and contact-dominated series resistance $R_{SW}=R_{DW}=R_C$ \cite{Pasadas2019,Li2023Nature}. \emph{CNT arrays} replace (\ref{eq:id}) by a Landauer quasi-ballistic branch \cite{Deng2007,Lundstrom2002}
-\begin{equation}
-I_D = N_{tube}\,G_0 T\, nV_T\!\left[F(\eta_s)-F\!\left(\eta_s-\tfrac{V_{DS}}{nV_T}\right)\right](1+\lambda|V_{DS}|) + G_{met}V_{DS},
-\end{equation}
+\begin{align}
+I_D = N_{tube}\,G_0 T\, nV_T\!\left[F(\eta_s)-F\!\left(\eta_s-\tfrac{V_{DS}}{nV_T}\right)\right]&(1+\lambda|V_{DS}|)\nonumber\\
+&+ G_{met}V_{DS},
+\end{align}
 with $F(x)=\ln(1+e^x)$, $\eta_s=\alpha(V_{GS}-V_{TH,eff})/nV_T$, $G_0=4q^2/h$, $N_{tube}=D_{CNT}W(1-F_{met})$ and the metallic-tube shunt $G_{met}=F_{met}D_{CNT}WG_0T$. \emph{GaN} adds an electro-thermal node: $I(t_j)=-I_DV_{DS}+V(t_j)/R_{th}+C_{th}\,\mathrm{d}V(t_j)/\mathrm{d}t$ and $T_{dev}=T_{amb}+V(t_j)$, i.e.\ the quasi-static self-heating $T_{dev}=T_{amb}+R_{th}P_{diss}$ with a thermal time constant $R_{th}C_{th}$.
 
 \subsection{Implementation and equivalence}
@@ -102,7 +103,7 @@ Seven parameters are fitted per device by bounded non-linear least squares on $\
 \begin{table*}[!t]
 \caption{Calibrated \ucm\ parameters (SI values converted to the units shown).}
 \label{tab:devparams}
-\centering\scriptsize
+\centering\scriptsize\setlength{\tabcolsep}{3.5pt}
 \input{tables/tab_devparams.tex}
 \end{table*}
 \begin{table*}[!t]
@@ -191,10 +192,14 @@ Fig.~\ref{fig:temp} shows the temperature behaviour at nominal $V_{DD}$. Between
 \caption{GaN study: (a) $f_{RO}$ and static power of CFET-GaN and CFET-Si from 300 to 500~K; (b) self-heating delay penalty vs. thermal resistance at three temperatures; (c) $f_{RO}$ vs. common and skewed threshold-voltage shifts.}
 \label{fig:gan}
 \end{figure*}
-\subsubsection{Si and SiGe} %%SITEXT
-\subsubsection{MoS$_2$/WSe$_2$} %%TMDTEXT
-\subsubsection{CNT} %%CNTTEXT
-\subsubsection{GaN} %%GANTEXT
+\subsubsection{Si and SiGe}
+Fig.~\ref{fig:sisige}a maps the Si RO frequency over the number of nanosheets in each tier. Adding sheets to both tiers raises the drive current and the gate charge in the same proportion, so $f_{RO}$ moves only from \nnsFtwo\ to \nnsFfive~GHz between $2\times2$ and $5\times5$ sheets while the energy per cycle grows from \nnsEtwo\ to \nnsEfive~fJ: with the fixed CFET parasitics ($C_{stack}$, $C_{out}$) the extra sheets buy little speed in a self-loaded ring. The map is asymmetric, because the p-tier is the weaker device: $2$ n-sheets with $5$ p-sheets gives \nnsFtwofive~GHz and $V_M/V_{DD}=$\nnsVMtwofive, whereas $5$ n-sheets with $2$ p-sheets gives \nnsFfivetwo~GHz and $V_M/V_{DD}=$\nnsVMfivetwo. Fig.~\ref{fig:sisige}c isolates the SiGe lever: raising the hole mobility from $1.0$ to $2.0\times$ the Si value moves the rise/fall delay ratio $t_{pLH}/t_{pHL}$ from \mupMisOne\ to \mupMisTwo, balances the two transitions at a ratio of \mupBalance, and increases $f_{RO}$ by \mupFgain\% at constant energy per cycle. The CFET-SiGe cell therefore achieves the p/n balance that a Si CFET can only obtain by giving the top tier more sheets, i.e.\ by increasing the cell height.
+\subsubsection{MoS$_2$/WSe$_2$}
+Fig.~\ref{fig:tmd}a is the central result of the TMD study. Over the $0.1$--$2$~k$\Omega\cdot\mu$m contact-resistance grid the TMD RO frequency at 0.5~V spans \tmdFlo--\tmdFhi~GHz (Fig.~\ref{fig:tmd}b) while its energy per cycle is almost constant (\tmdElo--\tmdEhi~fJ), because the switched charge is set by the gate stack and the CFET parasitics, not by the contacts. The comparison that matters for a low-$V_{DD}$ platform is therefore made at \emph{equal frequency}: the Si RO is run down to 0.4~V and its energy per cycle is interpolated at the frequency of each TMD point. With symmetric contacts the TMD cell consumes less energy than Si only below $R_{C,critical}=$\rcCritical~k$\Omega\cdot\mu$m per side; at the nominal $0.5/0.8$~k$\Omega\cdot\mu$m it uses \tmdRatioZeropFive$\times$ and at $2$~k$\Omega\cdot\mu$m \tmdRatioTwopZero$\times$ the Si energy, whereas $0.1$~k$\Omega\cdot\mu$m contacts (the present semimetal-contact record range \cite{Shen2021,Li2023Nature}) give \tmdRatioZeropOne$\times$. The n-side contact weighs slightly more than the p-side because the MoS$_2$ device carries the larger share of the ring's switching current. The interface trap density (Fig.~\ref{fig:tmd}c) acts on a different axis: between $10^{11}$ and $10^{13}$~cm$^{-2}$eV$^{-1}$ the frequency changes by only \ditFratio$\times$ (through the ideality factor and the threshold position), the gain drops to \ditGainLo, but the static power rises \ditPstatRatio$\times$, so $D_{it}$ control is a leakage requirement rather than a speed requirement for the TMD CFET.
+\subsubsection{CNT}
+Fig.~\ref{fig:cnt} separates the three CNT-array quantities that the Landauer block exposes. The tube density sets the drive current linearly, so $f_{RO}$ scales from \cntFdlo~GHz at 100~tubes/$\mu$m to \cntFdhi~GHz at 400~tubes/$\mu$m at an unchanged energy per cycle; in the model the gate capacitance is written per unit area, so a density dependence of the gate charge, which would reduce this gain, is not captured. The contact resistance acts in the opposite direction, from \cntFrcLo~GHz at 50~$\Omega\cdot\mu$m to \cntFrcHi~GHz at 1~k$\Omega\cdot\mu$m, again without changing the energy. The metallic-tube fraction is the only variable that attacks functionality: the shunt conductance $G_{met}$ raises the inverter static power from \fmetPzero~nW ($F_{met}=0$) to \fmetPmilli~nW at $10^{-3}$, \fmetPhalf~$\mu$W at $5\times10^{-3}$ and \fmetPtwo~$\mu$W at $2\times10^{-2}$, while the gain falls from 22 to \fmetGainMilli, \fmetGainHalf\ and \fmetGainOne\ ($10^{-3}$, $5\times10^{-3}$, $10^{-2}$) and the RO energy per cycle rises \fmetEtwo$\times$ at $2\times10^{-2}$. With the $A_V>10$ criterion the CNT CFET inverter stops being a logic gate between $5\times10^{-3}$ and $10^{-2}$ metallic fraction, which quantifies why 99.99\% semiconducting purity is a minimum and 99.9999\% \cite{Liu2020Science} is the practical target.
+\subsubsection{GaN}
+Fig.~\ref{fig:gan}a compares the GaN and Si CFET ROs from 300 to 500~K. Both speed up (temperature inversion) with frequency temperature coefficients of \tcfgan~ppm/K (GaN) and \tcfsi~ppm/K (Si) over the range; the smaller GaN coefficient follows from its larger overdrive at 1.2~V. The static power, however, rises faster for the GaN cell, whose projected p-channel device has the poorest subthreshold slope of the nine models: at 500~K the GaN inverter leaks \ganPstatFiveHundred~$\mu$W against \siPstatFiveHundred~nW for Si, its gain drops from \ganGainFourHundred\ at 400~K to \ganGainFourFifty\ at 450~K and $NM_L$ to \ganNMLFourFifty$V_{DD}$, while the Si cell still has $A_V=$\siGainFiveHundred\ and $NM_L=$\siNMLFiveHundred$V_{DD}$ at 500~K. Within the subthreshold-only leakage model there is thus no GaN-to-Si crossover temperature below 500~K; the crossover that the wide band gap is expected to provide comes from junction and generation leakage in Si, which the present model does not contain and which is the first extension needed for a definitive high-temperature verdict. Self-heating at logic current levels is small (Fig.~\ref{fig:gan}b): quadrupling the thermal resistance changes the stage delay by \rthPenaltyThree\% at 300~K and \rthPenaltyFive\% at 500~K, but at 500~K it moves the low noise margin from \rthNMLfiveNom$V_{DD}$ to \rthNMLfiveFour$V_{DD}$, i.e.\ it removes what little margin the p-GaN device leaves. A common threshold shift of $\pm15$\% moves $f_{RO}$ between \vthFplus\ and \vthFminus~GHz and the static power by \vthPratio$\times$ (Fig.~\ref{fig:gan}c); a skewed shift ($+$n, $-$p) leaves the frequency within \skewFspread\% but moves $V_M/V_{DD}$ from \skewVMlo\ to \skewVMhi, so for the GaN platform threshold \emph{matching} between tiers is a noise-margin issue rather than a speed issue.
 
 \subsection{Monte Carlo and yield}
 \begin{figure*}[!t]
