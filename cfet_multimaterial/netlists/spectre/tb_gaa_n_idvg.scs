@@ -15,14 +15,14 @@ ahdl_include "../../veriloga/gaa_n.va"
 
 // ---- design variables (same names as the ADE design variables) --------------
 parameters VGS=0 VDS=0.05 TEMP=27
-parameters Lg=16n NNSn=3 NNSp=3 WNS=20n RSW=1e-4 VTHN=0.25 VTHP=0.25 MUN=0.030 MUP=0.015
+parameters Lg=1.6e-08 NNSn=3 NNSp=3 WNS=2e-08 RSW=5.31365e-05 VTHN=0.345646 VTHP=0.35039 MUN=0.00752841 MUP=0.00547061   // calibrated
 parameters VDSLIN=0.05 VDSSAT=0.6 VGSMAX=0.8
 
 // ---- device under test  (terminals d g s b; source and body at ground) ------
 // n-type convention: the model works on V_sg / V_sd, so the testbench applies
 // VGS and VDS directly.
 M0 (d g 0 0) gaa_n L=Lg NNS=NNSn WNS=WNS VTH0=VTHN MU0=MUN RSW=RSW RDW=RSW \
-    TNS=5n N0=1.10 ETA=0.06 COX=0.040 VSAT=1e5 LAMBDA=0.05 CGSO=1e-10 CGDO=1e-10 TNOM=300 MUEXP=1.5 KVTH=-1e-3
+    W=1e-07 TNS=5e-09 N0=1.14212 ETA=0.0458488 COX=0.043 VSAT=250000 LAMBDA=0.3 CGSO=3e-10 CGDO=3e-10 TNOM=300 MUEXP=1.3 KVTH=-0.0008 CQ=1e9 DIT=0 RC=0 RTH=0 CTH=1e-12 DCNT=0 FMET=0 TTR=0 ALPHA=1   // calibrated defaults (data/calibrated_params.json)
 
 // ---- bias sources ------------------------------------------------------------
 VG (g 0) vsource type=dc dc=VGS

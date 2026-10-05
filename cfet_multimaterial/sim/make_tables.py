@@ -13,7 +13,8 @@ DEVN = {"gaa_n": "Si GAA n", "gaa_p": "Si GAA p", "sige_p": "SiGe GAA p", "mos2_
 
 
 def rd(name):
-    return list(csv.DictReader(open(os.path.join(RES, name))))
+    p = os.path.join(RES, name)
+    return list(csv.DictReader(open(p))) if os.path.exists(p) else []
 
 
 def F(r, k):
@@ -27,7 +28,11 @@ def si(x, unit="", nd=2):
     return f"{x:.{nd}f}{unit}"
 
 
+WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
+
+
 def macro(name, value):
+    name = "".join(WORDS[int(c)] if c.isdigit() else c for c in name)   # TeX macro names: letters only
     return f"\\newcommand{{\\{name}}}{{{value}}}\n"
 
 
@@ -89,6 +94,9 @@ def tab_nominal():
 
 def tab_mc():
     s = {r["platform"]: r for r in rd("mc_yield_summary.csv")}
+    if not s:
+        open(os.path.join(TAB, "tab_mc.tex"), "w").write("\\begin{tabular}{l}pending\\end{tabular}\n")
+        return {pl: {"Y_f_pct": "nan", "Y_func_pct": "nan", "f_sigma_over_mu_pct": "nan"} for pl in PLATFORM_ORDER}
     L = ["\\begin{tabular}{lrrrrrrr}", "\\hline",
          "Platform & $N_{RO}$ & $\\bar f_{RO}$ (GHz) & $\\sigma_f/\\bar f$ (\\%) & $Y_f$ (\\%) & $\\bar E_{cycle}$ (fJ) & $N_{inv}$ & $Y_{func}$ (\\%) \\\\", "\\hline"]
     for pl in PLATFORM_ORDER:
@@ -119,13 +127,13 @@ def main():
         if r["osc"] == "True":
             M += macro(f"fT{r['platform']}{str(int(F(r,'temp_c'))).replace('-', 'm')}", f"{F(r,'fRO')*1e-9:.2f}")
     # tmd crossover and gan tcf
-    for r in csv.reader(open(os.path.join(RES, "tmd_crossover.csv"))):
+    for r in (csv.reader(open(os.path.join(RES, "tmd_crossover.csv"))) if os.path.exists(os.path.join(RES, "tmd_crossover.csv")) else []):
         if r[0] == "RC_critical_kohm_um": M += macro("rcCritical", f"{float(r[1]):.2f}")
         elif r[0] not in ("RC_kohm_um",): M += macro("tmdRatio" + r[0].replace(".", "p"), f"{float(r[1]):.2f}")
-    for r in rd("gan_tcf.csv"):
+    for r in rd("gan_tcf.csv") or [dict(platform="gan", TCF_ppm_per_K_300_500K="nan", f500_GHz="nan"), dict(platform="si", TCF_ppm_per_K_300_500K="nan", f500_GHz="nan")]:
         M += macro(f"tcf{r['platform']}", f"{F(r,'TCF_ppm_per_K_300_500K'):.0f}") + macro(f"fFiveHundred{r['platform']}", f"{F(r,'f500_GHz'):.2f}")
     # areas
-    for r in rd(os.path.join(HERE, "layout", "area_report.csv")) if False else csv.DictReader(open(os.path.join(HERE, "layout", "area_report.csv"))):
+    for r in csv.DictReader(open(os.path.join(HERE, "layout", "area_report.csv"))):
         M += macro("area" + r["cell"].replace("_", ""), f"{float(r['area_um2'])*1e6:.0f}")  # in 1e-3 um^2 -> nm^2/1000
     open(os.path.join(HERE, "paper", "numbers.tex"), "w").write(M)
     print("wrote paper/tables/*.tex and paper/numbers.tex")

@@ -40,9 +40,9 @@ subckt inv_cfet_cnt (in out vdd vss)
 parameters CSTACK=0.03f COUT=0.3f RLOCAL=50 \
     Wn=100n Wp=100n Lg=15n VTHN=0.20 VTHP=0.22 DCNT=250e6 FMET=0.01 RCN=1e-4 RCP=1e-4
     MP (pd in vdd vdd) cnt_p W=Wp L=Lg VTH0=VTHP DCNT=DCNT FMET=FMET RC=RCP \
-        N0=1.05 ETA=0.05 COX=0.020 TTR=0.65 ALPHA=0.60 RSW=0 RDW=0 CGSO=4e-11 CGDO=4e-11 TNOM=300 MUEXP=0 KVTH=-1e-3
+    NNS=0 WNS=2e-08 TNS=5e-09 N0=1.15269 ETA=0.0458176 MU0=0 COX=0.02 VSAT=0 LAMBDA=2.95766e-18 RSW=6e-05 RDW=6e-05 CGSO=1.5e-10 CGDO=1.5e-10 TNOM=300 MUEXP=0 KVTH=-0.0006 CQ=0.05 DIT=0 RTH=0 CTH=1e-12 TTR=0.214895 ALPHA=0.856693   // calibrated defaults (data/calibrated_params.json)
     MN (nd in vss vss) cnt_n W=Wn L=Lg VTH0=VTHN DCNT=DCNT FMET=FMET RC=RCN \
-        N0=1.05 ETA=0.04 COX=0.020 TTR=0.70 ALPHA=0.60 RSW=0 RDW=0 CGSO=4e-11 CGDO=4e-11 TNOM=300 MUEXP=0 KVTH=-1e-3
+    NNS=0 WNS=2e-08 TNS=5e-09 N0=1.16076 ETA=0.0458793 MU0=0 COX=0.02 VSAT=0 LAMBDA=3.27033e-16 RSW=5e-05 RDW=5e-05 CGSO=1.5e-10 CGDO=1.5e-10 TNOM=300 MUEXP=0 KVTH=-0.0006 CQ=0.05 DIT=0 RTH=0 CTH=1e-12 TTR=0.216417 ALPHA=0.859579   // calibrated defaults (data/calibrated_params.json)
     Rlocal_p (pd out) resistor r=RLOCAL
     Rlocal_n (nd out) resistor r=RLOCAL
     Cstack   (pd nd)  capacitor c=CSTACK

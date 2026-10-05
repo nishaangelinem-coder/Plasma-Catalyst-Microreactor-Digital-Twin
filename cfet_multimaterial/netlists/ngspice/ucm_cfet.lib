@@ -13,6 +13,7 @@
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -25,14 +26,14 @@
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
-Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
-Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
-Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Bvov vov 0 V = 2*nid()*vt(tdc(V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(2*nid()*vt(tdc(V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut(tdc(V(tj)))))
+Bids di dx I = TYPE*mut(tdc(V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut(tdc(V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}
@@ -51,6 +52,7 @@ Rb b si 1e12
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -63,14 +65,14 @@ Rb b si 1e12
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
-Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
-Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
-Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Bvov vov 0 V = 2*nid()*vt(tdc(V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(2*nid()*vt(tdc(V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut(tdc(V(tj)))))
+Bids di dx I = TYPE*mut(tdc(V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut(tdc(V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}
@@ -89,6 +91,7 @@ Rb b si 1e12
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -101,14 +104,14 @@ Rb b si 1e12
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
-Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
-Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
-Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Bvov vov 0 V = 2*nid()*vt(tdc(V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(2*nid()*vt(tdc(V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut(tdc(V(tj)))))
+Bids di dx I = TYPE*mut(tdc(V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut(tdc(V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}
@@ -127,6 +130,7 @@ Rb b si 1e12
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -139,14 +143,14 @@ Rb b si 1e12
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
-Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
-Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
-Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Bvov vov 0 V = 2*nid()*vt(tdc(V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(2*nid()*vt(tdc(V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut(tdc(V(tj)))))
+Bids di dx I = TYPE*mut(tdc(V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut(tdc(V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}
@@ -165,6 +169,7 @@ Rb b si 1e12
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -177,14 +182,14 @@ Rb b si 1e12
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
-Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
-Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
-Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Bvov vov 0 V = 2*nid()*vt(tdc(V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(2*nid()*vt(tdc(V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut(tdc(V(tj)))))
+Bids di dx I = TYPE*mut(tdc(V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut(tdc(V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}
@@ -203,6 +208,7 @@ Rb b si 1e12
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -215,14 +221,14 @@ Rb b si 1e12
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * Landauer quasi-ballistic current (CNT array), n-type convention; eta_s on an auxiliary node
-Betas etas 0 V = ALPHA*((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(nid()*vt((TEMPK + V(tj))))
-Bids di dx I = TYPE*(DCNT*weff()*(1-FMET)*G0*TTR*nid()*vt((TEMPK + V(tj)))*(sp(V(etas)) - sp(V(etas) - (TYPE*V(di,si))/(nid()*vt((TEMPK + V(tj))))))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Betas etas 0 V = ALPHA*((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(nid()*vt(tdc(V(tj))))
+Bids di dx I = TYPE*(DCNT*weff()*(1-FMET)*G0*TTR*nid()*vt(tdc(V(tj)))*(sp(V(etas)) - sp(V(etas) - (TYPE*V(di,si))/(nid()*vt(tdc(V(tj))))))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 + + FMET*DCNT*weff()*G0*TTR*(TYPE*V(di,si)))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}
@@ -241,6 +247,7 @@ Rb b si 1e12
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -253,14 +260,14 @@ Rb b si 1e12
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * Landauer quasi-ballistic current (CNT array), n-type convention; eta_s on an auxiliary node
-Betas etas 0 V = ALPHA*((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(nid()*vt((TEMPK + V(tj))))
-Bids di dx I = TYPE*(DCNT*weff()*(1-FMET)*G0*TTR*nid()*vt((TEMPK + V(tj)))*(sp(V(etas)) - sp(V(etas) - (TYPE*V(di,si))/(nid()*vt((TEMPK + V(tj))))))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Betas etas 0 V = ALPHA*((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(nid()*vt(tdc(V(tj))))
+Bids di dx I = TYPE*(DCNT*weff()*(1-FMET)*G0*TTR*nid()*vt(tdc(V(tj)))*(sp(V(etas)) - sp(V(etas) - (TYPE*V(di,si))/(nid()*vt(tdc(V(tj))))))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 + + FMET*DCNT*weff()*G0*TTR*(TYPE*V(di,si)))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}
@@ -279,6 +286,7 @@ Rb b si 1e12
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -291,14 +299,14 @@ Rb b si 1e12
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
-Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
-Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
-Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Bvov vov 0 V = 2*nid()*vt(tdc(V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(2*nid()*vt(tdc(V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut(tdc(V(tj)))))
+Bids di dx I = TYPE*mut(tdc(V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut(tdc(V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}
@@ -317,6 +325,7 @@ Rb b si 1e12
 .func sp(x) {x > 40 ? x : ln(1 + exp(x))}
 .func sabs(x) {sqrt(x*x + 1e-6)}
 .func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func tdc(x) {TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}
 .func vt(td) {KBOLTZ*td/QE}
 .func coxeff() {COX*CQ/(COX + CQ)}
 .func nid() {N0*(1 + QE*DIT/COX)}
@@ -329,14 +338,14 @@ Rb b si 1e12
 Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
 Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
 * drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
-Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
-Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
-Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Bvov vov 0 V = 2*nid()*vt(tdc(V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),tdc(V(tj))))/(2*nid()*vt(tdc(V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut(tdc(V(tj)))))
+Bids di dx I = TYPE*mut(tdc(V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut(tdc(V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
 Vsns dx si 0
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
-Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
-Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), tdc(V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), tdc(V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
 Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
 Cth tj 0 {CTH}

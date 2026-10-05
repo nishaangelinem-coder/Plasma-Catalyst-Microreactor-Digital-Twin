@@ -26,23 +26,32 @@ def point(args):
     return r
 
 
-def main():
+def merge_write(rows, name, pls):
+    """Write rows; when a platform subset is re-run, merge into the existing table."""
+    path = os.path.join(RES, name)
+    if pls and os.path.exists(path):
+        old = [r for r in csv.DictReader(open(path)) if r["platform"] not in pls]
+        rows = sorted(old + rows, key=lambda r: (PLATFORM_ORDER.index(r["platform"]), float(r["vdd"]), float(r["temp_c"])))
+    with open(path, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=KEYS); w.writeheader(); w.writerows(rows)
+
+
+def main(pls=None):
     jobs = []
-    for pl in PLATFORM_ORDER:
+    for pl in (pls or PLATFORM_ORDER):
         a, b, s = PLATFORMS[pl]["vdd_sweep"]
         for vdd in np.round(np.arange(a, b + 1e-9, s), 3):
             jobs.append((pl, float(vdd), 27.0))
     with Pool(os.cpu_count()) as p:
         rows = p.map(point, jobs, chunksize=1)
-    with open(os.path.join(RES, "vdd_sweep.csv"), "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=KEYS); w.writeheader(); w.writerows(rows)
-    jobs = [(pl, PLATFORMS[pl]["vdd"], float(t)) for pl in PLATFORM_ORDER for t in PLATFORMS[pl]["temps"]]
+    merge_write(rows, "vdd_sweep.csv", pls)
+    jobs = [(pl, PLATFORMS[pl]["vdd"], float(t)) for pl in (pls or PLATFORM_ORDER) for t in PLATFORMS[pl]["temps"]]
     with Pool(os.cpu_count()) as p:
         rows = p.map(point, jobs, chunksize=1)
-    with open(os.path.join(RES, "temp_sweep.csv"), "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=KEYS); w.writeheader(); w.writerows(rows)
+    merge_write(rows, "temp_sweep.csv", pls)
     print("wrote results/vdd_sweep.csv and results/temp_sweep.csv")
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1:] or None)

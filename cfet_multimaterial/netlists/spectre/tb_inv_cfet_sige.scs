@@ -16,7 +16,7 @@ include "inv_cfet_sige.scs"
 // ---- design variables ------------------------------------------------------------
 parameters VDD=0.7 CLOAD=1f TEMP=27
 parameters CSTACK=0.05f COUT=0.3f RLOCAL=10
-parameters Lg=16n NNSn=3 NNSp=3 WNS=20n RSW=1e-4 VTHN=0.25 VTHP=0.22 MUN=0.030 MUP=0.025
+parameters Lg=1.6e-08 NNSn=3 NNSp=3 WNS=2e-08 RSW=5.31365e-05 VTHN=0.345646 VTHP=0.361885 MUN=0.00752841 MUP=0.00760775   // calibrated
 
 // ---- circuit ------------------------------------------------------------------------
 V1  (vdd 0) vsource type=dc dc=VDD

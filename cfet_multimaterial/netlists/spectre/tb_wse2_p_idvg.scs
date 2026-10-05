@@ -22,7 +22,7 @@ parameters VDSLIN=0.05 VDSSAT=0.5 VGSMAX=0.8
 // p-type convention: the model works on V_sg / V_sd, so the testbench applies
 // -VGS and -VDS (source at 0 V); |Id| = +I(VD:p).
 M0 (d g 0 0) wse2_p W=Wp L=Lg VTH0=VTHP MU0=MUP RC=RCP DIT=DIT \
-    N0=1.20 ETA=0.09 COX=0.020 CQ=0.025 VSAT=2.5e4 LAMBDA=0.12 RSW=0 RDW=0 CGSO=5e-11 CGDO=5e-11 TNOM=300 MUEXP=1.0 KVTH=-1.5e-3
+    NNS=0 WNS=2e-08 TNS=5e-09 N0=1.2386 ETA=0.0773366 COX=0.0345 VSAT=120000 LAMBDA=0.3 RSW=0.0008 RDW=0.0008 CGSO=2e-10 CGDO=2e-10 TNOM=300 MUEXP=1 KVTH=-0.0011 CQ=1.1 RTH=0 CTH=1e-12 DCNT=0 FMET=0 TTR=0 ALPHA=1   // calibrated defaults (data/calibrated_params.json)
 
 // ---- bias sources ------------------------------------------------------------
 VG (g 0) vsource type=dc dc=-VGS

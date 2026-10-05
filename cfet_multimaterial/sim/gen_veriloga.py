@@ -84,6 +84,8 @@ analog begin
     if (NNS > 0) weff = NNS*2.0*(WNS + TNS); else weff = W;
     tamb    = $temperature;
     tdev    = tamb + V(tj);                              // V(tj) = 0 unless RTH > 0
+    if (tdev < tamb - 150.0) tdev = tamb - 150.0;        // numerical clamp of the temperature rise
+    if (tdev > tamb + 1500.0) tdev = tamb + 1500.0;      // (keeps Newton iterations physical)
     vt      = `P_K*tdev/`P_Q;
     cox_eff = COX*CQ/(COX + CQ);                        // series quantum capacitance
     n       = N0*(1.0 + `P_Q*DIT/COX);                   // trap-limited ideality

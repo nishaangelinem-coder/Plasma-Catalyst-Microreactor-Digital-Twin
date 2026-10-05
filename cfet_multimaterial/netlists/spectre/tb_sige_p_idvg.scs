@@ -15,14 +15,14 @@ ahdl_include "../../veriloga/sige_p.va"
 
 // ---- design variables (same names as the ADE design variables) --------------
 parameters VGS=0 VDS=0.05 TEMP=27
-parameters Lg=16n NNSn=3 NNSp=3 WNS=20n RSW=1e-4 VTHN=0.25 VTHP=0.22 MUN=0.030 MUP=0.025
+parameters Lg=1.6e-08 NNSn=3 NNSp=3 WNS=2e-08 RSW=5.31365e-05 VTHN=0.345646 VTHP=0.361885 MUN=0.00752841 MUP=0.00760775   // calibrated
 parameters VDSLIN=0.05 VDSSAT=0.6 VGSMAX=0.8
 
 // ---- device under test  (terminals d g s b; source and body at ground) ------
 // p-type convention: the model works on V_sg / V_sd, so the testbench applies
 // -VGS and -VDS (source at 0 V); |Id| = +I(VD:p).
 M0 (d g 0 0) sige_p L=Lg NNS=NNSp WNS=WNS VTH0=VTHP MU0=MUP RSW=RSW RDW=RSW \
-    TNS=5n N0=1.12 ETA=0.08 COX=0.040 VSAT=8e4 LAMBDA=0.06 CGSO=1e-10 CGDO=1e-10 TNOM=300 MUEXP=1.5 KVTH=-1e-3
+    W=1e-07 TNS=5e-09 N0=1.20376 ETA=0.0574635 COX=0.043 VSAT=225000 LAMBDA=0.3 CGSO=3.2e-10 CGDO=3.2e-10 TNOM=300 MUEXP=1.2 KVTH=-0.001 CQ=1e9 DIT=0 RC=0 RTH=0 CTH=1e-12 DCNT=0 FMET=0 TTR=0 ALPHA=1   // calibrated defaults (data/calibrated_params.json)
 
 // ---- bias sources ------------------------------------------------------------
 VG (g 0) vsource type=dc dc=-VGS

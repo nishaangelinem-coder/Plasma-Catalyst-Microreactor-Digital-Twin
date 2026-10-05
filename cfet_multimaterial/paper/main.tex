@@ -1,11 +1,10 @@
 \documentclass[journal]{IEEEtran}
-\usepackage{amsmath,amssymb,graphicx,booktabs,multirow,url,xcolor,siunitx,balance}
+\usepackage{amsmath,amssymb,graphicx,booktabs,multirow,url,xcolor,balance}
 \usepackage[caption=false,font=footnotesize]{subfig}
 \usepackage[hidelinks]{hyperref}
 \graphicspath{{../figures/}{../schematics/}{../layout/png/}}
 \input{numbers.tex}
 \newcommand{\ucm}{UCM-CFET}
-\sisetup{detect-all}
 
 \begin{document}
 \title{A Unified Physics-Based Compact Model and Calibrated Circuit-Validation Flow for Multi-Material CFET Logic: Si, SiGe, MoS$_2$/WSe$_2$, CNT and GaN}
@@ -36,14 +35,14 @@ This paper makes four contributions. First, a unified compact model (\ucm) with 
 \caption{The five CFET material platforms and their maturity.}
 \label{tab:platforms}
 \centering\footnotesize
-\begin{tabular}{llllc}
+\begin{tabular}{@{}lllp{2.55cm}c@{}}
 \hline
-ID & Bottom (n) & Top (p) & Purpose & $V_{DD}$ (V) \\ \hline
-CFET-Si & Si GAA NS & Si GAA NS & baseline logic (advanced node) & 0.7 \\
-CFET-SiGe & Si GAA NS & SiGe GAA NS & p-FET mobility boost (advanced node) & 0.7 \\
-CFET-TMD & MoS$_2$ & WSe$_2$ & low-$V_{DD}$, contact-limited (emerging) & 0.5 \\
-CFET-CNT & n-CNTFET & p-CNTFET & quasi-ballistic post-Si (emerging) & 0.6 \\
-CFET-GaN & n-GaN & p-GaN (proj.) & high-$T$/power-control (exploratory) & 1.2 \\ \hline
+ID & Bottom (n) & Top (p) & Purpose (maturity) & $V_{DD}$ \\ \hline
+CFET-Si & Si GAA NS & Si GAA NS & baseline logic (advanced node) & 0.7 V \\
+CFET-SiGe & Si GAA NS & SiGe GAA NS & p-FET mobility boost (advanced node) & 0.7 V \\
+CFET-TMD & MoS$_2$ & WSe$_2$ & low-$V_{DD}$, contact-limited (emerging) & 0.5 V \\
+CFET-CNT & n-CNTFET & p-CNTFET & quasi-ballistic post-Si (emerging) & 0.6 V \\
+CFET-GaN & n-GaN & p-GaN (proj.) & high-$T$, power-control (exploratory) & 1.2 V \\ \hline
 \end{tabular}
 \end{table}
 
@@ -62,7 +61,8 @@ V_{ov} = 2nV_T \ln\!\left[1+\exp\!\left(\frac{V_{GS}-V_{TH,eff}}{2nV_T}\right)\r
 \end{equation}
 so that $V_{ov}^2 \propto \exp[(V_{GS}-V_{TH})/nV_T]$ in weak inversion (subthreshold slope $nV_T\ln 10$) and $V_{ov}\to V_{GS}-V_{TH}$ in strong inversion. Drain-induced barrier lowering enters as $V_{TH,eff} = V_{TH,T} - \eta\sqrt{V_{DS}^2+\delta^2}$ and the temperature dependence as $V_{TH,T} = V_{TH0}+k_{VTH}(T_{dev}-T_{nom})$, $\mu_T=\mu_0(T_{dev}/T_{nom})^{-m_\mu}$. The drift--diffusion branch with velocity saturation is
 \begin{equation}
-I_D = \frac{\beta V_{ov}^2}{2\left(1+V_{ov}/V_{sat,v}\right)}\tanh\!\left(\frac{2V_{DS}}{V_{dsat}}\right)\left(1+\lambda|V_{DS}|\right),
+I_D = I_{sat}\tanh\!\left(\frac{2V_{DS}}{V_{dsat}}\right)\left(1+\lambda|V_{DS}|\right),\quad
+I_{sat} = \frac{\beta V_{ov}^2}{2\left(1+\dfrac{V_{ov}}{V_{sat,v}}\right)},
 \label{eq:id}
 \end{equation}
 with $\beta=\mu_T C_{ox,eff}W/L$, $V_{sat,v}=v_{sat}L/\mu_T$ and $V_{dsat}=V_{ov}/(1+V_{ov}/V_{sat,v})$. The factor 2 in the $\tanh$ argument makes the low-$V_{DS}$ conductance exactly $\beta V_{ov}$ while the saturation current retains the square law for long channels and the velocity-saturated limit $C_{ox}Wv_{sat}V_{ov}/2$ for short channels \cite{Lundstrom2002}; the function is odd in $V_{DS}$ and infinitely differentiable, which is what the Newton iterations of a circuit simulator need. Series resistances $R_S=R_{SW}/W$ and $R_D=R_{DW}/W$ act between the external and internal nodes.
@@ -105,12 +105,12 @@ Seven parameters are fitted per device by bounded non-linear least squares on $\
 \centering\scriptsize
 \input{tables/tab_devparams.tex}
 \end{table*}
-\begin{table}[!t]
+\begin{table*}[!t]
 \caption{Calibration error and figures of merit (model vs. reference).}
 \label{tab:calibration}
 \centering\scriptsize
 \input{tables/tab_calibration.tex}
-\end{table}
+\end{table*}
 \begin{figure}[!t]
 \centering\includegraphics[width=\columnwidth]{fig04_calibration_mape.png}
 \caption{(a) MAPE per device and data set; (b) parity of model vs. reference figures of merit.}
@@ -148,12 +148,12 @@ Oscillation is started identically for every platform by an initial condition $V
 \caption{5-stage RO waveforms $V(n_3)$ for the five platforms, four cycles after cycle 10 (the measurement window).}
 \label{fig:waves}
 \end{figure}
-\begin{table}[!t]
+\begin{table*}[!t]
 \caption{Nominal inverter and 5-stage RO figures of merit (27$^\circ$C).}
 \label{tab:nominal}
 \centering\scriptsize
 \input{tables/tab_nominal.tex}
-\end{table}
+\end{table*}
 Table~\ref{tab:nominal} and Figs.~\ref{fig:vtc}--\ref{fig:waves} give the nominal results. All five inverters are functional with $V_M/V_{DD}$ between \vmgan\ and \vmsi, gains between \gaintmd\ and \gaincnt\ and both noise margins above $0.28V_{DD}$; the SiGe p-FET moves $V_M$ of the SiGe cell closer to $V_{DD}/2$ than the Si cell (\vmsige\ vs. \vmsi) and shortens the low-to-high transition. The 5-stage RO frequencies are \frosi, \frosige, \frotmd, \frocnt\ and \frogan~GHz for Si, SiGe, TMD, CNT and GaN. Stage delays extracted from the 5-, 7- and 9-stage ROs agree within 1\%, which confirms the $1/(2Nf_{RO})$ extraction, while $E_{cycle}$ scales with $N$ as expected. The CNT platform is the fastest (quasi-ballistic injection, small gate charge) and has the second-lowest energy per cycle (\ecyccnt~fJ); the TMD platform is $7\times$ slower than Si at 0.5~V because of its 0.5--0.8~k$\Omega\cdot\mu$m contacts but has the lowest energy per cycle (\ecyctmd~fJ); the GaN platform is limited by the projected p-GaN device (hole mobility 20~cm$^2$/Vs, 3$\times$ up-sized) to \frogan~GHz and \ecycgan~fJ at 1.2~V. In the nominal GaN RO the average dissipation per device is only tens of microwatts, so the steady-state self-heating is a few kelvin and changes $f_{RO}$ by $<0.1$\%; it becomes significant only in the $R_{th}$ and temperature study below.
 
 \subsection{Unified $V_{DD}$ and temperature sweeps}

@@ -40,9 +40,9 @@ subckt inv_cfet_sige (in out vdd vss)
 parameters CSTACK=0.05f COUT=0.3f RLOCAL=10 \
     Lg=16n NNSn=3 NNSp=3 WNS=20n RSW=1e-4 VTHN=0.25 VTHP=0.22 MUN=0.030 MUP=0.025
     MP (pd in vdd vdd) sige_p L=Lg NNS=NNSp WNS=WNS VTH0=VTHP MU0=MUP RSW=RSW RDW=RSW \
-        TNS=5n N0=1.12 ETA=0.08 COX=0.040 VSAT=8e4 LAMBDA=0.06 CGSO=1e-10 CGDO=1e-10 TNOM=300 MUEXP=1.5 KVTH=-1e-3
+    W=1e-07 TNS=5e-09 N0=1.20376 ETA=0.0574635 COX=0.043 VSAT=225000 LAMBDA=0.3 CGSO=3.2e-10 CGDO=3.2e-10 TNOM=300 MUEXP=1.2 KVTH=-0.001 CQ=1e9 DIT=0 RC=0 RTH=0 CTH=1e-12 DCNT=0 FMET=0 TTR=0 ALPHA=1   // calibrated defaults (data/calibrated_params.json)
     MN (nd in vss vss) gaa_n L=Lg NNS=NNSn WNS=WNS VTH0=VTHN MU0=MUN RSW=RSW RDW=RSW \
-        TNS=5n N0=1.10 ETA=0.06 COX=0.040 VSAT=1e5 LAMBDA=0.05 CGSO=1e-10 CGDO=1e-10 TNOM=300 MUEXP=1.5 KVTH=-1e-3
+    W=1e-07 TNS=5e-09 N0=1.14212 ETA=0.0458488 COX=0.043 VSAT=250000 LAMBDA=0.3 CGSO=3e-10 CGDO=3e-10 TNOM=300 MUEXP=1.3 KVTH=-0.0008 CQ=1e9 DIT=0 RC=0 RTH=0 CTH=1e-12 DCNT=0 FMET=0 TTR=0 ALPHA=1   // calibrated defaults (data/calibrated_params.json)
     Rlocal_p (pd out) resistor r=RLOCAL
     Rlocal_n (nd out) resistor r=RLOCAL
     Cstack   (pd nd)  capacitor c=CSTACK

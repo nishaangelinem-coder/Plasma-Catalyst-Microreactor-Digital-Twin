@@ -1,0 +1,12 @@
+nns si NNSn 2 NNSp 2 fRO=1.637e+10
+nns si NNSn 2 NNSp 4 fRO=1.818e+10
+nns si NNSn 2 NNSp 5 fRO=1.81e+10
+nns si NNSn 2 NNSp 3 fRO=1.779e+10
+nns si NNSn 3 NNSp 5 fRO=2.075e+10
+nns si NNSn 3 NNSp 3 fRO=1.939e+10
+nns si NNSn 3 NNSp 2 fRO=1.716e+10
+nns si NNSn 3 NNSp 4 fRO=2.039e+10
+nns si NNSn 4 NNSp 4 fRO=2.135e+10
+nns si NNSn 4 NNSp 2 fRO=1.714e+10
+nns si NNSn 4 NNSp 3 fRO=1.988e+10
+nns si NNSn 4 NNSp 5 fRO=2.21e+10

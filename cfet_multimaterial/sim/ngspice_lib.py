@@ -25,7 +25,7 @@ def load_calibrated():
 def subckt(name, dev, params):
     sign = 1 if dev["polarity"] == "n" else -1
     plist = " ".join(f"{k}={fmt(params[k])}" for k in PARAM_ORDER)
-    td = "(TEMPK + V(tj))"
+    td = "tdc(V(tj))"
     vgs, vds = "(TYPE*V(g,si))", "(TYPE*V(di,si))"
     if dev["transport"] == TRANSPORT_LANDAUER:
         core = (f"* Landauer quasi-ballistic current (CNT array), n-type convention; eta_s on an auxiliary node\n"
@@ -50,6 +50,7 @@ def subckt(name, dev, params):
 .func sp(x) {{x > 40 ? x : ln(1 + exp(x))}}
 .func sabs(x) {{sqrt(x*x + 1e-6)}}
 .func weff() {{NNS > 0 ? NNS*2*(WNS + TNS) : W}}
+.func tdc(x) {{TEMPK + (x > -150 ? (x < 1500 ? x : 1500) : -150)}}
 .func vt(td) {{KBOLTZ*td/QE}}
 .func coxeff() {{COX*CQ/(COX + CQ)}}
 .func nid() {{N0*(1 + QE*DIT/COX)}}
@@ -65,7 +66,7 @@ Rs s si R={{(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}}
 * terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
 Cgs g si Q = TYPE*(qg({vgs}, {td}) + CGSO*weff()*{vgs})
 Cgd g di Q = TYPE*(qg(TYPE*V(g,di), {td}) + CGDO*weff()*TYPE*V(g,di))
-* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+* self-heating thermal node (temperature rise in volts == kelvin, clamped to [-150, 1500] K in tdc()); RTH=0 -> node held at 0
 Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*{vds}
 Rth tj 0 R={{RTH > 0 ? RTH : 1e-3}}
 Cth tj 0 {{CTH}}
