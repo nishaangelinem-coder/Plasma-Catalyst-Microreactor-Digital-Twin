@@ -1,0 +1,34 @@
+;; =============================================================================
+;; sensitivity_cnt.ocn -- CFET-CNT sensitivities
+;;   DCNT : low / nominal / high tube density = 125e6, 250e6, 500e6 tubes/m
+;;          (125, 250, 500 tubes/um)
+;;   FMET : metallic-tube fraction 0, 0.5, 1, 1.5, 2 %
+;;   RC   : per-tube contact resistance 50 .. 1000 Ohm*um -> 5e-5 .. 1e-3 Ohm*m
+;;          applied to RCN and RCP together
+;;   appends results/sensitivity_cnt.csv
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetSensRowCnt(plat param val r)
+  cfetMsg("  %s=%g  fRO=%g tpd=%g Pavg=%g Ecycle=%g PDP=%g" param val
+          nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))
+  cfetAppendRow(strcat(CFET_RESULTS "/sensitivity_cnt.csv")
+    list("platform" "parameter" "value_SI" "fRO_Hz" "tpd_s" "Pavg_W" "Ecycle_J" "PDP_J")
+    list(plat->name param val nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))))
+
+procedure(cfetRunSensCnt(plat)
+  cfetMsg("sensitivity %s" plat->label)
+  foreach(d list(125e6 250e6 500e6)
+    cfetSensRowCnt(plat "DCNT" d
+      cfetRunRoPoint(plat sprintf(nil "sens_dcnt%g" d) list(list("DCNT" d)))))
+  foreach(f list(0.0 0.005 0.01 0.015 0.02)
+    cfetSensRowCnt(plat "FMET" f
+      cfetRunRoPoint(plat sprintf(nil "sens_fmet%g" f) list(list("FMET" f)))))
+  foreach(rc foreach(mapcar k list(50 100 200 500 1000) k * 1e-6)   ; Ohm*um -> Ohm*m
+    cfetSensRowCnt(plat "RC" rc
+      cfetRunRoPoint(plat sprintf(nil "sens_rc%g" rc) list(list("RCN" rc) list("RCP" rc)))))
+  t)
+
+foreach(plat cfetSelectedPlatforms()
+  when(plat->name == "cnt" cfetRunSensCnt(plat)))
+cfetMsg("sensitivity_cnt.ocn done")

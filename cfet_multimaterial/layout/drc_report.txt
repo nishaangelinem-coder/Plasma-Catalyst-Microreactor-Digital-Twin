@@ -1,0 +1,217 @@
+CFET multi-material conceptual layout — DRC report
+Rule sets: A = 3-nm-class (Si, SiGe, TMD, CNT), B = GaN projected (see design_rules.md)
+Boolean precision 0.01 nm, tolerance 0.2 nm; checks run on flattened cells.
+
+== inv_cfet_si (rule set) ==
+  NS_BOT    n=  1  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n=  1  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n=  1  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n=  1  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n=  2  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n=  2  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n=  1  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n=  4  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n=  2  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n=  2  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> inv_cfet_si: 0 violation(s)
+
+== ro5_cfet_si (rule set) ==
+  NS_BOT    n=  5  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n=  5  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n=  5  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n=  5  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n= 10  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n= 10  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n=  5  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n= 28  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n= 10  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n= 13  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> ro5_cfet_si: 0 violation(s)
+
+== inv_cfet_sige (rule set) ==
+  NS_BOT    n=  1  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n=  1  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n=  1  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n=  1  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n=  2  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n=  2  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n=  1  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n=  4  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n=  2  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n=  2  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> inv_cfet_sige: 0 violation(s)
+
+== ro5_cfet_sige (rule set) ==
+  NS_BOT    n=  5  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n=  5  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n=  5  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n=  5  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n= 10  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n= 10  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n=  5  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n= 28  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n= 10  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n= 13  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> ro5_cfet_sige: 0 violation(s)
+
+== inv_cfet_tmd (rule set) ==
+  NS_BOT    n=  1  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n=  1  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n=  1  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n=  1  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n=  2  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n=  2  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n=  1  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n=  4  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n=  2  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n=  2  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> inv_cfet_tmd: 0 violation(s)
+
+== ro5_cfet_tmd (rule set) ==
+  NS_BOT    n=  5  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n=  5  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n=  5  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n=  5  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n= 10  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n= 10  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n=  5  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n= 28  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n= 10  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n= 13  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> ro5_cfet_tmd: 0 violation(s)
+
+== inv_cfet_cnt (rule set) ==
+  NS_BOT    n=  1  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n=  1  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n=  1  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n=  1  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n=  2  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n=  2  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n=  1  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n=  4  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n=  2  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n=  2  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> inv_cfet_cnt: 0 violation(s)
+
+== ro5_cfet_cnt (rule set) ==
+  NS_BOT    n=  5  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n=  5  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n=  5  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n=  5  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n= 10  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n= 10  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n=  5  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n= 28  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n= 10  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n= 13  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> ro5_cfet_cnt: 0 violation(s)
+
+== inv_cfet_gan (rule set) ==
+  NS_BOT    n=  1  min_width(80 nm): 0 viol   min_space(40 nm): 0 viol
+  NS_TOP    n=  1  min_width(80 nm): 0 viol   min_space(40 nm): 0 viol
+  GATE      n=  1  min_width(100 nm): 0 viol   min_space(100 nm): 0 viol
+  CT_GATE   n=  1  min_width(50 nm): 0 viol   min_space(100 nm): 0 viol
+  CT_BOT    n=  2  min_width(80 nm): 0 viol   min_space(80 nm): 0 viol
+  CT_TOP    n=  2  min_width(80 nm): 0 viol   min_space(80 nm): 0 viol
+  VIA_TIER  n=  1  min_width(50 nm): 0 viol   min_space(100 nm): 0 viol
+  M0        n=  4  min_width(50 nm): 0 viol   min_space(50 nm): 0 viol
+  VIA0      n=  2  min_width(50 nm): 0 viol   min_space(50 nm): 0 viol
+  M1        n=  2  min_width(50 nm): 0 viol   min_space(50 nm): 0 viol
+  GATE-to-CT space (30 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (15 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (15 nm): 0 viol
+  CT_GATE in GATE [GATE] (25 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> inv_cfet_gan: 0 violation(s)
+
+== ro5_cfet_gan (rule set) ==
+  NS_BOT    n=  5  min_width(80 nm): 0 viol   min_space(40 nm): 0 viol
+  NS_TOP    n=  5  min_width(80 nm): 0 viol   min_space(40 nm): 0 viol
+  GATE      n=  5  min_width(100 nm): 0 viol   min_space(100 nm): 0 viol
+  CT_GATE   n=  5  min_width(50 nm): 0 viol   min_space(100 nm): 0 viol
+  CT_BOT    n= 10  min_width(80 nm): 0 viol   min_space(80 nm): 0 viol
+  CT_TOP    n= 10  min_width(80 nm): 0 viol   min_space(80 nm): 0 viol
+  VIA_TIER  n=  5  min_width(50 nm): 0 viol   min_space(100 nm): 0 viol
+  M0        n= 28  min_width(50 nm): 0 viol   min_space(50 nm): 0 viol
+  VIA0      n= 10  min_width(50 nm): 0 viol   min_space(50 nm): 0 viol
+  M1        n= 13  min_width(50 nm): 0 viol   min_space(50 nm): 0 viol
+  GATE-to-CT space (30 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (15 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (15 nm): 0 viol
+  CT_GATE in GATE [GATE] (25 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> ro5_cfet_gan: 0 violation(s)
+
+== CFET_MULTIMATERIAL_TOP (rule set) ==
+  NS_BOT    n= 25  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  NS_TOP    n= 25  min_width(20 nm): 0 viol   min_space(16 nm): 0 viol
+  GATE      n= 25  min_width(16 nm): 0 viol   min_space(29 nm): 0 viol
+  CT_GATE   n= 25  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_BOT    n= 50  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  CT_TOP    n= 50  min_width(16 nm): 0 viol   min_space(24 nm): 0 viol
+  VIA_TIER  n= 25  min_width(12 nm): 0 viol   min_space(24 nm): 0 viol
+  M0        n=140  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  VIA0      n= 50  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  M1        n= 65  min_width(12 nm): 0 viol   min_space(12 nm): 0 viol
+  GATE-to-CT space (8 nm): 0 viol
+  VIA_TIER enclosure [CT_BOT] (2 nm): 0 viol
+  VIA_TIER enclosure [CT_TOP] (2 nm): 0 viol
+  CT_GATE in GATE [GATE] (2 nm): 0 viol
+  VIA0 in M0 & M1 [M0] (0 nm): 0 viol
+  VIA0 in M0 & M1 [M1] (0 nm): 0 viol
+  -> CFET_MULTIMATERIAL_TOP: 0 violation(s)
+
+== CFET_MULTIMATERIAL_TOP block placement ==
+  RO block gaps (nm): 100, 100, 100, 100  (>= 100 nm): 0 viol
+
+TOTAL VIOLATIONS: 0  -> DRC CLEAN

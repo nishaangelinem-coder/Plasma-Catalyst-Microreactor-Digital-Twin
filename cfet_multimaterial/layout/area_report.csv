@@ -1,0 +1,11 @@
+cell,platform,cell_width_nm,cell_height_nm,area_um2
+inv_cfet_si,si,90,96,0.008640
+ro5_cfet_si,si,450,120,0.054000
+inv_cfet_sige,sige,90,96,0.008640
+ro5_cfet_sige,sige,450,120,0.054000
+inv_cfet_tmd,tmd,108,96,0.010368
+ro5_cfet_tmd,tmd,540,120,0.064800
+inv_cfet_cnt,cnt,108,96,0.010368
+ro5_cfet_cnt,cnt,540,120,0.064800
+inv_cfet_gan,gan,400,400,0.160000
+ro5_cfet_gan,gan,2000,500,1.000000

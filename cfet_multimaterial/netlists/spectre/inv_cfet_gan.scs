@@ -1,0 +1,50 @@
+// =============================================================================
+// inv_cfet_gan.scs
+// CFET-GaN CFET inverter sub-circuit: gan_p stacked over gan_n + CFET parasitics
+// Hand-written Spectre netlist equivalent to CFET_LIB/inv_cfet_gan/schematic
+// (cadence/skill/build_schematics.il). Included by tb_inv_cfet_gan.scs and ro5_cfet_gan.scs
+// (not a top-level netlist: it carries no analyses and no top-level parameters).
+// Units: SI throughout (m, V, A, F, Ohm; RSW/RDW/RC in Ohm*m, DIT in m^-2 eV^-1,
+// DCNT in tubes/m, RTH in K/W, CTH in J/K). Suffixes: f=1e-15 p=1e-12 n=1e-9 u=1e-6.
+// =============================================================================
+simulator lang=spectre
+global 0
+
+// ---- compact models -----------------------------------------------------------
+ahdl_include "../../veriloga/gan_n.va"
+ahdl_include "../../veriloga/gan_p.va"
+
+// NOTE: no top-level `parameters` here -- the including testbench defines the
+// design variables (Wn=1u Wp=4u Lg=100n VTHN=0.30 VTHP=0.50 MUN=0.15 MUP=2e-3 RTH=2e5 CTH=1e-12)
+// and passes them to every instance; duplicate top-level definitions would be
+// rejected by Spectre.
+
+// -------------------------------------------------------------------------------
+// inv_cfet_gan (in out vdd vss)
+//
+//            vdd ---- s,b  MP (gan_p)  d ---- pd ---[Rlocal_p]---+
+//   in ---- g                                                        |-- out --[Cout]-- vss
+//            vss ---- s,b  MN (gan_n)  d ---- nd ---[Rlocal_n]---+
+//                                 [Cstack] between pd and nd (vertical n/p stack)
+//
+// CFET parasitics (mid-range defaults of the brief):
+//   CSTACK  stacked-drain coupling capacitance    0.1f
+//   COUT    output / local interconnect capacitance 1f
+//   RLOCAL  local via / drain-to-output resistance  20 Ohm (one per device)
+// The device variables are SUBCIRCUIT parameters (numeric nominal defaults) so
+// that Spectre `mismatch` statistics (cadence/ade/mc_statistics.scs) sample them
+// per inverter instance; the testbench passes VTHN=VTHN etc. so the global
+// `process` variation of the top-level parameter is inherited as well.
+// -------------------------------------------------------------------------------
+subckt inv_cfet_gan (in out vdd vss)
+parameters CSTACK=0.1f COUT=1f RLOCAL=20 \
+    Wn=1u Wp=4u Lg=100n VTHN=0.30 VTHP=0.50 MUN=0.15 MUP=2e-3 RTH=2e5 CTH=1e-12
+    MP (pd in vdd vdd) gan_p W=Wp L=Lg VTH0=VTHP MU0=MUP RTH=RTH CTH=CTH \
+        N0=1.30 ETA=0.04 COX=0.015 VSAT=5e4 LAMBDA=0.03 RSW=1e-3 RDW=1e-3 CGSO=1.5e-10 CGDO=1.5e-10 TNOM=300 MUEXP=1.5 KVTH=-2e-3
+    MN (nd in vss vss) gan_n W=Wn L=Lg VTH0=VTHN MU0=MUN RTH=RTH CTH=CTH \
+        N0=1.20 ETA=0.03 COX=0.015 VSAT=2e5 LAMBDA=0.02 RSW=3e-4 RDW=3e-4 CGSO=1.5e-10 CGDO=1.5e-10 TNOM=300 MUEXP=1.5 KVTH=-2e-3
+    Rlocal_p (pd out) resistor r=RLOCAL
+    Rlocal_n (nd out) resistor r=RLOCAL
+    Cstack   (pd nd)  capacitor c=CSTACK
+    Cout     (out vss) capacitor c=COUT
+ends inv_cfet_gan

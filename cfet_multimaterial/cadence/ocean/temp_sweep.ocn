@@ -1,0 +1,32 @@
+;; =============================================================================
+;; temp_sweep.ocn -- RO5 and inverter FoM versus temperature
+;;   TEMP = -40, 27, 85, 125 C  (GaN additionally 150, 200 C)
+;;   Temperature enters through temp() (ADE "Temperature" field); the design
+;;   variable TEMP of the brief is kept in sync for bookkeeping.
+;;   appends results/temp_sweep.csv
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetRunTempSweep(plat)
+  let((tb n vdd r)
+    n   = plat->stages
+    vdd = plat->vdd
+    tb  = sprintf(nil "tb_ro%d_cfet_%s" n plat->name)
+    foreach(T plat->temps
+      cfetMsg("temperature sweep %s: T=%g C" plat->label T)
+      cfetSetup(tb plat sprintf(nil "temp%g" T))
+      desVar("TEMP" T)
+      temp(T)
+      analysis('tran ?stop plat->roStop ?maxstep plat->roMaxstep ?errpreset 'conservative)
+      save('v "/out") save('i "/VDD/PLUS")
+      ic("/out" 0.0)
+      run()
+      selectResult('tran)
+      r = cfetRoFomFromWaves(v("/out") vdd * minus(i("/VDD/PLUS")) vdd n)
+      cfetAppendRow(strcat(CFET_RESULTS "/temp_sweep.csv")
+        list("platform" "N" "TEMP_C" "VDD_V" "fRO_Hz" "tpd_s" "Pavg_W" "Ecycle_J" "PDP_J")
+        list(plat->name n T vdd nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))))
+    t))
+
+foreach(plat cfetSelectedPlatforms() cfetRunTempSweep(plat))
+cfetMsg("temp_sweep.ocn done")

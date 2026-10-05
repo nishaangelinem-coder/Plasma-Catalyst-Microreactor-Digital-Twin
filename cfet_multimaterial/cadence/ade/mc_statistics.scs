@@ -1,0 +1,135 @@
+// =============================================================================
+// mc_statistics.scs -- Spectre statistics blocks for the CFET Monte Carlo runs
+//
+// Usage
+//   ADE Assembler : Setup -> Model Libraries -> add this file with Section =
+//                   <platform>  (si | sige | tmd | cnt | gan)
+//   OCEAN         : modelFile(list("<path>/mc_statistics.scs" "si"))
+//   netlist       : include "../../cadence/ade/mc_statistics.scs" section=si
+//
+// How the variations reach the devices
+//   ADE emits every design variable as a top-level `parameters` statement
+//   (VTHN=0.25 VTHP=0.25 MUN=0.03 ...). The inverter cell inv_cfet_<plat>
+//   re-declares the device variables as SUBCIRCUIT parameters (build_schematics.il
+//   cfetInverterVarParams; in the hand-written netlists they are the subckt
+//   `parameters` line). Spectre's rules:
+//     * process  { vary P ... }  -> one random value of P per Monte Carlo
+//                                   sample, shared by every instance (global
+//                                   shift, e.g. work-function / lithography)
+//     * mismatch { vary P ... }  -> independent sample per subcircuit instance
+//                                   that declares P as its own parameter
+//                                   (local device-to-device variation)
+//   dist=gauss std=<sigma> [percent=yes]   normal, absolute or relative sigma
+//   dist=lnorm std=<sigma_ln>              log-normal, sigma in natural-log units
+//   dist=unif  N=<half-range>              uniform in [nominal-N, nominal+N]
+//   Values are truncated at +-4 sigma by default (`truncate=4` can be added).
+//
+// The sigmas below are the plausible, literature-level assumptions used in the
+// paper (device-count/area scaling of mismatch is folded into the numbers):
+//   Si   : VTH0 20 mV (work-function via VTH0), WNS 1 nm, RSW 10 %
+//   SiGe : Si + MU0 10 % (Ge content / strain)
+//   TMD  : RC 30 %, VTH0 50 mV, MU0 20 %, DIT 0.3 decade (log-normal)
+//   CNT  : DCNT 15 %, FMET uniform 0..2 %, RC 30 %
+//   GaN  : VTH0 50 mV, MU0 10 %, RTH 20 %
+// Mismatch sigmas are taken as 1/2 of the process sigma (except where noted).
+// =============================================================================
+simulator lang=spectre
+
+// -----------------------------------------------------------------------------
+section si
+statistics {
+    process {
+        vary VTHN dist=gauss std=0.020            // n work-function / VTH0 shift
+        vary VTHP dist=gauss std=0.020            // p work-function / VTH0 shift
+        vary WNS  dist=gauss std=1e-9             // nanosheet width, sigma 1 nm
+        vary RSW  dist=gauss std=10 percent=yes   // S/D series resistance, 10 %
+    }
+    mismatch {
+        vary VTHN dist=gauss std=0.010            // local VTH mismatch
+        vary VTHP dist=gauss std=0.010
+        vary WNS  dist=gauss std=0.5e-9           // local line-width roughness
+    }
+}
+endsection si
+
+// -----------------------------------------------------------------------------
+section sige
+statistics {
+    process {
+        vary VTHN dist=gauss std=0.020
+        vary VTHP dist=gauss std=0.020
+        vary WNS  dist=gauss std=1e-9
+        vary RSW  dist=gauss std=10 percent=yes
+        vary MUP  dist=gauss std=10 percent=yes   // SiGe hole mobility (Ge %, strain), 10 %
+    }
+    mismatch {
+        vary VTHN dist=gauss std=0.010
+        vary VTHP dist=gauss std=0.010
+        vary WNS  dist=gauss std=0.5e-9
+        vary MUP  dist=gauss std=5 percent=yes
+    }
+}
+endsection sige
+
+// -----------------------------------------------------------------------------
+section tmd
+statistics {
+    process {
+        vary RCN  dist=gauss std=30 percent=yes   // MoS2 contact resistance, 30 %
+        vary RCP  dist=gauss std=30 percent=yes   // WSe2 contact resistance, 30 %
+        vary VTHN dist=gauss std=0.050            // VTH0 sigma 50 mV (charged defects)
+        vary VTHP dist=gauss std=0.050
+        vary MUN  dist=gauss std=20 percent=yes   // mobility 20 % (grain / substrate)
+        vary MUP  dist=gauss std=20 percent=yes
+        vary DIT  dist=lnorm std=0.69             // 0.3 decade: sigma_ln = 0.3*ln(10)
+    }
+    mismatch {
+        vary RCN  dist=gauss std=15 percent=yes
+        vary RCP  dist=gauss std=15 percent=yes
+        vary VTHN dist=gauss std=0.025
+        vary VTHP dist=gauss std=0.025
+        vary MUN  dist=gauss std=10 percent=yes
+        vary MUP  dist=gauss std=10 percent=yes
+    }
+}
+endsection tmd
+
+// -----------------------------------------------------------------------------
+section cnt
+statistics {
+    process {
+        vary DCNT dist=gauss std=15 percent=yes   // tube density, 15 %
+        vary FMET dist=unif  N=0.01               // metallic fraction uniform 0 .. 2 % (nominal 0.01)
+        vary RCN  dist=gauss std=30 percent=yes   // per-tube contact resistance, 30 %
+        vary RCP  dist=gauss std=30 percent=yes
+        vary VTHN dist=gauss std=0.030            // diameter-distribution induced VTH
+        vary VTHP dist=gauss std=0.030
+    }
+    mismatch {
+        vary DCNT dist=gauss std=10 percent=yes   // local tube-count fluctuation
+        vary RCN  dist=gauss std=15 percent=yes
+        vary RCP  dist=gauss std=15 percent=yes
+        vary VTHN dist=gauss std=0.015
+        vary VTHP dist=gauss std=0.015
+    }
+}
+endsection cnt
+
+// -----------------------------------------------------------------------------
+section gan
+statistics {
+    process {
+        vary VTHN dist=gauss std=0.050            // p-GaN gate / recess VTH, 50 mV
+        vary VTHP dist=gauss std=0.050
+        vary MUN  dist=gauss std=10 percent=yes   // 2DEG / channel mobility, 10 %
+        vary MUP  dist=gauss std=10 percent=yes
+        vary RTH  dist=gauss std=20 percent=yes   // thermal resistance (substrate, buffer), 20 %
+    }
+    mismatch {
+        vary VTHN dist=gauss std=0.025
+        vary VTHP dist=gauss std=0.025
+        vary MUN  dist=gauss std=5 percent=yes
+        vary MUP  dist=gauss std=5 percent=yes
+    }
+}
+endsection gan

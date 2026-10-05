@@ -1,0 +1,45 @@
+;; =============================================================================
+;; idvg.ocn -- ID-VG transfer characteristics of the nine CFET devices.
+;;   dc sweep VGS 0 .. vgsMax (0.8 V; GaN 1.5 V) step 2 mV
+;;   at VDS = 0.05 V (linear) and VDS = vdsSat (0.6 V; GaN 1.2 V)
+;;   saves I(VD:PLUS) (brief: "I(VDS)") and exports results/idvg_<device>.csv
+;; Run:  ocean -nograph -restore idvg.ocn        (CFET_DEVICE=gaa_n to restrict)
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetRunIdVg(cell platName pol)
+  let((plat tb idLin idSat csv)
+    plat = cfetPlatform(platName)
+    tb   = strcat("tb_" cell)
+    csv  = strcat(CFET_RESULTS "/idvg_" cell ".csv")
+    cfetMsg("ID-VG %s (%s)" cell plat->label)
+
+    ;; --- linear region ------------------------------------------------------
+    cfetSetup(tb plat "idvg_lin")
+    analysis('dc ?saveOppoint t ?param "VGS" ?start 0 ?stop plat->vgsMax ?step 0.002)
+    desVar("VDS" plat->vdsLin)
+    save('i "/VD/PLUS")
+    run()
+    selectResult('dc)
+    idLin = cfetIdWave(pol)
+
+    ;; --- saturation region ----------------------------------------------------
+    cfetSetup(tb plat "idvg_sat")
+    analysis('dc ?saveOppoint t ?param "VGS" ?start 0 ?stop plat->vgsMax ?step 0.002)
+    desVar("VDS" plat->vdsSat)
+    save('i "/VD/PLUS")
+    run()
+    selectResult('dc)
+    idSat = cfetIdWave(pol)
+
+    ;; --- export ---------------------------------------------------------------
+    cfetWriteCSV(csv "VGS_V"
+      list(list(sprintf(nil "ID_A_VDS%g" plat->vdsLin) idLin)
+           list(sprintf(nil "ID_A_VDS%g" plat->vdsSat) idSat)))
+    ;; log-scale plot for the paper figure
+    plot(log10(abs(idLin)) log10(abs(idSat)) ?expr list("log10 Id lin" "log10 Id sat"))
+    csv))
+
+foreach(dev cfetSelectedDevices()
+  cfetRunIdVg(car(dev) cadr(dev) caddr(dev)))
+cfetMsg("idvg.ocn done")

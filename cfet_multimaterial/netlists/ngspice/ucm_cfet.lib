@@ -1,0 +1,345 @@
+* ucm_cfet.lib -- ngspice behavioural implementation of the UCM-CFET models
+* generated 2026-10-05 by sim/ngspice_lib.py from sim/platforms.py (+ data/calibrated_params.json if present)
+* Equations identical to veriloga/*.va ; see doc/model_spec.md
+
+* -------------------------------------------------------------------------------------
+* gaa_n: UCM-CFET Si nanosheet n-FET  (platform Si, dd)
+* terminals d g s b ; TYPE = 1
+* -------------------------------------------------------------------------------------
+.subckt gaa_n d g s b W=1e-07 L=1.6e-08 NNS=3.0 WNS=2e-08 TNS=5e-09 VTH0=0.34564595563211264 N0=1.1421153845705354 ETA=0.04584877940688493 MU0=0.007528408507140861 COX=0.043 VSAT=249999.99999999994 LAMBDA=0.29999999999941973 RSW=5.313652472144767e-05 RDW=5.313652472144767e-05 CGSO=3e-10 CGDO=3e-10 TNOM=300.0 MUEXP=1.3 KVTH=-0.0008 CQ=1.0e9 DIT=0.0 RC=0.0 RTH=0.0 CTH=1e-12 DCNT=0.0 FMET=0.0 TTR=0.0 ALPHA=1.0 TEMPK=300.15
+.param TYPE=1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
+Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
+Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends gaa_n
+
+* -------------------------------------------------------------------------------------
+* gaa_p: UCM-CFET Si nanosheet p-FET  (platform Si, dd)
+* terminals d g s b ; TYPE = -1
+* -------------------------------------------------------------------------------------
+.subckt gaa_p d g s b W=1e-07 L=1.6e-08 NNS=3.0 WNS=2e-08 TNS=5e-09 VTH0=0.35039028711436815 N0=1.1743322337856366 ETA=0.05135576586222777 MU0=0.005470607323216929 COX=0.043 VSAT=199999.99999999997 LAMBDA=0.29999999999999993 RSW=6.53622960206374e-05 RDW=6.53622960206374e-05 CGSO=3e-10 CGDO=3e-10 TNOM=300.0 MUEXP=1.1 KVTH=-0.0009 CQ=1.0e9 DIT=0.0 RC=0.0 RTH=0.0 CTH=1e-12 DCNT=0.0 FMET=0.0 TTR=0.0 ALPHA=1.0 TEMPK=300.15
+.param TYPE=-1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
+Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
+Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends gaa_p
+
+* -------------------------------------------------------------------------------------
+* sige_p: UCM-CFET SiGe nanosheet p-FET  (platform SiGe, dd)
+* terminals d g s b ; TYPE = -1
+* -------------------------------------------------------------------------------------
+.subckt sige_p d g s b W=1e-07 L=1.6e-08 NNS=3.0 WNS=2e-08 TNS=5e-09 VTH0=0.3618850198538636 N0=1.20375874333818 ETA=0.05746351439526155 MU0=0.007607751389240996 COX=0.043 VSAT=224999.99999999997 LAMBDA=0.2999999999999997 RSW=5.480881324630727e-05 RDW=5.480881324630727e-05 CGSO=3.2e-10 CGDO=3.2e-10 TNOM=300.0 MUEXP=1.2 KVTH=-0.001 CQ=1.0e9 DIT=0.0 RC=0.0 RTH=0.0 CTH=1e-12 DCNT=0.0 FMET=0.0 TTR=0.0 ALPHA=1.0 TEMPK=300.15
+.param TYPE=-1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
+Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
+Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends sige_p
+
+* -------------------------------------------------------------------------------------
+* mos2_n: UCM-CFET MoS2 monolayer n-FET  (platform TMD, dd)
+* terminals d g s b ; TYPE = 1
+* -------------------------------------------------------------------------------------
+.subckt mos2_n d g s b W=1e-07 L=2e-08 NNS=0.0 WNS=2e-08 TNS=5e-09 VTH0=0.3432803820841683 N0=1.1777096206413327 ETA=0.069521146642635 MU0=0.005582317142940906 COX=0.0345 VSAT=149999.99999999997 LAMBDA=0.29999999999999966 RSW=0.0005 RDW=0.0005 CGSO=2e-10 CGDO=2e-10 TNOM=300.0 MUEXP=1.0 KVTH=-0.001 CQ=1.2 DIT=5000000000000000.0 RC=0.0005 RTH=0.0 CTH=1e-12 DCNT=0.0 FMET=0.0 TTR=0.0 ALPHA=1.0 TEMPK=300.15
+.param TYPE=1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
+Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
+Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends mos2_n
+
+* -------------------------------------------------------------------------------------
+* wse2_p: UCM-CFET WSe2 monolayer p-FET  (platform TMD, dd)
+* terminals d g s b ; TYPE = -1
+* -------------------------------------------------------------------------------------
+.subckt wse2_p d g s b W=1e-07 L=2e-08 NNS=0.0 WNS=2e-08 TNS=5e-09 VTH0=0.37998533114114613 N0=1.2385992721091221 ETA=0.07733655802238211 MU0=0.0063227701557911796 COX=0.0345 VSAT=119999.99999999999 LAMBDA=0.29999999999999943 RSW=0.0008 RDW=0.0008 CGSO=2e-10 CGDO=2e-10 TNOM=300.0 MUEXP=1.0 KVTH=-0.0011 CQ=1.1 DIT=1e+16 RC=0.0008 RTH=0.0 CTH=1e-12 DCNT=0.0 FMET=0.0 TTR=0.0 ALPHA=1.0 TEMPK=300.15
+.param TYPE=-1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
+Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
+Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends wse2_p
+
+* -------------------------------------------------------------------------------------
+* cnt_n: UCM-CFET CNT array n-FET  (platform CNT, landauer)
+* terminals d g s b ; TYPE = 1
+* -------------------------------------------------------------------------------------
+.subckt cnt_n d g s b W=1e-07 L=2e-08 NNS=0.0 WNS=2e-08 TNS=5e-09 VTH0=0.3766900348578691 N0=1.1607578164186496 ETA=0.045879324523318187 MU0=0.0 COX=0.02 VSAT=0.0 LAMBDA=3.2703279390373716e-16 RSW=5e-05 RDW=5e-05 CGSO=1.5e-10 CGDO=1.5e-10 TNOM=300.0 MUEXP=0.0 KVTH=-0.0006 CQ=0.05 DIT=0.0 RC=5e-05 RTH=0.0 CTH=1e-12 DCNT=250000000.0 FMET=1e-06 TTR=0.21641743773826608 ALPHA=0.859579177463305 TEMPK=300.15
+.param TYPE=1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* Landauer quasi-ballistic current (CNT array), n-type convention; eta_s on an auxiliary node
+Betas etas 0 V = ALPHA*((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(nid()*vt((TEMPK + V(tj))))
+Bids di dx I = TYPE*(DCNT*weff()*(1-FMET)*G0*TTR*nid()*vt((TEMPK + V(tj)))*(sp(V(etas)) - sp(V(etas) - (TYPE*V(di,si))/(nid()*vt((TEMPK + V(tj))))))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
++ + FMET*DCNT*weff()*G0*TTR*(TYPE*V(di,si)))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends cnt_n
+
+* -------------------------------------------------------------------------------------
+* cnt_p: UCM-CFET CNT array p-FET  (platform CNT, landauer)
+* terminals d g s b ; TYPE = -1
+* -------------------------------------------------------------------------------------
+.subckt cnt_p d g s b W=1e-07 L=2e-08 NNS=0.0 WNS=2e-08 TNS=5e-09 VTH0=0.3753490085250708 N0=1.1526851286062594 ETA=0.045817572013178 MU0=0.0 COX=0.02 VSAT=0.0 LAMBDA=2.9576589494601867e-18 RSW=6e-05 RDW=6e-05 CGSO=1.5e-10 CGDO=1.5e-10 TNOM=300.0 MUEXP=0.0 KVTH=-0.0006 CQ=0.05 DIT=0.0 RC=6e-05 RTH=0.0 CTH=1e-12 DCNT=250000000.0 FMET=1e-06 TTR=0.21489465071289973 ALPHA=0.8566930544290252 TEMPK=300.15
+.param TYPE=-1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* Landauer quasi-ballistic current (CNT array), n-type convention; eta_s on an auxiliary node
+Betas etas 0 V = ALPHA*((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(nid()*vt((TEMPK + V(tj))))
+Bids di dx I = TYPE*(DCNT*weff()*(1-FMET)*G0*TTR*nid()*vt((TEMPK + V(tj)))*(sp(V(etas)) - sp(V(etas) - (TYPE*V(di,si))/(nid()*vt((TEMPK + V(tj))))))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
++ + FMET*DCNT*weff()*G0*TTR*(TYPE*V(di,si)))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends cnt_p
+
+* -------------------------------------------------------------------------------------
+* gan_n: UCM-CFET GaN 2DEG n-FET  (platform GaN, dd)
+* terminals d g s b ; TYPE = 1
+* -------------------------------------------------------------------------------------
+.subckt gan_n d g s b W=1e-06 L=1e-07 NNS=0.0 WNS=2e-08 TNS=5e-09 VTH0=0.35662308540409715 N0=1.38941612441517 ETA=0.03260623850774278 MU0=0.030000000000000006 COX=0.008 VSAT=374999.999999996 LAMBDA=0.1912578288774095 RSW=0.00037420031073685925 RDW=0.00037420031073685925 CGSO=5e-10 CGDO=5e-10 TNOM=300.0 MUEXP=1.5 KVTH=-0.0015 CQ=1.0e9 DIT=0.0 RC=0.0 RTH=150000.0 CTH=3e-14 DCNT=0.0 FMET=0.0 TTR=0.0 ALPHA=1.0 TEMPK=300.15
+.param TYPE=1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
+Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
+Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends gan_n
+
+* -------------------------------------------------------------------------------------
+* gan_p: UCM-CFET p-GaN (projected) p-FET  (platform GaN, dd)
+* terminals d g s b ; TYPE = -1
+* -------------------------------------------------------------------------------------
+.subckt gan_p d g s b W=3e-06 L=1e-07 NNS=0.0 WNS=2e-08 TNS=5e-09 VTH0=0.35487625232984094 N0=1.4330393601859386 ETA=0.03682456337456 MU0=0.0018873856438115792 COX=0.008 VSAT=124999.99999999997 LAMBDA=0.08249722318274405 RSW=0.001212720072885748 RDW=0.001212720072885748 CGSO=5e-10 CGDO=5e-10 TNOM=300.0 MUEXP=1.0 KVTH=-0.002 CQ=1.0e9 DIT=0.0 RC=0.0 RTH=100000.0 CTH=9e-14 DCNT=0.0 FMET=0.0 TTR=0.0 ALPHA=1.0 TEMPK=300.15
+.param TYPE=-1
+.param G0=0.00015496183459727297
+.param QE=1.602176634e-19 KBOLTZ=1.380649e-23
+.func sp(x) {x > 40 ? x : ln(1 + exp(x))}
+.func sabs(x) {sqrt(x*x + 1e-6)}
+.func weff() {NNS > 0 ? NNS*2*(WNS + TNS) : W}
+.func vt(td) {KBOLTZ*td/QE}
+.func coxeff() {COX*CQ/(COX + CQ)}
+.func nid() {N0*(1 + QE*DIT/COX)}
+.func vtht(td) {VTH0 + KVTH*(td - TNOM)}
+.func vtheff(vds,td) {vtht(td) - ETA*sabs(vds)}
+.func mut(td) {MU0 > 0 ? MU0*pow(td/TNOM, -MUEXP) : 1}
+* charge function (own-branch voltage only)
+.func qg(v,td) {0.5*weff()*L*coxeff()*2*nid()*vt(td)*sp((v - vtht(td))/(2*nid()*vt(td)))}
+* series resistances (floored at 1 mOhm for the solver)
+Rd d di R={(RDW/weff()) > 1e-3 ? RDW/weff() : 1e-3}
+Rs s si R={(RSW/weff()) > 1e-3 ? RSW/weff() : 1e-3}
+* drift-diffusion + velocity saturation, n-type convention; Vov and Vdsat on auxiliary nodes
+Bvov vov 0 V = 2*nid()*vt((TEMPK + V(tj)))*sp(((TYPE*V(g,si)) - vtheff((TYPE*V(di,si)),(TEMPK + V(tj))))/(2*nid()*vt((TEMPK + V(tj)))))
+Bvdsat vdsat 0 V = V(vov)/(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj)))))
+Bids di dx I = TYPE*mut((TEMPK + V(tj)))*coxeff()*weff()/L*V(vov)*V(vov)/(2*(1 + V(vov)/(VSAT*L/mut((TEMPK + V(tj))))))*tanh(2*(TYPE*V(di,si))/(V(vdsat) + 1e-9))*(1 + LAMBDA*sabs((TYPE*V(di,si))))
+Vsns dx si 0
+* terminal charges  Qg = Qgs + Qgd ; Qs = -Qgs ; Qd = -Qgd
+Cgs g si Q = TYPE*(qg((TYPE*V(g,si)), (TEMPK + V(tj))) + CGSO*weff()*(TYPE*V(g,si)))
+Cgd g di Q = TYPE*(qg(TYPE*V(g,di), (TEMPK + V(tj))) + CGDO*weff()*TYPE*V(g,di))
+* self-heating thermal node (temperature rise in volts == kelvin); RTH=0 -> node held at 0
+Bpd tj 0 I = -(RTH > 0 ? 1 : 0)*TYPE*i(Vsns)*(TYPE*V(di,si))
+Rth tj 0 R={RTH > 0 ? RTH : 1e-3}
+Cth tj 0 {CTH}
+* body: reference only
+Rb b si 1e12
+.ends gan_p

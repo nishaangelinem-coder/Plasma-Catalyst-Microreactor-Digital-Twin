@@ -1,0 +1,23 @@
+# Generic 3-nm-class CFET layer map (conceptual, not a foundry PDK)
+# layer  datatype  name         colour    description
+1        0         PR_BOUNDARY  #7F7F7F   Place-and-route cell boundary (outline only)
+10       0         NS_BOT       #0072B2   Tier-1 nanosheet/channel active, n-FET (bottom tier)
+11       0         NS_TOP       #D55E00   Tier-2 nanosheet/channel active, p-FET (top tier)
+20       0         GATE         #E69F00   Common vertical gate (metal gate wrapping both tiers)
+21       0         CT_GATE      #8C510A   Gate contact (contact-over-active-gate)
+30       0         CT_BOT       #56B4E9   Tier-1 n S/D contact (includes deep strap to VSS rail)
+31       0         CT_TOP       #CC79A7   Tier-2 p S/D contact (includes strap to VDD rail)
+35       0         VIA_TIER     #000000   Vertical inter-tier via (top drain <-> bottom drain)
+40       0         M0           #009E73   Metal-0: VDD/VSS rails and local interconnect (horizontal)
+40       1         M0_PIN       #009E73   Text label on M0 (vdd, vss)
+41       0         VIA0         #F0E442   Via M0 -> M1
+42       0         M1           #882255   Metal-1: signal in/out pins and feedback wire (vertical)
+42       1         M1_PIN       #882255   Text label on M1 (in, out, probe)
+50       0         SIGE_TOP     #D55E00   Marker: SiGe top-tier channel (p-FET)
+51       0         TMD_BOT      #0072B2   Marker: MoS2 monolayer bottom tier (n-FET)
+52       0         TMD_TOP      #D55E00   Marker: WSe2 monolayer top tier (p-FET)
+53       0         CNT_BOT      #0072B2   Marker: aligned CNT array bottom tier (n-FET)
+54       0         CNT_TOP      #D55E00   Marker: aligned CNT array top tier (p-FET)
+55       0         GAN_BOT      #0072B2   Marker: GaN 2DEG bottom tier (n-FET)
+56       0         GAN_TOP      #D55E00   Marker: GaN p-channel top tier (p-FET)
+60       0         TEXT         #333333   Generic annotation text

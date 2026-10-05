@@ -1,0 +1,27 @@
+variable,unit,description,si,sige,tmd,cnt,gan
+VDD,V,supply voltage,0.7,0.7,0.5,0.6,1.2
+VGS,V,device testbench gate bias (swept),0,0,0,0,0
+VDS,V,device testbench drain bias (0.05 lin / VDD sat),0.05,0.05,0.05,0.05,0.05
+CLOAD,F,inverter testbench load capacitance,1f,1f,1f,1f,2f
+CSTACK,F,n/p stacked-drain coupling capacitance (mid-range),0.05f,0.05f,0.03f,0.03f,0.1f
+COUT,F,inverter output / local-interconnect capacitance,0.3f,0.3f,0.3f,0.3f,1f
+RLOCAL,Ohm,local via / interconnect resistance per drain,10,10,50,50,20
+Wn,m,n-device width (unused for Si/SiGe: W = NNS*2*(WNS+TNS)),150n,150n,100n,100n,1u
+Wp,m,p-device width,150n,150n,200n,100n,4u
+Lg,m,gate length,16n,16n,20n,15n,100n
+NNSn,-,number of n nanosheets (Si/SiGe only),3,3,0,0,0
+NNSp,-,number of p nanosheets (Si/SiGe only),3,3,0,0,0
+VTHN,V,n threshold voltage magnitude,0.25,0.25,0.20,0.20,0.30
+VTHP,V,p threshold voltage magnitude,0.25,0.22,0.25,0.22,0.50
+MUN,m^2/Vs,n low-field mobility (unused for CNT),0.030,0.030,5e-3,0,0.15
+MUP,m^2/Vs,p low-field mobility (unused for CNT),0.015,0.025,4e-3,0,2e-3
+WNS,m,nanosheet width (Si/SiGe; MC sigma 1 nm),20n,20n,0,0,0
+RSW,Ohm*m,source/drain series resistance x width (Si/SiGe; MC sigma 10 %),1e-4,1e-4,0,0,0
+RCN,Ohm*m,n contact resistance x width (TMD/CNT),0,0,5e-4,1e-4,0
+RCP,Ohm*m,p contact resistance x width (TMD/CNT),0,0,8e-4,1e-4,0
+RTH,K/W,thermal resistance (GaN),0,0,0,0,2e5
+CTH,J/K,thermal capacitance (GaN),0,0,0,0,1e-12
+DIT,1/(m^2 eV),interface trap density (TMD; 1e16 m^-2eV^-1 = 1e12 cm^-2eV^-1),0,0,1e16,0,0
+DCNT,1/m,CNT density (CNT),0,0,0,250e6,0
+FMET,-,metallic CNT fraction (CNT),0,0,0,0.01,0
+TEMP,degC,simulation temperature (ADE Temperature field),27,27,27,27,27

@@ -1,0 +1,173 @@
+{
+ "gaa_n": {
+  "anchors": {
+   "vdd": 0.7,
+   "ion": 1.0,
+   "ioff": 1.0,
+   "ss": 68,
+   "dibl": 40,
+   "src": "IRDS2023;Loubet2017;Mertens2017"
+  },
+  "reference_formulation_params": {
+   "ss": 68.0,
+   "dibl": 40.0,
+   "vdsat_frac": 0.6,
+   "lam": 0.08000000000000002,
+   "vth": 0.33401057919778593,
+   "ispec": 32.46511158815176
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ },
+ "gaa_p": {
+  "anchors": {
+   "vdd": 0.7,
+   "ion": 0.75,
+   "ioff": 1.0,
+   "ss": 70,
+   "dibl": 45,
+   "src": "IRDS2023;Loubet2017"
+  },
+  "reference_formulation_params": {
+   "ss": 70.0,
+   "dibl": 45.0,
+   "vdsat_frac": 0.6,
+   "lam": 0.08000000000000002,
+   "vth": 0.33990211584148466,
+   "ispec": 26.297207916677312
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ },
+ "sige_p": {
+  "anchors": {
+   "vdd": 0.7,
+   "ion": 0.95,
+   "ioff": 1.5,
+   "ss": 72,
+   "dibl": 50,
+   "src": "Mertens2016;Mochizuki2020"
+  },
+  "reference_formulation_params": {
+   "ss": 72.0,
+   "dibl": 50.0,
+   "vdsat_frac": 0.6,
+   "lam": 0.08800000000000001,
+   "vth": 0.3516706349649468,
+   "ispec": 38.804168702218234
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ },
+ "mos2_n": {
+  "anchors": {
+   "vdd": 0.5,
+   "ion": 0.1,
+   "ioff": 1.0,
+   "ss": 72,
+   "dibl": 55,
+   "src": "Li2023Nature;Intel2024;OBrien2023"
+  },
+  "reference_formulation_params": {
+   "ss": 72.0,
+   "dibl": 55.0,
+   "vdsat_frac": 0.6,
+   "lam": 0.096,
+   "vth": 0.33403171030289097,
+   "ispec": 18.96898770838219
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ },
+ "wse2_p": {
+  "anchors": {
+   "vdd": 0.5,
+   "ion": 0.07,
+   "ioff": 1.0,
+   "ss": 78,
+   "dibl": 60,
+   "src": "Chou2021;OBrien2023"
+  },
+  "reference_formulation_params": {
+   "ss": 78.0,
+   "dibl": 60.0,
+   "vdsat_frac": 0.6,
+   "lam": 0.096,
+   "vth": 0.37536356982541835,
+   "ispec": 28.59144180367853
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ },
+ "cnt_n": {
+  "anchors": {
+   "vdd": 0.6,
+   "ion": 1.5,
+   "ioff": 10.0,
+   "ss": 75,
+   "dibl": 45,
+   "src": "Liu2020Science;Hills2019"
+  },
+  "reference_formulation_params": {
+   "ss": 75.0,
+   "dibl": 45.0,
+   "vdsat_frac": 1.0,
+   "lam": 0.04000000000000001,
+   "vth": 0.33522283410971954,
+   "ispec": 139.55413944929344
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ },
+ "cnt_p": {
+  "anchors": {
+   "vdd": 0.6,
+   "ion": 1.4,
+   "ioff": 10.0,
+   "ss": 75,
+   "dibl": 45,
+   "src": "Liu2020Science;Hills2019"
+  },
+  "reference_formulation_params": {
+   "ss": 75.0,
+   "dibl": 45.0,
+   "vdsat_frac": 1.0,
+   "lam": 0.04000000000000001,
+   "vth": 0.3363077510877812,
+   "ispec": 144.26306228922792
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ },
+ "gan_n": {
+  "anchors": {
+   "vdd": 1.2,
+   "ion": 0.5,
+   "ioff": 1.0,
+   "ss": 80,
+   "dibl": 30,
+   "src": "Amano2018;Chowdhury2020"
+  },
+  "reference_formulation_params": {
+   "ss": 80.0,
+   "dibl": 30.0,
+   "vdsat_frac": 0.6,
+   "lam": 0.04000000000000001,
+   "vth": 0.3262364404014463,
+   "ispec": 4.602955502921499
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ },
+ "gan_p": {
+  "anchors": {
+   "vdd": 1.2,
+   "ion": 0.05,
+   "ioff": 0.1,
+   "ss": 85,
+   "dibl": 30,
+   "src": "Chowdhury2020;Bader2020"
+  },
+  "reference_formulation_params": {
+   "ss": 85.0,
+   "dibl": 30.0,
+   "vdsat_frac": 0.6,
+   "lam": 0.04000000000000001,
+   "vth": 0.34205180434654814,
+   "ispec": 0.4397216862934225
+  },
+  "polarity_note": "magnitudes; p-type devices: |VGS|, |VDS|, |ID|"
+ }
+}

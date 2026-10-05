@@ -1,0 +1,46 @@
+// =============================================================================
+// tb_inv_cfet_sige.scs
+// CFET-SiGe inverter testbench: VTC (dc) and transient delay / energy
+// Hand-written Spectre netlist equivalent to CFET_LIB/tb_inv_cfet_sige/schematic
+// (cadence/skill/build_schematics.il). Run from netlists/spectre/:
+//     spectre tb_inv_cfet_sige.scs -format psfascii -raw ../../results/spectre/tb_inv_cfet_sige
+// Units: SI throughout (m, V, A, F, Ohm; RSW/RDW/RC in Ohm*m, DIT in m^-2 eV^-1,
+// DCNT in tubes/m, RTH in K/W, CTH in J/K). Suffixes: f=1e-15 p=1e-12 n=1e-9 u=1e-6.
+// =============================================================================
+simulator lang=spectre
+global 0
+
+// ---- inverter sub-circuit (brings the ahdl_include lines) ----------------------
+include "inv_cfet_sige.scs"
+
+// ---- design variables ------------------------------------------------------------
+parameters VDD=0.7 CLOAD=1f TEMP=27
+parameters CSTACK=0.05f COUT=0.3f RLOCAL=10
+parameters Lg=16n NNSn=3 NNSp=3 WNS=20n RSW=1e-4 VTHN=0.25 VTHP=0.22 MUN=0.030 MUP=0.025
+
+// ---- circuit ------------------------------------------------------------------------
+V1  (vdd 0) vsource type=dc dc=VDD
+// input pulse per spec: V1=0 V2=VDD delay=100p rise=5p fall=5p pw=500p period=1n
+// (dc=0 is the value used by the VTC sweep below)
+VIN (in 0)  vsource type=pulse dc=0 val0=0 val1=VDD delay=100p rise=5p fall=5p width=500p period=1n
+X1  (in out vdd 0) inv_cfet_sige CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+CL  (out 0) capacitor c=CLOAD
+
+opt1 options temp=TEMP tnom=27 reltol=1e-4 vabstol=1e-7 iabstol=1e-13 gmin=1e-15
+
+// ---- analyses -------------------------------------------------------------------------
+// VTC: sweep the dc value of VIN 0 .. VDD step 1 mV
+vtc  dc dev=VIN param=dc start=0 stop=VDD step=1m
+// transient: 2 input periods; maxstep = RO maxstep of the platform table
+tran1 tran stop=2n maxstep=1p errpreset=conservative
+
+// ---- outputs -------------------------------------------------------------------------------
+save in out V1:p
+saveOptions options save=selected
+
+// Post-processing (cadence/ocean/vtc.ocn, inv_tran.ocn):
+//   VM   : V(out) = V(in)             gain : max |dVout/dVin|
+//   NML  = VIL - VOL, NMH = VOH - VIH  (|gain| = 1 points)
+//   tpHL : 50 % in rising -> 50 % out falling ; tpLH : 50 % in falling -> 50 % out rising
+//   Eswitch = integ(VDD * (-I(V1:p)), 100p, 1.1n)   [J per cycle]

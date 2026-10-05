@@ -1,0 +1,30 @@
+# ---------------------------------------------------------------------------
+# cds.lib.add -- lines to append to the cds.lib of the Virtuoso working
+# directory (usually the directory from which `virtuoso &` is launched).
+#
+#   cat $CFET_ROOT/cadence/cds.lib.add >> ./cds.lib
+#
+# $CFET_ROOT is the absolute path of this cfet_multimaterial checkout as seen
+# from the machine that runs Virtuoso (normally the VMware Linux VM, e.g.
+# /home/<user>/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial).
+# Virtuoso does NOT expand shell variables in cds.lib unless the variable is
+# known to the process; either replace $CFET_ROOT below by the literal path or
+# `export CFET_ROOT=...` before starting virtuoso.
+# ---------------------------------------------------------------------------
+
+# Cadence reference libraries (adjust to your installation; $CDSHOME is set by
+# the Cadence environment, e.g. /cad/cadence/IC618).
+INCLUDE $CDSHOME/share/cdssetup/cds.lib
+# -- the INCLUDE above normally brings in analogLib and basic; if your site
+#    cds.lib does not, define them explicitly:
+# DEFINE analogLib $CDSHOME/tools/dfII/etc/cdslib/artist/analogLib
+# DEFINE basic     $CDSHOME/tools/dfII/etc/cdslib/basic
+
+# CFET multi-material compact-model library (created by
+# cadence/skill/create_cfet_lib.il with ddCreateLib; the DEFINE below makes the
+# library visible in a fresh session without re-running the script).
+DEFINE CFET_LIB $CFET_ROOT/cadence/CFET_LIB
+
+# Optional: if a foundry/technology library is to be attached to CFET_LIB for
+# the conceptual layout step (brief step 38), define it here too, e.g.
+# DEFINE cfet_tech $CFET_ROOT/cadence/cfet_tech

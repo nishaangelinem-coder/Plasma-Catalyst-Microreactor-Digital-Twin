@@ -1,0 +1,88 @@
+;; =============================================================================
+;; extract_fom.ocn -- device figures of merit from ID-VG / ID-VD simulations
+;;   Ion   = Id(VGS = VDD, VDS = VDD)
+;;   Ioff  = Id(VGS = 0,   VDS = VDD)
+;;   SS    = min over the subthreshold range of dVGS/dlog10(Id)      [mV/dec]
+;;   VT    = constant-current VT at Icc = 100 nA * (W/L) (lin and sat)
+;;   DIBL  = (VT_lin - VT_sat) / (VDS_sat - VDS_lin)                [mV/V]
+;;   gm    = dId/dVGS at VGS = VDD, VDS = VDD                        [S]
+;;   gds   = dId/dVDS at VDS = VDD, VGS = VDD                        [S]
+;; Calculator functions: deriv(), value(), cross(), clip(), ymin().
+;; Appends one row per device to results/device_fom.csv
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+;; W/L used for the constant-current VT criterion (nominal geometry)
+procedure(cfetWoverL(cell plat)
+  let((W L)
+    L = cfetDesVar(plat "Lg")
+    W = cond(
+      (member(cell '("gaa_n" "gaa_p" "sige_p"))
+        ;; W = NNS * 2 * (WNS + TNS) with WNS 20 nm, TNS 5 nm
+        cfetDesVar(plat if(rindex(cell "_n") "NNSn" "NNSp")) * 2.0 * 25e-9)
+      (rindex(cell "_n") cfetDesVar(plat "Wn"))
+      (t cfetDesVar(plat "Wp")))
+    cfetSiToFloat(W) / cfetSiToFloat(L)))
+
+;; "16n" -> 16e-9  (design variables may be strings with SI suffixes)
+procedure(cfetSiToFloat(v)
+  let((s last mult)
+    if(numberp(v) float(v)
+      progn(
+        s = v
+        last = substring(s strlen(s) 1)
+        mult = case(last ("f" 1e-15) ("p" 1e-12) ("n" 1e-9) ("u" 1e-6) ("m" 1e-3)
+                         ("k" 1e3) ("M" 1e6) ("G" 1e9) (t nil))
+        if(mult
+           mult * atof(substring(s 1 strlen(s) - 1))
+           atof(s))))))
+
+procedure(cfetExtractFom(cell platName pol)
+  let((plat tb vdd idLin idSat idVd ss vtLin vtSat dibl ion ioff gm gds icc)
+    plat = cfetPlatform(platName)
+    tb   = strcat("tb_" cell)
+    vdd  = plat->vdd
+    icc  = 100e-9 * cfetWoverL(cell plat)
+    cfetMsg("FOM %s (%s): Icc = %g A" cell plat->label icc)
+
+    ;; ID-VG at VDS = 0.05 V
+    cfetSetup(tb plat "fom_lin")
+    analysis('dc ?param "VGS" ?start 0 ?stop plat->vgsMax ?step 0.002)
+    desVar("VDS" plat->vdsLin) save('i "/VD/PLUS") run() selectResult('dc)
+    idLin = cfetIdWave(pol)
+
+    ;; ID-VG at VDS = VDD
+    cfetSetup(tb plat "fom_sat")
+    analysis('dc ?param "VGS" ?start 0 ?stop plat->vgsMax ?step 0.002)
+    desVar("VDS" vdd) save('i "/VD/PLUS") run() selectResult('dc)
+    idSat = cfetIdWave(pol)
+
+    ;; ID-VD at VGS = VDD (for gds)
+    cfetSetup(tb plat "fom_idvd")
+    analysis('dc ?param "VDS" ?start 0 ?stop plat->vgsMax ?step 0.005)
+    desVar("VGS" vdd) save('i "/VD/PLUS") run() selectResult('dc)
+    idVd = cfetIdWave(pol)
+
+    ;; --- figures of merit ---
+    ion  = value(idSat vdd)
+    ioff = value(idSat 0.0)
+    ;; VT: first VGS where Id crosses Icc (rising)
+    vtLin = cross(idLin icc 1 "rising")
+    vtSat = cross(idSat icc 1 "rising")
+    ;; SS in mV/dec: minimum of 1/deriv(log10 Id) between VGS = 0 and VT - 50 mV
+    ss = 1000.0 * ymin(clip(1.0 / deriv(log10(abs(idSat) + 1e-18)) 0.0 vtSat - 0.05))
+    dibl = 1000.0 * (vtLin - vtSat) / (vdd - plat->vdsLin)
+    gm   = value(deriv(idSat) vdd)
+    gds  = value(deriv(idVd)  vdd)
+
+    cfetMsg("  Ion=%g Ioff=%g Ion/Ioff=%g SS=%g mV/dec VTlin=%g VTsat=%g DIBL=%g mV/V gm=%g gds=%g"
+            ion ioff ion / ioff ss vtLin vtSat dibl gm gds)
+    cfetAppendRow(strcat(CFET_RESULTS "/device_fom.csv")
+      list("device" "platform" "VDD_V" "Ion_A" "Ioff_A" "Ion_Ioff" "SS_mVdec"
+           "VT_lin_V" "VT_sat_V" "DIBL_mVV" "gm_S" "gds_S")
+      list(cell platName vdd ion ioff ion / ioff ss vtLin vtSat dibl gm gds))
+    t))
+
+foreach(dev cfetSelectedDevices()
+  cfetExtractFom(car(dev) cadr(dev) caddr(dev)))
+cfetMsg("extract_fom.ocn done -> %s/device_fom.csv" CFET_RESULTS)

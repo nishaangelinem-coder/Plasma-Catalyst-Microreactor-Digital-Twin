@@ -1,0 +1,37 @@
+;; =============================================================================
+;; idvd.ocn -- ID-VD output characteristics.
+;;   dc sweep VDS 0 .. vgsMax step 5 mV for VGS = 0.2, 0.3 .. 0.7 V
+;;   (GaN: 0.2 .. 1.5 V in 0.1 V steps because of the larger VDD)
+;;   exports results/idvd_<device>.csv (one column per VGS)
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetVgsList(plat)
+  let((lst (v 0.2))
+    while(v <= plat->vgsMax - 0.1 + 1e-9
+      lst = cons(v lst)
+      v = v + 0.1)
+    reverse(lst)))
+
+procedure(cfetRunIdVd(cell platName pol)
+  let((plat tb cols vgsList csv)
+    plat = cfetPlatform(platName)
+    tb   = strcat("tb_" cell)
+    csv  = strcat(CFET_RESULTS "/idvd_" cell ".csv")
+    vgsList = cfetVgsList(plat)        ; 0.2 .. 0.7 (Si/SiGe/TMD/CNT), 0.2 .. 1.4 (GaN)
+    cfetMsg("ID-VD %s (%s) VGS=%L" cell plat->label vgsList)
+    cols = nil
+    foreach(vgs vgsList
+      cfetSetup(tb plat sprintf(nil "idvd_vgs%g" vgs))
+      analysis('dc ?saveOppoint t ?param "VDS" ?start 0 ?stop plat->vgsMax ?step 0.005)
+      desVar("VGS" vgs)
+      save('i "/VD/PLUS")
+      run()
+      selectResult('dc)
+      cols = append(cols list(list(sprintf(nil "ID_A_VGS%g" vgs) cfetIdWave(pol)))))
+    cfetWriteCSV(csv "VDS_V" cols)
+    csv))
+
+foreach(dev cfetSelectedDevices()
+  cfetRunIdVd(car(dev) cadr(dev) caddr(dev)))
+cfetMsg("idvd.ocn done")

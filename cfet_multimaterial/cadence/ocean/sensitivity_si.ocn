@@ -1,0 +1,38 @@
+;; =============================================================================
+;; sensitivity_si.ocn -- material-specific sensitivity for CFET-Si and CFET-SiGe
+;;   NNSn = 2..5 (NNSp nominal), NNSp = 2..5 (NNSn nominal)
+;;   MUP ratio r = MUP/MUP_nominal = 1.0, 1.25, 1.5, 1.75, 2.0
+;;     (SiGe-channel hole-mobility boost; for "si" this emulates the strain
+;;      budget, for "sige" it spans Ge-content options)
+;;   Every point: RO5 transient -> fRO, tpd, Pavg, Ecycle, PDP + inverter VM
+;;   appends results/sensitivity_si.csv  (platform si and sige)
+;; Set CFET_PLATFORM = "si" or "sige" to run only one.
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetSensRow(plat param val r)
+  cfetMsg("  %s=%L  fRO=%g tpd=%g Pavg=%g Ecycle=%g PDP=%g" param val
+          nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))
+  cfetAppendRow(strcat(CFET_RESULTS "/sensitivity_si.csv")
+    list("platform" "parameter" "value" "fRO_Hz" "tpd_s" "Pavg_W" "Ecycle_J" "PDP_J")
+    list(plat->name param if(stringp(val) val sprintf(nil "%g" val))
+         nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))))
+
+procedure(cfetRunSensSi(plat)
+  let((mup0)
+    cfetMsg("sensitivity %s" plat->label)
+    foreach(nns list(2 3 4 5)
+      cfetSensRow(plat "NNSn" nns
+        cfetRunRoPoint(plat sprintf(nil "sens_nnsn%d" nns) list(list("NNSn" nns)))))
+    foreach(nns list(2 3 4 5)
+      cfetSensRow(plat "NNSp" nns
+        cfetRunRoPoint(plat sprintf(nil "sens_nnsp%d" nns) list(list("NNSp" nns)))))
+    mup0 = cfetDesVar(plat "MUP")
+    foreach(ratio list(1.0 1.25 1.5 1.75 2.0)
+      cfetSensRow(plat "MUP_ratio" ratio
+        cfetRunRoPoint(plat sprintf(nil "sens_mup%g" ratio) list(list("MUP" ratio * mup0)))))
+    t))
+
+foreach(plat cfetSelectedPlatforms()
+  when(member(plat->name '("si" "sige")) cfetRunSensSi(plat)))
+cfetMsg("sensitivity_si.ocn done")

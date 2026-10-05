@@ -1,0 +1,166 @@
+;; =============================================================================
+;; montecarlo.ocn -- Monte Carlo on the RO5 and inverter testbenches with the
+;; Spectre statistics blocks of ade/mc_statistics.scs (section = platform).
+;;
+;; Primary path: ADE Assembler OCEAN-XL API (ocnxl*). It runs the two tests
+;; (ro5, inv) for N samples, evaluates the output expressions per sample and
+;; reports the spec-based yield in the summary file. N = 100 for debugging,
+;; 1000 for the publication run (CFET_MC_POINTS).
+;;
+;; Outputs saved per sample: fRO Pavg Ecycle PDP (ro5) ; VM gain tpd (inv)
+;; Yield:
+;;   Yf  = N(fRO >= ftarget) / N          ftarget = 0.8 * nominal fRO (per plat)
+;;   Yfn = N(NML > 0.1 VDD & NMH > 0.1 VDD & |Av| > 10) / N   (functional yield)
+;; Both yields are the pass fractions Assembler computes from the specs set with
+;; ?specType/?specLimit; cfetMcYieldFromCsv() recomputes them from the exported
+;; CSV so the numbers in the paper are reproducible outside Virtuoso.
+;;
+;; Statistics: the netlist of each test needs the `statistics { process {...}
+;; mismatch {...} }` block. It is attached through modelFile(list(file section))
+;; (Setup -> Model Libraries in the GUI), and the VTH0 / MU0 / RC ... instance
+;; parameters must reference the varied netlist parameters -- the testbench
+;; schematics do this via the design variables VTHN VTHP MUN MUP RCN RCP ...
+;; which mc_statistics.scs re-declares as `parameters` and `vary`s.
+;;
+;; Fallback (ADE L legacy API, commented at the end): monteCarlo()/monteRun().
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+unless(boundp('CFET_MC_POINTS) CFET_MC_POINTS = 100)        ; 100 debug / 1000 paper
+when(getShellEnvVar("CFET_MC_POINTS") CFET_MC_POINTS = atoi(getShellEnvVar("CFET_MC_POINTS")))
+
+CFET_MC_STATS = strcat(CFET_ROOT "/cadence/ade/mc_statistics.scs")
+
+;; nominal fRO target per platform: 80 % of the nominal RO5 frequency measured
+;; by ro_tran.ocn (fill in from results/ro_fom.csv; placeholders below)
+cfetFtarget = list(list("si" 8e9) list("sige" 9e9) list("tmd" 0.8e9) list("cnt" 10e9) list("gan" 3e9))
+
+procedure(cfetRunMc(plat)
+  let((n vdd roTb invTb ftarget outDir sumFile csvFile)
+    n    = plat->stages
+    vdd  = plat->vdd
+    roTb = sprintf(nil "tb_ro%d_cfet_%s" n plat->name)
+    invTb = strcat("tb_inv_cfet_" plat->name)
+    ftarget = cadr(assoc(plat->name cfetFtarget))
+    outDir  = strcat(CFET_PSF "/mc_" plat->name)
+    sumFile = sprintf(nil "%s/mc_%s_N%d_summary.txt" CFET_RESULTS plat->name CFET_MC_POINTS)
+    csvFile = sprintf(nil "%s/mc_%s_N%d.csv" CFET_RESULTS plat->name CFET_MC_POINTS)
+    cfetMsg("Monte Carlo %s: %d points, statistics section '%s'" plat->label CFET_MC_POINTS plat->name)
+
+    ocnSetXLMode()
+    ;; The maestro view is created on the fly if it does not exist.
+    ocnxlTargetCellView(CFET_LIB_NAME roTb "maestro")
+    ocnxlResultsLocation(outDir)
+    ocnxlSimResultsLocation(outDir)
+    ocnxlMaxJobFail(20)
+
+    ;; ---- test 1: ring oscillator -------------------------------------------
+    ocnxlBeginTest("ro5")
+      simulator('spectre)
+      design(CFET_LIB_NAME roTb "schematic")
+      modelFile(list(CFET_MC_STATS plat->name))
+      foreach(dv plat->desVars desVar(car(dv) cadr(dv)))
+      temp(cfetDesVar(plat "TEMP"))
+      analysis('tran ?stop plat->roStop ?maxstep plat->roMaxstep ?errpreset 'conservative)
+      ic("/out" 0.0)
+      save('v "/out") save('i "/VDD/PLUS")
+      ;; expressions: VAR("VDD") reads the design variable inside Assembler
+      ocnxlOutputExpr("1/(cross(v(\"/out\" ?result \"tran\") VAR(\"VDD\")/2 11 \"rising\") - cross(v(\"/out\" ?result \"tran\") VAR(\"VDD\")/2 10 \"rising\"))"
+        ?name "fRO" ?plot t ?save t ?evalType 'point ?specType 'ge ?specLimit ftarget)
+      ocnxlOutputExpr(sprintf(nil "1/(2*%d*(1/(cross(v(\"/out\" ?result \"tran\") VAR(\"VDD\")/2 11 \"rising\") - cross(v(\"/out\" ?result \"tran\") VAR(\"VDD\")/2 10 \"rising\"))))" n)
+        ?name "tpd" ?plot t ?save t ?evalType 'point)
+      ocnxlOutputExpr("average(clip(VAR(\"VDD\")*(-i(\"/VDD/PLUS\" ?result \"tran\")) cross(v(\"/out\" ?result \"tran\") VAR(\"VDD\")/2 10 \"rising\") xmax(v(\"/out\" ?result \"tran\"))))"
+        ?name "Pavg" ?plot t ?save t ?evalType 'point)
+      ocnxlOutputExpr("Pavg/fRO"     ?name "Ecycle" ?plot t ?save t ?evalType 'point)
+      ocnxlOutputExpr("Pavg*tpd"     ?name "PDP"    ?plot t ?save t ?evalType 'point)
+    ocnxlEndTest()
+
+    ;; ---- test 2: inverter VTC ----------------------------------------------
+    ocnxlBeginTest("inv")
+      simulator('spectre)
+      design(CFET_LIB_NAME invTb "schematic")
+      modelFile(list(CFET_MC_STATS plat->name))
+      foreach(dv plat->desVars desVar(car(dv) cadr(dv)))
+      temp(cfetDesVar(plat "TEMP"))
+      analysis('dc ?dev "/VIN" ?param "dc" ?start 0 ?stop vdd ?step 0.001)
+      save('v "/in" "/out")
+      ocnxlOutputExpr("cross(v(\"/out\" ?result \"dc\") - v(\"/in\" ?result \"dc\") 0 1 \"falling\")"
+        ?name "VM" ?plot t ?save t ?evalType 'point)
+      ocnxlOutputExpr("ymax(abs(deriv(v(\"/out\" ?result \"dc\"))))"
+        ?name "gain" ?plot t ?save t ?evalType 'point ?specType 'gt ?specLimit 10)
+      ocnxlOutputExpr("cross(deriv(v(\"/out\" ?result \"dc\")) (0-1) 1 \"falling\") - value(v(\"/out\" ?result \"dc\") VAR(\"VDD\"))"
+        ?name "NML" ?plot t ?save t ?evalType 'point ?specType 'gt ?specLimit 0.1 * vdd)
+      ocnxlOutputExpr("value(v(\"/out\" ?result \"dc\") 0) - cross(deriv(v(\"/out\" ?result \"dc\")) (0-1) 1 \"rising\")"
+        ?name "NMH" ?plot t ?save t ?evalType 'point ?specType 'gt ?specLimit 0.1 * vdd)
+    ocnxlEndTest()
+
+    ;; ---- Monte Carlo options (Sampling dialog equivalents) -----------------
+    ocnxlMonteCarloOptions(
+      ?numPoints          sprintf(nil "%d" CFET_MC_POINTS)
+      ?samplingMode       "lhs"            ; Latin hypercube; "random" for debugging
+      ?saveProcess        t                ; process variations on
+      ?saveMismatch       t                ; mismatch variations on
+      ?dumpParamMode      "yes"            ; dump sampled parameter values
+      ?donominal          t                ; include the nominal point
+      ?startingRunNumber  1
+      ?seed               "12345")
+    ocnxlRun(?mode 'monteCarlo ?nominalCornerEnabled t ?allCornersEnabled nil ?allSweepsEnabled nil)
+
+    ;; ---- summaries -----------------------------------------------------------
+    ocnxlOutputSummary(?exprSummary t ?specSummary t ?detailed t ?fileName sumFile)
+    ;; per-sample table (expression values vs. run index) for the paper figures
+    when(isCallable('ocnxlExportOutputView)
+      ocnxlExportOutputView(csvFile "csv"))
+    ocnxlEndXLMode()
+    when(isFile(csvFile) cfetMcYieldFromCsv(plat csvFile ftarget))
+    cfetMsg("MC %s done -> %s" plat->name sumFile)
+    t))
+
+;; Recompute Yf and the functional yield from the exported CSV
+;; (columns ... fRO ... gain NML NMH ...); lines are "name,value,..." tables, so
+;; the parser looks up the column indices from the header row.
+procedure(cfetMcYieldFromCsv(plat csvFile ftarget)
+  let((ip line hdr cols iF iG iL iH nTot nF nFn vdd)
+    vdd = plat->vdd
+    ip = infile(csvFile)
+    unless(ip return(nil))
+    gets(line ip)
+    hdr = parseString(line ",\n")
+    iF = cfetIndexOf("fRO" hdr) iG = cfetIndexOf("gain" hdr)
+    iL = cfetIndexOf("NML" hdr) iH = cfetIndexOf("NMH" hdr)
+    nTot = 0 nF = 0 nFn = 0
+    while(gets(line ip)
+      cols = parseString(line ",\n")
+      when(iF && length(cols) > iF && atof(nth(iF cols))
+        nTot = nTot + 1
+        when(atof(nth(iF cols)) >= ftarget nF = nF + 1)
+        when(iG && iL && iH &&
+             atof(nth(iG cols)) > 10 && atof(nth(iL cols)) > 0.1 * vdd && atof(nth(iH cols)) > 0.1 * vdd
+          nFn = nFn + 1)))
+    close(ip)
+    when(nTot > 0
+      cfetMsg("  Yf = %d/%d = %.3f   Yfunctional = %d/%d = %.3f" nF nTot float(nF) / nTot nFn nTot float(nFn) / nTot)
+      cfetAppendRow(strcat(CFET_RESULTS "/mc_yield.csv")
+        list("platform" "N" "ftarget_Hz" "Yf" "Yfunctional")
+        list(plat->name nTot ftarget float(nF) / nTot float(nFn) / nTot)))
+    t))
+
+procedure(cfetIndexOf(name lst)
+  let((k found)
+    k = 0
+    foreach(x lst when(x == name && !found found = k) k = k + 1)
+    found))
+
+foreach(plat cfetSelectedPlatforms() cfetRunMc(plat))
+cfetMsg("montecarlo.ocn done")
+
+;; ---------------------------------------------------------------------------
+;; Legacy ADE L alternative (no Assembler): uncomment and adapt.
+;;   cfetSetup("tb_ro5_cfet_si" cfetPlatform("si") "mcL")
+;;   modelFile(list(CFET_MC_STATS "si"))
+;;   analysis('tran ?stop "5n" ?maxstep "1p")
+;;   monteCarlo(?numIters CFET_MC_POINTS ?startIter 1 ?analysisVariation 'processAndMismatch
+;;              ?sweptParam "None" ?saveData t ?nomRun nil ?append nil)
+;;   monteExpression(?name "fRO" ?expr "1/(cross(v(\"/out\") 0.35 11 \"rising\")-cross(v(\"/out\") 0.35 10 \"rising\"))")
+;;   monteRun()
+;;   ;; results in monteResults() -> ocnPrint(getData("fRO" ?result monteResults()))
+;; ---------------------------------------------------------------------------

@@ -1,0 +1,245 @@
+;; =============================================================================
+;; cfet_common.ocn -- shared OCEAN setup for the CFET multi-material flow.
+;; Loaded by every other .ocn in this directory:
+;;     load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+;;
+;; Provides
+;;   CFET_ROOT, CFET_LIB_NAME, CFET_RESULTS, CFET_PSF          paths
+;;   cfetPlatforms, cfetDevices                                platform table
+;;   cfetSelectedPlatforms() / cfetSelectedDevices()           CFET_PLATFORM /
+;;                                                             CFET_DEVICE filter
+;;   cfetSetup(tbCell plat tag)                                simulator/design/
+;;                                                             resultsDir/desVars/temp
+;;   cfetWriteCSV(path xName colSpecs)                         waveform table -> CSV
+;;   cfetAppendRow(path header values)                         scalar row -> CSV
+;;   cfetIdWave(pol)                                           drain current wave
+;;
+;; Verilog-A: in cellview mode (default) the `veriloga` views of CFET_LIB are
+;; netlisted by ADE itself, i.e. no ahdlInclude is needed. If you prefer the
+;; hand-written netlists, set CFET_USE_NETLIST = t before loading: design()
+;; then points to netlists/spectre/<tb>.scs, whose `ahdl_include` lines pull the
+;; .va sources (comment out the analyses in the .scs first; OCEAN adds its own).
+;; =============================================================================
+
+CFET_ROOT = getShellEnvVar("CFET_ROOT") ||
+            strcat(getShellEnvVar("HOME")
+                   "/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial")
+CFET_LIB_NAME = "CFET_LIB"
+CFET_RESULTS  = strcat(CFET_ROOT "/results")
+CFET_PSF      = strcat(CFET_ROOT "/cadence/work/psf")
+unless(boundp('CFET_USE_NETLIST) CFET_USE_NETLIST = nil)
+unless(boundp('CFET_PLATFORM)    CFET_PLATFORM = nil)   ; e.g. "si"  or list("si" "gan")
+unless(boundp('CFET_DEVICE)      CFET_DEVICE   = nil)   ; e.g. "gaa_n"
+
+;; shell overrides:  CFET_PLATFORM=tmd ocean -nograph -restore idvg.ocn
+when(getShellEnvVar("CFET_PLATFORM") CFET_PLATFORM = getShellEnvVar("CFET_PLATFORM"))
+when(getShellEnvVar("CFET_DEVICE")   CFET_DEVICE   = getShellEnvVar("CFET_DEVICE"))
+
+procedure(cfetMsg(fmt @rest args)
+  printf("[cfet] %s\n" apply('sprintf cons(nil cons(fmt args)))))
+
+;; ---------------------------------------------------------------------------
+;; Platform table (identical values in skill/, ade/*.csv and netlists/spectre)
+;; ---------------------------------------------------------------------------
+;;  vdd        nominal supply [V]
+;;  vgsMax     upper limit of the ID-VG sweep [V] (0.8 V, GaN 1.5 V)
+;;  vdsLin/Sat VDS of the linear / saturation ID-VG (0.05 / 0.6 V; GaN 0.05 / 1.2)
+;;  invStop    inverter transient stop time
+;;  roStop/roMaxstep  RO transient settings (brief: "transient settings table")
+;;  vddSweep   list(start stop step) for vdd_sweep.ocn / Assembler
+;;  temps      temperature corners [C] for temp_sweep.ocn
+;;  desVars    (name value) global design variables; strings may carry SI suffixes
+cfetPlatforms = list(
+  list(nil 'name "si" 'label "CFET-Si" 'nCell "gaa_n" 'pCell "gaa_p"
+       'vdd 0.7 'vgsMax 0.8 'vdsLin 0.05 'vdsSat 0.6
+       'invStop "2n" 'roStop "5n" 'roMaxstep "1p" 'stages 5
+       'vddSweep list(0.4 0.8 0.05) 'temps list(-40 27 85 125)
+       'desVars list(list("VDD" 0.7) list("VGS" 0.0) list("VDS" 0.05) list("CLOAD" "1f")
+                     list("CSTACK" "0.05f") list("COUT" "0.3f") list("RLOCAL" 10)
+                     list("Wn" "150n") list("Wp" "150n") list("Lg" "16n")
+                     list("NNSn" 3) list("NNSp" 3) list("VTHN" 0.25) list("VTHP" 0.25)
+                     list("MUN" 0.030) list("MUP" 0.015) list("WNS" "20n") list("RSW" 1e-4) list("RCN" 0) list("RCP" 0)
+                     list("RTH" 0) list("CTH" 0) list("DIT" 0) list("DCNT" 0) list("FMET" 0)
+                     list("TEMP" 27)))
+  list(nil 'name "sige" 'label "CFET-SiGe" 'nCell "gaa_n" 'pCell "sige_p"
+       'vdd 0.7 'vgsMax 0.8 'vdsLin 0.05 'vdsSat 0.6
+       'invStop "2n" 'roStop "5n" 'roMaxstep "1p" 'stages 5
+       'vddSweep list(0.4 0.8 0.05) 'temps list(-40 27 85 125)
+       'desVars list(list("VDD" 0.7) list("VGS" 0.0) list("VDS" 0.05) list("CLOAD" "1f")
+                     list("CSTACK" "0.05f") list("COUT" "0.3f") list("RLOCAL" 10)
+                     list("Wn" "150n") list("Wp" "150n") list("Lg" "16n")
+                     list("NNSn" 3) list("NNSp" 3) list("VTHN" 0.25) list("VTHP" 0.22)
+                     list("MUN" 0.030) list("MUP" 0.025) list("WNS" "20n") list("RSW" 1e-4) list("RCN" 0) list("RCP" 0)
+                     list("RTH" 0) list("CTH" 0) list("DIT" 0) list("DCNT" 0) list("FMET" 0)
+                     list("TEMP" 27)))
+  list(nil 'name "tmd" 'label "CFET-TMD" 'nCell "mos2_n" 'pCell "wse2_p"
+       'vdd 0.5 'vgsMax 0.8 'vdsLin 0.05 'vdsSat 0.5
+       'invStop "5n" 'roStop "50n" 'roMaxstep "10p" 'stages 5
+       'vddSweep list(0.3 0.6 0.05) 'temps list(-40 27 85 125)
+       'desVars list(list("VDD" 0.5) list("VGS" 0.0) list("VDS" 0.05) list("CLOAD" "1f")
+                     list("CSTACK" "0.03f") list("COUT" "0.3f") list("RLOCAL" 50)
+                     list("Wn" "100n") list("Wp" "200n") list("Lg" "20n")
+                     list("NNSn" 0) list("NNSp" 0) list("VTHN" 0.20) list("VTHP" 0.25)
+                     list("MUN" 5e-3) list("MUP" 4e-3) list("RCN" 5e-4) list("RCP" 8e-4)
+                     list("RTH" 0) list("CTH" 0) list("DIT" 1e16) list("DCNT" 0) list("FMET" 0)
+                     list("TEMP" 27)))
+  list(nil 'name "cnt" 'label "CFET-CNT" 'nCell "cnt_n" 'pCell "cnt_p"
+       'vdd 0.6 'vgsMax 0.8 'vdsLin 0.05 'vdsSat 0.6
+       'invStop "2n" 'roStop "5n" 'roMaxstep "1p" 'stages 5
+       'vddSweep list(0.4 0.8 0.05) 'temps list(-40 27 85 125)
+       'desVars list(list("VDD" 0.6) list("VGS" 0.0) list("VDS" 0.05) list("CLOAD" "1f")
+                     list("CSTACK" "0.03f") list("COUT" "0.3f") list("RLOCAL" 50)
+                     list("Wn" "100n") list("Wp" "100n") list("Lg" "15n")
+                     list("NNSn" 0) list("NNSp" 0) list("VTHN" 0.20) list("VTHP" 0.22)
+                     list("MUN" 0) list("MUP" 0) list("RCN" 1e-4) list("RCP" 1e-4)
+                     list("RTH" 0) list("CTH" 0) list("DIT" 0) list("DCNT" 250e6) list("FMET" 0.01)
+                     list("TEMP" 27)))
+  list(nil 'name "gan" 'label "CFET-GaN" 'nCell "gan_n" 'pCell "gan_p"
+       'vdd 1.2 'vgsMax 1.5 'vdsLin 0.05 'vdsSat 1.2
+       'invStop "5n" 'roStop "20n" 'roMaxstep "5p" 'stages 5
+       'vddSweep list(0.8 1.5 0.1) 'temps list(-40 27 85 125 150 200)
+       'desVars list(list("VDD" 1.2) list("VGS" 0.0) list("VDS" 0.05) list("CLOAD" "2f")
+                     list("CSTACK" "0.1f") list("COUT" "1f") list("RLOCAL" 20)
+                     list("Wn" "1u") list("Wp" "4u") list("Lg" "100n")
+                     list("NNSn" 0) list("NNSp" 0) list("VTHN" 0.30) list("VTHP" 0.50)
+                     list("MUN" 0.15) list("MUP" 2e-3) list("RCN" 0) list("RCP" 0)
+                     list("RTH" 2e5) list("CTH" 1e-12) list("DIT" 0) list("DCNT" 0) list("FMET" 0)
+                     list("TEMP" 27)))
+)
+
+;; (cell platformName polarity)
+cfetDevices = list(
+  list("gaa_n"  "si"   "n") list("gaa_p" "si"  "p") list("sige_p" "sige" "p")
+  list("mos2_n" "tmd"  "n") list("wse2_p" "tmd" "p")
+  list("cnt_n"  "cnt"  "n") list("cnt_p" "cnt" "p")
+  list("gan_n"  "gan"  "n") list("gan_p" "gan" "p"))
+
+procedure(cfetPlatform(name) car(exists(p cfetPlatforms p->name == name)))
+
+procedure(cfetSelectedPlatforms()
+  cond(
+    (null(CFET_PLATFORM) cfetPlatforms)
+    (stringp(CFET_PLATFORM) list(cfetPlatform(CFET_PLATFORM)))
+    (t mapcar('cfetPlatform CFET_PLATFORM))))
+
+procedure(cfetSelectedDevices()
+  if(CFET_DEVICE
+     list(assoc(CFET_DEVICE cfetDevices))
+     cfetDevices))
+
+procedure(cfetDesVar(plat name) cadr(assoc(name plat->desVars)))
+
+;; ---------------------------------------------------------------------------
+;; Simulation setup
+;; ---------------------------------------------------------------------------
+;; cfetSetup(tbCell plat tag): selects Spectre, the testbench cellview (or the
+;; equivalent hand-written netlist), a unique resultsDir per run, all design
+;; variables of the platform and the temperature.
+procedure(cfetSetup(tbCell plat tag)
+  simulator('spectre)
+  if(CFET_USE_NETLIST
+    design(strcat(CFET_ROOT "/netlists/spectre/" tbCell ".scs"))
+    design(CFET_LIB_NAME tbCell "schematic"))
+  resultsDir(strcat(CFET_PSF "/" tbCell "_" tag))
+  ;; ahdlInclude is NOT needed in cellview mode: the veriloga views are
+  ;; netlisted automatically. In netlist mode the .scs carries ahdl_include.
+  foreach(dv plat->desVars desVar(car(dv) cadr(dv)))
+  temp(cfetDesVar(plat "TEMP"))
+  ;; accuracy options recommended for ring oscillators and sharp VTCs
+  option('reltol 1e-4 'vabstol 1e-7 'iabstol 1e-13 'gmin 1e-15)
+  t)
+
+;; Drain-current wave of the device testbench (see build_schematics.il):
+;; n-type: current leaves VD:PLUS into the drain -> Id = -I(VD:PLUS)
+;; p-type: VD = -VDS, current flows from source through the device into VD:PLUS
+procedure(cfetIdWave(pol)
+  if(pol == "n" minus(i("/VD/PLUS")) i("/VD/PLUS")))
+
+;; ---------------------------------------------------------------------------
+;; CSV export helpers
+;; ---------------------------------------------------------------------------
+;; cfetWriteCSV("file.csv" "VGS" list(list("ID_lin" wave1) list("ID_sat" wave2)))
+;; Uses the documented dr* vector API (drGetWaveformXVec / drGetWaveformYVec /
+;; drVectorLength / drGetElem). All waves must share the same x vector (same
+;; sweep). ocnPrint(?output file ...) is the simpler, space-separated fallback.
+procedure(cfetWriteCSV(path xName colSpecs)
+  let((op xv yvs n)
+    createDirHier(cfetDirName(path))
+    op = outfile(path "w")
+    unless(op error("cfetWriteCSV: cannot open %s" path))
+    fprintf(op "%s" xName)
+    foreach(c colSpecs fprintf(op ",%s" car(c)))
+    fprintf(op "\n")
+    xv  = drGetWaveformXVec(cadr(car(colSpecs)))
+    yvs = foreach(mapcar c colSpecs drGetWaveformYVec(cadr(c)))
+    n   = drVectorLength(xv)
+    for(k 0 n - 1
+      fprintf(op "%.9g" drGetElem(xv k))
+      foreach(yv yvs fprintf(op ",%.9g" drGetElem(yv k)))
+      fprintf(op "\n"))
+    close(op)
+    cfetMsg("wrote %s (%d rows)" path n)
+    path))
+
+;; Scalar table: header written once, one row appended per call.
+procedure(cfetAppendRow(path header values)
+  let((op new)
+    createDirHier(cfetDirName(path))
+    new = !isFile(path)
+    op = outfile(path "a")
+    when(new fprintf(op "%s\n" buildString(header ",")))
+    fprintf(op "%s\n" buildString(foreach(mapcar v values
+                                   if(stringp(v) v sprintf(nil "%.9g" v))) ","))
+    close(op)
+    path))
+
+procedure(cfetDirName(path)
+  let((parts)
+    parts = parseString(path "/")
+    strcat("/" buildString(reverse(cdr(reverse(parts))) "/"))))
+
+;; Space-separated fallback export (several waves, same sweep)
+procedure(cfetOcnPrint(path @rest waves)
+  createDirHier(cfetDirName(path))
+  apply('ocnPrint append(list(?output path ?numberNotation 'scientific ?numSpaces 1) waves)))
+
+;; ---------------------------------------------------------------------------
+;; Ring-oscillator FoM from waveforms (shared by ro_tran / vdd_sweep /
+;; temp_sweep / sensitivity_* / montecarlo)
+;;   returns list(fRO tpd Pavg Ecycle PDP); zeros when < 11 cycles were found
+;; ---------------------------------------------------------------------------
+procedure(cfetRoFomFromWaves(vout pvdd vdd n)
+  let((t10 t11 fro tpd pavg)
+    t10 = cross(vout vdd / 2 10 "rising")
+    t11 = cross(vout vdd / 2 11 "rising")
+    if(t10 && t11
+      progn(
+        fro  = 1.0 / (t11 - t10)
+        tpd  = 1.0 / (2.0 * n * fro)
+        pavg = average(clip(pvdd t10 xmax(vout)))
+        list(fro tpd pavg pavg / fro pavg * tpd))
+      list(0 0 0 0 0))))
+
+;; Run the RO testbench of a platform at the current design variables and
+;; return list(fRO tpd Pavg Ecycle PDP). `tag` makes the resultsDir unique.
+procedure(cfetRunRoPoint(plat tag @optional overrides)
+  let((n tb vdd)
+    n   = plat->stages
+    vdd = plat->vdd
+    tb  = sprintf(nil "tb_ro%d_cfet_%s" n plat->name)
+    cfetSetup(tb plat tag)
+    foreach(o overrides
+      if(car(o) == "TEMP" temp(cadr(o)))
+      desVar(car(o) cadr(o))
+      when(car(o) == "VDD" vdd = cadr(o)))
+    analysis('tran ?stop plat->roStop ?maxstep plat->roMaxstep ?errpreset 'conservative)
+    save('v "/out") save('i "/VDD/PLUS")
+    ic("/out" 0.0)
+    run()
+    selectResult('tran)
+    cfetRoFomFromWaves(v("/out") vdd * minus(i("/VDD/PLUS")) vdd n)))
+
+createDirHier(CFET_RESULTS)
+createDirHier(CFET_PSF)
+cfetMsg("cfet_common.ocn loaded; CFET_ROOT=%s platforms=%L" CFET_ROOT
+        foreach(mapcar p cfetSelectedPlatforms() p->name))

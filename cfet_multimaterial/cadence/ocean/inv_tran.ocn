@@ -1,0 +1,48 @@
+;; =============================================================================
+;; inv_tran.ocn -- inverter transient: propagation delays and switching energy
+;;   VIN vpulse (spec): V1=0 V2=VDD delay=100p rise=5p fall=5p pw=500p period=1n
+;;   tran stop = 2 periods (invStop), maxstep per platform table
+;;   tpHL : delay(VIN rising 50 %, VOUT falling 50 %)   first edge
+;;   tpLH : delay(VIN falling 50 %, VOUT rising 50 %)   first edge
+;;   Eswitch : integ(VDD * I(VDD)) over one full period (both transitions)
+;;   appends results/inverter_tran.csv ; exports results/inv_tran_<plat>.csv
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetRunInvTran(plat)
+  let((tb vdd vin vout pvdd tphl tplh esw t0 t1 trise tfall)
+    tb  = strcat("tb_inv_cfet_" plat->name)
+    vdd = plat->vdd
+    cfetMsg("inverter transient %s" plat->label)
+    cfetSetup(tb plat "tran")
+    analysis('tran ?stop plat->invStop ?maxstep plat->roMaxstep ?errpreset 'conservative)
+    save('v "/in" "/out") save('i "/VDD/PLUS")
+    run()
+    selectResult('tran)
+    vin  = v("/in")
+    vout = v("/out")
+    pvdd = vdd * minus(i("/VDD/PLUS"))          ; instantaneous supply power [W]
+    ;; delay(?wf1 ?value1 ?edge1 ?nth1 ?td1 ?wf2 ?value2 ?edge2 ?nth2 ?td2)
+    tphl = delay(?wf1 vin ?value1 vdd / 2 ?edge1 "rising"  ?nth1 1 ?td1 0.0
+                 ?wf2 vout ?value2 vdd / 2 ?edge2 "falling" ?nth2 1 ?td2 0.0)
+    tplh = delay(?wf1 vin ?value1 vdd / 2 ?edge1 "falling" ?nth1 1 ?td1 0.0
+                 ?wf2 vout ?value2 vdd / 2 ?edge2 "rising"  ?nth2 1 ?td2 0.0)
+    ;; 10/90 output edge times
+    tfall = riseTime(vout 0.9 * vdd nil 0.1 * vdd nil 10 90)
+    trise = riseTime(vout 0.1 * vdd nil 0.9 * vdd nil 10 90)
+    ;; switching energy over one period starting at the first input edge
+    t0 = 100e-12
+    t1 = t0 + 1e-9
+    esw = integ(pvdd t0 t1)                     ; J per cycle (HL + LH)
+    cfetMsg("  tpHL=%g tpLH=%g tp=%g  tr=%g tf=%g  Eswitch=%g J/cycle"
+            tphl tplh (tphl + tplh) / 2 trise tfall esw)
+    cfetWriteCSV(strcat(CFET_RESULTS "/inv_tran_" plat->name ".csv") "t_s"
+      list(list("VIN_V" vin) list("VOUT_V" vout) list("PVDD_W" pvdd)))
+    cfetAppendRow(strcat(CFET_RESULTS "/inverter_tran.csv")
+      list("platform" "VDD_V" "CLOAD" "tpHL_s" "tpLH_s" "tp_s" "trise_s" "tfall_s" "Eswitch_J")
+      list(plat->name vdd sprintf(nil "%L" cfetDesVar(plat "CLOAD"))
+           tphl tplh (tphl + tplh) / 2 trise tfall esw))
+    t))
+
+foreach(plat cfetSelectedPlatforms() cfetRunInvTran(plat))
+cfetMsg("inv_tran.ocn done")

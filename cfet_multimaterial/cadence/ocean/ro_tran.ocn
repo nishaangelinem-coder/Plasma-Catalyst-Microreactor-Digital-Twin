@@ -1,0 +1,57 @@
+;; =============================================================================
+;; ro_tran.ocn -- ring-oscillator transient and FoM extraction
+;;   testbench tb_ro<N>_cfet_<plat> (N = CFET_RO_STAGES, default 5; 7 and 9
+;;   when CFET_RO_STAGES = list(5 7 9))
+;;   tran stop / maxstep from the platform table (brief: transient settings)
+;;   start-up: ic("/out" 0) -- or a 1 % VTH mismatch on the first inverter
+;;             (set CFET_RO_STARTUP = "mismatch"; adds 1 % to VTHN through a
+;;             per-instance override, see netlists/spectre/ro5_cfet_*.scs)
+;;   fRO   = 1 / (t_rise(11) - t_rise(10)) at VDD/2 on /out          cross()
+;;   tpd   = 1 / (2 N fRO)
+;;   Pavg  = average(VDD * I(VDD)) in the post-start-up window [t10, t_end]
+;;   Ecycle = Pavg / fRO ;  PDP = Pavg * tpd
+;;   appends results/ro_fom.csv ; exports results/ro<N>_<plat>.csv waveform
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+unless(boundp('CFET_RO_STAGES)  CFET_RO_STAGES  = 5)
+unless(boundp('CFET_RO_STARTUP) CFET_RO_STARTUP = "ic")
+
+procedure(cfetRunRo(plat n)
+  let((tb vdd vout pvdd t10 t11 tend fro tpd pavg ecyc pdp)
+    tb  = sprintf(nil "tb_ro%d_cfet_%s" n plat->name)
+    vdd = plat->vdd
+    cfetMsg("RO%d %s: stop=%s maxstep=%s" n plat->label plat->roStop plat->roMaxstep)
+    cfetSetup(tb plat sprintf(nil "ro%d" n))
+    analysis('tran ?stop plat->roStop ?maxstep plat->roMaxstep ?errpreset 'conservative)
+    save('v "/out") save('i "/VDD/PLUS")
+    if(CFET_RO_STARTUP == "ic"
+      ic("/out" 0.0)                              ; initial-condition kick
+      ;; "mismatch": no ic; the ring must have been built with
+      ;; CFET_RO_MISMATCH_STARTUP = t (build_schematics.il), which gives stage
+      ;; I1 VTHN = 1.01*VTHN so the symmetric metastable point is avoided.
+      cfetMsg("  start-up by 1 %% VTH mismatch on I1 (no ic)"))
+    run()
+    selectResult('tran)
+    vout = v("/out")
+    pvdd = vdd * minus(i("/VDD/PLUS"))
+    t10 = cross(vout vdd / 2 10 "rising")
+    t11 = cross(vout vdd / 2 11 "rising")
+    unless(t10 && t11 error("RO%d %s did not reach 11 cycles -- increase roStop" n plat->name))
+    tend = xmax(vout)
+    fro  = 1.0 / (t11 - t10)
+    tpd  = 1.0 / (2.0 * n * fro)
+    pavg = average(clip(pvdd t10 tend))
+    ecyc = pavg / fro
+    pdp  = pavg * tpd
+    cfetMsg("  fRO=%g Hz  tpd=%g s  Pavg=%g W  Ecycle=%g J  PDP=%g J" fro tpd pavg ecyc pdp)
+    cfetWriteCSV(strcat(CFET_RESULTS "/ro" sprintf(nil "%d" n) "_" plat->name ".csv") "t_s"
+      list(list("VOUT_V" vout) list("PVDD_W" pvdd)))
+    cfetAppendRow(strcat(CFET_RESULTS "/ro_fom.csv")
+      list("platform" "N" "VDD_V" "TEMP_C" "startup" "fRO_Hz" "tpd_s" "Pavg_W" "Ecycle_J" "PDP_J")
+      list(plat->name n vdd cfetDesVar(plat "TEMP") CFET_RO_STARTUP fro tpd pavg ecyc pdp))
+    list(fro tpd pavg ecyc pdp)))
+
+foreach(plat cfetSelectedPlatforms()
+  foreach(n if(listp(CFET_RO_STAGES) CFET_RO_STAGES list(CFET_RO_STAGES))
+    cfetRunRo(plat n)))
+cfetMsg("ro_tran.ocn done -> %s/ro_fom.csv" CFET_RESULTS)

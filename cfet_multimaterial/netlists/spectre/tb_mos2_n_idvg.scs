@@ -1,0 +1,53 @@
+// =============================================================================
+// tb_mos2_n_idvg.scs
+// CFET-TMD n-type device testbench: ID-VG (linear + saturation) and ID-VD family
+// Hand-written Spectre netlist equivalent to CFET_LIB/tb_mos2_n/schematic
+// (cadence/skill/build_schematics.il). Run from netlists/spectre/:
+//     spectre tb_mos2_n_idvg.scs -format psfascii -raw ../../results/spectre/tb_mos2_n_idvg
+// Units: SI throughout (m, V, A, F, Ohm; RSW/RDW/RC in Ohm*m, DIT in m^-2 eV^-1,
+// DCNT in tubes/m, RTH in K/W, CTH in J/K). Suffixes: f=1e-15 p=1e-12 n=1e-9 u=1e-6.
+// =============================================================================
+simulator lang=spectre
+global 0
+
+// ---- compact model ----------------------------------------------------------
+ahdl_include "../../veriloga/mos2_n.va"
+
+// ---- design variables (same names as the ADE design variables) --------------
+parameters VGS=0 VDS=0.05 TEMP=27
+parameters Wn=100n Wp=200n Lg=20n VTHN=0.20 VTHP=0.25 MUN=5e-3 MUP=4e-3 RCN=5e-4 RCP=8e-4 DIT=1e16
+parameters VDSLIN=0.05 VDSSAT=0.5 VGSMAX=0.8
+
+// ---- device under test  (terminals d g s b; source and body at ground) ------
+// n-type convention: the model works on V_sg / V_sd, so the testbench applies
+// VGS and VDS directly.
+M0 (d g 0 0) mos2_n W=Wn L=Lg VTH0=VTHN MU0=MUN RC=RCN DIT=DIT \
+    N0=1.15 ETA=0.08 COX=0.020 CQ=0.030 VSAT=3e4 LAMBDA=0.10 RSW=0 RDW=0 CGSO=5e-11 CGDO=5e-11 TNOM=300 MUEXP=1.0 KVTH=-1.5e-3
+
+// ---- bias sources ------------------------------------------------------------
+VG (g 0) vsource type=dc dc=VGS
+VD (d 0) vsource type=dc dc=VDS
+
+// ---- simulator options --------------------------------------------------------
+opt1 options temp=TEMP tnom=27 reltol=1e-4 vabstol=1e-7 iabstol=1e-13 gmin=1e-15
+
+// ---- analyses ------------------------------------------------------------------
+// 1) ID-VG linear region  (VDS = 0.05 V), VGS 0 .. VGSMAX step 2 mV
+setLin   alter param=VDS value=VDSLIN
+idvgLin  dc param=VGS start=0 stop=VGSMAX step=2m
+// 2) ID-VG saturation      (VDS = 0.5 V)
+setSat   alter param=VDS value=VDSSAT
+idvgSat  dc param=VGS start=0 stop=VGSMAX step=2m
+// 3) ID-VD family for VGS = 0.2 .. 0.7 step 0.1
+idvd sweep param=VGS start=0.2 stop=0.7 step=0.1 {
+    idvdInner dc param=VDS start=0 stop=VGSMAX step=5m
+}
+
+// ---- outputs ---------------------------------------------------------------------
+// Drain current Id = -I(VD:p)  (current into the + terminal of the drain source)
+save VD:p VG:p d g
+saveOptions options save=selected
+
+// Post-processing (cadence/ocean/extract_fom.ocn or sim/ Python):
+//   Ion = Id(VGS=VDD,VDS=VDD)  Ioff = Id(VGS=0,VDS=VDD)  SS = min dVGS/dlog10(Id)
+//   VT (constant current 100 nA*W/L)  DIBL = (VT_lin - VT_sat)/(VDSSAT - VDSLIN)

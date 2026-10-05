@@ -1,0 +1,43 @@
+platform,corner,temperature_degC,VDD_V,statistics_section,comment
+si,nom,27,0.7,none,nominal
+si,cold_lowV,-40,0.4,none,slow corner (low VDD cold)
+si,cold_nomV,-40,0.7,none,
+si,hot_nomV,85,0.7,none,
+si,hot_highV,125,0.8,none,fast/hot corner
+si,vdd_min,27,0.4,none,VDD sweep end point
+si,vdd_max,27,0.8,none,VDD sweep end point
+sige,nom,27,0.7,none,nominal
+sige,cold_lowV,-40,0.4,none,
+sige,cold_nomV,-40,0.7,none,
+sige,hot_nomV,85,0.7,none,
+sige,hot_highV,125,0.8,none,
+sige,vdd_min,27,0.4,none,
+sige,vdd_max,27,0.8,none,
+tmd,nom,27,0.5,none,nominal
+tmd,cold_lowV,-40,0.3,none,
+tmd,cold_nomV,-40,0.5,none,
+tmd,hot_nomV,85,0.5,none,
+tmd,hot_highV,125,0.6,none,
+tmd,vdd_min,27,0.3,none,
+tmd,vdd_max,27,0.6,none,
+cnt,nom,27,0.6,none,nominal
+cnt,cold_lowV,-40,0.4,none,
+cnt,cold_nomV,-40,0.6,none,
+cnt,hot_nomV,85,0.6,none,
+cnt,hot_highV,125,0.8,none,
+cnt,vdd_min,27,0.4,none,
+cnt,vdd_max,27,0.8,none,
+gan,nom,27,1.2,none,nominal
+gan,cold_lowV,-40,0.8,none,
+gan,cold_nomV,-40,1.2,none,
+gan,hot_nomV,85,1.2,none,
+gan,hot125,125,1.2,none,
+gan,hot150,150,1.2,none,GaN extended temperature
+gan,hot200_highV,200,1.5,none,GaN extended temperature + max VDD
+gan,vdd_min,27,0.8,none,
+gan,vdd_max,27,1.5,none,
+si,mc,27,0.7,si,Monte Carlo corner: ade/mc_statistics.scs section si
+sige,mc,27,0.7,sige,Monte Carlo corner
+tmd,mc,27,0.5,tmd,Monte Carlo corner
+cnt,mc,27,0.6,cnt,Monte Carlo corner
+gan,mc,27,1.2,gan,Monte Carlo corner

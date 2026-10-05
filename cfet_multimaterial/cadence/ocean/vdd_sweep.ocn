@@ -1,0 +1,42 @@
+;; =============================================================================
+;; vdd_sweep.ocn -- RO5 figures of merit versus supply voltage
+;;   paramAnalysis("VDD") per platform table:
+;;     Si / SiGe / CNT : 0.4 .. 0.8 V step 0.05
+;;     TMD             : 0.3 .. 0.6 V step 0.05
+;;     GaN             : 0.8 .. 1.5 V step 0.1
+;;   The transient result is a family; each member is read with famValue().
+;;   appends results/vdd_sweep.csv
+;; Alternative (more robust in old releases): replace paramAnalysis/paramRun by
+;; an explicit  foreach(vdd ... desVar("VDD" vdd) run() ...)  loop as in
+;; temp_sweep.ocn.
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+;; cfetRoFomFromWaves() comes from cfet_common.ocn
+
+procedure(cfetRunVddSweep(plat)
+  let((tb n sw fam famI r)
+    n  = plat->stages
+    tb = sprintf(nil "tb_ro%d_cfet_%s" n plat->name)
+    sw = plat->vddSweep
+    cfetMsg("VDD sweep %s: %L" plat->label sw)
+    cfetSetup(tb plat "vddsweep")
+    analysis('tran ?stop plat->roStop ?maxstep plat->roMaxstep ?errpreset 'conservative)
+    save('v "/out") save('i "/VDD/PLUS")
+    ic("/out" 0.0)
+    paramAnalysis("VDD" ?start car(sw) ?stop cadr(sw) ?step caddr(sw))
+    paramRun()
+    selectResult('tran)
+    fam  = v("/out")
+    famI = i("/VDD/PLUS")
+    foreach(vdd sweepValues()
+      r = cfetRoFomFromWaves(famValue(fam vdd) vdd * minus(famValue(famI vdd)) vdd n)
+      cfetMsg("  VDD=%g  fRO=%g  tpd=%g  Pavg=%g  Ecycle=%g  PDP=%g" vdd
+              nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))
+      cfetAppendRow(strcat(CFET_RESULTS "/vdd_sweep.csv")
+        list("platform" "N" "VDD_V" "fRO_Hz" "tpd_s" "Pavg_W" "Ecycle_J" "PDP_J")
+        list(plat->name n vdd nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))))
+    t))
+
+foreach(plat cfetSelectedPlatforms() cfetRunVddSweep(plat))
+cfetMsg("vdd_sweep.ocn done")

@@ -1,0 +1,51 @@
+// =============================================================================
+// roN_cfet_template.scs
+// Generic N-stage ring-oscillator template (N odd). Spectre has no loop
+// construct, so the ring body is written once per N; this file documents the
+// pattern and gives a shell one-liner that expands it for any N and platform.
+//
+//   PLAT=si N=7 sh -c 'awk -v N=$N -v P=$PLAT -f roN_expand.awk' > ro7_cfet_si.scs
+//
+// or, without awk, copy ro5_cfet_<plat>.scs and edit the stage list:
+//   I1 (nN n1 vdd 0) inv_cfet_<plat> ...        <- input of stage 1 is node nN
+//   Ik (n(k-1) nk vdd 0) inv_cfet_<plat> ...    <- k = 2 .. N
+//   save n1 ... nN V1:p
+//   tpd = 1 / (2 * N * fRO)
+// The 7- and 9-stage rings of the paper (ro7_cfet_<plat>, ro9_cfet_<plat>) are
+// generated exactly this way; cadence/skill/build_schematics.il builds the same
+// rings as schematics (cfetRingStages = list(5 7 9)).
+// =============================================================================
+simulator lang=spectre
+global 0
+include "inv_cfet_PLAT.scs"              // PLAT in {si, sige, tmd, cnt, gan}
+
+parameters VDD=0.7 TEMP=27
+parameters CSTACK=0.05f COUT=0.3f RLOCAL=10
+parameters Lg=16n NNSn=3 NNSp=3 WNS=20n RSW=1e-4 VTHN=0.25 VTHP=0.25 MUN=0.030 MUP=0.015   // platform variables
+parameters MISMATCH=0                    // 0.01 -> 1 % VTHN offset on stage 1
+// Every stage passes the platform variables (VTHN=VTHN ...) so that the global
+// process variation reaches the subcircuit; stage 1 adds the MISMATCH offset.
+
+V1 (vdd 0) vsource type=dc dc=VDD
+// ---- BEGIN stage list (N = 7 shown) ------------------------------------------
+I1 (n7 n1 vdd 0) inv_cfet_PLAT CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN*(1+MISMATCH) VTHP=VTHP MUN=MUN MUP=MUP
+I2 (n1 n2 vdd 0) inv_cfet_PLAT CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+I3 (n2 n3 vdd 0) inv_cfet_PLAT CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+I4 (n3 n4 vdd 0) inv_cfet_PLAT CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+I5 (n4 n5 vdd 0) inv_cfet_PLAT CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+I6 (n5 n6 vdd 0) inv_cfet_PLAT CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+I7 (n6 n7 vdd 0) inv_cfet_PLAT CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+// ---- END stage list ----------------------------------------------------------
+ic n1=0
+
+opt1 options temp=TEMP tnom=27 reltol=1e-4 vabstol=1e-7 iabstol=1e-13 gmin=1e-15
+tran1 tran stop=5n maxstep=1p errpreset=conservative      // platform table values
+save n1 n2 n3 n4 n5 n6 n7 V1:p
+saveOptions options save=selected

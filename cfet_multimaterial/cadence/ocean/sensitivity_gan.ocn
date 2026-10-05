@@ -1,0 +1,38 @@
+;; =============================================================================
+;; sensitivity_gan.ocn -- CFET-GaN sensitivities
+;;   TEMP : ambient 300 .. 500 K  (27, 77, 127, 177, 227 C)
+;;   RTH  : thermal resistance 0.5x, 1x, 2x, 4x nominal (1e5 .. 8e5 K/W)
+;;   VTH  : VTHN and VTHP shifted together by -15, -10, -5, +5, +10, +15 %
+;;   appends results/sensitivity_gan.csv
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetSensRowGan(plat param val r)
+  cfetMsg("  %s=%g  fRO=%g tpd=%g Pavg=%g Ecycle=%g PDP=%g" param val
+          nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))
+  cfetAppendRow(strcat(CFET_RESULTS "/sensitivity_gan.csv")
+    list("platform" "parameter" "value" "fRO_Hz" "tpd_s" "Pavg_W" "Ecycle_J" "PDP_J")
+    list(plat->name param val nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))))
+
+procedure(cfetRunSensGan(plat)
+  let((rth0 vthn0 vthp0)
+    cfetMsg("sensitivity %s" plat->label)
+    foreach(tk list(300 350 400 450 500)
+      cfetSensRowGan(plat "TEMP_K" tk
+        cfetRunRoPoint(plat sprintf(nil "sens_T%g" tk) list(list("TEMP" tk - 273.15)))))
+    rth0 = cfetDesVar(plat "RTH")
+    foreach(k list(0.5 1.0 2.0 4.0)
+      cfetSensRowGan(plat "RTH_KW" k * rth0
+        cfetRunRoPoint(plat sprintf(nil "sens_rth%g" k) list(list("RTH" k * rth0)))))
+    vthn0 = cfetDesVar(plat "VTHN")
+    vthp0 = cfetDesVar(plat "VTHP")
+    foreach(pct list(minus(15) minus(10) minus(5) 5 10 15)   ; minus(): `-15 -10` would be read as 15-10
+      cfetSensRowGan(plat "VTH_pct" pct
+        cfetRunRoPoint(plat sprintf(nil "sens_vth%d" pct)
+          list(list("VTHN" vthn0 * (1 + pct / 100.0))
+               list("VTHP" vthp0 * (1 + pct / 100.0))))))
+    t))
+
+foreach(plat cfetSelectedPlatforms()
+  when(plat->name == "gan" cfetRunSensGan(plat)))
+cfetMsg("sensitivity_gan.ocn done")

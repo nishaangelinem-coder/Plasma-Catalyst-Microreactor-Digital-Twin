@@ -1,0 +1,50 @@
+// =============================================================================
+// inv_cfet_tmd.scs
+// CFET-TMD CFET inverter sub-circuit: wse2_p stacked over mos2_n + CFET parasitics
+// Hand-written Spectre netlist equivalent to CFET_LIB/inv_cfet_tmd/schematic
+// (cadence/skill/build_schematics.il). Included by tb_inv_cfet_tmd.scs and ro5_cfet_tmd.scs
+// (not a top-level netlist: it carries no analyses and no top-level parameters).
+// Units: SI throughout (m, V, A, F, Ohm; RSW/RDW/RC in Ohm*m, DIT in m^-2 eV^-1,
+// DCNT in tubes/m, RTH in K/W, CTH in J/K). Suffixes: f=1e-15 p=1e-12 n=1e-9 u=1e-6.
+// =============================================================================
+simulator lang=spectre
+global 0
+
+// ---- compact models -----------------------------------------------------------
+ahdl_include "../../veriloga/mos2_n.va"
+ahdl_include "../../veriloga/wse2_p.va"
+
+// NOTE: no top-level `parameters` here -- the including testbench defines the
+// design variables (Wn=100n Wp=200n Lg=20n VTHN=0.20 VTHP=0.25 MUN=5e-3 MUP=4e-3 RCN=5e-4 RCP=8e-4 DIT=1e16)
+// and passes them to every instance; duplicate top-level definitions would be
+// rejected by Spectre.
+
+// -------------------------------------------------------------------------------
+// inv_cfet_tmd (in out vdd vss)
+//
+//            vdd ---- s,b  MP (wse2_p)  d ---- pd ---[Rlocal_p]---+
+//   in ---- g                                                        |-- out --[Cout]-- vss
+//            vss ---- s,b  MN (mos2_n)  d ---- nd ---[Rlocal_n]---+
+//                                 [Cstack] between pd and nd (vertical n/p stack)
+//
+// CFET parasitics (mid-range defaults of the brief):
+//   CSTACK  stacked-drain coupling capacitance    0.03f
+//   COUT    output / local interconnect capacitance 0.3f
+//   RLOCAL  local via / drain-to-output resistance  50 Ohm (one per device)
+// The device variables are SUBCIRCUIT parameters (numeric nominal defaults) so
+// that Spectre `mismatch` statistics (cadence/ade/mc_statistics.scs) sample them
+// per inverter instance; the testbench passes VTHN=VTHN etc. so the global
+// `process` variation of the top-level parameter is inherited as well.
+// -------------------------------------------------------------------------------
+subckt inv_cfet_tmd (in out vdd vss)
+parameters CSTACK=0.03f COUT=0.3f RLOCAL=50 \
+    Wn=100n Wp=200n Lg=20n VTHN=0.20 VTHP=0.25 MUN=5e-3 MUP=4e-3 RCN=5e-4 RCP=8e-4 DIT=1e16
+    MP (pd in vdd vdd) wse2_p W=Wp L=Lg VTH0=VTHP MU0=MUP RC=RCP DIT=DIT \
+        N0=1.20 ETA=0.09 COX=0.020 CQ=0.025 VSAT=2.5e4 LAMBDA=0.12 RSW=0 RDW=0 CGSO=5e-11 CGDO=5e-11 TNOM=300 MUEXP=1.0 KVTH=-1.5e-3
+    MN (nd in vss vss) mos2_n W=Wn L=Lg VTH0=VTHN MU0=MUN RC=RCN DIT=DIT \
+        N0=1.15 ETA=0.08 COX=0.020 CQ=0.030 VSAT=3e4 LAMBDA=0.10 RSW=0 RDW=0 CGSO=5e-11 CGDO=5e-11 TNOM=300 MUEXP=1.0 KVTH=-1.5e-3
+    Rlocal_p (pd out) resistor r=RLOCAL
+    Rlocal_n (nd out) resistor r=RLOCAL
+    Cstack   (pd nd)  capacitor c=CSTACK
+    Cout     (out vss) capacitor c=COUT
+ends inv_cfet_tmd

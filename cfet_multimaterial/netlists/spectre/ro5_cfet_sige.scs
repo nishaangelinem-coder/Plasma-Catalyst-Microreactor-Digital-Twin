@@ -1,0 +1,67 @@
+// =============================================================================
+// ro5_cfet_sige.scs
+// CFET-SiGe 5-stage ring oscillator testbench (CFET_LIB/ro5_cfet_sige + tb_ro5_cfet_sige)
+// Hand-written Spectre netlist equivalent to CFET_LIB/tb_ro5_cfet_sige/schematic
+// (cadence/skill/build_schematics.il). Run from netlists/spectre/:
+//     spectre ro5_cfet_sige.scs -format psfascii -raw ../../results/spectre/ro5_cfet_sige
+// Units: SI throughout (m, V, A, F, Ohm; RSW/RDW/RC in Ohm*m, DIT in m^-2 eV^-1,
+// DCNT in tubes/m, RTH in K/W, CTH in J/K). Suffixes: f=1e-15 p=1e-12 n=1e-9 u=1e-6.
+// =============================================================================
+simulator lang=spectre
+global 0
+
+include "inv_cfet_sige.scs"
+
+// ---- design variables ---------------------------------------------------------------
+parameters VDD=0.7 TEMP=27
+parameters CSTACK=0.05f COUT=0.3f RLOCAL=10
+parameters Lg=16n NNSn=3 NNSp=3 WNS=20n RSW=1e-4 VTHN=0.25 VTHP=0.22 MUN=0.030 MUP=0.025
+// start-up: MISMATCH=0 -> use the `ic` statement below; MISMATCH=0.01 -> stage I1
+// gets a 1 % higher VTHN which breaks the symmetric metastable point (brief step 23)
+parameters MISMATCH=0
+
+// ---- ring: N = 5 inverters, nodes n1..n5, I1 driven by n5 (ring closed) -----
+V1 (vdd 0) vsource type=dc dc=VDD
+I1 (n5 n1 vdd 0) inv_cfet_sige CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN*(1+MISMATCH) VTHP=VTHP MUN=MUN MUP=MUP
+I2 (n1 n2 vdd 0) inv_cfet_sige CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+I3 (n2 n3 vdd 0) inv_cfet_sige CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+I4 (n3 n4 vdd 0) inv_cfet_sige CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+I5 (n4 n5 vdd 0) inv_cfet_sige CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Lg=Lg NNSn=NNSn NNSp=NNSp WNS=WNS RSW=RSW VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP
+
+// initial-condition kick on n1 (comment out when MISMATCH != 0)
+ic n1=0
+
+opt1 options temp=TEMP tnom=27 reltol=1e-4 vabstol=1e-7 iabstol=1e-13 gmin=1e-15
+
+// ---- transient: platform table (stop 5n, maxstep 1p) ------------
+tran1 tran stop=5n maxstep=1p errpreset=conservative
+
+// ---- outputs --------------------------------------------------------------------------------
+save n1 n2 n3 n4 n5 V1:p
+saveOptions options save=selected
+
+// Extraction (cadence/ocean/ro_tran.ocn):
+//   fRO    = 1 / (t_rise,11 - t_rise,10)   rising crossings of n1 at VDD/2
+//   tpd    = 1 / (2 * 5 * fRO)
+//   Pavg   = average(VDD * (-I(V1:p))) over [t_rise,10, stop]
+//   Ecycle = Pavg / fRO ;  PDP = Pavg * tpd
+//
+// Supply sweep (0.4 .. 0.8 step 0.05 V) -- uncomment:
+// vddsw sweep param=VDD start=0.4 stop=0.8 step=0.05 {
+//     tranSw tran stop=5n maxstep=1p errpreset=conservative
+// }
+// Temperature sweep (TEMP = -40 27 85 125 C) -- uncomment:
+// tsw sweep param=TEMP values=[-40 27 85 125] {
+//     tranT tran stop=5n maxstep=1p errpreset=conservative
+// }
+// Monte Carlo with the statistics block of the platform (100 debug / 1000 paper):
+// include "../../cadence/ade/mc_statistics.scs" section=sige
+// mc1 montecarlo numruns=100 seed=12345 variations=all savefamilyplots=yes donominal=yes {
+//     tranMC tran stop=5n maxstep=1p errpreset=conservative
+// }
+// (post-process the per-run psf families in Python: fRO, Pavg, Ecycle, PDP, yield)

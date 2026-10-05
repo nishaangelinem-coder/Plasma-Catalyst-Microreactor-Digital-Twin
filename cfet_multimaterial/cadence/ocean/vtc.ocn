@@ -1,0 +1,51 @@
+;; =============================================================================
+;; vtc.ocn -- inverter voltage transfer characteristic for every platform
+;;   dc sweep of the VIN dc value 0 .. VDD step 1 mV (tb_inv_cfet_<plat>)
+;;   VM   : v(out) = v(in) crossing            via cross(vout - vin, 0, 1, "falling")
+;;   gain : max |dVout/dVin|                   via deriv()
+;;   VIL/VIH : points where |gain| = 1          -> NML = VIL - VOL, NMH = VOH - VIH
+;;   IDD  : static supply current at VIN = 0, VM, VDD
+;;   exports results/vtc_<plat>.csv (curve) and appends results/inverter_vtc.csv
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetRunVtc(plat)
+  let((tb vdd vin vout idd gainW vm gain vil vih vol voh nml nmh idd0 iddVm iddVdd)
+    tb  = strcat("tb_inv_cfet_" plat->name)
+    vdd = plat->vdd
+    cfetMsg("VTC %s" plat->label)
+    cfetSetup(tb plat "vtc")
+    ;; sweep the dc value of the vpulse source VIN (ADE: Component Parameter)
+    analysis('dc ?saveOppoint t ?dev "/VIN" ?param "dc" ?start 0 ?stop vdd ?step 0.001)
+    save('v "/in" "/out") save('i "/VDD/PLUS")
+    run()
+    selectResult('dc)
+    vin  = v("/in")
+    vout = v("/out")
+    idd  = minus(i("/VDD/PLUS"))               ; current delivered by the supply
+    gainW = deriv(vout)                         ; dVout/dVin (negative)
+    vm   = cross(vout - vin 0.0 1 "falling")   ; VM: Vout = Vin
+    gain = abs(value(gainW vm))                 ; |Av| at VM (maximum of |gain|)
+    gain = max(gain ymax(abs(gainW)))
+    vil  = cross(gainW minus(1.0) 1 "falling")   ; minus(1.0): `gainW -1.0` would be read as a subtraction        ; first point where slope reaches -1
+    vih  = cross(gainW minus(1.0) 1 "rising")        ; slope back above -1
+    vol  = value(vout vdd)
+    voh  = value(vout 0.0)
+    nml  = vil - vol
+    nmh  = voh - vih
+    idd0   = value(idd 0.0)
+    iddVm  = value(idd vm)
+    iddVdd = value(idd vdd)
+    cfetMsg("  VM=%g V  |Av|=%g  VIL=%g VIH=%g  NML=%g NMH=%g  IDD(0)=%g IDD(VM)=%g IDD(VDD)=%g"
+            vm gain vil vih nml nmh idd0 iddVm iddVdd)
+    cfetWriteCSV(strcat(CFET_RESULTS "/vtc_" plat->name ".csv") "VIN_V"
+      list(list("VOUT_V" vout) list("GAIN" gainW) list("IDD_A" idd)))
+    cfetAppendRow(strcat(CFET_RESULTS "/inverter_vtc.csv")
+      list("platform" "VDD_V" "VM_V" "gain" "VIL_V" "VIH_V" "VOL_V" "VOH_V"
+           "NML_V" "NMH_V" "IDD_vin0_A" "IDD_VM_A" "IDD_vdd_A")
+      list(plat->name vdd vm gain vil vih vol voh nml nmh idd0 iddVm iddVdd))
+    plot(vout ?expr list("Vout"))
+    t))
+
+foreach(plat cfetSelectedPlatforms() cfetRunVtc(plat))
+cfetMsg("vtc.ocn done")

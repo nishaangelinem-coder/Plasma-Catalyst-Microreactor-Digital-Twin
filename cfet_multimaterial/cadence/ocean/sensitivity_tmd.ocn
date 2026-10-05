@@ -1,0 +1,40 @@
+;; =============================================================================
+;; sensitivity_tmd.ocn -- CFET-TMD (MoS2 n / WSe2 p) sensitivities
+;;   RCN, RCP : contact resistance 0.1 .. 2 kOhm*um  -> RC [Ohm*m] = 1e-4 .. 2e-3
+;;              (RC in SI: 1 kOhm*um = 1e3 Ohm * 1e-6 m = 1e-3 Ohm*m)
+;;   DIT      : 1e11 .. 1e13 cm^-2 eV^-1 -> 1e15 .. 1e17 m^-2 eV^-1 (model unit)
+;;   appends results/sensitivity_tmd.csv
+;; =============================================================================
+load(strcat(getShellEnvVar("CFET_ROOT") "/cadence/ocean/cfet_common.ocn"))
+
+procedure(cfetSensRowTmd(plat param val r)
+  cfetMsg("  %s=%g  fRO=%g tpd=%g Pavg=%g Ecycle=%g PDP=%g" param val
+          nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))
+  cfetAppendRow(strcat(CFET_RESULTS "/sensitivity_tmd.csv")
+    list("platform" "parameter" "value_SI" "fRO_Hz" "tpd_s" "Pavg_W" "Ecycle_J" "PDP_J")
+    list(plat->name param val nth(0 r) nth(1 r) nth(2 r) nth(3 r) nth(4 r))))
+
+;; kOhm*um -> Ohm*m
+cfetRcList = foreach(mapcar k list(0.1 0.2 0.5 1.0 1.5 2.0) k * 1e-3)
+;; cm^-2 eV^-1 -> m^-2 eV^-1
+cfetDitList = foreach(mapcar d list(1e11 3e11 1e12 3e12 1e13) d * 1e4)
+
+procedure(cfetRunSensTmd(plat)
+  cfetMsg("sensitivity %s" plat->label)
+  foreach(rc cfetRcList
+    cfetSensRowTmd(plat "RCN" rc
+      cfetRunRoPoint(plat sprintf(nil "sens_rcn%g" rc) list(list("RCN" rc)))))
+  foreach(rc cfetRcList
+    cfetSensRowTmd(plat "RCP" rc
+      cfetRunRoPoint(plat sprintf(nil "sens_rcp%g" rc) list(list("RCP" rc)))))
+  foreach(rc cfetRcList                       ; both contacts together
+    cfetSensRowTmd(plat "RC_both" rc
+      cfetRunRoPoint(plat sprintf(nil "sens_rc%g" rc) list(list("RCN" rc) list("RCP" rc)))))
+  foreach(dit cfetDitList
+    cfetSensRowTmd(plat "DIT" dit
+      cfetRunRoPoint(plat sprintf(nil "sens_dit%g" dit) list(list("DIT" dit)))))
+  t)
+
+foreach(plat cfetSelectedPlatforms()
+  when(plat->name == "tmd" cfetRunSensTmd(plat)))
+cfetMsg("sensitivity_tmd.ocn done")

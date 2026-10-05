@@ -1,0 +1,67 @@
+// =============================================================================
+// ro5_cfet_gan.scs
+// CFET-GaN 5-stage ring oscillator testbench (CFET_LIB/ro5_cfet_gan + tb_ro5_cfet_gan)
+// Hand-written Spectre netlist equivalent to CFET_LIB/tb_ro5_cfet_gan/schematic
+// (cadence/skill/build_schematics.il). Run from netlists/spectre/:
+//     spectre ro5_cfet_gan.scs -format psfascii -raw ../../results/spectre/ro5_cfet_gan
+// Units: SI throughout (m, V, A, F, Ohm; RSW/RDW/RC in Ohm*m, DIT in m^-2 eV^-1,
+// DCNT in tubes/m, RTH in K/W, CTH in J/K). Suffixes: f=1e-15 p=1e-12 n=1e-9 u=1e-6.
+// =============================================================================
+simulator lang=spectre
+global 0
+
+include "inv_cfet_gan.scs"
+
+// ---- design variables ---------------------------------------------------------------
+parameters VDD=1.2 TEMP=27
+parameters CSTACK=0.1f COUT=1f RLOCAL=20
+parameters Wn=1u Wp=4u Lg=100n VTHN=0.30 VTHP=0.50 MUN=0.15 MUP=2e-3 RTH=2e5 CTH=1e-12
+// start-up: MISMATCH=0 -> use the `ic` statement below; MISMATCH=0.01 -> stage I1
+// gets a 1 % higher VTHN which breaks the symmetric metastable point (brief step 23)
+parameters MISMATCH=0
+
+// ---- ring: N = 5 inverters, nodes n1..n5, I1 driven by n5 (ring closed) -----
+V1 (vdd 0) vsource type=dc dc=VDD
+I1 (n5 n1 vdd 0) inv_cfet_gan CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Wn=Wn Wp=Wp Lg=Lg VTHN=VTHN*(1+MISMATCH) VTHP=VTHP MUN=MUN MUP=MUP RTH=RTH CTH=CTH
+I2 (n1 n2 vdd 0) inv_cfet_gan CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Wn=Wn Wp=Wp Lg=Lg VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP RTH=RTH CTH=CTH
+I3 (n2 n3 vdd 0) inv_cfet_gan CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Wn=Wn Wp=Wp Lg=Lg VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP RTH=RTH CTH=CTH
+I4 (n3 n4 vdd 0) inv_cfet_gan CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Wn=Wn Wp=Wp Lg=Lg VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP RTH=RTH CTH=CTH
+I5 (n4 n5 vdd 0) inv_cfet_gan CSTACK=CSTACK COUT=COUT RLOCAL=RLOCAL \
+    Wn=Wn Wp=Wp Lg=Lg VTHN=VTHN VTHP=VTHP MUN=MUN MUP=MUP RTH=RTH CTH=CTH
+
+// initial-condition kick on n1 (comment out when MISMATCH != 0)
+ic n1=0
+
+opt1 options temp=TEMP tnom=27 reltol=1e-4 vabstol=1e-7 iabstol=1e-13 gmin=1e-15
+
+// ---- transient: platform table (stop 20n, maxstep 5p) ------------
+tran1 tran stop=20n maxstep=5p errpreset=conservative
+
+// ---- outputs --------------------------------------------------------------------------------
+save n1 n2 n3 n4 n5 V1:p
+saveOptions options save=selected
+
+// Extraction (cadence/ocean/ro_tran.ocn):
+//   fRO    = 1 / (t_rise,11 - t_rise,10)   rising crossings of n1 at VDD/2
+//   tpd    = 1 / (2 * 5 * fRO)
+//   Pavg   = average(VDD * (-I(V1:p))) over [t_rise,10, stop]
+//   Ecycle = Pavg / fRO ;  PDP = Pavg * tpd
+//
+// Supply sweep (0.8 .. 1.5 step 0.1 V) -- uncomment:
+// vddsw sweep param=VDD start=0.8 stop=1.5 step=0.1 {
+//     tranSw tran stop=20n maxstep=5p errpreset=conservative
+// }
+// Temperature sweep (TEMP = -40 27 85 125 150 200 C) -- uncomment:
+// tsw sweep param=TEMP values=[-40 27 85 125 150 200] {
+//     tranT tran stop=20n maxstep=5p errpreset=conservative
+// }
+// Monte Carlo with the statistics block of the platform (100 debug / 1000 paper):
+// include "../../cadence/ade/mc_statistics.scs" section=gan
+// mc1 montecarlo numruns=100 seed=12345 variations=all savefamilyplots=yes donominal=yes {
+//     tranMC tran stop=20n maxstep=5p errpreset=conservative
+// }
+// (post-process the per-run psf families in Python: fRO, Pavg, Ecycle, PDP, yield)
