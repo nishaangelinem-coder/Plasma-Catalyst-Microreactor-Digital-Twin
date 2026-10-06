@@ -1,0 +1,9179 @@
+{
+"title": [
+{
+"text": "A Unified Physics-Based Compact Model and Calibrated Circuit-Validation Flow for Multi-Material CFET Logic: Si, SiGe, MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "/WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ", CNT and GaN"
+}
+],
+"author": "M. Nisha Angeline",
+"affiliation": "Department of Electronics and Communication Engineering, Velalar College of Engineering and Technology, Thindal, Erode, Tamil Nadu, India (e-mail: nishavlsidesign@gmail.com)",
+"journal": "IEEE Transactions on Electron Devices",
+"blocks": [
+{
+"type": "abstract",
+"runs": [
+{
+"text": "Complementary FET (CFET) stacking removes the n/p lateral separation from the standard-cell footprint, but the choice of channel material for the two tiers is still open. We present a unified, physics-based compact model (UCM-CFET) whose single equation core (EKV-type smooth overdrive, velocity-saturation-limited drift\u2013diffusion current with a "
+},
+{
+"text": "tanh",
+"i": false
+},
+{
+"text": " drain-voltage interpolation, charge-conserving terminal charges, series resistance and temperature dependence) is extended by material blocks: quantum capacitance and trap-limited ideality for two-dimensional MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "/WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " channels, a Landauer quasi-ballistic branch with a metallic-tube shunt for carbon-nanotube (CNT) arrays, and an electro-thermal node for GaN. Nine device models (Si GAA n/p, SiGe p, MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " n, WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " p, CNT n/p, GaN n and projected p-GaN) are written once as Verilog-A for Cadence Spectre/ADE, mirrored exactly (within 0.1%) by an open-source ngspice behavioural library, and calibrated by least squares to literature-anchored reference "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": " data with 1.3\u201312.1% mean absolute percentage error on "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "G",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and 3.7\u201312.6% on "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " families. The calibrated models drive a common CFET inverter cell with explicit inter-tier coupling capacitance, output parasitic and local-interconnect resistance, 5/7/9-stage ring oscillators (ROs), unified "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and temperature sweeps, material-specific sensitivity studies and Monte Carlo yield analysis. At nominal supply the 5-stage ROs run at 19.39, 21.39, 2.59, 45.39 and 1.69\u00a0GHz for the Si, SiGe, TMD, CNT and GaN platforms with 2.09, 2.12, 0.67, 0.84 and 94.17\u00a0fJ per cycle. A contact-resistance crossover map shows the TMD CFET keeps an iso-frequency energy advantage over Si only below a critical contact resistance; the CNT inverter loses its gain once the metallic-tube fraction exceeds about "
+},
+{
+"text": "5\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-3",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "; the GaN platform shows a frequency temperature coefficient of 501\u00a0ppm/K between 300 and 500\u00a0K. The outcome is a material-selection map rather than a single winner, together with conceptual, DRC-clean GDSII layouts of the five inverter and RO cells."
+}
+]
+},
+{
+"type": "keywords",
+"runs": [
+{
+"text": "CFET, compact model, Verilog-A, nanosheet, SiGe, MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ", WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ", carbon nanotube, GaN, ring oscillator, Monte Carlo, design-technology co-optimization."
+}
+]
+},
+{
+"type": "h1",
+"runs": [
+{
+"text": "Introduction"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "The complementary FET (CFET), in which the p-channel device is stacked vertically over the n-channel device around a common gate, is the leading candidate to continue track-height scaling below the lateral gate-all-around (GAA) nanosheet node [1, 2, 3]. Because the two tiers are fabricated sequentially or share a common stack, the CFET also opens the possibility of placing "
+},
+{
+"i": true,
+"text": "different channel materials"
+},
+{
+"text": " in the two tiers: strained SiGe for the hole channel [4, 5], two-dimensional (2D) transition-metal dichalcogenides (TMDs) for ultimate thickness scaling [6, 7, 8, 9, 10], aligned carbon-nanotube (CNT) arrays for quasi-ballistic transport [11, 12, 13], and wide-band-gap GaN for high-temperature or power-control logic [14, 15, 16, 17]."
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Assessing these options at the circuit level requires compact models that are (i) physically interpretable, so that a material parameter such as contact resistance or metallic-tube fraction maps to one model parameter, (ii) numerically smooth, so that Spectre or ngspice converge in ring-oscillator (RO) transients, (iii) charge-conserving, so that delay and energy are meaningful, and (iv) calibrated by a documented procedure. Industry-standard models such as BSIM-CMG [18] satisfy (ii)\u2013(iii) for Si but do not expose 2D, CNT or GaN physics; published 2D [19] and CNT [20] models are material-specific and are rarely compared on one footing."
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "This paper makes four contributions. First, a unified compact model (UCM-CFET) with one core and four material blocks, written in Verilog-A for Cadence Virtuoso/Spectre/ADE [21, 22, 23] and mirrored by an ngspice behavioural library [24] that reproduces the Verilog-A equations to within 0.1%. Second, a reproducible calibration flow with explicit targets and error metrics. Third, a complete circuit-validation flow (inverter cell with CFET parasitics, VTC, transient delay and energy, 5/7/9-stage ROs, "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and temperature sweeps, material-specific sensitivity studies, Monte Carlo yield), executed identically for all five platforms. Fourth, a material-selection map derived from those results. The platform maturity is stated explicitly (Table\u00a0I): the Si and SiGe models are advanced-node, roadmap-relevant; the TMD and CNT models are emerging post-Si projections; the GaN model, in particular its p-channel device, is exploratory."
+}
+]
+},
+{
+"type": "tab",
+"wide": false,
+"num": "I",
+"caption": [
+{
+"text": "The five CFET material platforms and their maturity."
+}
+],
+"rows": [
+[
+[
+{
+"text": "lllp{2.6cm}c@{}}\n\nID"
+}
+],
+[
+{
+"text": "Bottom (n)"
+}
+],
+[
+{
+"text": "Top (p)"
+}
+],
+[
+{
+"text": "Purpose (maturity)"
+}
+],
+[
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+}
+]
+],
+[
+[
+{
+"text": "CFET-Si"
+}
+],
+[
+{
+"text": "Si GAA NS"
+}
+],
+[
+{
+"text": "Si GAA NS"
+}
+],
+[
+{
+"text": "baseline logic (advanced node)"
+}
+],
+[
+{
+"text": "0.7 V"
+}
+]
+],
+[
+[
+{
+"text": "CFET-SiGe"
+}
+],
+[
+{
+"text": "Si GAA NS"
+}
+],
+[
+{
+"text": "SiGe GAA NS"
+}
+],
+[
+{
+"text": "p-FET mobility boost (advanced node)"
+}
+],
+[
+{
+"text": "0.7 V"
+}
+]
+],
+[
+[
+{
+"text": "CFET-TMD"
+}
+],
+[
+{
+"text": "MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "low-"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", contact-limited (emerging)"
+}
+],
+[
+{
+"text": "0.5 V"
+}
+]
+],
+[
+[
+{
+"text": "CFET-CNT"
+}
+],
+[
+{
+"text": "n-CNTFET"
+}
+],
+[
+{
+"text": "p-CNTFET"
+}
+],
+[
+{
+"text": "quasi-ballistic post-Si (emerging)"
+}
+],
+[
+{
+"text": "0.6 V"
+}
+]
+],
+[
+[
+{
+"text": "CFET-GaN"
+}
+],
+[
+{
+"text": "n-GaN"
+}
+],
+[
+{
+"text": "p-GaN (proj.)"
+}
+],
+[
+{
+"text": "high-"
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": ", power-control (exploratory)"
+}
+],
+[
+{
+"text": "1.2 V"
+}
+]
+]
+]
+},
+{
+"type": "fig",
+"wide": false,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig01_cfet_stacks.png"
+],
+"num": "1",
+"caption": [
+{
+"text": "Cross-section cartoons of the five CFET platforms: bottom n-tier, inter-tier dielectric, top p-tier, common gate wrapping both tiers, and n/p source/drain contacts. Maturity tags follow Table\u00a0I."
+}
+]
+},
+{
+"type": "h1",
+"runs": [
+{
+"text": "Unified Compact Model"
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Core equations"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "All nine devices share the four-terminal interface (d, g, s, b; b is a reference terminal tied to the source in every circuit) and internal nodes "
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "i",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "s",
+"i": true
+},
+{
+"text": "i",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (series resistance) and "
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "j",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (temperature rise). With "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " = ",
+"i": false
+},
+{
+"text": "k",
+"i": true
+},
+{
+"text": "B",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "dev",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "q",
+"i": true
+},
+{
+"text": ", the model uses an EKV-type smooth overdrive [25]"
+}
+]
+},
+{
+"type": "eq",
+"png": "/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/paper/docx_build/eq_1.png",
+"num": "(1)"
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "so that "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "ov",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": " \u221d ",
+"i": false
+},
+{
+"text": "exp",
+"i": false
+},
+{
+"text": "[(",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "GS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "-",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")/",
+"i": false
+},
+{
+"text": "nV",
+"i": true
+},
+{
+"text": "T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "]",
+"i": false
+},
+{
+"text": " in weak inversion (subthreshold slope "
+},
+{
+"text": "nV",
+"i": true
+},
+{
+"text": "T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "ln",
+"i": false
+},
+{
+"text": " 10",
+"i": false
+},
+{
+"text": ") and "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "ov",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2192 ",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "GS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "-",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " in strong inversion. Drain-induced barrier lowering enters as "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH,eff",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " = ",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH,T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " - \u03b7\\",
+"i": false
+},
+{
+"text": "sqrt",
+"i": true
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": "+\u03b4",
+"i": false
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": " and the temperature dependence as "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH,T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " = ",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH0",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "k",
+"i": true
+},
+{
+"text": "VTH",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "dev",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "-",
+"i": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "nom",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": ", "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "mu",
+"i": true
+},
+{
+"text": "T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=\\",
+"i": false
+},
+{
+"text": "mu",
+"i": true
+},
+{
+"text": "0",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "dev",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "nom",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": "-m_\u00b5",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ". The drift\u2013diffusion branch with velocity saturation is"
+}
+]
+},
+{
+"type": "eq",
+"png": "/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/paper/docx_build/eq_2.png",
+"num": "(2)"
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "with "
+},
+{
+"text": "\u03b2=\\",
+"i": false
+},
+{
+"text": "mu",
+"i": true
+},
+{
+"text": "T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " ",
+"i": false
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "ox,eff",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "W",
+"i": true
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "L",
+"i": true
+},
+{
+"text": ", "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "sat,v",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "v",
+"i": true
+},
+{
+"text": "sat",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "L",
+"i": true
+},
+{
+"text": "/\\",
+"i": false
+},
+{
+"text": "mu",
+"i": true
+},
+{
+"text": "T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "dsat",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "ov",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/(1+",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "ov",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "sat,v",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": ". The factor 2 in the "
+},
+{
+"text": "tanh",
+"i": false
+},
+{
+"text": " argument makes the low-"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " conductance exactly "
+},
+{
+"text": "\u03b2 ",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "ov",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " while the saturation current retains the square law for long channels and the velocity-saturated limit "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "ox",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "Wv",
+"i": true
+},
+{
+"text": "sat",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "ov",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/2",
+"i": false
+},
+{
+"text": " for short channels [26]; the function is odd in "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and infinitely differentiable, which is what the Newton iterations of a circuit simulator need. Series resistances "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "S",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "SW",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "W",
+"i": true
+},
+{
+"text": " and "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "DW",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "W",
+"i": true
+},
+{
+"text": " act between the external and internal nodes."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Terminal charges"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "A DC-only model cannot produce RO frequencies. Terminal charges are defined per branch,"
+}
+]
+},
+{
+"type": "eq",
+"png": "/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/paper/docx_build/eq_3.png",
+"num": "(3)"
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "with "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "ov",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " evaluated without DIBL so that each charge depends only on its own branch voltage, and injected as "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": ". With "
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "g",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "gs",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "gd",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "s",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=-",
+"i": false
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "gs",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and "
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "d",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=-",
+"i": false
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "gd",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", charge conservation "
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "g",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "d",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "s",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=0",
+"i": false
+},
+{
+"text": " holds by construction; the symmetric source/drain-end partition reduces to 50/50 in the linear region and decouples the drain in saturation."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Material blocks"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"i": true,
+"text": "Si and SiGe nanosheets"
+},
+{
+"text": " use the core with "
+},
+{
+"text": "W",
+"i": true
+},
+{
+"text": "eff",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "N",
+"i": true
+},
+{
+"text": "NS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u00b7 2(",
+"i": false
+},
+{
+"text": "W",
+"i": true
+},
+{
+"text": "NS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "NS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": ". "
+},
+{
+"i": true,
+"text": "MoS"
+},
+{
+"i": false,
+"text": "2",
+"sub": true,
+"sup": false
+},
+{
+"i": true,
+"text": "/WSe"
+},
+{
+"i": false,
+"text": "2",
+"sub": true,
+"sup": false
+},
+{
+"text": " add the quantum capacitance in series, "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "ox,eff",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "ox",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "q",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/(",
+"i": false
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "ox",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "q",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": ", a trap-limited ideality "
+},
+{
+"text": "n",
+"i": true
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "n",
+"i": true
+},
+{
+"text": "0",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "(1+",
+"i": false
+},
+{
+"text": "qD",
+"i": true
+},
+{
+"text": "it",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "ox",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": " and contact-dominated series resistance "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "SW",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "DW",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "C",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " [19, 8]. "
+},
+{
+"i": true,
+"text": "CNT arrays"
+},
+{
+"text": " replace ((2)) by a Landauer quasi-ballistic branch [20, 26]"
+}
+]
+},
+{
+"type": "eq",
+"png": "/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/paper/docx_build/eq_4.png",
+"num": "(4)"
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "with "
+},
+{
+"text": "F",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "x",
+"i": true
+},
+{
+"text": ")=",
+"i": false
+},
+{
+"text": "ln",
+"i": false
+},
+{
+"text": "(1+",
+"i": false
+},
+{
+"text": "e",
+"i": true
+},
+{
+"text": "x",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": ", "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "eta",
+"i": true
+},
+{
+"text": "s",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=\u03b1(",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "GS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "-",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH,eff",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")/",
+"i": false
+},
+{
+"text": "nV",
+"i": true
+},
+{
+"text": "T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "G",
+"i": true
+},
+{
+"text": "0",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "=4",
+"i": false
+},
+{
+"text": "q",
+"i": true
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "h",
+"i": true
+},
+{
+"text": ", "
+},
+{
+"text": "N",
+"i": true
+},
+{
+"text": "tube",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "D",
+"i": true
+},
+{
+"text": "CNT",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "W",
+"i": true
+},
+{
+"text": "(1-",
+"i": false
+},
+{
+"text": "F",
+"i": true
+},
+{
+"text": "met",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": " and the metallic-tube shunt "
+},
+{
+"text": "G",
+"i": true
+},
+{
+"text": "met",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "F",
+"i": true
+},
+{
+"text": "met",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "D",
+"i": true
+},
+{
+"text": "CNT",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "WG",
+"i": true
+},
+{
+"text": "0",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": ". "
+},
+{
+"i": true,
+"text": "GaN"
+},
+{
+"text": " adds an electro-thermal node: "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "j",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")=-",
+"i": false
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "j",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")/",
+"i": false
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " ",
+"i": false
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "j",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")/",
+"i": false
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": " and "
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "dev",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "amb",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "j",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": ", i.e. the quasi-static self-heating "
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "dev",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "amb",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "P",
+"i": true
+},
+{
+"text": "diss",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " with a thermal time constant "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Implementation and equivalence"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "The nine Verilog-A modules ("
+},
+{
+"text": "gaa_n",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "gaa_p",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "sige_p",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "mos2_n",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "wse2_p",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "cnt_n",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "cnt_p",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "gan_n",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "gan_p",
+"mono": true
+},
+{
+"text": ") are generated from one parameter table, as is an ngspice behavioural library in which the same equations are evaluated by B-sources, "
+},
+{
+"text": ".func",
+"mono": true
+},
+{
+"text": " macros and charge-based ("
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": ") capacitors; intermediate quantities ("
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "ov",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "dsat",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "eta",
+"i": true
+},
+{
+"text": "s",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ") are solved on auxiliary nodes, which speeds the transient analysis by "
+},
+{
+"text": "7\u00d7",
+"i": false
+},
+{
+"text": " without changing the result. A NumPy reference implementation is used for calibration. DC sweeps of all nine devices agree between ngspice and the reference implementation to within 0.1% (the residual is the tolerance of the bisection used for the series-resistance loop). Spectre was not available in the computing environment used for this paper; the Cadence SKILL/OCEAN/ADE scripts that build the library, symbols, schematics and analyses are provided and documented step by step, and all manuscript results were generated with the ngspice mirror."
+}
+]
+},
+{
+"type": "h1",
+"runs": [
+{
+"text": "Calibration"
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig02_calibration_idvg.png"
+],
+"num": "2",
+"caption": [
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "G",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " calibration of the nine device models (lines) against the literature-anchored reference curves (symbols) at "
+},
+{
+"text": "|",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "|=0.05",
+"i": false
+},
+{
+"text": "\u00a0V and "
+},
+{
+"text": "|",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "|=",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", on logarithmic (left axes) and linear (right axes) scales."
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig03_calibration_idvd.png"
+],
+"num": "3",
+"caption": [
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " families (six gate biases from "
+},
+{
+"text": "0.3",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " to "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ") of the calibrated models (lines) and reference (symbols)."
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig03b_capacitance.png"
+],
+"num": "4",
+"caption": [
+{
+"text": "Gate capacitance per effective width, "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "gg",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "Q",
+"i": true
+},
+{
+"text": "g",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "GS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", of the nine calibrated models from the charge model at "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=0",
+"i": false
+},
+{
+"text": " (full lines) and "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (faded): (a) Si/SiGe nanosheets, (b) 2D and CNT channels, (c) GaN."
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "No measured or TCAD data were available, so the calibration targets are literature-anchored synthetic reference curves: for each device the on-current, off-current, subthreshold slope and DIBL at the platform "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (Table\u00a0II, sources in the companion "
+},
+{
+"text": "doc/calibration_targets.md",
+"mono": true
+},
+{
+"text": ") are imposed on an "
+},
+{
+"i": true,
+"text": "independent"
+},
+{
+"text": " EKV-type formulation with a fourth-order power-law drain-voltage smoothing and explicit series resistance; the UCM is then fitted to those curves. This makes the fit a real test of the model's functional form (the two formulations differ in their saturation behaviour and charge interpolation), while keeping the targets traceable to published ranges [27, 28, 4, 5, 8, 9, 10, 11, 17, 14]. The flow accepts measured or TCAD CSV files with the same column layout as drop-in replacements."
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Seven parameters are fitted per device by bounded non-linear least squares on "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "log",
+"i": false
+},
+{
+"text": "10",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " of the linear and saturation "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "G",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " curves and on the relative error of the "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " family: "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH0",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "mu",
+"i": true
+},
+{
+"text": "0",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " (transmission "
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": " and gate efficiency "
+},
+{
+"text": "\u03b1",
+"i": false
+},
+{
+"text": " for CNT), "
+},
+{
+"text": "v",
+"i": true
+},
+{
+"text": "sat",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "SW",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "DW",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (Si, SiGe, GaN only), "
+},
+{
+"text": "\u03bb",
+"i": false
+},
+{
+"text": ", "
+},
+{
+"text": "\u03b7",
+"i": false
+},
+{
+"text": " and "
+},
+{
+"text": "n",
+"i": true
+},
+{
+"text": "0",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ". The 2D and CNT contact resistances are held at their physical nominal values because they are measured quantities in practice and are the subject of the sensitivity study. Figs.\u00a02\u20135 and Table\u00a0III summarise the result: the mean absolute percentage error (MAPE) is 1.3\u201312.1% on "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "G",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and 3.7\u201312.6% on the "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "D",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " families, with the on/off currents within 20% and the subthreshold slopes within 3\u00a0mV/dec of their targets. Fig.\u00a04 compares the gate capacitance that the charge model assigns to each device: the nanosheet stacks reach 1.3\u20131.5\u00a0fF/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m of gate charge (three sheets of 16-nm gate length plus 0.3\u00a0fF/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m fringing per side), the 2D and CNT channels 0.45\u20131.0\u00a0fF/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m, and the GaN devices, with a 10-nm barrier and a 100-nm gate, 1.4\u20131.8\u00a0fF/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m; the saturation curves show the drain decoupling of the symmetric partition. No capacitance targets were imposed in the calibration, so these are predictions of the calibrated DC parameters and the geometry. The largest residuals are in the SiGe/Si output conductance (the "
+},
+{
+"text": "tanh",
+"i": false
+},
+{
+"text": " interpolation saturates harder than the reference, which the fit compensates with "
+},
+{
+"text": "\u03bb",
+"i": false
+},
+{
+"text": " at its 0.3\u00a0V"
+},
+{
+"text": "-1",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": " bound) and in the CNT subthreshold region, where the single-ideality Landauer branch cannot reproduce the reference's 75\u00a0mV/dec slope together with its DIBL."
+}
+]
+},
+{
+"type": "tab",
+"wide": true,
+"num": "II",
+"caption": [
+{
+"text": "Calibrated UCM-CFET parameters (SI values converted to the units shown)."
+}
+],
+"rows": [
+[
+[
+{
+"text": "Parameter"
+}
+],
+[
+{
+"text": "Si GAA n"
+}
+],
+[
+{
+"text": "Si GAA p"
+}
+],
+[
+{
+"text": "SiGe GAA p"
+}
+],
+[
+{
+"text": "MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " n"
+}
+],
+[
+{
+"text": "WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " p"
+}
+],
+[
+{
+"text": "CNT n"
+}
+],
+[
+{
+"text": "CNT p"
+}
+],
+[
+{
+"text": "GaN n"
+}
+],
+[
+{
+"text": "p-GaN (proj.)"
+}
+]
+],
+[
+[
+{
+"text": "L",
+"i": true
+},
+{
+"text": "g",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (nm)"
+}
+],
+[
+{
+"text": "16"
+}
+],
+[
+{
+"text": "16"
+}
+],
+[
+{
+"text": "16"
+}
+],
+[
+{
+"text": "20"
+}
+],
+[
+{
+"text": "20"
+}
+],
+[
+{
+"text": "20"
+}
+],
+[
+{
+"text": "20"
+}
+],
+[
+{
+"text": "100"
+}
+],
+[
+{
+"text": "100"
+}
+]
+],
+[
+[
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH0",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (mV)"
+}
+],
+[
+{
+"text": "346"
+}
+],
+[
+{
+"text": "350"
+}
+],
+[
+{
+"text": "362"
+}
+],
+[
+{
+"text": "343"
+}
+],
+[
+{
+"text": "380"
+}
+],
+[
+{
+"text": "377"
+}
+],
+[
+{
+"text": "375"
+}
+],
+[
+{
+"text": "357"
+}
+],
+[
+{
+"text": "355"
+}
+]
+],
+[
+[
+{
+"text": "n",
+"i": true
+},
+{
+"text": "0",
+"i": false,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "1.14"
+}
+],
+[
+{
+"text": "1.17"
+}
+],
+[
+{
+"text": "1.20"
+}
+],
+[
+{
+"text": "1.18"
+}
+],
+[
+{
+"text": "1.24"
+}
+],
+[
+{
+"text": "1.16"
+}
+],
+[
+{
+"text": "1.15"
+}
+],
+[
+{
+"text": "1.39"
+}
+],
+[
+{
+"text": "1.43"
+}
+]
+],
+[
+[
+{
+"text": "\u03b7",
+"i": false
+},
+{
+"text": " (mV/V)"
+}
+],
+[
+{
+"text": "46"
+}
+],
+[
+{
+"text": "51"
+}
+],
+[
+{
+"text": "57"
+}
+],
+[
+{
+"text": "70"
+}
+],
+[
+{
+"text": "77"
+}
+],
+[
+{
+"text": "46"
+}
+],
+[
+{
+"text": "46"
+}
+],
+[
+{
+"text": "33"
+}
+],
+[
+{
+"text": "37"
+}
+]
+],
+[
+[
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "mu",
+"i": true
+},
+{
+"text": "0",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " (cm"
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": "/Vs)"
+}
+],
+[
+{
+"text": "75"
+}
+],
+[
+{
+"text": "55"
+}
+],
+[
+{
+"text": "76"
+}
+],
+[
+{
+"text": "56"
+}
+],
+[
+{
+"text": "63"
+}
+],
+[
+{
+"text": "\u2013"
+}
+],
+[
+{
+"text": "\u2013"
+}
+],
+[
+{
+"text": "300"
+}
+],
+[
+{
+"text": "19"
+}
+]
+],
+[
+[
+{
+"text": "v",
+"i": true
+},
+{
+"text": "sat",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " ("
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "7",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": " cm/s)"
+}
+],
+[
+{
+"text": "2.50"
+}
+],
+[
+{
+"text": "2.00"
+}
+],
+[
+{
+"text": "2.25"
+}
+],
+[
+{
+"text": "1.50"
+}
+],
+[
+{
+"text": "1.20"
+}
+],
+[
+{
+"text": "\u2013"
+}
+],
+[
+{
+"text": "\u2013"
+}
+],
+[
+{
+"text": "3.75"
+}
+],
+[
+{
+"text": "1.25"
+}
+]
+],
+[
+[
+{
+"text": "\u03bb",
+"i": false
+},
+{
+"text": " (V"
+},
+{
+"text": "-1",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ")"
+}
+],
+[
+{
+"text": "0.30"
+}
+],
+[
+{
+"text": "0.30"
+}
+],
+[
+{
+"text": "0.30"
+}
+],
+[
+{
+"text": "0.30"
+}
+],
+[
+{
+"text": "0.30"
+}
+],
+[
+{
+"text": "0.00"
+}
+],
+[
+{
+"text": "0.00"
+}
+],
+[
+{
+"text": "0.19"
+}
+],
+[
+{
+"text": "0.08"
+}
+]
+],
+[
+[
+{
+"text": "R",
+"i": true
+},
+{
+"text": "S",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "W",
+"i": true
+},
+{
+"text": " ("
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m)"
+}
+],
+[
+{
+"text": "53"
+}
+],
+[
+{
+"text": "65"
+}
+],
+[
+{
+"text": "55"
+}
+],
+[
+{
+"text": "500"
+}
+],
+[
+{
+"text": "800"
+}
+],
+[
+{
+"text": "50"
+}
+],
+[
+{
+"text": "60"
+}
+],
+[
+{
+"text": "374"
+}
+],
+[
+{
+"text": "1213"
+}
+]
+],
+[
+[
+{
+"text": "C",
+"i": true
+},
+{
+"text": "ox",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (fF/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m"
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": ")"
+}
+],
+[
+{
+"text": "43.0"
+}
+],
+[
+{
+"text": "43.0"
+}
+],
+[
+{
+"text": "43.0"
+}
+],
+[
+{
+"text": "34.5"
+}
+],
+[
+{
+"text": "34.5"
+}
+],
+[
+{
+"text": "20.0"
+}
+],
+[
+{
+"text": "20.0"
+}
+],
+[
+{
+"text": "8.0"
+}
+],
+[
+{
+"text": "8.0"
+}
+]
+],
+[
+[
+{
+"text": "C",
+"i": true
+},
+{
+"text": "gso",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (fF/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m)"
+}
+],
+[
+{
+"text": "0.30"
+}
+],
+[
+{
+"text": "0.30"
+}
+],
+[
+{
+"text": "0.32"
+}
+],
+[
+{
+"text": "0.20"
+}
+],
+[
+{
+"text": "0.20"
+}
+],
+[
+{
+"text": "0.15"
+}
+],
+[
+{
+"text": "0.15"
+}
+],
+[
+{
+"text": "0.50"
+}
+],
+[
+{
+"text": "0.50"
+}
+]
+],
+[
+[
+{
+"text": "W",
+"i": true
+},
+{
+"text": "eff",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " (nm)"
+}
+],
+[
+{
+"text": "150"
+}
+],
+[
+{
+"text": "150"
+}
+],
+[
+{
+"text": "150"
+}
+],
+[
+{
+"text": "100"
+}
+],
+[
+{
+"text": "100"
+}
+],
+[
+{
+"text": "100"
+}
+],
+[
+{
+"text": "100"
+}
+],
+[
+{
+"text": "1000"
+}
+],
+[
+{
+"text": "3000"
+}
+]
+],
+[
+[
+{
+"text": "material block"
+}
+],
+[
+{
+"text": "\u2013"
+}
+],
+[
+{
+"text": "\u2013"
+}
+],
+[
+{
+"text": "\u2013"
+}
+],
+[
+{
+"text": "C",
+"i": true
+},
+{
+"text": "q",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=1.2, "
+},
+{
+"text": "D",
+"i": true
+},
+{
+"text": "it",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=5e+11"
+}
+],
+[
+{
+"text": "C",
+"i": true
+},
+{
+"text": "q",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=1.1, "
+},
+{
+"text": "D",
+"i": true
+},
+{
+"text": "it",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=1e+12"
+}
+],
+[
+{
+"text": "T",
+"i": true
+},
+{
+"text": "=0.22, "
+},
+{
+"text": "\u03b1",
+"i": false
+},
+{
+"text": "=0.86"
+}
+],
+[
+{
+"text": "T",
+"i": true
+},
+{
+"text": "=0.21, "
+},
+{
+"text": "\u03b1",
+"i": false
+},
+{
+"text": "=0.86"
+}
+],
+[
+{
+"text": "R",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=1.5e5"
+}
+],
+[
+{
+"text": "R",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=1.0e5"
+}
+]
+]
+]
+},
+{
+"type": "tab",
+"wide": true,
+"num": "III",
+"caption": [
+{
+"text": "Calibration error and figures of merit (model vs. reference)."
+}
+],
+"rows": [
+[
+[
+{
+"text": "Device"
+}
+],
+[
+{
+"text": "MAPE"
+},
+{
+"text": "lin",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "MAPE"
+},
+{
+"text": "sat",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "MAPE"
+},
+{
+"text": "I_D-V_D",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "I",
+"i": true
+},
+{
+"text": "ON",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "I",
+"i": true
+},
+{
+"text": "ON",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "ref",
+"i": true,
+"sub": false,
+"sup": true
+}
+],
+[
+{
+"text": "I",
+"i": true
+},
+{
+"text": "OFF",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "SS"
+}
+],
+[
+{
+"text": "SS"
+},
+{
+"text": "ref",
+"i": true,
+"sub": false,
+"sup": true
+}
+],
+[
+{
+"text": "DIBL"
+}
+]
+],
+[
+[],
+[
+{
+"text": "(%)"
+}
+],
+[
+{
+"text": "(%)"
+}
+],
+[
+{
+"text": "(%)"
+}
+],
+[
+{
+"text": "(mA/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m)"
+}
+],
+[
+{
+"text": "(mA/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m)"
+}
+],
+[
+{
+"text": "(nA/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m)"
+}
+],
+[
+{
+"text": "(mV/dec)"
+}
+],
+[
+{
+"text": "(mV/dec)"
+}
+],
+[
+{
+"text": "(mV/V)"
+}
+]
+],
+[
+[
+{
+"text": "Si GAA n"
+}
+],
+[
+{
+"text": "8.1"
+}
+],
+[
+{
+"text": "6.0"
+}
+],
+[
+{
+"text": "10.8"
+}
+],
+[
+{
+"text": "0.84"
+}
+],
+[
+{
+"text": "1.00"
+}
+],
+[
+{
+"text": "1.05"
+}
+],
+[
+{
+"text": "68"
+}
+],
+[
+{
+"text": "68"
+}
+],
+[
+{
+"text": "54"
+}
+]
+],
+[
+[
+{
+"text": "Si GAA p"
+}
+],
+[
+{
+"text": "7.9"
+}
+],
+[
+{
+"text": "5.8"
+}
+],
+[
+{
+"text": "10.7"
+}
+],
+[
+{
+"text": "0.64"
+}
+],
+[
+{
+"text": "0.75"
+}
+],
+[
+{
+"text": "1.05"
+}
+],
+[
+{
+"text": "70"
+}
+],
+[
+{
+"text": "70"
+}
+],
+[
+{
+"text": "60"
+}
+]
+],
+[
+[
+{
+"text": "SiGe GAA p"
+}
+],
+[
+{
+"text": "8.7"
+}
+],
+[
+{
+"text": "7.0"
+}
+],
+[
+{
+"text": "11.9"
+}
+],
+[
+{
+"text": "0.78"
+}
+],
+[
+{
+"text": "0.95"
+}
+],
+[
+{
+"text": "1.56"
+}
+],
+[
+{
+"text": "72"
+}
+],
+[
+{
+"text": "72"
+}
+],
+[
+{
+"text": "66"
+}
+]
+],
+[
+[
+{
+"text": "MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " n"
+}
+],
+[
+{
+"text": "6.7"
+}
+],
+[
+{
+"text": "5.1"
+}
+],
+[
+{
+"text": "11.2"
+}
+],
+[
+{
+"text": "0.09"
+}
+],
+[
+{
+"text": "0.10"
+}
+],
+[
+{
+"text": "1.05"
+}
+],
+[
+{
+"text": "72"
+}
+],
+[
+{
+"text": "72"
+}
+],
+[
+{
+"text": "79"
+}
+]
+],
+[
+[
+{
+"text": "WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " p"
+}
+],
+[
+{
+"text": "6.9"
+}
+],
+[
+{
+"text": "6.1"
+}
+],
+[
+{
+"text": "12.6"
+}
+],
+[
+{
+"text": "0.06"
+}
+],
+[
+{
+"text": "0.07"
+}
+],
+[
+{
+"text": "1.03"
+}
+],
+[
+{
+"text": "77"
+}
+],
+[
+{
+"text": "78"
+}
+],
+[
+{
+"text": "87"
+}
+]
+],
+[
+[
+{
+"text": "CNT n"
+}
+],
+[
+{
+"text": "12.1"
+}
+],
+[
+{
+"text": "10.2"
+}
+],
+[
+{
+"text": "9.9"
+}
+],
+[
+{
+"text": "1.30"
+}
+],
+[
+{
+"text": "1.50"
+}
+],
+[
+{
+"text": "16.52"
+}
+],
+[
+{
+"text": "86"
+}
+],
+[
+{
+"text": "75"
+}
+],
+[
+{
+"text": "62"
+}
+]
+],
+[
+[
+{
+"text": "CNT p"
+}
+],
+[
+{
+"text": "11.6"
+}
+],
+[
+{
+"text": "9.7"
+}
+],
+[
+{
+"text": "9.4"
+}
+],
+[
+{
+"text": "1.23"
+}
+],
+[
+{
+"text": "1.40"
+}
+],
+[
+{
+"text": "16.34"
+}
+],
+[
+{
+"text": "85"
+}
+],
+[
+{
+"text": "75"
+}
+],
+[
+{
+"text": "62"
+}
+]
+],
+[
+[
+{
+"text": "GaN n"
+}
+],
+[
+{
+"text": "5.1"
+}
+],
+[
+{
+"text": "5.2"
+}
+],
+[
+{
+"text": "5.7"
+}
+],
+[
+{
+"text": "0.45"
+}
+],
+[
+{
+"text": "0.50"
+}
+],
+[
+{
+"text": "1.10"
+}
+],
+[
+{
+"text": "83"
+}
+],
+[
+{
+"text": "81"
+}
+],
+[
+{
+"text": "39"
+}
+]
+],
+[
+[
+{
+"text": "p-GaN (proj.)"
+}
+],
+[
+{
+"text": "3.0"
+}
+],
+[
+{
+"text": "1.3"
+}
+],
+[
+{
+"text": "3.7"
+}
+],
+[
+{
+"text": "0.05"
+}
+],
+[
+{
+"text": "0.05"
+}
+],
+[
+{
+"text": "0.10"
+}
+],
+[
+{
+"text": "86"
+}
+],
+[
+{
+"text": "86"
+}
+],
+[
+{
+"text": "41"
+}
+]
+]
+]
+},
+{
+"type": "fig",
+"wide": false,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig04_calibration_mape.png"
+],
+"num": "5",
+"caption": [
+{
+"text": "(a) MAPE per device and data set; (b) parity of model vs. reference figures of merit."
+}
+]
+},
+{
+"type": "h1",
+"runs": [
+{
+"text": "Circuit-Validation Flow"
+}
+]
+},
+{
+"type": "fig",
+"wide": false,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/schematics/inv_cfet.png",
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/schematics/ro5_cfet.png"
+],
+"num": "6",
+"caption": [
+{
+"text": "(a) CFET inverter cell with the explicit inter-tier coupling capacitance "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "stack",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", output parasitic "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "out",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and local-interconnect resistances "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "local,n/p",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "; (b) 5-stage ring oscillator testbench with the "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "n",
+"i": true
+},
+{
+"text": "3",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": " probe and the "
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": " meter."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Testbenches"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "The electrical inverter (Fig.\u00a06a) is a conventional CMOS inverter; its CFET interpretation is carried by the parasitic network: "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "stack",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " between the n- and p-tier drain nodes, "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "out",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " from the output to "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "SS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "local,n/p",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " in the two drain legs. These are design variables (0.05/0.3\u00a0fF/10\u00a0"
+},
+{
+"text": "\u03a9",
+"i": false
+},
+{
+"text": " for Si and SiGe, 0.03/0.3\u00a0fF/50\u00a0"
+},
+{
+"text": "\u03a9",
+"i": false
+},
+{
+"text": " for TMD and CNT, 0.1/1\u00a0fF/20\u00a0"
+},
+{
+"text": "\u03a9",
+"i": false
+},
+{
+"text": " for GaN, each the mid-value of the ranges in Section\u00a0II of the flow definition). The same five inverter cells are used for the VTC (DC sweep of "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "in",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " from 0 to "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ": switching voltage "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", maximum gain "
+},
+{
+"text": "A",
+"i": true
+},
+{
+"text": "V",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", noise margins from the unity-gain points, static supply current), the transient delay (pulse 0"
+},
+{
+"text": "\u2192 ",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", 100\u00a0ps delay, 5\u00a0ps edges, 500\u00a0ps width, 1\u00a0ns period, "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "load",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " = 0.3\u00a0fF or 1\u00a0fF for GaN; "
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "pHL",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "pLH",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " at the 50% crossings; switching energy "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "int",
+"i": true
+},
+{
+"text": " ",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": " over one period) and the "
+},
+{
+"text": "N",
+"i": true
+},
+{
+"text": "-stage ROs (Fig.\u00a06b)."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Ring-oscillator measurement"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Oscillation is started identically for every platform by an initial condition "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "n",
+"i": true
+},
+{
+"text": "1",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ")=0",
+"i": false
+},
+{
+"text": " together with a stated 1% width increase of the stage-1 p-FET. A two-pass transient is used: a coarse pass, sized from the inverter delay ("
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "\u2248 2",
+"i": false
+},
+{
+"text": "Nt",
+"i": true
+},
+{
+"text": "pd",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "), pins down the period "
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "; the fine pass then runs with a maximum step of "
+},
+{
+"text": "T",
+"i": true
+},
+{
+"text": "/300",
+"i": false
+},
+{
+"text": " and the frequency is measured from the rising "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/2",
+"i": false
+},
+{
+"text": " crossings of "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "n",
+"i": true
+},
+{
+"text": "3",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": " between cycles 10 and 30 (the cycle 10\u201311 value is also recorded and differs by "
+},
+{
+"text": "<0.01",
+"i": false
+},
+{
+"text": "%). For GaN the measurement window starts only after five thermal time constants, so that the steady-state self-heating is included. From "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " the stage delay "
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "pd",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=1/(2",
+"i": false
+},
+{
+"text": "Nf",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": ", the average power "
+},
+{
+"text": "P",
+"i": true
+},
+{
+"text": "avg",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=\\",
+"i": false
+},
+{
+"text": "frac",
+"i": true
+},
+{
+"text": "1",
+"i": false
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "-",
+"i": false
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "1",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "int",
+"i": true
+},
+{
+"text": "t_1",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "t_2",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "I",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "d",
+"i": true
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": " over the same window, "
+},
+{
+"text": "E",
+"i": true
+},
+{
+"text": "cycle",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "P",
+"i": true
+},
+{
+"text": "avg",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and "
+},
+{
+"text": "PDP",
+"i": true
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "P",
+"i": true
+},
+{
+"text": "avg",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "pd",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " follow. Identical window definitions are used for all materials. The ADE Explorer/Assembler equivalents (OCEAN scripts with "
+},
+{
+"text": "cross",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "delay",
+"mono": true
+},
+{
+"text": ", "
+},
+{
+"text": "integ",
+"mono": true
+},
+{
+"text": " and "
+},
+{
+"text": "average",
+"mono": true
+},
+{
+"text": " calculator functions, parametric sweeps, corners and Monte Carlo sampling) are provided in the companion "
+},
+{
+"text": "cadence/",
+"mono": true
+},
+{
+"text": " directory."
+}
+]
+},
+{
+"type": "h1",
+"runs": [
+{
+"text": "Results"
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Nominal inverters and ring oscillators"
+}
+]
+},
+{
+"type": "fig",
+"wide": false,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig05_inverter_vtc.png"
+],
+"num": "7",
+"caption": [
+{
+"text": "(a) Normalised voltage-transfer characteristics of the five CFET inverters at their nominal "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "; (b) small-signal gain."
+}
+]
+},
+{
+"type": "fig",
+"wide": false,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig06_inverter_ro_fom.png"
+],
+"num": "8",
+"caption": [
+{
+"text": "Nominal figures of merit: (a) "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", (b) noise margins, (c) maximum gain, (d) inverter delay, (e) 5-stage RO frequency, (f) energy per RO cycle."
+}
+]
+},
+{
+"type": "fig",
+"wide": false,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig07_ro_waveforms.png"
+],
+"num": "9",
+"caption": [
+{
+"text": "5-stage RO waveforms "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "(",
+"i": false
+},
+{
+"text": "n",
+"i": true
+},
+{
+"text": "3",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": " for the five platforms, four cycles after cycle 10 (the measurement window)."
+}
+]
+},
+{
+"type": "tab",
+"wide": true,
+"num": "IV",
+"caption": [
+{
+"text": "Nominal inverter and 5-stage RO figures of merit (27"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C)."
+}
+],
+"rows": [
+[
+[
+{
+"text": "Platform"
+}
+],
+[
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "A",
+"i": true
+},
+{
+"text": "V",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "NM",
+"i": true
+},
+{
+"text": "L",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "NM",
+"i": true
+},
+{
+"text": "H",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "t",
+"i": true
+},
+{
+"text": "pd",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "inv",
+"i": true,
+"sub": false,
+"sup": true
+}
+],
+[
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO5",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "t",
+"i": true
+},
+{
+"text": "pd",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "RO",
+"i": true,
+"sub": false,
+"sup": true
+}
+],
+[
+{
+"text": "P",
+"i": true
+},
+{
+"text": "avg",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "E",
+"i": true
+},
+{
+"text": "cycle",
+"i": true,
+"sub": true,
+"sup": false
+}
+]
+],
+[
+[],
+[
+{
+"text": "(V)"
+}
+],
+[],
+[],
+[],
+[],
+[
+{
+"text": "(ps)"
+}
+],
+[
+{
+"text": "(GHz)"
+}
+],
+[
+{
+"text": "(ps)"
+}
+],
+[
+{
+"text": "("
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "W)"
+}
+],
+[
+{
+"text": "(fJ)"
+}
+]
+],
+[
+[
+{
+"text": "CFET-Si"
+}
+],
+[
+{
+"text": "0.7"
+}
+],
+[
+{
+"text": "0.490"
+}
+],
+[
+{
+"text": "16.4"
+}
+],
+[
+{
+"text": "0.41"
+}
+],
+[
+{
+"text": "0.44"
+}
+],
+[
+{
+"text": "4.45"
+}
+],
+[
+{
+"text": "19.39"
+}
+],
+[
+{
+"text": "5.16"
+}
+],
+[
+{
+"text": "40.59"
+}
+],
+[
+{
+"text": "2.09"
+}
+]
+],
+[
+[
+{
+"text": "CFET-SiGe"
+}
+],
+[
+{
+"text": "0.7"
+}
+],
+[
+{
+"text": "0.495"
+}
+],
+[
+{
+"text": "15.6"
+}
+],
+[
+{
+"text": "0.42"
+}
+],
+[
+{
+"text": "0.43"
+}
+],
+[
+{
+"text": "4.14"
+}
+],
+[
+{
+"text": "21.39"
+}
+],
+[
+{
+"text": "4.68"
+}
+],
+[
+{
+"text": "45.40"
+}
+],
+[
+{
+"text": "2.12"
+}
+]
+],
+[
+[
+{
+"text": "CFET-TMD"
+}
+],
+[
+{
+"text": "0.5"
+}
+],
+[
+{
+"text": "0.482"
+}
+],
+[
+{
+"text": "12.0"
+}
+],
+[
+{
+"text": "0.41"
+}
+],
+[
+{
+"text": "0.45"
+}
+],
+[
+{
+"text": "29.51"
+}
+],
+[
+{
+"text": "2.59"
+}
+],
+[
+{
+"text": "38.68"
+}
+],
+[
+{
+"text": "1.74"
+}
+],
+[
+{
+"text": "0.67"
+}
+]
+],
+[
+[
+{
+"text": "CFET-CNT"
+}
+],
+[
+{
+"text": "0.6"
+}
+],
+[
+{
+"text": "0.500"
+}
+],
+[
+{
+"text": "21.8"
+}
+],
+[
+{
+"text": "0.42"
+}
+],
+[
+{
+"text": "0.41"
+}
+],
+[
+{
+"text": "3.06"
+}
+],
+[
+{
+"text": "45.39"
+}
+],
+[
+{
+"text": "2.20"
+}
+],
+[
+{
+"text": "38.01"
+}
+],
+[
+{
+"text": "0.84"
+}
+]
+],
+[
+[
+{
+"text": "CFET-GaN"
+}
+],
+[
+{
+"text": "1.2"
+}
+],
+[
+{
+"text": "0.418"
+}
+],
+[
+{
+"text": "18.1"
+}
+],
+[
+{
+"text": "0.25"
+}
+],
+[
+{
+"text": "0.49"
+}
+],
+[
+{
+"text": "26.43"
+}
+],
+[
+{
+"text": "1.69"
+}
+],
+[
+{
+"text": "59.06"
+}
+],
+[
+{
+"text": "159.43"
+}
+],
+[
+{
+"text": "94.17"
+}
+]
+]
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Table\u00a0IV and Figs.\u00a07\u20139 give the nominal results. All five inverters are functional with "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " between 0.42 and 0.49, gains between 12 and 22 and both noise margins above "
+},
+{
+"text": "0.28",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "; the SiGe p-FET moves "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " of the SiGe cell closer to "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/2",
+"i": false
+},
+{
+"text": " than the Si cell (0.49 vs. 0.49) and shortens the low-to-high transition. The 5-stage RO frequencies are 19.39, 21.39, 2.59, 45.39 and 1.69\u00a0GHz for Si, SiGe, TMD, CNT and GaN. Stage delays extracted from the 5-, 7- and 9-stage ROs agree within 1%, which confirms the "
+},
+{
+"text": "1/(2",
+"i": false
+},
+{
+"text": "Nf",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ")",
+"i": false
+},
+{
+"text": " extraction, while "
+},
+{
+"text": "E",
+"i": true
+},
+{
+"text": "cycle",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " scales with "
+},
+{
+"text": "N",
+"i": true
+},
+{
+"text": " as expected. The CNT platform is the fastest (quasi-ballistic injection, small gate charge) and has the second-lowest energy per cycle (0.84\u00a0fJ); the TMD platform is "
+},
+{
+"text": "7\u00d7",
+"i": false
+},
+{
+"text": " slower than Si at 0.5\u00a0V because of its 0.5\u20130.8\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m contacts but has the lowest energy per cycle (0.67\u00a0fJ); the GaN platform is limited by the projected p-GaN device (hole mobility 20\u00a0cm"
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": "/Vs, 3"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " up-sized) to 1.69\u00a0GHz and 94.17\u00a0fJ at 1.2\u00a0V. In the nominal GaN RO the average dissipation per device is only tens of microwatts, so the steady-state self-heating is a few kelvin and changes "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " by "
+},
+{
+"text": "<0.1",
+"i": false
+},
+{
+"text": "%; it becomes significant only in the "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and temperature study below."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Unified $V_{DD"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "$ and temperature sweeps}"
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig08_vdd_sweep.png"
+],
+"num": "10",
+"caption": [
+{
+"text": "Unified "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " sweeps of the 5-stage ROs: (a) "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " vs. "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", (b) power vs. frequency, (c) energy per cycle vs. frequency, (d) PDP vs. "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "."
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig09_temperature.png"
+],
+"num": "11",
+"caption": [
+{
+"text": "Temperature sweeps at nominal "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " ("
+},
+{
+"text": "-40",
+"i": false
+},
+{
+"text": " to 125"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C, GaN to 200"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C): (a) normalised "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", (b) energy per cycle, (c) inverter static power."
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Fig.\u00a010 compares the platforms on common axes. Over its sweep range (0.4\u20130.8\u00a0V) the Si RO moves from 2.69 to 24.97\u00a0GHz at 0.62\u20132.77\u00a0fJ per cycle, and the SiGe cell is uniformly 6\u201310% faster at the same energy; the CNT RO spans 14.29\u201365.80\u00a0GHz between 0.4 and 0.8\u00a0V and lies on the lowest power-versus-frequency locus of all platforms (Fig.\u00a010b), because its quasi-ballistic current is reached with a gate charge roughly four times smaller than the nanosheet stack. The TMD RO covers 0.22\u20134.05\u00a0GHz between 0.3 and 0.6\u00a0V; at a given frequency it needs a higher "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " than Si because its contacts absorb a large part of the supply, and with the nominal 0.5/0.8\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m contacts its energy per cycle (0.22\u20131.00\u00a0fJ) is slightly "
+},
+{
+"i": true,
+"text": "above"
+},
+{
+"text": " that of the Si cell at the same frequency (Fig.\u00a010c: 0.67\u00a0fJ at 2.59\u00a0GHz and 0.5\u00a0V versus 0.62\u00a0fJ at 2.69\u00a0GHz and 0.4\u00a0V for Si); whether lower contact resistance reverses this ordering is the subject of the crossover study below. The GaN RO reaches 0.81\u20132.28\u00a0GHz between 0.8 and 1.5\u00a0V with 40.30\u2013152.43\u00a0fJ per cycle; the 1\u20132 orders of magnitude energy gap to the other platforms is dominated by the capacitance of the 3"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " up-sized, low-mobility p-GaN device and by its 1.5\u00a0"
+},
+{
+"text": "\u03a9\u00b7",
+"i": false
+},
+{
+"text": "mm access resistance, not by the n-channel. The PDP (Fig.\u00a010d) ranks the platforms in the same order as "
+},
+{
+"text": "E",
+"i": true
+},
+{
+"text": "cycle",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " because the measurement windows are identical.\nFig.\u00a011 shows the temperature behaviour at nominal "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ". Between "
+},
+{
+"text": "-40",
+"i": false
+},
+{
+"text": " and 125"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C the Si, SiGe, TMD and CNT ROs "
+},
+{
+"i": true,
+"text": "speed up"
+},
+{
+"text": " (1.14, 1.16, 1.74 and 1.28"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " at 125"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C relative to 27"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C): at these supply voltages the devices operate with a small gate overdrive and the threshold-voltage decrease ("
+},
+{
+"text": "k",
+"i": true
+},
+{
+"text": "VTH",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=-0.8",
+"i": false
+},
+{
+"text": " to "
+},
+{
+"text": "-1.1",
+"i": false
+},
+{
+"text": "\u00a0mV/K) outweighs the mobility degradation, the temperature-inversion regime familiar from sub-0.8\u00a0V CMOS; the effect is strongest for the TMD cell, whose overdrive at 0.5\u00a0V is the smallest. The price is leakage: the inverter static power rises by 128"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " (Si), 159"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " (TMD) and 39"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " (CNT) between 27 and 125"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C, driven by the "
+},
+{
+"text": "nV",
+"i": true
+},
+{
+"text": "T",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " subthreshold slope and "
+},
+{
+"text": "k",
+"i": true
+},
+{
+"text": "VTH",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ". The GaN platform, extended to 200"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C, keeps 1.10"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " its room-temperature frequency and both inverter noise margins stay above "
+},
+{
+"text": "0.1",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " with a gain above 10 up to 150"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C; at 200"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C the low noise margin of the GaN inverter collapses to "
+},
+{
+"text": "0.07",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and the static power reaches 2169.7\u00a0nW per inverter, because the projected p-GaN device combines an 86\u00a0mV/dec slope with a "
+},
+{
+"text": "-2",
+"i": false
+},
+{
+"text": "\u00a0mV/K threshold shift. Two model limitations must be kept in mind when reading Fig.\u00a011: the only leakage mechanism in UCM-CFET is subthreshold conduction, so the junction and generation leakage that penalises Si (and that a wide-band-gap channel suppresses) is absent, which makes the comparison conservative for GaN; and the saturation velocity is temperature independent, so the high-temperature speed-up of all platforms is an upper bound. Within these limits the GaN high-temperature case rests on the n-channel device: the p-GaN tier is the component that must improve for GaN CFET logic to hold its margin above 150"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Material-specific sensitivity"
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig10_si_sige_sensitivity.png"
+],
+"num": "12",
+"caption": [
+{
+"text": "Si/SiGe study: 5-stage "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " vs. the number of nanosheets in the n- and p-tier for (a) CFET-Si and (b) CFET-SiGe; (c) effect of the SiGe/Si hole-mobility ratio on the rise/fall delay mismatch, "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "."
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig11_tmd_contact_crossover.png"
+],
+"num": "13",
+"caption": [
+{
+"text": "TMD study: (a) iso-frequency energy-per-cycle ratio "
+},
+{
+"text": "E",
+"i": true
+},
+{
+"text": "TMD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "E",
+"i": true
+},
+{
+"text": "Si",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " vs. the n- and p-contact resistance (the Si energy is interpolated at the TMD frequency from the Si "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " sweep extended to 0.3\u00a0V); (b) "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " vs. "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "C,n",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "; (c) effect of the interface trap density."
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig12_cnt_sensitivity.png"
+],
+"num": "14",
+"caption": [
+{
+"text": "CNT study: normalised "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and PDP (left axes) and inverter static power (right axes) vs. (a) tube density, (b) metallic-tube fraction, (c) contact resistance."
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig13_gan_thermal.png"
+],
+"num": "15",
+"caption": [
+{
+"text": "GaN study: (a) "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and static power of CFET-GaN and CFET-Si from 300 to 500\u00a0K; (b) self-heating delay penalty vs. thermal resistance at three temperatures; (c) "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " vs. common and skewed threshold-voltage shifts."
+}
+]
+},
+{
+"type": "h3",
+"runs": [
+{
+"text": "Si and SiGe"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Fig.\u00a012a maps the Si RO frequency over the number of nanosheets in each tier. Adding sheets to both tiers raises the drive current and the gate charge in the same proportion, so "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " moves only from 16.4 to 22.7\u00a0GHz between "
+},
+{
+"text": "2\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "2",
+"i": false
+},
+{
+"text": " and "
+},
+{
+"text": "5\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "5",
+"i": false
+},
+{
+"text": " sheets while the energy per cycle grows from 1.64 to 3.01\u00a0fJ: with the fixed CFET parasitics ("
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "stack",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "out",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ") the extra sheets buy little speed in a self-loaded ring. The map is asymmetric, because the p-tier is the weaker device: "
+},
+{
+"text": "2",
+"i": false
+},
+{
+"text": " n-sheets with "
+},
+{
+"text": "5",
+"i": false
+},
+{
+"text": " p-sheets gives 18.1\u00a0GHz and "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "0.52, whereas "
+},
+{
+"text": "5",
+"i": false
+},
+{
+"text": " n-sheets with "
+},
+{
+"text": "2",
+"i": false
+},
+{
+"text": " p-sheets gives 16.8\u00a0GHz and "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "0.46. Fig.\u00a012c isolates the SiGe lever: raising the hole mobility from "
+},
+{
+"text": "1.0",
+"i": false
+},
+{
+"text": " to "
+},
+{
+"text": "2.0\u00d7",
+"i": false
+},
+{
+"text": " the Si value moves the rise/fall delay ratio "
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "pLH",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "t",
+"i": true
+},
+{
+"text": "pHL",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " from 1.18 to 0.95, balances the two transitions at a ratio of 1.64, and increases "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " by 22% at constant energy per cycle. The CFET-SiGe cell therefore achieves the p/n balance that a Si CFET can only obtain by giving the top tier more sheets, i.e. by increasing the cell height."
+}
+]
+},
+{
+"type": "h3",
+"runs": [
+{
+"text": "MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "/WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Fig.\u00a013a is the central result of the TMD study. Over the "
+},
+{
+"text": "0.1",
+"i": false
+},
+{
+"text": "\u2013"
+},
+{
+"text": "2",
+"i": false
+},
+{
+"text": "\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m contact-resistance grid the TMD RO frequency at 0.5\u00a0V spans 1.50\u20133.99\u00a0GHz (Fig.\u00a013b) while its energy per cycle is almost constant (0.67\u20130.67\u00a0fJ), because the switched charge is set by the gate stack and the CFET parasitics, not by the contacts. The comparison that matters for a low-"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " platform is therefore made at "
+},
+{
+"i": true,
+"text": "equal frequency"
+},
+{
+"text": ": the Si RO is run down to 0.4\u00a0V and its energy per cycle is interpolated at the frequency of each TMD point. With symmetric contacts the TMD cell consumes less energy than Si only below "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "C,critical",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "0.32\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m per side; at the nominal "
+},
+{
+"text": "0.5/0.8",
+"i": false
+},
+{
+"text": "\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m it uses 1.05"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " and at "
+},
+{
+"text": "2",
+"i": false
+},
+{
+"text": "\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m 1.32"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " the Si energy, whereas "
+},
+{
+"text": "0.1",
+"i": false
+},
+{
+"text": "\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m contacts (the present semimetal-contact record range [9, 8]) give 0.91"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": ". The n-side contact weighs slightly more than the p-side because the MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": " device carries the larger share of the ring's switching current. The interface trap density (Fig.\u00a013c) acts on a different axis: between "
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "11",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": " and "
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "13",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": "\u00a0cm"
+},
+{
+"text": "-2",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "eV"
+},
+{
+"text": "-1",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": " the frequency changes by only 1.19"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " (through the ideality factor and the threshold position), the gain drops to 11.3, but the static power rises 53"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": ", so "
+},
+{
+"text": "D",
+"i": true
+},
+{
+"text": "it",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " control is a leakage requirement rather than a speed requirement for the TMD CFET."
+}
+]
+},
+{
+"type": "h3",
+"runs": [
+{
+"text": "CNT"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Fig.\u00a014 separates the three CNT-array quantities that the Landauer block exposes. The tube density sets the drive current linearly, so "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " scales from 23.0\u00a0GHz at 100\u00a0tubes/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m to 60.2\u00a0GHz at 400\u00a0tubes/"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "m at an unchanged energy per cycle; in the model the gate capacitance is written per unit area, so a density dependence of the gate charge, which would reduce this gain, is not captured. The contact resistance acts in the opposite direction, from 46.8\u00a0GHz at 50\u00a0"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m to 7.5\u00a0GHz at 1\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m, again without changing the energy. The metallic-tube fraction is the only variable that attacks functionality: the shunt conductance "
+},
+{
+"text": "G",
+"i": true
+},
+{
+"text": "met",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " raises the inverter static power from 0.69\u00a0nW ("
+},
+{
+"text": "F",
+"i": true
+},
+{
+"text": "met",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=0",
+"i": false
+},
+{
+"text": ") to 301\u00a0nW at "
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-3",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ", 1.48\u00a0"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "W at "
+},
+{
+"text": "5\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-3",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": " and 5.7\u00a0"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "W at "
+},
+{
+"text": "2\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-2",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ", while the gain falls from 22 to 18.3, 11.2 and 7.4 ("
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-3",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ", "
+},
+{
+"text": "5\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-3",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ", "
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-2",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ") and the RO energy per cycle rises 1.49"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " at "
+},
+{
+"text": "2\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-2",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ". With the "
+},
+{
+"text": "A",
+"i": true
+},
+{
+"text": "V",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ">10",
+"i": false
+},
+{
+"text": " criterion the CNT CFET inverter stops being a logic gate between "
+},
+{
+"text": "5\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-3",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": " and "
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-2",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": " metallic fraction, which quantifies why 99.99% semiconducting purity is a minimum and 99.9999% [11] is the practical target."
+}
+]
+},
+{
+"type": "h3",
+"runs": [
+{
+"text": "GaN"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Fig.\u00a015a compares the GaN and Si CFET ROs from 300 to 500\u00a0K. Both speed up (temperature inversion) with frequency temperature coefficients of 501\u00a0ppm/K (GaN) and 1338\u00a0ppm/K (Si) over the range; the smaller GaN coefficient follows from its larger overdrive at 1.2\u00a0V. The static power, however, rises faster for the GaN cell, whose projected p-channel device has the poorest subthreshold slope of the nine models: at 500\u00a0K the GaN inverter leaks 3.87\u00a0"
+},
+{
+"text": "\u00b5",
+"i": false
+},
+{
+"text": "W against 261\u00a0nW for Si, its gain drops from 12.2 at 400\u00a0K to 8.9 at 450\u00a0K and "
+},
+{
+"text": "NM",
+"i": true
+},
+{
+"text": "L",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " to 0.079"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", while the Si cell still has "
+},
+{
+"text": "A",
+"i": true
+},
+{
+"text": "V",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "11.9 and "
+},
+{
+"text": "NM",
+"i": true
+},
+{
+"text": "L",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=",
+"i": false
+},
+{
+"text": "0.30"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " at 500\u00a0K. Within the subthreshold-only leakage model there is thus no GaN-to-Si crossover temperature below 500\u00a0K; the crossover that the wide band gap is expected to provide comes from junction and generation leakage in Si, which the present model does not contain and which is the first extension needed for a definitive high-temperature verdict. Self-heating at logic current levels is small (Fig.\u00a015b): quadrupling the thermal resistance changes the stage delay by -0.7% at 300\u00a0K and 0.2% at 500\u00a0K, but at 500\u00a0K it moves the low noise margin from 0.026"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " to -0.003"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", i.e. it removes what little margin the p-GaN device leaves. A common threshold shift of "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "pm",
+"i": true
+},
+{
+"text": "15",
+"i": false
+},
+{
+"text": "% moves "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " between 1.51 and 1.88\u00a0GHz and the static power by 19"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": " (Fig.\u00a015c); a skewed shift ("
+},
+{
+"text": "+",
+"i": false
+},
+{
+"text": "n, "
+},
+{
+"text": "-",
+"i": false
+},
+{
+"text": "p) leaves the frequency within 1.2% but moves "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " from 0.38 to 0.46, so for the GaN platform threshold "
+},
+{
+"i": true,
+"text": "matching"
+},
+{
+"text": " between tiers is a noise-margin issue rather than a speed issue."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Monte Carlo and yield"
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig14_montecarlo.png"
+],
+"num": "16",
+"caption": [
+{
+"text": "Monte Carlo (200 RO samples and 1000 inverter samples per platform): (a) "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " normalised to nominal, (b) energy per cycle normalised to its median, (c) "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "M",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", (d) noise-margin scatter with the "
+},
+{
+"text": "0.1",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " functional limits, (e) frequency yield "
+},
+{
+"text": "Y",
+"i": true
+},
+{
+"text": "f",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and functional yield, (f) relative frequency spread."
+}
+]
+},
+{
+"type": "tab",
+"wide": false,
+"num": "V",
+"caption": [
+{
+"text": "Monte Carlo summary and yield (criteria: "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "geq",
+"i": true
+},
+{
+"text": "0.9",
+"i": false
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO,nom",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "; "
+},
+{
+"text": "NM",
+"i": true
+},
+{
+"text": "L,H",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ">0.1",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and "
+},
+{
+"text": "A",
+"i": true
+},
+{
+"text": "V",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ">10",
+"i": false
+},
+{
+"text": ")."
+}
+],
+"rows": [
+[
+[
+{
+"text": "lrrrrrrr@{}}\n\nPlatform"
+}
+],
+[
+{
+"text": "N",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "f",
+"i": true
+},
+{
+"text": "\u0304",
+"i": false
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "sigma",
+"i": true
+},
+{
+"text": "f",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "\u0304",
+"i": false
+}
+],
+[
+{
+"text": "Y",
+"i": true
+},
+{
+"text": "f",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "E",
+"i": true
+},
+{
+"text": "\u0304",
+"i": false
+},
+{
+"text": "cycle",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "N",
+"i": true
+},
+{
+"text": "inv",
+"i": true,
+"sub": true,
+"sup": false
+}
+],
+[
+{
+"text": "Y",
+"i": true
+},
+{
+"text": "func",
+"i": true,
+"sub": true,
+"sup": false
+}
+]
+],
+[
+[],
+[],
+[
+{
+"text": "(GHz)"
+}
+],
+[
+{
+"text": "(%)"
+}
+],
+[
+{
+"text": "(%)"
+}
+],
+[
+{
+"text": "(fJ)"
+}
+],
+[],
+[
+{
+"text": "(%)"
+}
+]
+],
+[
+[
+{
+"text": "CFET-Si"
+}
+],
+[
+{
+"text": "150"
+}
+],
+[
+{
+"text": "19.35"
+}
+],
+[
+{
+"text": "6.9"
+}
+],
+[
+{
+"text": "91.3"
+}
+],
+[
+{
+"text": "2.10"
+}
+],
+[
+{
+"text": "1000"
+}
+],
+[
+{
+"text": "100.0"
+}
+]
+],
+[
+[
+{
+"text": "CFET-SiGe"
+}
+],
+[
+{
+"text": "150"
+}
+],
+[
+{
+"text": "21.43"
+}
+],
+[
+{
+"text": "6.5"
+}
+],
+[
+{
+"text": "94.0"
+}
+],
+[
+{
+"text": "2.12"
+}
+],
+[
+{
+"text": "1000"
+}
+],
+[
+{
+"text": "100.0"
+}
+]
+],
+[
+[
+{
+"text": "CFET-TMD"
+}
+],
+[
+{
+"text": "150"
+}
+],
+[
+{
+"text": "2.42"
+}
+],
+[
+{
+"text": "33.5"
+}
+],
+[
+{
+"text": "48.7"
+}
+],
+[
+{
+"text": "0.67"
+}
+],
+[
+{
+"text": "1000"
+}
+],
+[
+{
+"text": "100.0"
+}
+]
+],
+[
+[
+{
+"text": "CFET-CNT"
+}
+],
+[
+{
+"text": "150"
+}
+],
+[
+{
+"text": "44.87"
+}
+],
+[
+{
+"text": "10.4"
+}
+],
+[
+{
+"text": "79.3"
+}
+],
+[
+{
+"text": "0.84"
+}
+],
+[
+{
+"text": "1000"
+}
+],
+[
+{
+"text": "100.0"
+}
+]
+],
+[
+[
+{
+"text": "CFET-GaN"
+}
+],
+[
+{
+"text": "150"
+}
+],
+[
+{
+"text": "1.67"
+}
+],
+[
+{
+"text": "9.4"
+}
+],
+[
+{
+"text": "79.3"
+}
+],
+[
+{
+"text": "94.23"
+}
+],
+[
+{
+"text": "1000"
+}
+],
+[
+{
+"text": "99.9"
+}
+]
+]
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Monte Carlo was run only after the nominal VTCs, RO start-up and extraction had been verified for all platforms. The random variables are the physical model parameters listed in Section\u00a0III (Si: "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH0",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " with "
+},
+{
+"text": "\u03c3=20",
+"i": false
+},
+{
+"text": "\u00a0mV including work-function shift, "
+},
+{
+"text": "W",
+"i": true
+},
+{
+"text": "NS",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " with "
+},
+{
+"text": "\u03c3=1",
+"i": false
+},
+{
+"text": "\u00a0nm, "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "SD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " 10%; SiGe adds 10% on the p-mobility as a composition proxy; TMD: "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "C",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " 30% log-normal, "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH0",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " 50\u00a0mV, mobility 20%, "
+},
+{
+"text": "D",
+"i": true
+},
+{
+"text": "it",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " 0.3\u00a0decades; CNT: density 15%, metallic fraction log-normal around "
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-6",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": " with 0.5\u00a0decades, "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "C",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " 30%; GaN: "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "TH0",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " 50\u00a0mV including trap shift, mobility 10%, "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "th",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " 20%), drawn independently for the n- and p-device, with the same seeded generator for every platform. Table\u00a0V and Fig.\u00a016 give the outcome. All 150 RO samples of every platform oscillate and all five inverter populations pass the functional criterion in "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "geq",
+"i": true
+},
+{
+"text": "99.9",
+"i": false
+},
+{
+"text": "% of the 1000 samples (the single GaN failure is a low-"
+},
+{
+"text": "NM",
+"i": true
+},
+{
+"text": "L",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " sample at "
+},
+{
+"text": "0.095",
+"i": false
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "). The frequency spread separates the platforms: "
+},
+{
+"text": "\\",
+"i": false
+},
+{
+"text": "sigma",
+"i": true
+},
+{
+"text": "f",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "\u0304",
+"i": false
+},
+{
+"text": " is 6.5% and 6.9% for the SiGe and Si cells, 9.4% for GaN, 10.4% for CNT and 33.5% for TMD, and the frequency yield at "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "target",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=0.9",
+"i": false
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO,nom",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " follows the same order (94, 91, 79, 79 and 49%). The TMD spread is dominated by the log-normal contact-resistance variation (a 30% "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "C",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " change moves "
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "RO",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " by about 20%, Fig.\u00a013b) and by the 50\u00a0mV threshold variation on a 0.5\u00a0V supply; the CNT spread comes from the tube-density term, which enters the drive current linearly; the GaN spread is a threshold-voltage effect. The energy per cycle is far less sensitive than the frequency for every platform (Fig.\u00a016b), as expected for a quantity set by the switched charge, so the variability penalty of the emerging platforms is a timing-closure penalty rather than an energy penalty."
+}
+]
+},
+{
+"type": "h2",
+"runs": [
+{
+"text": "Conceptual layout"
+}
+]
+},
+{
+"type": "fig",
+"wide": true,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig_layout_inverters.png"
+],
+"num": "17",
+"caption": [
+{
+"text": "Conceptual, DRC-clean GDSII layouts of the five CFET inverter cells (plan view; tiers drawn as separate layers): Si and SiGe at "
+},
+{
+"text": "L",
+"i": true
+},
+{
+"text": "g",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=16",
+"i": false
+},
+{
+"text": "\u00a0nm, CPP = 45\u00a0nm, 90"
+},
+{
+"text": "\u00d7",
+"i": false
+},
+{
+"text": "96\u00a0nm cell; TMD and CNT projected at "
+},
+{
+"text": "L",
+"i": true
+},
+{
+"text": "g",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=20",
+"i": false
+},
+{
+"text": "\u00a0nm, CPP = 54\u00a0nm; GaN projected at "
+},
+{
+"text": "L",
+"i": true
+},
+{
+"text": "g",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "=100",
+"i": false
+},
+{
+"text": "\u00a0nm, CPP = 200\u00a0nm."
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Fig.\u00a017 shows conceptual layouts generated with a generic 3-nm-class CFET rule set (contacted gate pitch 45\u00a0nm, metal pitch 24\u00a0nm, 20-nm-wide nanosheets, four-track cell height because the p-tier folds over the n-tier). The bottom n-sheets, top p-sheets, common gate, tier contacts, inter-tier via joining the two drains and the M0 power rails are separate layers; a boolean DRC (minimum width and spacing per layer, gate-to-contact spacing, via enclosure) reports zero violations for the five inverters, the five 5-stage ROs and the top cell. The Si/SiGe inverter occupies "
+},
+{
+"text": "90\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "96",
+"i": false
+},
+{
+"text": "\u00a0nm"
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": "; the TMD/CNT projections "
+},
+{
+"text": "108\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "96",
+"i": false
+},
+{
+"text": "\u00a0nm"
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": "; the GaN projection "
+},
+{
+"text": "400\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "400",
+"i": false
+},
+{
+"text": "\u00a0nm"
+},
+{
+"text": "2",
+"i": false,
+"sub": false,
+"sup": true
+},
+{
+"text": ". These layouts annotate the gate length, sheet pitch, tier spacing and the location of "
+},
+{
+"text": "C",
+"i": true
+},
+{
+"text": "stack",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "; they are not tape-out-ready, which would require a real CFET PDK with DRC/LVS decks."
+}
+]
+},
+{
+"type": "h1",
+"runs": [
+{
+"text": "Material-Selection Map"
+}
+]
+},
+{
+"type": "fig",
+"wide": false,
+"imgs": [
+"/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/cfet_multimaterial/figures/fig15_selection_chart.png"
+],
+"num": "18",
+"caption": [
+{
+"text": "Material-selection chart: speed, energy efficiency, low-"
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " capability, temperature stability ("
+},
+{
+"text": "1/|\u0394 ",
+"i": false
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "/",
+"i": false
+},
+{
+"text": "f",
+"i": true
+},
+{
+"text": "|",
+"i": false
+},
+{
+"text": " between 27 and 125"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C) and variability ("
+},
+{
+"text": "1/\\",
+"i": false
+},
+{
+"text": "sigma",
+"i": true
+},
+{
+"text": "f",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": "), each normalised to the best platform."
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "Fig.\u00a018 condenses the results on five normalised axes, and Table\u00a0VI states the resulting recommendations. No platform dominates. The CNT CFET has the highest speed and the second-lowest energy but needs a metallic-tube fraction below "
+},
+{
+"text": "5\\",
+"i": false
+},
+{
+"text": "times",
+"i": true
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-3",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": " and carries a 10% frequency spread from density variation. The TMD CFET has the lowest absolute energy per cycle and the lowest supply, but at equal frequency it beats Si only with contacts below 0.32\u00a0k"
+},
+{
+"text": "\u03a9\u00b7\u00b5",
+"i": false
+},
+{
+"text": "m per side, and its 34% frequency spread makes it the hardest platform to close timing on. The Si and SiGe CFETs are the reference: SiGe buys 6\u201310% speed and a balanced inverter at no energy cost and with the lowest variability of all platforms. The GaN CFET has the best temperature stability of the frequency (501\u00a0ppm/K) and keeps a functional inverter to 150"
+},
+{
+"text": "\u00b0",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": "C, but with the projected p-GaN device it pays 1\u20132 orders of magnitude in energy per cycle and, within a subthreshold-only leakage model, does not out-leak Si at high temperature; it is the platform whose ranking depends most on a device (the p-channel) that does not yet exist in the required form."
+}
+]
+},
+{
+"type": "tab",
+"wide": false,
+"num": "VI",
+"caption": [
+{
+"text": "Selection map derived from the simulations."
+}
+],
+"rows": [
+[
+[
+{
+"text": "p{0.46\\columnwidth}}\n\nDesign need"
+}
+],
+[
+{
+"text": "Preferred CFET family"
+}
+]
+],
+[
+[
+{
+"text": "Highest maturity / main logic baseline"
+}
+],
+[
+{
+"text": "CFET-Si"
+}
+]
+],
+[
+[
+{
+"text": "Better p/n balance with Si-compatible processing"
+}
+],
+[
+{
+"text": "CFET-SiGe"
+}
+]
+],
+[
+[
+{
+"text": "Lowest "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": ", leakage-sensitive logic"
+}
+],
+[
+{
+"text": "CFET-TMD, if "
+},
+{
+"text": "R",
+"i": true
+},
+{
+"text": "C",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " is below the crossover value (Fig.\u00a013)"
+}
+]
+],
+[
+[
+{
+"text": "Highest performance post-Si research"
+}
+],
+[
+{
+"text": "CFET-CNT, if purity and density are controlled (Fig.\u00a014)"
+}
+]
+],
+[
+[
+{
+"text": "High-temperature / integrated power-control logic"
+}
+],
+[
+{
+"text": "CFET-GaN (projected p-GaN)"
+}
+]
+]
+]
+},
+{
+"type": "h1",
+"runs": [
+{
+"text": "Limitations"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "The reference data are literature-anchored reconstructions, not measurements; the MAPE values quantify the model's ability to follow an independent formulation, not agreement with hardware, and must be re-established with measured or TCAD curves before the models are used for a specific technology. The p-GaN device is a projection. The TMD block omits Schottky-barrier bias dependence of the contacts and the CNT block uses a single transmission parameter; the charge model uses a symmetric end-point partition rather than a full Ward\u2013Dutton partition; CFET parasitics are lumped. The sensitivity and Monte Carlo trends, which are the main results, are driven by the physical parameters of the model and are therefore expected to be robust to these simplifications, but the absolute numbers should be read as platform-level projections."
+}
+]
+},
+{
+"type": "h1",
+"runs": [
+{
+"text": "Conclusion"
+}
+]
+},
+{
+"type": "p",
+"runs": [
+{
+"text": "A single compact-model core with four material blocks, implemented once in Verilog-A for Spectre/ADE and mirrored in ngspice, allows Si, SiGe, MoS"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": "/WSe"
+},
+{
+"text": "2",
+"i": false,
+"sub": true,
+"sup": false
+},
+{
+"text": ", CNT and GaN CFET logic to be calibrated, simulated and compared with one flow and one set of measurement definitions. The flow reproduces a 5-stage RO at 19.39\u00a0GHz and 2.09\u00a0fJ/cycle for the Si baseline and yields a material-selection map: SiGe for p/n balance, TMD for the lowest energy at low "
+},
+{
+"text": "V",
+"i": true
+},
+{
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " provided the contact resistance stays below the crossover value, CNT for the highest speed provided the metallic-tube fraction stays below "
+},
+{
+"text": "10",
+"i": false
+},
+{
+"text": "-3",
+"i": true,
+"sub": false,
+"sup": true
+},
+{
+"text": ", and GaN for high-temperature operation at an energy penalty set by the p-channel device. All models, scripts, layouts and results are released for reuse."
+}
+]
+},
+{
+"type": "p",
+"runs": []
+}
+],
+"references": [
+"Ryckaert, J. and Schuddinck, P. and Weckx, P. et al., \u201cThe complementary FET (CFET) for CMOS scaling beyond N3,\u201d, Proc. IEEE Symp. VLSI Technology (VLSIT), pp. 141\u2013142, 2018. doi: 10.1109/VLSIT.2018.8510618",
+"Subramanian, S. and Hosseini, M. and Chiarella, T. et al., \u201cFirst monolithic integration of 3D complementary FET (CFET) on 300mm wafers,\u201d, Proc. IEEE Symp. VLSI Technology (VLSIT), pp. 1\u20132, 2020. doi: 10.1109/VLSITechnology18217.2020.9265073",
+"Huang, C.-Y. and Dewey, G. and Mannebach, E. et al., \u201c3-D self-aligned stacked NMOS-on-PMOS nanoribbon transistors for continued Moore's law scaling,\u201d, Proc. IEEE Int. Electron Devices Meeting (IEDM), pp. 20.6.1\u201320.6.4, 2020. doi: 10.1109/IEDM13553.2020.9372066",
+"Mertens, H. and Ritzenthaler, R. and Hikavyy, A. et al., \u201cGate-all-around MOSFETs based on vertically stacked horizontal Si nanowires in a replacement metal gate process on bulk Si substrates,\u201d, Proc. IEEE Symp. VLSI Technology (VLSIT), pp. 1\u20132, 2016. doi: 10.1109/VLSIT.2016.7573416",
+"Mochizuki, S. and Bhuiyan, M. and Zhou, H. et al., \u201c,\u201d, Proc. IEEE Int. Electron Devices Meeting (IEDM), pp. 2.3.1\u20132.3.4, 2020. doi: 10.1109/IEDM13553.2020.9372041",
+"O'Brien, K. P. and Dorow, C. J. and Penumatcha, A. et al., \u201cAdvancing 2D monolayer CMOS through contact, channel and interface engineering,\u201d, Proc. IEEE Int. Electron Devices Meeting (IEDM), pp. 7.1.1\u20137.1.4, 2021. doi: 10.1109/IEDM19574.2021.9720651",
+"O'Brien, Kevin P. and Naylor, Carl H. and Dorow, Chelsey et al., \u201cProcess integration and future outlook of 2D transistors,\u201d, Nature Communications, vol. 14, pp. 6400, 2023. doi: 10.1038/s41467-023-41779-5",
+", \u201cApproaching the quantum limit in two-dimensional semiconductor contacts,\u201d, Nature, vol. 613, no. 7943, pp. 274\u2013279, 2023. doi: 10.1038/s41586-022-05431-4",
+"Shen, Pin-Chun and Su, Cong and Lin, Yuxuan et al., \u201cUltralow contact resistance between semimetal and monolayer semiconductors,\u201d, Nature, vol. 593, no. 7858, pp. 211\u2013217, 2021. doi: 10.1038/s41586-021-03472-9",
+"Chou, Ang-Sheng et al., \u201cHigh-performance monolayer WSe$_2$ p/n FETs via antimony-platinum modulated contact technology towards 2D CMOS electronics,\u201d, Proc. IEEE Int. Electron Devices Meeting (IEDM), pp. 7.2.1\u20137.2.4, 2022. doi: 10.1109/IEDM45625.2022.10019491",
+"Liu, Lijun and Han, Jie and Xu, Lin et al., \u201cAligned, high-density semiconducting carbon nanotube arrays for high-performance electronics,\u201d, Science, vol. 368, no. 6493, pp. 850\u2013856, 2020. doi: 10.1126/science.aba5980",
+"Hills, Gage and Lau, Christian and Wright, Andrew et al., \u201cModern microprocessor built from complementary carbon nanotube transistors,\u201d, Nature, vol. 572, no. 7771, pp. 595\u2013602, 2019. doi: 10.1038/s41586-019-1493-8",
+"Shulaker, Max M. and Hills, Gage and Park, Rebecca S. et al., \u201cThree-dimensional integration of nanotechnologies for computing and data storage on a single chip,\u201d, Nature, vol. 547, no. 7661, pp. 74\u201378, 2017. doi: 10.1038/nature22994",
+"Bader, Samuel James and Lee, Hyunjea and Chaudhuri, Reet et al., \u201cProspects for wide bandgap and ultrawide bandgap CMOS devices,\u201d, IEEE Transactions on Electron Devices, vol. 67, no. 10, pp. 4010\u20134020, 2020. doi: 10.1109/TED.2020.3010471",
+"Zheng, Zheyang and Zhang, Li and Song, Wenjie et al., \u201cGallium nitride-based complementary logic integrated circuits,\u201d, Nature Electronics, vol. 4, pp. 595\u2013603, 2021. doi: 10.1038/s41928-021-00611-y",
+"Chowdhury, N. and Xie, Q. and Yuan, M. et al., \u201cRegrowth-free GaN-based complementary logic on a Si substrate,\u201d, IEEE Electron Device Letters, vol. 41, no. 6, pp. 820\u2013823, 2020. doi: 10.1109/LED.2020.2987003",
+"Amano, Hiroshi and Baines, Yvon and Beam, Eric et al., \u201cThe 2018 GaN power electronics roadmap,\u201d, Journal of Physics D: Applied Physics, vol. 51, no. 16, pp. 163001, 2018. doi: 10.1088/1361-6463/aaaf9d",
+"Chauhan, Yogesh Singh and Lu, Darsen and Venugopalan, Sriramkumar et al., \u201cFinFET Modeling for IC Simulation and Design: Using the BSIM-CMG Standard,\u201d, Academic Press, 2015.",
+"Pasadas, Francisco and Mar\\'in, Enrique G. and Toral-L\\'opez, Alejandro et al., \u201cLarge-signal model of 2DFETs: compact modeling of terminal charges and intrinsic capacitances,\u201d, npj 2D Materials and Applications, vol. 3, pp. 47, 2019. doi: 10.1038/s41699-019-0130-6",
+"Deng, Jie and Wong, H.-S. Philip, \u201cA compact SPICE model for carbon-nanotube field-effect transistors including nonidealities and its application---Part I: Model of the intrinsic channel region,\u201d, IEEE Transactions on Electron Devices, vol. 54, no. 12, pp. 3186\u20133194, 2007. doi: 10.1109/TED.2007.909030",
+"Cadence Design Systems, Inc., \u201cCadence Verilog-A Language Reference,\u201d, 2014.",
+"Cadence Design Systems, Inc., \u201cSpectre Circuit Simulator Reference,\u201d, 2020.",
+"Cadence Design Systems, Inc., \u201cVirtuoso ADE Explorer and Virtuoso ADE Assembler User Guides,\u201d, 2024.",
+"Vogt, Holger and Atkinson, Giles and Nenzi, Paolo, \u201cNgspice User's Manual, Version 42,\u201d, 2023. https://ngspice.sourceforge.io/docs/ngspice-42-manual.pdf",
+", \u201cAn analytical MOS transistor model valid in all regions of operation and dedicated to low-voltage and low-current applications,\u201d, Analog Integrated Circuits and Signal Processing, vol. 8, no. 1, pp. 83\u2013114, 1995. doi: 10.1007/BF01239381",
+"Lundstrom, Mark and Ren, Zhibin, \u201cEssential physics of carrier transport in nanoscale MOSFETs,\u201d, IEEE Transactions on Electron Devices, vol. 49, no. 1, pp. 133\u2013141, 2002. doi: 10.1109/16.974760",
+"IEEE International Roadmap for Devices and Systems (IRDS), \u201cInternational Roadmap for Devices and Systems, 2023 Edition: More Moore,\u201d, IEEE, 2023. https://irds.ieee.org/images/files/pdf/2023/2023IRDS_MM.pdf",
+"Loubet, N. and Hook, T. and Montanini, P. et al., \u201cStacked nanosheet gate-all-around transistor to enable scaling beyond FinFET,\u201d, Proc. Symp. VLSI Technology (VLSIT), pp. T230\u2013T231, 2017. doi: 10.23919/VLSIT.2017.7998183"
+]
+}
