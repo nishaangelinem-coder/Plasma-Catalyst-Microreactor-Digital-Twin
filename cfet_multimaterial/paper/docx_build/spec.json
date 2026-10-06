@@ -155,15 +155,7 @@
 "text": " and temperature sweeps, material-specific sensitivity studies and Monte Carlo yield analysis. At nominal supply the 5-stage ROs run at 19.39, 21.39, 2.59, 45.39 and 1.69\u00a0GHz for the Si, SiGe, TMD, CNT and GaN platforms with 2.09, 2.12, 0.67, 0.84 and 94.17\u00a0fJ per cycle. A contact-resistance crossover map shows the TMD CFET keeps an iso-frequency energy advantage over Si only below a critical contact resistance; the CNT inverter loses its gain once the metallic-tube fraction exceeds about "
 },
 {
-"text": "5\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "10",
+"text": "5\u00d710",
 "i": false
 },
 {
@@ -268,7 +260,7 @@
 [
 [
 {
-"text": "lllp{2.6cm}c@{}}\n\nID"
+"text": "ID"
 }
 ],
 [
@@ -760,12 +752,8 @@
 "sup": false
 },
 {
-"text": " - \u03b7\\",
+"text": " - \u03b7\u221a(",
 "i": false
-},
-{
-"text": "sqrt",
-"i": true
 },
 {
 "text": "V",
@@ -792,6 +780,10 @@
 "i": false,
 "sub": false,
 "sup": true
+},
+{
+"text": ")",
+"i": false
 },
 {
 "text": " and the temperature dependence as "
@@ -870,12 +862,8 @@
 "text": ", "
 },
 {
-"text": "\\",
+"text": "\u00b5",
 "i": false
-},
-{
-"text": "mu",
-"i": true
 },
 {
 "text": "T",
@@ -884,12 +872,8 @@
 "sup": false
 },
 {
-"text": "=\\",
+"text": "=\u00b5",
 "i": false
-},
-{
-"text": "mu",
-"i": true
 },
 {
 "text": "0",
@@ -952,12 +936,8 @@
 "text": "with "
 },
 {
-"text": "\u03b2=\\",
+"text": "\u03b2=\u00b5",
 "i": false
-},
-{
-"text": "mu",
-"i": true
 },
 {
 "text": "T",
@@ -1023,12 +1003,8 @@
 "i": true
 },
 {
-"text": "/\\",
+"text": "/\u00b5",
 "i": false
-},
-{
-"text": "mu",
-"i": true
 },
 {
 "text": "T",
@@ -1306,11 +1282,7 @@
 "i": false
 },
 {
-"text": "d",
-"i": true
-},
-{
-"text": "Q",
+"text": "dQ",
 "i": true
 },
 {
@@ -1318,11 +1290,7 @@
 "i": false
 },
 {
-"text": "d",
-"i": true
-},
-{
-"text": "t",
+"text": "dt",
 "i": true
 },
 {
@@ -1795,12 +1763,8 @@
 "text": ", "
 },
 {
-"text": "\\",
+"text": "\u03b7",
 "i": false
-},
-{
-"text": "eta",
-"i": true
 },
 {
 "text": "s",
@@ -2092,11 +2056,7 @@
 "i": false
 },
 {
-"text": "d",
-"i": true
-},
-{
-"text": "V",
+"text": "dV",
 "i": true
 },
 {
@@ -2118,11 +2078,7 @@
 "i": false
 },
 {
-"text": "d",
-"i": true
-},
-{
-"text": "t",
+"text": "dt",
 "i": true
 },
 {
@@ -2379,12 +2335,8 @@
 "text": ", "
 },
 {
-"text": "\\",
+"text": "\u03b7",
 "i": false
-},
-{
-"text": "eta",
-"i": true
 },
 {
 "text": "s",
@@ -2592,11 +2544,7 @@
 "i": false
 },
 {
-"text": "d",
-"i": true
-},
-{
-"text": "Q",
+"text": "dQ",
 "i": true
 },
 {
@@ -2610,11 +2558,7 @@
 "i": false
 },
 {
-"text": "d",
-"i": true
-},
-{
-"text": "V",
+"text": "dV",
 "i": true
 },
 {
@@ -2714,10 +2658,6 @@
 "text": "Seven parameters are fitted per device by bounded non-linear least squares on "
 },
 {
-"text": "\\",
-"i": false
-},
-{
 "text": "log",
 "i": false
 },
@@ -2806,12 +2746,8 @@
 "text": ", "
 },
 {
-"text": "\\",
+"text": "\u00b5",
 "i": false
-},
-{
-"text": "mu",
-"i": true
 },
 {
 "text": "0",
@@ -3330,12 +3266,8 @@
 [
 [
 {
-"text": "\\",
+"text": "\u00b5",
 "i": false
-},
-{
-"text": "mu",
-"i": true
 },
 {
 "text": "0",
@@ -4956,15 +4888,7 @@
 "text": " at the 50% crossings; switching energy "
 },
 {
-"text": "\\",
-"i": false
-},
-{
-"text": "int",
-"i": true
-},
-{
-"text": " ",
+"text": "\u222b ",
 "i": false
 },
 {
@@ -4988,11 +4912,7 @@
 "sup": false
 },
 {
-"text": "d",
-"i": true
-},
-{
-"text": "t",
+"text": "dt",
 "i": true
 },
 {
@@ -5189,15 +5109,7 @@
 "sup": false
 },
 {
-"text": "=\\",
-"i": false
-},
-{
-"text": "frac",
-"i": true
-},
-{
-"text": "1",
+"text": "=(1)/(",
 "i": false
 },
 {
@@ -5225,12 +5137,8 @@
 "sup": false
 },
 {
-"text": "\\",
+"text": ")\u222b",
 "i": false
-},
-{
-"text": "int",
-"i": true
 },
 {
 "text": "t_1",
@@ -5265,11 +5173,7 @@
 "sup": false
 },
 {
-"text": "d",
-"i": true
-},
-{
-"text": "t",
+"text": "dt",
 "i": true
 },
 {
@@ -6225,15 +6129,20 @@
 "type": "h2",
 "runs": [
 {
-"text": "Unified $V_{DD"
-}
-]
+"text": "Unified "
 },
 {
-"type": "p",
-"runs": [
+"text": "V",
+"i": true
+},
 {
-"text": "$ and temperature sweeps}"
+"text": "DD",
+"i": true,
+"sub": true,
+"sup": false
+},
+{
+"text": " and temperature sweeps"
 }
 ]
 },
@@ -6912,30 +6821,14 @@
 "text": " moves only from 16.4 to 22.7\u00a0GHz between "
 },
 {
-"text": "2\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "2",
+"text": "2\u00d72",
 "i": false
 },
 {
 "text": " and "
 },
 {
-"text": "5\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "5",
+"text": "5\u00d75",
 "i": false
 },
 {
@@ -7458,15 +7351,7 @@
 "text": "W at "
 },
 {
-"text": "5\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "10",
+"text": "5\u00d710",
 "i": false
 },
 {
@@ -7486,15 +7371,7 @@
 "text": "W at "
 },
 {
-"text": "2\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "10",
+"text": "2\u00d710",
 "i": false
 },
 {
@@ -7520,15 +7397,7 @@
 "text": ", "
 },
 {
-"text": "5\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "10",
+"text": "5\u00d710",
 "i": false
 },
 {
@@ -7561,15 +7430,7 @@
 "text": " at "
 },
 {
-"text": "2\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "10",
+"text": "2\u00d710",
 "i": false
 },
 {
@@ -7599,15 +7460,7 @@
 "text": " criterion the CNT CFET inverter stops being a logic gate between "
 },
 {
-"text": "5\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "10",
+"text": "5\u00d710",
 "i": false
 },
 {
@@ -7755,15 +7608,7 @@
 "text": ", i.e. it removes what little margin the p-GaN device leaves. A common threshold shift of "
 },
 {
-"text": "\\",
-"i": false
-},
-{
-"text": "pm",
-"i": true
-},
-{
-"text": "15",
+"text": "\u00b115",
 "i": false
 },
 {
@@ -7949,15 +7794,7 @@
 "sup": false
 },
 {
-"text": "\\",
-"i": false
-},
-{
-"text": "geq",
-"i": true
-},
-{
-"text": "0.9",
+"text": "\u22650.9",
 "i": false
 },
 {
@@ -8022,7 +7859,7 @@
 [
 [
 {
-"text": "lrrrrrrr@{}}\n\nPlatform"
+"text": "Platform"
 }
 ],
 [
@@ -8055,12 +7892,8 @@
 ],
 [
 {
-"text": "\\",
+"text": "\u03c3",
 "i": false
-},
-{
-"text": "sigma",
-"i": true
 },
 {
 "text": "f",
@@ -8527,15 +8360,7 @@
 "text": " 20%), drawn independently for the n- and p-device, with the same seeded generator for every platform. Table\u00a0V and Fig.\u00a016 give the outcome. All 150 RO samples of every platform oscillate and all five inverter populations pass the functional criterion in "
 },
 {
-"text": "\\",
-"i": false
-},
-{
-"text": "geq",
-"i": true
-},
-{
-"text": "99.9",
+"text": "\u226599.9",
 "i": false
 },
 {
@@ -8572,12 +8397,8 @@
 "text": "). The frequency spread separates the platforms: "
 },
 {
-"text": "\\",
+"text": "\u03c3",
 "i": false
-},
-{
-"text": "sigma",
-"i": true
 },
 {
 "text": "f",
@@ -8741,15 +8562,7 @@
 "text": "Fig.\u00a017 shows conceptual layouts generated with a generic 3-nm-class CFET rule set (contacted gate pitch 45\u00a0nm, metal pitch 24\u00a0nm, 20-nm-wide nanosheets, four-track cell height because the p-tier folds over the n-tier). The bottom n-sheets, top p-sheets, common gate, tier contacts, inter-tier via joining the two drains and the M0 power rails are separate layers; a boolean DRC (minimum width and spacing per layer, gate-to-contact spacing, via enclosure) reports zero violations for the five inverters, the five 5-stage ROs and the top cell. The Si/SiGe inverter occupies "
 },
 {
-"text": "90\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "96",
+"text": "90\u00d796",
 "i": false
 },
 {
@@ -8765,15 +8578,7 @@
 "text": "; the TMD/CNT projections "
 },
 {
-"text": "108\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "96",
+"text": "108\u00d796",
 "i": false
 },
 {
@@ -8789,15 +8594,7 @@
 "text": "; the GaN projection "
 },
 {
-"text": "400\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "400",
+"text": "400\u00d7400",
 "i": false
 },
 {
@@ -8892,12 +8689,8 @@
 "text": "C) and variability ("
 },
 {
-"text": "1/\\",
+"text": "1/\u03c3",
 "i": false
-},
-{
-"text": "sigma",
-"i": true
 },
 {
 "text": "f",
@@ -8917,15 +8710,7 @@
 "text": "Fig.\u00a018 condenses the results on five normalised axes, and Table\u00a0VI states the resulting recommendations. No platform dominates. The CNT CFET has the highest speed and the second-lowest energy but needs a metallic-tube fraction below "
 },
 {
-"text": "5\\",
-"i": false
-},
-{
-"text": "times",
-"i": true
-},
-{
-"text": "10",
+"text": "5\u00d710",
 "i": false
 },
 {
@@ -8968,7 +8753,7 @@
 [
 [
 {
-"text": "p{0.46\\columnwidth}}\n\nDesign need"
+"text": "Design need"
 }
 ],
 [

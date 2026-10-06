@@ -22,6 +22,7 @@ function para(rs, opts = {}) {
 function heading(rs, level) {
   const text = rs.map(r => r.text).join("");
   if (level === 1) {
+    subCount = 0; subsubCount = 0;
     return new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, spacing: { before: 240, after: 120 },
       children: [new TextRun({ text: `${roman(++secCount)}. ${text.toUpperCase()}`, font: FONT, size: 20, bold: false })], keepNext: true });
   }

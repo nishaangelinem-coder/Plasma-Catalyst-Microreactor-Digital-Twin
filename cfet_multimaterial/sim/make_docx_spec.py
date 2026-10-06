@@ -14,6 +14,36 @@ GREEK = {"mu": "µ", "Omega": "Ω", "sigma": "σ", "lambda": "λ", "eta": "η", 
 SYM = {"cdot": "·", "times": "×", "pm": "±", "geq": "≥", "leq": "≤", "approx": "≈", "to": "→", "rightarrow": "→", "infty": "∞",
        "propto": "∝", "ll": "≪", "gg": "≫", "neq": "≠", "circ": "°", "mathrm": "", "text": "", "emph": "", "quad": "  ", "ln": "ln", "exp": "exp", "tanh": "tanh", "max": "max"}
 
+SYM.update({"int": "∫", "sum": "Σ", "log": "log", "partial": "∂", "langle": "⟨", "rangle": "⟩", "mid": "|", "sim": "~", "ldots": "…", "dots": "…"})
+
+
+def braced(s, start):
+    """Return (content, end_index) of the {...} group starting at s[start] == '{'."""
+    depth = 0
+    for j in range(start, len(s)):
+        if s[j] == "{": depth += 1
+        elif s[j] == "}":
+            depth -= 1
+            if depth == 0: return s[start + 1:j], j + 1
+    return s[start + 1:], len(s)
+
+
+def expand_cmd(s, name, fn):
+    """Replace every \name{a}{b}... occurrence (n braced args, n = fn arity) using fn."""
+    import inspect
+    n = len(inspect.signature(fn).parameters)
+    out = ""; i = 0
+    while True:
+        k = s.find("\\" + name + "{", i)
+        if k < 0: out += s[i:]; return out
+        out += s[i:k]; j = k + len(name) + 1; args = []
+        for _ in range(n):
+            while j < len(s) and s[j] in " \n": j += 1
+            if j < len(s) and s[j] == "{":
+                a, j = braced(s, j); args.append(a)
+            else: args.append("")
+        out += fn(*args); i = j
+
 
 def cite(keys):
     nums = []
@@ -28,8 +58,16 @@ def math_runs(m, base):
     """Convert a LaTeX math fragment to runs with sub/superscripts (italic by default)."""
     runs = []
     s = m
+    for _ in range(3):   # nested fractions / roots
+        s = expand_cmd(s, "frac", lambda a, b: "(" + a + ")/(" + b + ")")
+        s = expand_cmd(s, "tfrac", lambda a, b: "(" + a + ")/(" + b + ")")
+        s = expand_cmd(s, "dfrac", lambda a, b: "(" + a + ")/(" + b + ")")
+        s = expand_cmd(s, "sqrt", lambda a: "√(" + a + ")")
+        s = expand_cmd(s, "mathrm", lambda a: a)
+        s = expand_cmd(s, "text", lambda a: a)
     s = re.sub(r"\\bar\s*([A-Za-z])", lambda x: x.group(1) + "\u0304", s)
-    s = re.sub(r"\\(\w+)", lambda x: GREEK.get(x.group(1), SYM.get(x.group(1), x.group(0))), s)
+    s = re.sub(r"\\(left|right)\s*", "", s)
+    s = re.sub(r"\\([A-Za-z]+)", lambda x: GREEK.get(x.group(1), SYM.get(x.group(1), x.group(0))), s)
     s = s.replace("\\,", " ").replace("\\!", "").replace("\;", " ").replace("~", " ").replace("\\{", "{").replace("\\}", "}")
     i = 0
     while i < len(s):
@@ -113,8 +151,12 @@ def render_eq(latex, idx):
 def table_rows(tex):
     tex = re.sub(r"\\setlength\{[^}]*\}\{[^}]*\}", "", tex)
     tex = re.sub(r"\\(hline|toprule|midrule|bottomrule)", "", tex)
-    m = re.search(r"\\begin\{tabular\}\{[^}]*\}(.*)\\end\{tabular\}", tex, re.S)
-    body = m.group(1) if m else tex
+    k = tex.find("\\begin{tabular}")
+    if k >= 0:
+        _, j = braced(tex, tex.index("{", k + len("\\begin{tabular}")))   # skip the column spec (may nest braces)
+        body = tex[j:tex.index("\\end{tabular}")]
+    else:
+        body = tex
     rows = [r.strip() for r in re.split(r"\\\\", body) if r.strip()]
     return [[inline(c.strip()) for c in r.split("&")] for r in rows]
 
@@ -138,7 +180,7 @@ def main():
     body = body[body.index("\\end{IEEEkeywords}") + len("\\end{IEEEkeywords}"):]
     # tokenise floats / equations / headings / paragraphs in document order
     pattern = re.compile(r"(\\begin\{figure(\*?)\}\[!t\].*?\\end\{figure\*?\})|(\\begin\{table(\*?)\}\[!t\].*?\\end\{table\*?\})|"
-                         r"(\\begin\{(equation|align)\}.*?\\end\{\6\})|(\\(sub)*section\{[^}]*\})", re.S)
+                         r"(\\begin\{(equation|align)\}.*?\\end\{\6\})|(\\(sub)*section\{(?:[^{}]|\{[^{}]*\})*\})", re.S)
     pos = 0; eqi = 0; eqn = 0
     def flush(text):
         for c in re.split(r"\n\s*\n", text):
@@ -172,7 +214,7 @@ def main():
             blocks.append(dict(type="eq", png=render_eq(latex, eqi), num=num))
         else:
             level = tok.count("sub") + 1
-            text = re.search(r"\{([^}]*)\}", tok).group(1)
+            text, _ = braced(tok, tok.index("{"))
             blocks.append(dict(type=f"h{level}", runs=inline(text)))
     flush(body[pos:])
     # equation numbers: renumber sequentially in order of appearance (unlabelled ones included)
