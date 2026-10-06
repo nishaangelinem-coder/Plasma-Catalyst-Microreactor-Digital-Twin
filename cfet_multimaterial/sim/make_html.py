@@ -27,7 +27,9 @@ def fmt_ref(d):
     au = d.get("author", "")
     au = " and ".join(a.strip() for a in au.split(" and ")[:3]) + (" et al." if au.count(" and ") >= 3 else "")
     au = au.replace(" and others", " et al.")
-    parts = [html.escape(au), "“" + html.escape(d.get("title", "")) + ",”"]
+    title = re.sub(r"\$_\{?(\w+)\}?\$", r"<sub>\1</sub>", html.escape(d.get("title", "")))
+    title = re.sub(r"\$\^\{?(\w+)\}?\$", r"<sup>\1</sup>", title)
+    parts = [html.escape(au), "“" + title + ",”"]
     ven = d.get("journal") or d.get("booktitle") or d.get("howpublished") or d.get("publisher") or ""
     if ven: parts.append("<i>" + html.escape(ven) + "</i>")
     if d.get("volume"): parts.append("vol. " + html.escape(d["volume"]))
