@@ -53,10 +53,10 @@ All results are simulated; the paper is a complete design study whose files allo
 \subsection{Floquet CMT of an angular-momentum-biased loop}
 Consider three identical resonators with amplitudes $a_n(t)$, $n=0,1,2$, coupled to their neighbours with rate $\kappa$ and each to a \SI{50}{\ohm} port with external decay rate $\gamma_e$; $\gamma_i$ is the intrinsic decay rate. The resonance frequency of each resonator is modulated,
 \begin{equation}
-\omega_n(t)=\omega_0+\Delta\omega\, m(\omega_m t-2\pi n/3),\qquad m(\theta)\in\{\cos\theta,\ \mathrm{sgn}\cos\theta\},
+\omega_n(t)=\omega_0+\Delta\omega\, m(\omega_m t-2\pi n/3),
 \label{eq:mod}
 \end{equation}
-so that the modulation carries one quantum of angular momentum around the loop \cite{sounas2013giant,estep2014magnetic}. The temporal CMT equations are
+with $m(\theta)=\cos\theta$ (sinusoidal pump) or $m(\theta)=\mathrm{sgn}\cos\theta$ (square-wave pump), so that the modulation carries one quantum of angular momentum around the loop \cite{sounas2013giant,estep2014magnetic}. The temporal CMT equations are
 \begin{align}
 \dot a_n &= \left[j\omega_n(t)-\gamma_i-\gamma_e\right]a_n + j\kappa\,(a_{n+1}+a_{n-1}) + \sqrt{2\gamma_e}\,s^{+}_n,\label{eq:cmt1}\\
 s^{-}_n &= -s^{+}_n + \sqrt{2\gamma_e}\,a_n,\label{eq:cmt2}
@@ -77,6 +77,7 @@ Table~\ref{tab:cmt} lists the optimum of (\ref{eq:cmt1})--(\ref{eq:cmt2}) found 
 \centering
 \caption{Normalised CMT optimum (lossless, isolation target 35 dB)}
 \label{tab:cmt}
+\footnotesize
 \begin{tabular}{S[table-format=2.0] S[table-format=2.1] S[table-format=1.2] S[table-format=1.2] S[table-format=2.1]}
 \toprule
 {$\omega_m/\gamma_e$} & {$|\kappa|/\gamma_e$} & {$\Delta\omega/\gamma_e$} & {IL (dB)} & {RL (dB)}\\
@@ -105,7 +106,9 @@ The natural translation of the lumped STM loop \cite{estep2014magnetic} replaces
 Fig.~\ref{fig:core} shows the topology adopted instead. Each port is matched by a shunt MIM capacitor $C_{sh}$ and feeds a series branch consisting of the resonator, the modulated capacitor and the switch; the three branches meet at a floating star node. For the counter-rotating modes ($l=\pm1$) the branch currents sum to zero at the star, which is therefore a virtual ground, and each branch is a series resonator between its port and ground with resonance between $f_s$ and $f_p$ set by the series capacitance. For the in-phase mode ($l=0$) the star carries no current and the branch is open: the $l=0$ mode is non-resonant and plays the role of the far-detuned mode of Table~\ref{tab:cmt} without any coupling element. The shunt $C_{sh}$ transforms the port resistance down to $R'=R_0/(1+(\omega C_{sh}R_0)^2)$ and sets $\gamma_e$; the series modulated capacitance $C_v$ in series with $C_m$ tunes the branch with sensitivity $\Delta f/f\approx (C_m/C_v)\,\Delta C_v/(2C_v)$, which for $C_m/C_v\approx\xratio$ gives several percent and keeps the $l=\pm1$ pair below $f_p$. Unlike the parallel loop, the junction has no element that competes with the tuning, and the whole device contains only capacitors, resistors, acoustic resonators and transistors.
 
 \subsection{Modulator: switched MIM capacitor versus A-MOS varactor}
-Two modulators were compared with the same resonator and the same global search. The accumulation-mode MOS varactor \cite{andreani2000use} ($C_{\max}/C_{\min}=2.5$, $Q_v\approx75$ at \SI{1}{GHz}) reaches $Q_t\Delta f/f_0\approx5$ and \SI{\varIL}{dB} insertion loss (Table~\ref{tab:topo}). The switched MIM capacitor of Fig.~\ref{fig:driver}, a MIM capacitor $C_{sw}=\SI{\Csw}{pF}$ in series with an nMOS switch of width $W=\SI{\Wsw}{\micro\meter}$ ($R_{on}=\SI{\Ron}{\ohm}$, $C_{off}=\SI{\Coff}{fF}$, $Q_{on}=\Qsw$ at \SI{1}{GHz}), toggles the branch between a resonant state (switch on) and a strongly detuned state (switch off, series capacitance $\approx C_{off}$); the modulation depth is no longer small, which the exact Floquet solver handles without approximation. The switch is linear in both states, its loss in the on state is set by $R_{on}\propto 1/W$, and its gate is isolated from the RF path, so the pump needs to charge only the gate capacitance ($\approx\SI{1.5}{pF}$). Against the varactor this improves the insertion loss by about \SI{1.5}{dB} and reduces the pump power by an order of magnitude; it is the modulator used in the final design. The two-state modulation is also what makes the design compatible with a purely digital CMOS pump.
+Two modulators were compared with the same resonator and the same global search. The accumulation-mode MOS varactor \cite{andreani2000use} ($C_{\max}/C_{\min}=2.5$, $Q_v\approx75$ at \SI{1}{GHz}) reaches $Q_t\Delta f/f_0\approx5$ and \SI{\varIL}{dB} insertion loss (Table~\ref{tab:topo}). The switched MIM capacitor of Fig.~\ref{fig:driver}, a MIM capacitor $C_{sw}=\SI{\Csw}{pF}$ in series with an nMOS switch of total width $W=\SI{\Wsw}{\micro\meter}$, toggles the branch between a resonant state (switch on, $R_{on}=\SI{\Ron}{\ohm}$) and a detuned state (switch off, where the gate and junction capacitances of the switch appear as a series capacitance $C_{off}=\SI{\Coff}{fF}$ and move the branch resonance above $f_p$); the modulation depth is no longer small, which the exact Floquet solver handles without approximation.
+
+The switch is used in the standard RF-switch configuration: the gate is driven through $R_g=\SI{3}{k\ohm}$ so that it floats at RF, and the triple-well body is tied to the source through $R_b=\SI{20}{k\ohm}$. This matters more here than in an ordinary series switch: the source terminals of the three switches form the star node, and any parasitic capacitance from the star to ground destroys the open-circuit condition that makes the in-phase mode non-resonant. With grounded gate and body the BSIM4 card gives \SI{0.9}{fF/\micro\meter} of shunt capacitance at each terminal and a circuit-exact search finds no circulating design; with the floating gate and body the shunt parasitics drop to \SI{0.04}{fF/\micro\meter} and \SI{0.17}{\micro S/\micro\meter}, the off-state capacitance becomes a series element of \SI{0.39}{fF/\micro\meter}, and the on-resistance is \SI{269}{\ohm\micro\meter} (all extracted from the two-port Y-parameters of the device at \SI{1}{GHz}). The switch is linear in both states, its loss in the on state is set by $R_{on}\propto 1/W$, and its gate is isolated from the RF path, so the pump needs to charge only the gate capacitance through $R_g$ ($\approx\SI{1.5}{pF}$ per \si{mm} of width). Against the varactor this improves the insertion loss and reduces the pump power by an order of magnitude; it is the modulator used in the final design, and the two-state modulation is what makes the design compatible with a purely digital CMOS pump.
 
 \begin{figure}[!t]
 \centering
@@ -145,9 +148,16 @@ Three levels of simulation were used; every number in Section~\ref{sec:results} 
 
 \emph{Floquet CMT} (Section~\ref{sec:theory}) is used for design rules and insight.
 
-\emph{Conversion-matrix periodic S-parameters (LTP/PSP).} The resonator network with its modulated capacitors is a linear time-periodic network. Each modulated capacitor $q=C(t)v$ with $C(t)=\sum_k c_k e^{jk\omega_m t}$ is stamped into a modified nodal analysis matrix as a Toeplitz conversion block $I_m=j(\omega+m\omega_m)\sum_l c_{m-l}V_l$, all time-invariant elements are block-diagonal across the sidebands, and the system is solved for each port excitation. This is exactly the analysis performed by Spectre's PSS followed by PSP (or HB followed by HBSP); the Fourier coefficients $c_k$ are obtained from the two switch states and the gate waveform, including the finite driver rise time. The solver was validated against the analytic sideband amplitude of a single modulated capacitor (agreement to \SI{0.01}{dB}), against an ngspice transient of the same element (\SI{0.02}{dB}) and against the CMT in the weak-coupling limit. Node voltages are also returned, which gives the voltage stress on the switches as a function of input power.
+\emph{Conversion-matrix periodic S-parameters (LTP/PSP).} The resonator network with its modulated capacitors is a linear time-periodic network. Each modulated capacitor $q=C(t)v$ with $C(t)=\sum_k c_k e^{jk\omega_m t}$ is stamped into a modified nodal analysis matrix as a Toeplitz conversion block $I_m=j(\omega+m\omega_m)\sum_l c_{m-l}V_l$, and each switch as a time-varying conductance $g(t)=\sum_k g_k e^{jk\omega_m t}$ with the block $I_m=\sum_l g_{m-l}V_l$; all time-invariant elements (resonators, MIM capacitors, the off-state capacitance and the residual parasitics of the switches) are block-diagonal across the sidebands, and the system is solved for each port excitation. This is exactly the analysis performed by Spectre's PSS followed by PSP (or HB followed by HBSP). The hard-switched conductance is the physically correct description of a switched capacitor: unlike a varactor, whose capacitance changes losslessly, a MIM capacitor that is connected and disconnected through $R_{on}$ dissipates energy at every switching event, and a model that merely toggles a capacitance value misses this loss (an early version of this work did, and over-estimated the performance by \SI{3}{dB}). Because the conductance jumps by four orders of magnitude, the Fourier series converges slowly, and the shape of the transition matters: the gate voltage is the RC response ($\tau=R_gC_g$) of the square drive and the channel conductance rises linearly above $V_{th}$, which the solver reproduces (waveform `rc'); with this waveform the fundamental-tone S-parameters converge for $K\ge40$ sidebands, which is used for all reported numbers (design-space sweeps use $K=16$ with trapezoidal edges, which is \SI{0.3}{dB} optimistic in insertion loss). The solver was validated against the analytic sideband amplitude of a single modulated capacitor (agreement to \SI{0.01}{dB}), against an ngspice transient of the same element (\SI{0.02}{dB}) and against the CMT in the weak-coupling limit (Fig.~\ref{fig:cmtcheck}). Node voltages are also returned, which gives the voltage stress on the switches as a function of input power.
 
-\emph{Transistor-level transient co-simulation.} The complete chip (reference clock, phase generator, drivers, switches, resonator network and \SI{50}{\ohm} ports) is simulated in ngspice~42 with a \SI{65}{nm}-class BSIM4 (level 54) model card in the style of the predictive technology model \cite{zhao2006new}. A single tone is injected at one port, the steady state is Fourier-analysed over an integer number of common periods of the RF and pump frequencies, and $S_{mn}=b_m/a_n$ is formed at the fundamental and at $\omega\pm\omega_m$. This corresponds to the Spectre transient flow (or PSS with the RF tone as a second fundamental); the equivalent Spectre netlists and an OCEAN script that runs PSS+PSP and extracts the same figures of merit are supplied so that the results can be regenerated in Cadence Virtuoso with a foundry PDK.
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{fig_validation}
+\caption{Validation of the conversion-matrix solver: (a) sideband-to-carrier ratio of a single modulated capacitor against the analytic value; (b) ideal lumped three-resonator loop at the CMT optimum of Table~\ref{tab:cmt} ($\omega_m=15\gamma_e$, $|\kappa|=10\gamma_e$, $\Delta\omega=5.6\gamma_e$): circuit solver against CMT.}
+\label{fig:cmtcheck}
+\end{figure*}
+
+\emph{Transistor-level transient co-simulation.} The complete chip (reference clock, phase generator, drivers, switches, resonator network and \SI{50}{\ohm} ports) is simulated in ngspice~42 with a \SI{65}{nm}-class BSIM4 (level 54) model card in the style of the predictive technology model \cite{zhao2006new}. A single tone is injected at one port, the steady state is Fourier-analysed over an integer number of common periods of the RF and pump frequencies, and $S_{mn}=b_m/a_n$ is formed at the fundamental and at $\omega\pm\omega_m$. Trapezoidal integration with a \SI{10}{ps} step is essential: the default Gear integration damps the $Q=500$ resonators numerically and adds \SI{2}{dB} of apparent loss. This corresponds to the Spectre transient flow (or PSS with the RF tone as a second fundamental); the equivalent Spectre netlists and an OCEAN script that runs PSS+PSP and extracts the same figures of merit are supplied so that the results can be regenerated in Cadence Virtuoso with a foundry PDK.
 
 \emph{Design search.} For each topology and modulator a differential-evolution search over the coupling, modulator and pump variables was run with the operating frequency found adaptively for every candidate (coarse sweep, local refinement), followed by a simplex polish and a re-centring of the resonator $f_s$ so that the operating point sits at \SI{1.000}{GHz}; the pump frequency was then snapped to a \SI{5}{MHz} grid for commensurate transient analysis.
 
@@ -159,13 +169,16 @@ Table~\ref{tab:design} lists the design point. Fig.~\ref{fig:unmod} shows the re
 \centering
 \caption{Design point and simulated performance}
 \label{tab:design}
-\begin{tabular}{llc}
+\footnotesize
+\begin{tabular}{@{}llc@{}}
 \toprule
 \multicolumn{3}{l}{\emph{Resonators and passives}}\\
-$f_s$, $f_p$, $C_0$, $C_m$, $Q_m$ & \SI{\fs}{}, \SI{\fp}{MHz}, \SI{\Cnought}{}, \SI{\Cm}{pF}, \Qm &\\
+$f_s$ / $f_p$ & \SI{\fs}{} / \SI{\fp}{MHz} & \\
+$C_0$, $C_m$, $Q_m$ & \SI{\Cnought}{}, \SI{\Cm}{pF}, \Qm &\\
 $C_{sh}$ (per port) & \SI{\Csh}{pF} & MIM\\
 $C_{sw}$, $C_{par}$ & \SI{\Csw}{pF}, \SI{\Cpar}{pF} & MIM\\
-Switch $W/L$, $R_{on}$, $C_{off}$ & \SI{\Wsw}{\micro\meter}/\SI{65}{nm}, \SI{\Ron}{\ohm}, \SI{\Coff}{fF} & nMOS\\
+Switch $W/L$ & \SI{\Wsw}{\micro\meter}/\SI{65}{nm} & nMOS\\
+$R_{on}$, $C_{off}$ & \SI{\Ron}{\ohm}, \SI{\Coff}{fF} & \\
 \midrule
 \multicolumn{3}{l}{\emph{Pump}}\\
 $f_m$, $6f_m$ & \SI{\fm}{MHz}, \SI{\fclk}{MHz} & \\
@@ -177,11 +190,11 @@ Isolation (worst path) & \SI{\ISOdB}{dB} & ngspice\\
 Return loss (worst port) & \SI{\RLdB}{dB} & ngspice\\
 IL / ISO / RL & \SI{\ILltp}{} / \SI{\ISOltp}{} / \SI{\RLltp}{dB} & LTP/PSP\\
 Reverse sense IL / ISO & \SI{\revIL}{} / \SI{\revISO}{dB} & LTP/PSP\\
-20-dB (15-dB) isolation bandwidth & \SI{\BWiso}{} (\SI{\BWisofifteen}{}) \si{MHz} & LTP/PSP\\
-1-dB IL bandwidth, 10-dB RL bandwidth & \SI{\BWil}{}, \SI{\BWrl}{MHz} & LTP/PSP\\
-Sideband at $f{\pm}f_m$ (port 1$\to$2) & \SI{\IMup}{}, \SI{\IMdn}{dBc} & ngspice\\
+20-dB (15-dB) ISO bandwidth & \SI{\BWiso}{} (\SI{\BWisofifteen}{}) \si{MHz} & LTP/PSP\\
+1-dB IL / 10-dB RL bandwidth & \SI{\BWil}{} / \SI{\BWrl}{MHz} & LTP/PSP\\
+Sidebands $f{+}f_m$, $f{-}f_m$ (1$\to$2) & \SI{\IMup}{}, \SI{\IMdn}{dBc} & ngspice\\
 Pump phases & \SI{\phasetwo}{\degree}, \SI{\phasethree}{\degree} & ngspice\\
-Max.\ input power ($|V_{ds}|<1.2$ V; $2\times$ stack) & \SI{\Pmaxone}{} (\SI{\Pmaxtwo}{}) dBm & LTP\\
+$P_{in,\max}$ ($|V_{ds}|<1.2$ V; $2\times$ stack) & \SI{\Pmaxone}{} (\SI{\Pmaxtwo}{}) dBm & LTP\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -224,14 +237,14 @@ Fig.~\ref{fig:pgwave} shows the reference clock, the Johnson-counter outputs and
 \label{fig:waves}
 \end{figure}
 
-\subsection{CMT versus circuit}
-Fig.~\ref{fig:cmt} compares the CMT with the circuit. Fitting (\ref{eq:cmt1})--(\ref{eq:cmt2}) with $\Delta\omega=0$ to the switches-on response gives $Q_e=\Qe$, $Q_i=\Qi$ and an effective $|\kappa|/2\pi=\SI{\kappaMHz}{MHz}$ that represents the non-resonant $l=0$ mode; the fundamental Fourier component of the switched capacitance mapped through the static tuning slope (\SI{\slope}{MHz/pF}) gives $\Delta f=\SI{\dfMHz}{MHz}$. Because the two-state modulation is far outside the small-modulation regime, the CMT with this $\Delta f$ overestimates the splitting; with $\Delta f$ reduced to \SI{\dfused}{MHz} it reproduces the circuit, which places the design at $\omega_m/\gamma_e=\num{\wmratio}$, $\Delta\omega/\gamma_e=\num{\dwratio}$, $\gamma_i/\gamma_e=\num{\lossratio}$, i.e.\ $Q_t\Delta f/f_0=\num{\fomval}$ in (\ref{eq:fom}). The insertion loss of the design is therefore loss-limited, in agreement with the CMT loss curve, and the figure of merit identifies the levers: resonator $Q$ and switch $R_{on}W$.
+\subsection{Eigenmode picture and CMT consistency}
+Fig.~\ref{fig:modes} shows the reflection coefficients of the three eigen-excitations of the junction, $\Gamma_l=S_{11}+S_{21}e^{j2\pi l/3}+S_{31}e^{-j2\pi l/3}$, with the switches held on and off. The in-phase excitation ($l=0$) is totally reflected in both states ($|\Gamma_0|=1$, phase \SI{\gzerophase}{\degree} at $f_0$) and shows no resonance, which is the non-resonant $l=0$ mode of Section~\ref{sec:arch}. The counter-rotating excitation ($l=\pm1$) is resonant: a single-pole CMT fit gives, with the switches on, $f_{\pm1}=\SI{\fonres}{MHz}$, $\gamma_e/2\pi=\SI{\geon}{MHz}$ and $\gamma_i/2\pi=\SI{\gion}{MHz}$ ($Q_e=\Qeon$, $Q_i=\Qion$), and with the switches off a resonance shifted by \SI{\detoff}{MHz} with $\gamma_e/2\pi=\SI{\geoff}{MHz}$. The two-state modulation therefore switches the counter-rotating pair between a well-coupled and a detuned, weakly coupled state; in the language of (\ref{eq:mod}) it is a square-wave frequency modulation of amplitude $\approx\pm\SI{\detoffhalf}{MHz}$ accompanied by a modulation of the coupling. The loss ratio of the on state, $\gamma_i/\gamma_e=\num{\lossratioon}$, corresponds on the CMT loss curve of Section~\ref{sec:theory} to an insertion loss of \SI{\cmtilpred}{dB}; the circuit value of \SI{\ILltp}{dB} is slightly better because the junction spends part of the pump period in the lower-loss off state. The insertion loss of the design is thus loss-limited, as (\ref{eq:fom}) predicts, and the figure of merit identifies the levers: resonator $Q_m$ and switch $R_{on}W$.
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=\textwidth]{fig_cmt_vs_circuit}
-\caption{(a) Extraction of effective CMT parameters from the switches-on circuit response. (b) Modulated response: circuit (LTP) versus CMT with the extracted parameters.}
-\label{fig:cmt}
+\includegraphics[width=\textwidth]{fig_junction_modes}
+\caption{Eigenmode reflection coefficients of the unmodulated junction (LTP) for the in-phase ($l=0$) and counter-rotating ($l=\pm1$) excitations with the switches on and off: (a) magnitude, (b) phase.}
+\label{fig:modes}
 \end{figure*}
 
 \subsection{Design space, projections and sensitivity}
@@ -254,9 +267,11 @@ Fig.~\ref{fig:space} sweeps the design around the design point. (a) The switch w
 \centering
 \caption{Projection with resonator and switch quality (LTP, design point otherwise unchanged)}
 \label{tab:proj}
+\scriptsize\setlength{\tabcolsep}{3pt}
 \begin{tabular}{S[table-format=4.0] S[table-format=3.0] S[table-format=1.2] S[table-format=2.1] S[table-format=2.1] S[table-format=2.1]}
 \toprule
-{$Q_m$} & {$R_{on}W$ (\si{\ohm\micro\meter})} & {IL (dB)} & {ISO (dB)} & {RL (dB)} & {20-dB ISO BW (MHz)}\\
+{$Q_m$} & {$R_{on}W$} & {IL} & {ISO} & {RL} & {BW$_{20}$}\\
+ & {(\si{\ohm\micro\meter})} & {(dB)} & {(dB)} & {(dB)} & {(MHz)}\\
 \midrule
 \projrows
 \bottomrule
@@ -270,6 +285,7 @@ Table~\ref{tab:topo} summarises the global searches (same resonator, $Q_m=500$).
 \centering
 \caption{Topology / modulator comparison (LTP, global search, $Q_m=500$ unless stated)}
 \label{tab:topo}
+\footnotesize\setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{llS[table-format=1.2]S[table-format=2.1]S[table-format=2.1]S[table-format=2.1]}
 \toprule
 Topology & Modulator & {IL (dB)} & {ISO (dB)} & {RL (dB)} & {$f_m$ (MHz)}\\
@@ -289,20 +305,21 @@ Table~\ref{tab:soa} places the design among magnet-free circulators. Its disting
 \centering
 \caption{Comparison with reported magnet-free circulators$^{\dagger}$}
 \label{tab:soa}
+\footnotesize\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lllllllll}
 \toprule
 Ref. & Principle & Technology & $f_0$ & Pump/clock & IL (dB) & ISO (dB) & Pump power & Inductors\\
 \midrule
 \cite{reiskarimian2017cmos} & N-path commutation & 65 nm CMOS & 0.75 GHz & $f_0$ (8 phases) & 1.7 & 42$^{\ddagger}$ & 59 mW & yes (on-chip)\\
-\cite{dinc2017millimeter} & Conductivity modulation & 45 nm SOI & 25 GHz & $f_0/3$ & 3.3 & 18--20 & 78 mW & T-lines\\
+\cite{dinc2017millimeter} & Conductivity mod. & 45 nm SOI & 25 GHz & $f_0/3$ & 3.3 & 18--20 & 78 mW & T-lines\\
 \cite{nagulu2019nonmagnetic} & Switched T-line & 65 nm CMOS & $\approx$1 GHz & $f_0$ & $\approx$2 & $>$20 & tens of mW & T-lines\\
 \cite{estep2014magnetic} & STM resonator loop & PCB, varactors & 0.17 GHz & $\ll f_0$ & $\approx$2 & $>$20 & n/r & yes\\
 \cite{kord2018magnetless} & STM bandstop delta & PCB, varactors & $\approx$1 GHz & $\ll f_0$ & $\approx$3 & $>$30 & n/r & yes\\
-\cite{torunbalci2018fbar} & Commutated FBAR & FBAR + ext. switches & 2.5 GHz & $\ll f_0$ & n/r & n/r & external & no\\
+\cite{torunbalci2018fbar} & Commutated FBAR & FBAR, ext. switches & 2.5 GHz & $\ll f_0$ & n/r & n/r & external & no\\
 \cite{yu2019radio} & STM SAW filters & SAW + ext. pump & 0.1--0.2 GHz & $\ll f_0$ & n/r & n/r & external & no\\
-This work (sim.) & STM acoustic junction & LiNbO$_3$ + 65 nm CMOS & \SI{\fop}{GHz} & $f_0/\num{\clockratio}$ & \ILdB & \ISOdB & \SI{\Pmodtot}{mW} & no\\
+This work (sim.) & STM acoustic junction & LiNbO$_3$, 65 nm CMOS & \SI{\fop}{GHz} & $f_0/\num{\clockratio}$ & \ILdB & \ISOdB & \SI{\Pmodtot}{mW} & no\\
 \bottomrule
-\multicolumn{9}{l}{\footnotesize $^{\dagger}$Values for prior work are quoted from the cited papers to the best of the author's reading and must be checked against the originals before submission; n/r: not reproduced here.}\\
+\multicolumn{9}{l}{\footnotesize $^{\dagger}$Prior-work values quoted from the cited papers to the best of the author's reading; check against the originals before submission. n/r: not reproduced here.}\\
 \multicolumn{9}{l}{\footnotesize $^{\ddagger}$with antenna-impedance tuning.}
 \end{tabular}
 \end{table*}

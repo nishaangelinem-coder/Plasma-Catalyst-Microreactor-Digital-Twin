@@ -76,7 +76,12 @@ def netlist(des: Design, f_rf: float, port: int, t_settle: float, t_win: float, 
             # MIM in series with the nMOS switch to the star; optional fixed Cpar; gate = driver output
             a(f'Csw{p} m{p} d{p} {sw.Csw:.4e}')
             nf = max(1, int(round(sw.W / nfinger_w)))
-            a(f'Msw{p} d{p} vt{n} star 0 nmos65 w={nfinger_w:.2f}u l=65n nf={nf} m=1')
+            # BSIM4: w is the TOTAL width, nf the number of fingers (per-finger width = w/nf)
+            # RF-switch configuration: gate through Rg (floating at RF), triple-well body tied to source via Rb, DNW cap
+            a(f'Rg{p} vt{n} g{p} {sw.Rg:.1f}')
+            a(f'Rbody{p} b{p} star {sw.Rb:.1f}')
+            a(f'Cdnw{p} b{p} 0 {sw.Cdnw:.3e}')
+            a(f'Msw{p} d{p} g{p} star b{p} nmos65 w={sw.W:.1f}u l=65n nf={nf} m=1')
             a(f'Rd{p} d{p} 0 50k')
             if sw.Cpar > 0:
                 a(f'Cpar{p} m{p} star {sw.Cpar:.4e}')
@@ -84,7 +89,7 @@ def netlist(des: Design, f_rf: float, port: int, t_settle: float, t_win: float, 
             # varactor: gate side at the resonator node (biased through Rb to vbias), well/tune side at the star
             a(f'Rv{p} m{p} vg{p} {v.rv:.4f}')
             a(f'Cv{p} vg{p} star C={{cmin + (cmax-cmin)*0.5*(1+tanh((v(vg{p},star)-v0)/vs))}}')
-    a('.option reltol=1e-4 abstol=1e-12 vntol=1e-7 chgtol=1e-16 method=gear')
+    a('.option reltol=1e-4 abstol=1e-12 vntol=1e-7 chgtol=1e-16 method=trap')   # trap: no numerical damping of the high-Q resonators
     a(f'.tran {dt:.3e} {t_settle + t_win:.6e} {t_settle:.6e} {dt:.3e}')
     a('.control')
     a('run')
@@ -111,6 +116,7 @@ def dft(t, x, f):
 
 def run_point(des: Design, f_rf: float, port: int, workdir: str, tag: str, K: int = 2, **kw):
     """Run one transient and return dict with S[(k, m)] at fundamental and sidebands, plus supply power."""
+    workdir = os.path.abspath(workdir)
     os.makedirs(workdir, exist_ok=True)
     fm = des.fm
     g = math.gcd(int(round(f_rf)), int(round(fm)))
@@ -118,7 +124,7 @@ def run_point(des: Design, f_rf: float, port: int, workdir: str, tag: str, K: in
     nper = max(1, int(round(200e-9 / T)))
     t_win = nper * T
     t_settle = kw.pop('t_settle', 400e-9)
-    dt = kw.pop('dt', 20e-12)
+    dt = kw.pop('dt', 10e-12)
     out = os.path.join(workdir, f'{tag}.txt')
     cir = os.path.join(workdir, f'{tag}.cir')
     with open(cir, 'w') as fh:

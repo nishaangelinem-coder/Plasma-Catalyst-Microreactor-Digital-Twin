@@ -17,7 +17,11 @@ def main():
     proj = J('projection_table.json', []); pw = J('power_handling.json', {}); stress = J('ngspice_stress.json', {})
     lay = json.load(open(os.path.join(ROOT, 'layout', 'layout_stats.json'))) if os.path.exists(os.path.join(ROOT, 'layout', 'layout_stats.json')) else {}
     r, sw = des.res, des.sw
-    f = lambda x, n=2: ('%.' + str(n) + 'f') % x if x == x else 'n/a'
+    missing = []
+    def f(x, n=2, _m=missing):
+        if x == x:
+            return ('%.' + str(n) + 'f') % x
+        _m.append(1); return '0.00'
     M = {}
     M['fop'] = f(d.get('f0', 1.0e9) / 1e9, 3)
     M['fs'] = f(r.fs / 1e6, 1); M['Cnought'] = f(r.C0 * 1e12, 2); M['Cm'] = f(r.Cm * 1e12, 2); M['Cratio'] = f(r.Cm / r.C0, 2)
@@ -53,10 +57,18 @@ def main():
     ge = c.get('ge_Hz', 1.0); gi = c.get('gi_Hz', 0.0)
     M['geMHz'] = f(ge / 1e6, 2); M['wmratio'] = f(des.fm / ge, 1); M['dwratio'] = f(c.get('dw_used_Hz', 0) / ge, 1); M['kratio'] = f(abs(c.get('kappa_Hz', 0)) / ge, 1)
     M['lossratio'] = f(gi / ge, 2); M['fomval'] = f(c.get('Qi', 0) * c.get('dw_used_Hz', 0) / c.get('f0_Hz', 1e9), 1)
+    jm = ltp.get('cmt', {})
+    on = jm.get('on', {}); off = jm.get('off', {})
+    M['gzerophase'] = f(on.get('G0_phase_deg', float('nan')), 0); M['fonres'] = f(on.get('f_res_MHz', float('nan')), 1)
+    M['geon'] = f(on.get('ge_MHz', float('nan')), 1); M['gion'] = f(on.get('gi_MHz', float('nan')), 1)
+    M['Qeon'] = f(on.get('Qe', float('nan')), 0); M['Qion'] = f(on.get('Qi', float('nan')), 0)
+    M['geoff'] = f(off.get('ge_MHz', float('nan')), 1); M['detoff'] = f(jm.get('detuning_off_MHz', float('nan')), 0)
+    M['detoffhalf'] = f(jm.get('detuning_off_MHz', float('nan')) / 2, 0); M['lossratioon'] = f(on.get('loss_ratio', float('nan')), 2)
+    M['cmtilpred'] = f(jm.get('cmt_IL_pred_dB', float('nan')), 1)
     M['phasetol'] = f(ltp.get('phase_tol_deg', float('nan')), 0); M['cswtol'] = f(ltp.get('csw_tol_pct', float('nan')), 0)
     M['Pmaxone'] = f(pw.get('Pmax_single_dBm', float('nan')), 1); M['Pmaxtwo'] = f(pw.get('Pmax_stack2_dBm', float('nan')), 1)
     M['vdspk'] = f(stress.get('vds_pk', float('nan')), 2); M['Pinng'] = f(stress.get('P_in_dBm', float('nan')), 1)
-    pq = [e for e in proj if e['Qm'] == 1000 and e['ron_w'] == 350]; pb = [e for e in proj if e['Qm'] == 2000 and e['ron_w'] == 100]
+    pq = [e for e in proj if e['Qm'] == 1000 and e['ron_w'] == 277]; pb = [e for e in proj if e['Qm'] == 2000 and e['ron_w'] == 75]
     M['projILq'] = f(pq[0]['IL']) if pq else 'n/a'; M['projILbest'] = f(pb[0]['IL']) if pb else 'n/a'
     M['vdspkpervolt'] = f(pw.get('vpk_per_volt', float('nan')), 1)
     M['chanw'] = f(lay.get('core_channel_um', [0, 0])[0], 0); M['chanh'] = f(lay.get('core_channel_um', [0, 0])[1], 0)
@@ -81,7 +93,7 @@ def main():
     with open(os.path.join(PAPER, 'numbers.tex'), 'w') as fh:
         for k, val in M.items():
             fh.write(f"\\newcommand{{\\{k}}}{{{val}}}\n")
-    print('numbers.tex written with', len(M), 'macros')
+    print('numbers.tex written with', len(M), 'macros;', len(missing), 'placeholders (0.00) for missing results')
 
 
 if __name__ == '__main__':

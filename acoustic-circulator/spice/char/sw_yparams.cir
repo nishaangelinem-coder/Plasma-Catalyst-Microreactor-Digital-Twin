@@ -1,0 +1,28 @@
+* nMOS switch 2-port Y-parameters (drain=1, source=2, gate AC-grounded at 0 or 1.2 V, bulk=0), W=1000um nf=200, 1 GHz
+.include ../../models/cmos65_bsim4.lib
+.param vg=0
+Vg g 0 dc {vg}
+Vd d 0 dc 0 ac 1
+Vs s 0 dc 0 ac 0
+M1 d g s 0 nmos65 w=1000u l=65n nf=200
+.control
+foreach vgv 0 1.2
+  alter Vg dc = $vgv
+  * excite port 1 (drain)
+  alter Vd ac = 1
+  alter Vs ac = 0
+  ac lin 1 1G 1G
+  let y11 = -i(Vd)
+  let y21 = -i(Vs)
+  alter Vd ac = 0
+  alter Vs ac = 1
+  ac lin 1 1G 1G
+  let y12 = -i(Vd)
+  let y22 = -i(Vs)
+  print $vgv
+  print y11
+  print y12
+  print y22
+end
+.endc
+.end

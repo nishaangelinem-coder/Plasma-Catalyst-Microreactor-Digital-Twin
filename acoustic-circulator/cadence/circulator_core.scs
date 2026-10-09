@@ -2,9 +2,9 @@
 // Auto-generated from results/design_final.json. Units SI. Direction = -1 (phase order of the pumps).
 simulator lang=spectre
 global 0
-parameters fm=4.000000e+07 frf=1.0e9 vdd=1.2 prf=-20 \
-    Csh=3.9105e-12 Csw=7.7785e-12 Cpar=0.0000e+00 Wsw=1865.1u \
-    Rs=0.5 R0=0.3 C0=1.2000e-12 Rm=1.11687 Lm=9.355421e-08 Cm=3.0000e-13
+parameters fm=4.500000e+07 frf=1.0e9 vdd=1.2 prf=-20 \
+    Csh=3.2553e-12 Csw=4.6773e-12 Cpar=4.6397e-13 Wsw=202.7u Rg=3000 Rb=20000 Cdnw=1.00e-13 \
+    Rs=0.5 R0=0.3 C0=1.2000e-12 Rm=1.12443 Lm=9.482536e-08 Cm=3.0000e-13
 
 // ---- mBVD LiNbO3 resonator (two-terminal) ----
 subckt mbvd (a b)
@@ -27,27 +27,36 @@ Csh1 (p1 0) capacitor c=Csh
 Xres1 (p1 m1) mbvd
 Rb1 (m1 0) resistor r=50k
 Csw1 (m1 d1) capacitor c=Csw          // PDK: mimcap
-Msw1 (d1 vg0 star 0) nch_rf w=Wsw l=65n  // wide multi-finger switch; stack 2 for higher power handling
+Rg1 (vg0 g1) resistor r=Rg              // gate floating at RF (RF-switch configuration)
+Rb1 (b1 star) resistor r=Rb               // triple-well body tied to the source
+Cdnw1 (b1 0) capacitor c=Cdnw             // deep-n-well capacitance (use the PDK triple-well device instead)
+Msw1 (d1 g1 star b1) nch_rf w=Wsw l=65n  // wide multi-finger switch (nch_rf_dnw / triple-well); stack 2 for higher power handling
 Rd1 (d1 0) resistor r=50k
-
+Cpar1 (m1 star) capacitor c=Cpar
 // ---- branch 2 ----
 PORT2 (p2 0) port r=50 num=2 type=sine freq=frf dbm=prf
 Csh2 (p2 0) capacitor c=Csh
 Xres2 (p2 m2) mbvd
 Rb2 (m2 0) resistor r=50k
 Csw2 (m2 d2) capacitor c=Csw          // PDK: mimcap
-Msw2 (d2 vg1 star 0) nch_rf w=Wsw l=65n  // wide multi-finger switch; stack 2 for higher power handling
+Rg2 (vg1 g2) resistor r=Rg              // gate floating at RF (RF-switch configuration)
+Rb2 (b2 star) resistor r=Rb               // triple-well body tied to the source
+Cdnw2 (b2 0) capacitor c=Cdnw             // deep-n-well capacitance (use the PDK triple-well device instead)
+Msw2 (d2 g2 star b2) nch_rf w=Wsw l=65n  // wide multi-finger switch (nch_rf_dnw / triple-well); stack 2 for higher power handling
 Rd2 (d2 0) resistor r=50k
-
+Cpar2 (m2 star) capacitor c=Cpar
 // ---- branch 3 ----
 PORT3 (p3 0) port r=50 num=3 type=sine freq=frf dbm=prf
 Csh3 (p3 0) capacitor c=Csh
 Xres3 (p3 m3) mbvd
 Rb3 (m3 0) resistor r=50k
 Csw3 (m3 d3) capacitor c=Csw          // PDK: mimcap
-Msw3 (d3 vg2 star 0) nch_rf w=Wsw l=65n  // wide multi-finger switch; stack 2 for higher power handling
+Rg3 (vg2 g3) resistor r=Rg              // gate floating at RF (RF-switch configuration)
+Rb3 (b3 star) resistor r=Rb               // triple-well body tied to the source
+Cdnw3 (b3 0) capacitor c=Cdnw             // deep-n-well capacitance (use the PDK triple-well device instead)
+Msw3 (d3 g3 star b3) nch_rf w=Wsw l=65n  // wide multi-finger switch (nch_rf_dnw / triple-well); stack 2 for higher power handling
 Rd3 (d3 0) resistor r=50k
-
+Cpar3 (m3 star) capacitor c=Cpar
 // ---- analyses ----
 pss  pss  fund=fm  harms=50  errpreset=conservative  method=gear2only  tstab=500n  maxacfreq=12G
 psp  psp  sweeptype=absolute start=0.9G stop=1.1G lin=201 ports=[PORT1 PORT2 PORT3] portharmsvec=[0 0 0] donoise=no

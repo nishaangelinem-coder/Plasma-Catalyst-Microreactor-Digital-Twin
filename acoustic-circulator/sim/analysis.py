@@ -17,7 +17,7 @@ FIG = os.path.join(ROOT, 'figures'); RES = os.path.join(ROOT, 'results')
 F0 = 1.0e9
 
 
-def fom(des, f0=F0, bw=60e6, npts=481, K=6):
+def fom(des, f0=F0, bw=60e6, npts=121, K=40):
     f = np.linspace(f0 - bw / 2, f0 + bw / 2, npts)
     S = sparams(des, f, K)[:, K]
     fwd = np.array([S[:, 1, 0], S[:, 2, 1], S[:, 0, 2]]); rev = np.array([S[:, 0, 1], S[:, 1, 2], S[:, 2, 0]])
@@ -36,8 +36,8 @@ def fom(des, f0=F0, bw=60e6, npts=481, K=6):
 
 
 def fig_sparams(des):
-    K = 6
-    f = np.linspace(0.90e9, 1.10e9, 801)
+    K = 40
+    f = np.linspace(0.90e9, 1.10e9, 201)
     S = sparams(des, f, K)
     S0 = S[:, K]
     fig, ax = plt.subplots(1, 2, figsize=(COL2, 2.5))
@@ -67,9 +67,7 @@ def fig_unmodulated(des):
     fig, ax = plt.subplots(figsize=(COL1, 2.3))
     out = {}
     for state, ls, lab in (('on', '-', 'switches ON'), ('off', '--', 'switches OFF')):
-        sw = des.sw
-        c = sw.Csw if state == 'on' else sw.Csw * sw.Coff / (sw.Csw + sw.Coff)
-        d0 = replace(des, element='varactor', var=Varactor(Cmax=c + sw.Cpar, Cmin=c + sw.Cpar, Rv=sw.Ron, mult=1.0), Vm=0.0)
+        d0 = replace(des, waveform='dc_' + state)
         S = sparams(d0, f, 1)[:, 1]
         ax.plot(f / 1e9, db(S[:, 0, 0]), color=PAL[0], ls=ls, label='S11 ' + lab)
         ax.plot(f / 1e9, db(S[:, 1, 0]), color=PAL[1], ls=ls, label='S21 = S31 ' + lab)
@@ -87,60 +85,45 @@ def fig_unmodulated(des):
                 Qloaded=f[i] / (f[hi] - f[lo]))
 
 
-def cmt_fit(des):
-    """Effective CMT: fit (w0, gi, ge, kappa) to the switches-ON reciprocal junction, then compare the modulated
-    response with dw from the first Fourier coefficient of the switched capacitance mapped through the tuning slope."""
-    f = np.linspace(0.92e9, 1.08e9, 321)
-    sw = des.sw
-    def static(c):
-        return replace(des, element='varactor', var=Varactor(Cmax=c + sw.Cpar, Cmin=c + sw.Cpar, Rv=sw.Ron, mult=1.0), Vm=0.0)
-    S_un = sparams(static(sw.Csw), f, 1)[:, 1]
-    def model(x):
-        w0, gi, ge, kap = x
-        return cmt_sweep(f, w0=w0, gi=gi, ge=ge, kappa=kap, dw=0.0, fm=des.fm, K=0)[:, 0]
-    def resid(x):
-        Sm = model(x)
-        return np.concatenate([np.abs(Sm[:, 1, 0]) - np.abs(S_un[:, 1, 0]), np.abs(Sm[:, 0, 0]) - np.abs(S_un[:, 0, 0])])
-    i = int(np.argmax(np.abs(S_un[:, 1, 0])))
-    x0 = [2 * np.pi * f[i], 2 * np.pi * 1e6, 2 * np.pi * 5e6, 2 * np.pi * 60e6]
-    sol = least_squares(resid, x0, x_scale=[1e8, 1e7, 1e7, 1e8])
-    w0, gi, ge, kap = sol.x
-    # tuning slope: resonance shift per unit series capacitance change (static), around C_sw
-    def res_freq(c):
-        ff = np.linspace(0.90e9, 1.10e9, 2001)
-        Sx = sparams(static(c), ff, 0)[:, 0]
-        return ff[np.argmax(np.abs(Sx[:, 1, 0]))]
-    dc = 0.05 * sw.Csw
-    slope = (res_freq(sw.Csw + dc) - res_freq(sw.Csw - dc)) / (2 * dc)
-    c1 = abs(cap_coeffs(des, 3)[0][4])
-    dw = 2 * np.pi * abs(slope) * 2 * c1
-    fit = dict(f0_Hz=w0 / 2 / np.pi, Qi=w0 / (2 * gi), Qe=w0 / (2 * ge), kappa_Hz=kap / 2 / np.pi, dw_Hz=dw / 2 / np.pi,
-               fm_Hz=des.fm, slope_MHz_per_pF=slope / 1e6 * 1e-12, c1_fF=c1 * 1e15, cost=float(sol.cost),
-               ge_Hz=ge / 2 / np.pi, gi_Hz=gi / 2 / np.pi)
-    f2 = np.linspace(0.94e9, 1.06e9, 481)
-    S_ltp = sparams(des, f2, 6)[:, 6]
-    best = None
-    for dirn in (+1, -1):
-        for dwx in (dw, 0.7 * dw, 0.5 * dw):
-            S_c = cmt_sweep(f2, w0=w0, gi=gi, ge=ge, kappa=kap, dw=dwx, fm=des.fm, K=6, mod='square', direction=dirn)[:, 6]
-            err = np.mean((db(S_c[:, 1, 0]) - db(S_ltp[:, 1, 0])) ** 2 + (np.clip(db(S_c[:, 0, 1]), -40, 0) - np.clip(db(S_ltp[:, 0, 1]), -40, 0)) ** 2)
-            if best is None or err < best[0]: best = (err, S_c, dwx, dirn)
-    S_cmt, dw_used = best[1], best[2]
-    fit['dw_used_Hz'] = dw_used / 2 / np.pi
-    fig, ax = plt.subplots(1, 2, figsize=(COL2, 2.4))
-    Sm0 = model(sol.x)
-    ax[0].plot(f / 1e9, db(S_un[:, 1, 0]), color=PAL[0], label='S21 circuit (LTP), switches ON')
-    ax[0].plot(f / 1e9, db(Sm0[:, 1, 0]), color=PAL[0], ls='--', label='S21 CMT fit')
-    ax[0].plot(f / 1e9, db(S_un[:, 0, 0]), color=PAL[1], label='S11 circuit')
-    ax[0].plot(f / 1e9, db(Sm0[:, 0, 0]), color=PAL[1], ls='--', label='S11 CMT fit')
-    ax[0].set(xlabel='Frequency (GHz)', ylabel='|S| (dB)', ylim=(-35, 1), title='(a) Unmodulated: CMT parameter extraction'); ax[0].legend(fontsize=6)
-    ax[1].plot(f2 / 1e9, db(S_ltp[:, 1, 0]), color=PAL[0], label='S21 circuit')
-    ax[1].plot(f2 / 1e9, db(S_cmt[:, 1, 0]), color=PAL[0], ls='--', label='S21 CMT')
-    ax[1].plot(f2 / 1e9, db(S_ltp[:, 0, 1]), color=PAL[1], label='S12 circuit')
-    ax[1].plot(f2 / 1e9, db(S_cmt[:, 0, 1]), color=PAL[1], ls='--', label='S12 CMT')
-    ax[1].set(xlabel='Frequency (GHz)', ylabel='|S| (dB)', ylim=(-50, 1), title='(b) Modulated: CMT vs circuit'); ax[1].legend(fontsize=6)
-    fig.savefig(os.path.join(FIG, 'fig_cmt_vs_circuit.png')); fig.savefig(os.path.join(FIG, 'fig_cmt_vs_circuit.pdf')); plt.close(fig)
-    json.dump(fit, open(os.path.join(RES, 'cmt_fit.json'), 'w'), indent=1)
+def junction_modes(des):
+    """Eigenmode picture of the junction: reflection coefficients of the l=0 and l=+-1 excitations in the two switch
+    states, single-pole CMT fit of the l=+-1 mode (gamma_e, gamma_i) in each state, and the loss ratio gamma_i/gamma_e."""
+    f = np.linspace(0.92e9, 1.08e9, 641)
+    S = {'on': sparams(replace(des, waveform='dc_on'), f, 1)[:, 1], 'off': sparams(replace(des, waveform='dc_off'), f, 1)[:, 1]}
+    w = np.exp(1j * 2 * np.pi / 3)
+    def eig(Sx, l):
+        return Sx[:, 0, 0] + Sx[:, 0, 1] * w ** l + Sx[:, 0, 2] * w ** (-l)
+    fit = {}
+    fig, ax = plt.subplots(1, 2, figsize=(COL2, 2.5))
+    for state, ls in (('on', '-'), ('off', '--')):
+        G1 = eig(S[state], 1); G0 = eig(S[state], 0)
+        def model(x):
+            w0, gi, ge = x
+            return -1 + 2 * ge / (1j * (2 * np.pi * f - w0) + gi + ge)
+        def resid(x):
+            m = model(x); return np.concatenate([(m - G1).real, (m - G1).imag])
+        i = int(np.argmin(np.abs(G1)))
+        sol = least_squares(resid, [2 * np.pi * f[i], 2 * np.pi * 2e6, 2 * np.pi * 10e6], x_scale=[1e8, 1e7, 1e7])
+        w0, gi, ge = sol.x
+        fit[state] = dict(f_res_MHz=w0 / 2 / np.pi / 1e6, ge_MHz=ge / 2 / np.pi / 1e6, gi_MHz=gi / 2 / np.pi / 1e6,
+                          Qe=w0 / (2 * ge), Qi=w0 / (2 * gi), loss_ratio=gi / ge, G0_mag_at_f0=float(np.abs(G0[np.argmin(np.abs(f - F0))])),
+                          G0_phase_deg=float(np.degrees(np.angle(G0[np.argmin(np.abs(f - F0))]))))
+        ax[0].plot(f / 1e9, db(G1), color=PAL[0], ls=ls, label=f'|$\\Gamma_{{\\pm1}}$| switches {state}')
+        ax[0].plot(f / 1e9, db(G0), color=PAL[1], ls=ls, label=f'|$\\Gamma_0$| switches {state}')
+        ax[1].plot(f / 1e9, np.degrees(np.unwrap(np.angle(G1))), color=PAL[0], ls=ls, label=f'arg $\\Gamma_{{\\pm1}}$ {state}')
+        ax[1].plot(f / 1e9, np.degrees(np.unwrap(np.angle(G0))), color=PAL[1], ls=ls, label=f'arg $\\Gamma_0$ {state}')
+    ax[0].set(xlabel='Frequency (GHz)', ylabel='|$\\Gamma_l$| (dB)', ylim=(-25, 1), title='(a) Eigenmode reflection magnitude'); ax[0].legend(fontsize=6)
+    ax[1].set(xlabel='Frequency (GHz)', ylabel='Phase (deg)', title='(b) Eigenmode reflection phase'); ax[1].legend(fontsize=6)
+    fig.tight_layout()
+    fig.savefig(os.path.join(FIG, 'fig_junction_modes.png')); fig.savefig(os.path.join(FIG, 'fig_junction_modes.pdf')); plt.close(fig)
+    # CMT loss-curve prediction for the on-state loss ratio (lossless IL subtracted): interpolate the CMT loss table
+    rules = json.load(open(os.path.join(RES, 'cmt_design_rules.json'))) if os.path.exists(os.path.join(RES, 'cmt_design_rules.json')) else None
+    if rules:
+        xs = sorted(float(k) for k in rules['loss']); ys = [rules['loss'][str(k) if str(k) in rules['loss'] else repr(k)]['IL'] for k in xs] if False else None
+        keys = sorted(rules['loss'].keys(), key=float); xs = [float(k) for k in keys]; ys = [rules['loss'][k]['IL'] for k in keys]
+        fit['cmt_IL_pred_dB'] = float(np.interp(fit['on']['loss_ratio'], xs, ys))
+    fit['detuning_off_MHz'] = fit['off']['f_res_MHz'] - fit['on']['f_res_MHz']
+    json.dump(fit, open(os.path.join(RES, 'junction_modes.json'), 'w'), indent=1)
     return fit
 
 
@@ -157,24 +140,24 @@ def fig_design_space(des):
         a.axvline(xv, color='k', lw=0.6, ls=':')
         a.set(xlabel=xlabel, ylabel='dB / MHz', title=title, ylim=(0, 45)); a.legend(fontsize=6)
     Ws = np.array([200, 300, 450, 650, 900, 1300, 1800, 2500])
-    r = [fom(replace(des, sw=replace(sw, W=w)), K=5, npts=241) for w in Ws]
+    r = [fom(replace(des, sw=replace(sw, W=w)), K=16, npts=61) for w in Ws]
     plot3(ax[0, 0], Ws, r, 'Switch width W (µm)', '(a) Switch width (R$_{on}$, C$_{off}$)', sw.W, log=True)
     Cs = np.linspace(0.5, 2.0, 13) * sw.Csw
-    r = [fom(replace(des, sw=replace(sw, Csw=c)), K=5, npts=241) for c in Cs]
+    r = [fom(replace(des, sw=replace(sw, Csw=c)), K=16, npts=61) for c in Cs]
     plot3(ax[0, 1], Cs * 1e12, r, 'Switched capacitance C$_{sw}$ (pF)', '(b) Switched capacitance', sw.Csw * 1e12)
     fms = np.array([5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 80]) * 1e6
-    r = [fom(replace(des, fm=v), K=5, npts=241) for v in fms]
+    r = [fom(replace(des, fm=v), K=16, npts=61) for v in fms]
     plot3(ax[1, 0], fms / 1e6, r, 'Pump frequency f$_m$ (MHz)', '(c) Pump frequency', des.fm / 1e6)
     Qs = np.array([150, 250, 350, 500, 700, 1000, 1500, 2500])
-    r = [fom(replace(des, res=replace(des.res, Qm=q)), K=5, npts=241) for q in Qs]
+    r = [fom(replace(des, res=replace(des.res, Qm=q)), K=16, npts=61) for q in Qs]
     plot3(ax[1, 1], Qs, r, 'Resonator motional Q$_m$', '(d) Resonator quality factor', des.res.Qm, log=True)
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, 'fig_design_space.png')); fig.savefig(os.path.join(FIG, 'fig_design_space.pdf')); plt.close(fig)
     # projection table: Qm x switch Ron*W
     proj = []
     for Qm in (500, 1000, 2000):
-        for ronw in (350, 200, 100):
-            rr = fom(replace(des, res=replace(des.res, Qm=Qm), sw=replace(sw, ron_w=ronw)), K=5, npts=241)
+        for ronw in (277, 150, 75):
+            rr = fom(replace(des, res=replace(des.res, Qm=Qm), sw=replace(sw, ron_w=ronw)), K=16, npts=61)
             proj.append(dict(Qm=Qm, ron_w=ronw, IL=rr['IL0'], ISO=rr['ISO0'], RL=rr['RL0'], BW_iso20_MHz=rr['BW_iso20'] / 1e6))
     json.dump(proj, open(os.path.join(RES, 'projection_table.json'), 'w'), indent=1)
     return proj
@@ -182,32 +165,23 @@ def fig_design_space(des):
 
 def fig_waveform_and_mismatch(des):
     fig, ax = plt.subplots(1, 2, figsize=(COL2, 2.5))
-    f = np.linspace(0.96e9, 1.04e9, 321)
-    for wf, tr, lab, c in (('square', 0.0, 'ideal square gate drive', PAL[0]), ('trap', 0.03, 'trapezoid, 3 % edges', PAL[1]), ('trap', 0.10, 'trapezoid, 10 % edges', PAL[2])):
-        d = replace(des, waveform=wf, trise=tr)
-        S = sparams(d, f, 6)[:, 6]
+    f = np.linspace(0.96e9, 1.04e9, 81)
+    for rg, lab, c in ((1000.0, 'R$_g$ = 1 kΩ (fast gate)', PAL[0]), (3000.0, 'R$_g$ = 3 kΩ (design)', PAL[1]), (10000.0, 'R$_g$ = 10 kΩ (slow gate)', PAL[2])):
+        d = replace(des, waveform='rc', sw=replace(des.sw, Rg=rg))
+        S = sparams(d, f, 32)[:, 32]
         ax[0].plot(f / 1e9, db(S[:, 1, 0]), color=c, label='S21 ' + lab)
         ax[0].plot(f / 1e9, db(S[:, 0, 1]), color=c, ls='--')
-    ax[0].set(xlabel='Frequency (GHz)', ylabel='|S| (dB)', ylim=(-50, 1), title='(a) Switching-edge sensitivity (solid S21, dashed S12)'); ax[0].legend(fontsize=6)
-    from sim.ltp import Network, fourier_coeffs
+    ax[0].set(xlabel='Frequency (GHz)', ylabel='|S| (dB)', ylim=(-50, 1), title='(a) Gate-edge (R$_g$C$_g$) sensitivity (solid S21, dashed S12)'); ax[0].legend(fontsize=6)
     def with_err(dphi_deg, dcsw):
-        K = 6; sw = des.sw; r = des.res
-        net = Network(nnodes=13); star = 13
-        for n in range(3):
-            phi = des.direction * 2 * np.pi * n / 3 + (np.radians(dphi_deg) if n == 1 else 0.0)
-            swn = replace(sw, Csw=sw.Csw * (1 + dcsw if n == 1 else 1))
-            ck = fourier_coeffs(lambda th: swn.C((np.cos(th - phi) > 0).astype(float)), K)
-            P, Ri, M, V = 1 + n, 4 + n, 7 + n, 10 + n
-            net.port(P, des.z0); net.C(P, 0, des.Cp); net.R(P, Ri, r.Rs); net.SER(Ri, M, r.R0, 0.0, r.C0); net.SER(Ri, M, r.Rm, r.Lm, r.Cm)
-            net.R(M, V, swn.Ron); net.TVC(V, star, ck)
-        S = net.solve(F0, des.fm, K)[K]
+        d = replace(des, phase_err_deg=(0.0, dphi_deg, 0.0), csw_scale=(1.0, 1.0 + dcsw, 1.0))
+        S = sparams(d, np.array([F0]), 32)[0, 32]
         IL, ISO, RL, _ = figures_of_merit(S[None])
         return IL[0], ISO[0]
-    dphis = np.linspace(-10, 10, 21)
-    r = [with_err(p, 0.0) for p in dphis]
+    dphis = np.linspace(-10, 10, 11)
+    r = [with_err(p_, 0.0) for p_ in dphis]
     ax[1].plot(dphis, [x[1] for x in r], color=PAL[0], label='worst ISO vs phase error of ch. 2')
     ax[1].plot(dphis, [x[0] for x in r], color=PAL[0], ls='--', label='worst IL vs phase error')
-    dcs = np.linspace(-0.1, 0.1, 21)
+    dcs = np.linspace(-0.1, 0.1, 11)
     r2 = [with_err(0.0, a) for a in dcs]
     ax2 = ax[1].twiny()
     ax2.plot(dcs * 100, [x[1] for x in r2], color=PAL[1], label='worst ISO vs C$_{sw}$ error of ch. 2')
@@ -226,7 +200,7 @@ def fig_waveform_and_mismatch(des):
 
 def power_handling(des):
     """Voltage across the OFF switch per unit incident wave; limits for |Vds| < 1.2 V (single) and 2.4 V (stacked x2)."""
-    K = 4
+    K = 40
     net = build_network(des, K)
     S, V = net.solve(F0, des.fm, K, return_voltages=True)
     # node 10 (V1, after Ron) to star (13): voltage across the modulated element of branch 1 for a 1-V source at port 1
@@ -249,13 +223,13 @@ def main():
     summary = dict(IL_dB=r['IL0'], ISO_dB=r['ISO0'], RL_dB=r['RL0'], BW_iso20_MHz=r['BW_iso20'] / 1e6, BW_iso15_MHz=r['BW_iso15'] / 1e6,
                    BW_il1dB_MHz=r['BW_il1'] / 1e6, BW_rl10_MHz=r['BW_rl10'] / 1e6)
     f, S = fig_sparams(des)
-    K = 6; i0 = np.argmin(np.abs(f - F0))
+    K = 24; i0 = np.argmin(np.abs(f - F0))
     summary['IM_up_S21_dB'] = float(db(S[i0, K + 1, 1, 0])); summary['IM_dn_S21_dB'] = float(db(S[i0, K - 1, 1, 0]))
     summary['IM_up_S11_dB'] = float(db(S[i0, K + 1, 0, 0])); summary['IM_dn_S11_dB'] = float(db(S[i0, K - 1, 0, 0]))
     rr = fom(replace(des, direction=-des.direction))
     summary['reverse_IL_dB'] = rr['IL0']; summary['reverse_ISO_dB'] = rr['ISO0']
     summary['unmod'] = fig_unmodulated(des)
-    summary['cmt'] = cmt_fit(des)
+    summary['cmt'] = junction_modes(des)
     summary['projection'] = fig_design_space(des)
     tol_ph, tol_c = fig_waveform_and_mismatch(des)
     summary['phase_tol_deg'] = tol_ph; summary['csw_tol_pct'] = tol_c

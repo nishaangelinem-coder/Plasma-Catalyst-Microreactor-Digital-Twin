@@ -23,8 +23,8 @@ class SwitchCap:
     Csw: float = 1.0e-12
     W: float = 300.0                 # um
     Cpar: float = 0.0                # fixed MIM in parallel with the switched branch
-    ron_w: float = 350.0             # ohm*um  (65 nm nMOS, VGS=1.2 V, thick-oxide-free)
-    coff_w: float = 0.6e-15          # F/um    (drain-bulk + overlap)
+    ron_w: float = 277.0             # ohm*um  (BSIM4 card)
+    coff_w: float = 0.91e-15         # F/um    (BSIM4 card)
     @property
     def Ron(self): return self.ron_w / self.W
     @property
@@ -47,6 +47,8 @@ class Candidate:
     Vdc: float = 0.25
     direction: int = +1
     z0: float = 50.0
+    waveform: str = 'trap'
+    trise: float = 0.10
 
     def design(self):
         return Design(self.res, self.var, Cp=self.Cp, Cc=self.Cc, fm=self.fm, Vdc=self.Vdc, Vm=self.Vm, waveform='square', direction=self.direction)
@@ -72,13 +74,13 @@ def build(c: Candidate, K: int) -> Network:
     from .circulator import build_network, SwitchCap as SC
     sw = None
     if c.element == 'switch':
-        sw = SC(Csw=c.sw.Csw, W=c.sw.W, Cpar=c.sw.Cpar, ron_w=c.sw.ron_w, coff_w=c.sw.coff_w)
-    d = Design(c.res, c.var, Cp=c.Cp, Cc=c.Cc, fm=c.fm, Vdc=c.Vdc, Vm=c.Vm, waveform='square', direction=c.direction,
+        sw = SC(Csw=c.sw.Csw, W=c.sw.W, Cpar=c.sw.Cpar)
+    d = Design(c.res, c.var, Cp=c.Cp, Cc=c.Cc, fm=c.fm, Vdc=c.Vdc, Vm=c.Vm, waveform=c.waveform, trise=c.trise, direction=c.direction,
                topo=c.topo, element=c.element, sw=sw, z0=c.z0)
     return build_network(d, K)
 
 
-def sweep(c: Candidate, freqs, K=4):
+def sweep(c: Candidate, freqs, K=16):
     net = build(c, K)
     return np.array([net.solve(f, c.fm, K) for f in freqs])
 
@@ -98,7 +100,7 @@ def point_cost(IL, ISO, RL, iso_target=30.0, rl_target=15.0):
     return IL + 0.3 * np.maximum(0, iso_target - ISO) + 0.2 * np.maximum(0, rl_target - RL)
 
 
-def best_operating_point(c: Candidate, fwin=(0.85e9, 1.10e9), coarse=1.0e6, fine=0.1e6, K=4):
+def best_operating_point(c: Candidate, fwin=(0.85e9, 1.10e9), coarse=1.0e6, fine=0.1e6, K=16):
     """Coarse sweep, pick best cost, refine locally. Returns (f_best, IL, ISO, RL, cost)."""
     f = np.arange(fwin[0], fwin[1] + coarse / 2, coarse)
     S = sweep(c, f, K)[:, K]

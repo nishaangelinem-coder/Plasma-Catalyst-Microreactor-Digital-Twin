@@ -1,0 +1,25 @@
+* nMOS switch characterisation: Ron (Vgs=1.2, Vds=50 mV) and Coff (Vgs=0) at 1 GHz, W = 1000 um (nf=100 x 5 um)
+.include ../../models/cmos65_bsim4.lib
+Vg g 0 dc 1.2
+Vd d 0 dc 0.05 ac 1
+M1 d g 0 0 nmos65 w=1000u l=65n nf=100
+.control
+op
+let ron = 0.05 / -i(Vd)
+print ron
+alter Vg dc = 0
+op
+ac lin 1 1G 1G
+let yoff = -i(Vd)
+let coff = imag(yoff)/(2*pi*1e9)
+let goff = real(yoff)
+print coff goff
+alter Vg dc = 1.2
+alter Vd dc = 0
+ac lin 1 1G 1G
+let yon = -i(Vd)
+let gon = real(yon)
+let con = imag(yon)/(2*pi*1e9)
+print gon con
+.endc
+.end

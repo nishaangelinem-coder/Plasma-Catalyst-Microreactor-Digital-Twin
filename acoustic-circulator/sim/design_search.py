@@ -32,7 +32,7 @@ def bounds_for(topo, element):
     if element == 'varactor':
         b = [(0.1e-12, 6e-12), (0.02e-12, 3e-12), (0.15, 0.6), (3e6, 80e6), (0.3, 3.0)]
     else:
-        b = [(0.1e-12, 6e-12), (0.02e-12, 3e-12), (0.1e-12, 3e-12), (3e6, 80e6), (50, 1000)]
+        b = [(0.1e-12, 6e-12), (0.02e-12, 3e-12), (0.3e-12, 10e-12), (3e6, 120e6), (100, 3000)]
     if topo != 'A':
         b[0] = (0.0, 4e-12)           # shunt matching cap at ports
         b[1] = (0.05e-12, 0.06e-12)   # Cc unused
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     Qm = float(sys.argv[3]) if len(sys.argv) > 3 else 500.0
     t = time.time()
     b = bounds_for(topo, element)
-    r = differential_evolution(cost, b, args=(topo, element, Qm), seed=7, maxiter=35, popsize=12, tol=1e-9, polish=False, workers=4, updating='deferred')
+    r = differential_evolution(cost, b, args=(topo, element, Qm), seed=7, maxiter=40, popsize=14, tol=1e-9, polish=False, workers=4, updating='deferred')
     r2 = minimize(cost, r.x, args=(topo, element, Qm), method='Nelder-Mead', bounds=b, options=dict(xatol=1e-14, fatol=1e-4, maxiter=400))
     c = make(topo, element, r2.x, Qm)
     fb, IL, ISO, RL, cst = best_operating_point(c, coarse=0.5e6, fine=0.05e6, K=6)

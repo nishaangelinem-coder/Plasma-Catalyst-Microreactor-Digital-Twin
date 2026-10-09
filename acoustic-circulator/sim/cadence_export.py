@@ -21,7 +21,7 @@ def core_scs(des, p):
 simulator lang=spectre
 global 0
 parameters fm={des.fm:.6e} frf=1.0e9 vdd=1.2 prf=-20 \\
-    Csh={des.Cp:.4e} Csw={sw.Csw:.4e} Cpar={sw.Cpar:.4e} Wsw={sw.W:.1f}u \\
+    Csh={des.Cp:.4e} Csw={sw.Csw:.4e} Cpar={sw.Cpar:.4e} Wsw={sw.W:.1f}u Rg={sw.Rg:.0f} Rb={sw.Rb:.0f} Cdnw={sw.Cdnw:.2e} \\
     Rs={r.Rs} R0={r.R0} C0={r.C0:.4e} Rm={r.Rm:.5f} Lm={r.Lm:.6e} Cm={r.Cm:.4e}
 
 // ---- mBVD LiNbO3 resonator (two-terminal) ----
@@ -48,7 +48,10 @@ Csh{q} (p{q} 0) capacitor c=Csh
 Xres{q} (p{q} m{q}) mbvd
 Rb{q} (m{q} 0) resistor r=50k
 Csw{q} (m{q} d{q}) capacitor c=Csw          // PDK: mimcap
-Msw{q} (d{q} vg{n} star 0) nch_rf w=Wsw l=65n  // wide multi-finger switch; stack 2 for higher power handling
+Rg{q} (vg{n} g{q}) resistor r=Rg              // gate floating at RF (RF-switch configuration)
+Rb{q} (b{q} star) resistor r=Rb               // triple-well body tied to the source
+Cdnw{q} (b{q} 0) capacitor c=Cdnw             // deep-n-well capacitance (use the PDK triple-well device instead)
+Msw{q} (d{q} g{q} star b{q}) nch_rf w=Wsw l=65n  // wide multi-finger switch (nch_rf_dnw / triple-well); stack 2 for higher power handling
 Rd{q} (d{q} 0) resistor r=50k
 {'Cpar%d (m%d star) capacitor c=Cpar' % (q, q) if sw.Cpar > 0 else ''}
 """
@@ -203,7 +206,9 @@ mkInst(cv pdkLib "mimcap" 0 -1.5 "R90" list(list("c" "Csh")))
 mkInst(cv libName "mbvd_linbo3" 2.0 0)
 mkInst(cv "analogLib" "res" 4.0 -1.5 "R90" list(list("r" "50k")))
 mkInst(cv pdkLib "mimcap" 5.0 0 "R0" list(list("c" "Csw")))
-mkInst(cv pdkLib "nch_rf" 7.0 -0.5 "R0" list(list("w" "{sw.W/20:.1f}u") list("l" "65n") list("nf" "20")))   ; {sw.W:.0f} um total
+mkInst(cv pdkLib "nch_rf" 7.0 -0.5 "R0" list(list("w" "{sw.W/20:.1f}u") list("l" "65n") list("nf" "20")))   ; {sw.W:.0f} um total, use the triple-well (dnw) variant
+mkInst(cv "analogLib" "res" 6.0 1.5 "R0" list(list("r" "{sw.Rg:.0f}")))     ; Rg (gate floating at RF)
+mkInst(cv "analogLib" "res" 8.0 -2.0 "R0" list(list("r" "{sw.Rb:.0f}")))    ; Rb (body tie to source)
 foreach( pn list("port" "gate" "star") dbCreatePin(cv dbCreateNet(cv pn) pn "inputOutput") )
 schCheck(cv) dbSave(cv) dbClose(cv)
 

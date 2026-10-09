@@ -1,0 +1,30 @@
+* RF-switch configuration: gate through Rg (floating at RF), body tied to source through Rb (triple-well), DNW cap to ground
+.include ../../models/cmos65_bsim4.lib
+.param rg=3k rb=50k cdnw=0.1p
+Vg gdrv 0 dc 0
+Rg gdrv g {rg}
+Rb b s {rb}
+Cdnw b 0 {cdnw}
+Vd d 0 dc 0 ac 1
+Vs s 0 dc 0 ac 0
+M1 d g s b nmos65 w=1000u l=65n nf=200
+.control
+foreach vgv 0 1.2
+  alter Vg dc = $vgv
+  alter Vd ac = 1
+  alter Vs ac = 0
+  ac lin 1 1G 1G
+  let y11 = -i(Vd)
+  let y21 = -i(Vs)
+  alter Vd ac = 0
+  alter Vs ac = 1
+  ac lin 1 1G 1G
+  let y12 = -i(Vd)
+  let y22 = -i(Vs)
+  print $vgv
+  print y11
+  print y12
+  print y22
+end
+.endc
+.end

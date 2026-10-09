@@ -25,11 +25,11 @@ from typing import Callable, List, Tuple
 
 @dataclass
 class Element:
-    kind: str                 # 'R', 'L', 'C', 'TVC' (time varying capacitor), 'SER' (series RLC branch)
+    kind: str                 # 'R', 'L', 'C', 'TVC' (time varying capacitor), 'TVG' (time varying conductance), 'SER' (series RLC branch)
     n1: int
     n2: int
     value: float = 0.0        # R [ohm], L [H], C [F]
-    ck: np.ndarray | None = None   # Fourier coefficients c_k, k=-K..K for 'TVC'
+    ck: np.ndarray | None = None   # Fourier coefficients c_k, k=-K..K for 'TVC' (farad) or 'TVG' (siemens)
     rlc: Tuple[float, float, float] | None = None   # (R, L, C) for a series branch (C=inf allowed)
 
 
@@ -51,6 +51,7 @@ class Network:
     def C(self, n1, n2, c):  self.elements.append(Element('C', n1, n2, c))
     def SER(self, n1, n2, r, l, c): self.elements.append(Element('SER', n1, n2, rlc=(r, l, c)))
     def TVC(self, n1, n2, ck): self.elements.append(Element('TVC', n1, n2, ck=np.asarray(ck, complex)))
+    def TVG(self, n1, n2, gk): self.elements.append(Element('TVG', n1, n2, ck=np.asarray(gk, complex)))
     def port(self, node, z0=50.0): self.ports.append(Port(node, z0))
 
     # ---- analysis -------------------------------------------------------
@@ -61,6 +62,7 @@ class Network:
         Nh = 2 * K + 1
         ks = np.arange(-K, K + 1)
         w = 2 * np.pi * (f + ks * fm)                # sideband angular frequencies
+        w = np.where(np.abs(w) < 1e-3, 1e-3, w)       # guard: a sideband exactly at DC would make 1/(jwC) singular
         N = self.nnodes
         Y = np.zeros((N * Nh, N * Nh), complex)
 
@@ -97,6 +99,16 @@ class Network:
                         if abs(d) <= Kc:
                             T[m, l] = ck[d + Kc]
                 stamp(e.n1, e.n2, (1j * w)[:, None] * T)
+            elif e.kind == 'TVG':
+                gk = e.ck
+                Kc = (len(gk) - 1) // 2
+                T = np.zeros((Nh, Nh), complex)
+                for m in range(Nh):
+                    for l in range(Nh):
+                        d = (m - l)
+                        if abs(d) <= Kc:
+                            T[m, l] = gk[d + Kc]
+                stamp(e.n1, e.n2, T)
             else:
                 raise ValueError(e.kind)
 

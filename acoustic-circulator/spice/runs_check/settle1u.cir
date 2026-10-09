@@ -1,0 +1,70 @@
+* STM acoustic circulator (series-mode wye, switch modulator) - transistor-level testbench (auto-generated)
+.include /home/user/Plasma-Catalyst-Microreactor-Digital-Twin/acoustic-circulator/spice/cmos_blocks.lib
+.param vdd=1.2 vddm=1.2000 fm=4.000000e+07 frf=1.000000e+09 tclk=4.166667e-09
+Vdd vdd 0 dc {vdd}
+Vddm vddm 0 dc {vddm}
+Vclk clk 0 dc 0 pulse(0 {vdd} 0 40p 40p {tclk/2-40p} {tclk})
+Vrst rstn 0 dc 0 pulse(0 {vdd} {3.5*tclk} 50p 50p 1 2)
+Xpg clk rstn ph0 ph120 ph240 vdd 0 phasegen
+Xd0 ph0 vt0 vdd vddm 0 vdrv
+Xd1 ph240 vt1 vdd vddm 0 vdrv
+Xd2 ph120 vt2 vdd vddm 0 vdrv
+Rstar star 0 10k
+Vp1 ps1 0 dc 0 sin(0 0.2 {frf})
+Rp1 ps1 p1 50.0
+Csh1 p1 0 3.0332e-12
+Rs1 p1 ri1 0.5
+R0_1 ri1 c01 0.3
+C0_1 c01 m1 1.2000e-12
+Rm1 ri1 m11 1.1228
+Lm1 m11 m21 9.455184e-08
+Cm1 m21 m1 3.0000e-13
+Rb1 m1 0 50k
+Csw1 m1 d1 5.3050e-12
+Rg1 vt0 g1 3000.0
+Rbody1 b1 star 20000.0
+Cdnw1 b1 0 1.000e-13
+Msw1 d1 g1 star b1 nmos65 w=271.8u l=65n nf=54 m=1
+Rd1 d1 0 50k
+Cpar1 m1 star 6.2863e-13
+Vp2 ps2 0 dc 0 sin(0 0.0 {frf})
+Rp2 ps2 p2 50.0
+Csh2 p2 0 3.0332e-12
+Rs2 p2 ri2 0.5
+R0_2 ri2 c02 0.3
+C0_2 c02 m2 1.2000e-12
+Rm2 ri2 m12 1.1228
+Lm2 m12 m22 9.455184e-08
+Cm2 m22 m2 3.0000e-13
+Rb2 m2 0 50k
+Csw2 m2 d2 5.3050e-12
+Rg2 vt1 g2 3000.0
+Rbody2 b2 star 20000.0
+Cdnw2 b2 0 1.000e-13
+Msw2 d2 g2 star b2 nmos65 w=271.8u l=65n nf=54 m=1
+Rd2 d2 0 50k
+Cpar2 m2 star 6.2863e-13
+Vp3 ps3 0 dc 0 sin(0 0.0 {frf})
+Rp3 ps3 p3 50.0
+Csh3 p3 0 3.0332e-12
+Rs3 p3 ri3 0.5
+R0_3 ri3 c03 0.3
+C0_3 c03 m3 1.2000e-12
+Rm3 ri3 m13 1.1228
+Lm3 m13 m23 9.455184e-08
+Cm3 m23 m3 3.0000e-13
+Rb3 m3 0 50k
+Csw3 m3 d3 5.3050e-12
+Rg3 vt2 g3 3000.0
+Rbody3 b3 star 20000.0
+Cdnw3 b3 0 1.000e-13
+Msw3 d3 g3 star b3 nmos65 w=271.8u l=65n nf=54 m=1
+Rd3 d3 0 50k
+Cpar3 m3 star 6.2863e-13
+.option reltol=1e-4 abstol=1e-12 vntol=1e-7 chgtol=1e-16 method=gear
+.tran 2.000e-11 1.200000e-06 1.000000e-06 2.000e-11
+.control
+run
+wrdata /home/user/Plasma-Catalyst-Microreactor-Digital-Twin/acoustic-circulator/spice/runs_check/settle1u.txt v(ps1) v(p1) v(p2) v(p3) v(vt0) v(vt1) v(vt2) i(Vddm) i(Vdd) v(d1,star) v(m1)
+.endc
+.end

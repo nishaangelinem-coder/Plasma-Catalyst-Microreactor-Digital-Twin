@@ -52,7 +52,8 @@ def branch(d, x0, y0, name, angle_label=None):
     d += elm.Line().at(Dn).right(0.4)
     fet = elm.NFet().right().anchor('drain').label(f'SW$_{name}$', 'bottom', fontsize=7)
     d += fet
-    d += elm.Dot(open=True).at(fet.gate).label(f'PH$_{{{name}}}$ (drv)', 'top', fontsize=7)
+    d += elm.Resistor().at(fet.gate).up(1.2).label('$R_g$', 'left', fontsize=7)
+    d += elm.Dot(open=True).label(f'V$_{{G{name}}}$ (drv)', 'top', fontsize=7)
     d += elm.Line().at(fet.source).right(0.4)
     S = d.here
     return S
@@ -140,14 +141,22 @@ def fig_driver(W=1000):
         d += elm.Line().right(0.5)
         g = d.here
         d += elm.Dot().at(g).label('$V_{Gn}(t)$', 'bottom', fontsize=8, ofst=0.3)
-        d += elm.Line().at(g).right(1.2)
-        fet = elm.NFet().anchor('gate').label(f'SW$_n$\nW = {W} µm\nL = 65 nm', 'right', fontsize=7, ofst=0.3)
+        d += elm.Resistor().at(g).right().label('$R_g$ 3 kΩ', 'top', fontsize=7)
+        ge = d.here
+        fet = elm.NFet(bulk=True).at(ge).anchor('gate').reverse().label(f'SW$_n$ (triple well)\nW = {W} µm, L = 65 nm', 'right', fontsize=7, ofst=1.2)
         d += fet
         d += elm.Line().at(fet.drain).up(0.5)
-        d += elm.Capacitor().up().label('$C_{sw}$ (MIM)', 'right', fontsize=8)
+        d += elm.Capacitor().up().label('$C_{sw}$ (MIM)', 'left', fontsize=8)
+        d += elm.Line().up(0.3)
         d += elm.Dot(open=True).label('$M_n$ (resonator)', 'top', fontsize=8)
-        d += elm.Line().at(fet.source).down(0.6)
-        d += elm.Dot(open=True).label('star', 'bottom', fontsize=8)
+        d += elm.Line().at(fet.source).down(0.9)
+        src = d.here
+        d += elm.Dot(open=True).at(src).label('star', 'bottom', fontsize=8)
+        bx, by = fet.bulk[0] + 0.6, fet.bulk[1]
+        d += elm.Line().at(fet.bulk).to((bx, by))
+        d += elm.Resistor().at((bx, by)).down(1.2).label('$R_b$ 20 kΩ', 'right', fontsize=7)
+        d += elm.Line().at((bx, by - 1.2)).to((bx, src[1] + 0.3))
+        d += elm.Line().at((bx, src[1] + 0.3)).to((src[0], src[1] + 0.3))
         d += elm.Label().at((3.5, -2.6)).label('W$_n$/W$_p$ in µm, L = 65 nm; taper ×3; gate load ≈ 1.5 pF', fontsize=8)
         save(d, 'fig_schematic_driver')
 

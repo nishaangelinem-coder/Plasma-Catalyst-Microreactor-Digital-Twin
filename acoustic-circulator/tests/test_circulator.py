@@ -59,3 +59,14 @@ def test_phase_generator_120_degrees():
     T = 40e-9
     ph2 = ((m['t1'] - m['t0']) / T * 360) % 360; ph3 = ((m['t2'] - m['t0']) / T * 360) % 360
     assert abs(ph2 - 120) < 2 and abs(ph3 - 240) < 2
+
+
+def test_final_design_circulates():
+    import json
+    from sim.load_design import load_design
+    from sim.circulator import sparams
+    des, p = load_design()
+    S = sparams(des, np.array([1.0e9]), 6)[0, 6]
+    fwd = [S[1, 0], S[2, 1], S[0, 2]]; rev = [S[0, 1], S[1, 2], S[2, 0]]
+    IL = -db(np.array(fwd)).max(); ISO = -db(np.array(rev)).min()
+    assert IL < 6.0 and ISO > 18.0
