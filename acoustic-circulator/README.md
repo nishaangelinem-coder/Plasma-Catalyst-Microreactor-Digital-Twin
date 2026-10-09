@@ -38,8 +38,11 @@ cd acoustic-circulator
 python3 sim/cmt_design_rules.py              # normalised CMT optimum (Table I)
 python3 sim/design_search.py A varactor 500  # global search (also B/C, switch)
 python3 sim/finalize_design.py               # pick design point -> results/design_final.json
+python3 sim/refine_rc.py                     # local refinement with the RC-gate switched-conductance model
 python3 sim/analysis.py                      # LTP S-params, CMT fit, design-space figures
-python3 sim/run_ngspice_sweep.py 41          # transistor-level co-simulation (~20-40 min on 4 cores)
+python3 sim/run_ngspice_sweep.py 21          # transistor-level co-simulation (~60 min on 4 cores)
+python3 sim/replot_waveforms.py              # waveform figures from the saved ngspice outputs
+python3 sim/validation_fig.py                # solver validation figure
 python3 sim/schematics.py && python3 layout/gen_layout.py && (cd layout && klayout -zz -r render_klayout.py)
 python3 sim/cadence_export.py && python3 sim/make_numbers.py
 cd paper && pdflatex main && bibtex main && pdflatex main && pdflatex main

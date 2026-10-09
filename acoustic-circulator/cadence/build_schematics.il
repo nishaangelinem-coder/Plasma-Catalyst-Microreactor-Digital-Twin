@@ -15,8 +15,8 @@ cv = dbOpenCellViewByType(libName "mbvd_linbo3" "schematic" "schematic" "w")
 mkInst(cv "analogLib" "res" 0 0 "R0" list(list("r" "0.5")))          ; Rs
 mkInst(cv "analogLib" "res" 1.5 1.0 "R0" list(list("r" "0.3")))      ; R0
 mkInst(cv "analogLib" "cap" 3.0 1.0 "R0" list(list("c" "1.200e-12")))  ; C0
-mkInst(cv "analogLib" "res" 1.5 -1.0 "R0" list(list("r" "1.1244")))  ; Rm
-mkInst(cv "analogLib" "ind" 3.0 -1.0 "R0" list(list("l" "9.48254e-08")))  ; Lm
+mkInst(cv "analogLib" "res" 1.5 -1.0 "R0" list(list("r" "1.1253")))  ; Rm
+mkInst(cv "analogLib" "ind" 3.0 -1.0 "R0" list(list("l" "9.49729e-08")))  ; Lm
 mkInst(cv "analogLib" "cap" 4.5 -1.0 "R0" list(list("c" "3.000e-13")))  ; Cm
 foreach( pn list("a" "b") dbCreatePin(cv dbCreateNet(cv pn) pn "inputOutput") )
 schCheck(cv) dbSave(cv) dbClose(cv)
@@ -27,7 +27,7 @@ mkInst(cv pdkLib "mimcap" 0 -1.5 "R90" list(list("c" "Csh")))
 mkInst(cv libName "mbvd_linbo3" 2.0 0)
 mkInst(cv "analogLib" "res" 4.0 -1.5 "R90" list(list("r" "50k")))
 mkInst(cv pdkLib "mimcap" 5.0 0 "R0" list(list("c" "Csw")))
-mkInst(cv pdkLib "nch_rf" 7.0 -0.5 "R0" list(list("w" "10.1u") list("l" "65n") list("nf" "20")))   ; 203 um total, use the triple-well (dnw) variant
+mkInst(cv pdkLib "nch_rf" 7.0 -0.5 "R0" list(list("w" "10.6u") list("l" "65n") list("nf" "20")))   ; 211 um total, use the triple-well (dnw) variant
 mkInst(cv "analogLib" "res" 6.0 1.5 "R0" list(list("r" "3000")))     ; Rg (gate floating at RF)
 mkInst(cv "analogLib" "res" 8.0 -2.0 "R0" list(list("r" "20000")))    ; Rb (body tie to source)
 foreach( pn list("port" "gate" "star") dbCreatePin(cv dbCreateNet(cv pn) pn "inputOutput") )

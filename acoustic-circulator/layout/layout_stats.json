@@ -1,13 +1,13 @@
 {
  "die_mm2": 0.64,
  "core_channel_um": [
-  93.87452259497213,
-  97.70386325944824
+  96.12940227585077,
+  99.49895547412311
  ],
- "switch_W_um": 202.7289588728254,
- "Csw_pF": 4.67728685122724,
- "Csh_pF": 3.2553316473026,
- "Cpar_pF": 0.46396528519718877,
+ "switch_W_um": 211.1580847568801,
+ "Csw_pF": 5.123635435483296,
+ "Csh_pF": 3.181555167651633,
+ "Cpar_pF": 0.5298447029174985,
  "cells": 15,
  "gds": "/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/acoustic-circulator/layout/circulator_driver_top.gds"
 }

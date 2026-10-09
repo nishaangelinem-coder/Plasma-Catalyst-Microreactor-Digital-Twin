@@ -112,7 +112,7 @@ def main(nfreq=41, ideal_too=True, workers=4):
     step = 5e6
     freqs = F0 + step * np.arange(-(nfreq // 2), nfreq // 2 + 1)
     jobs = [(des, f, port, False) for f in freqs for port in (1, 2, 3)]
-    freqs_ideal = freqs[::3]
+    freqs_ideal = freqs[::6]
     if ideal_too:
         jobs += [(des, f, port, True) for f in freqs_ideal for port in (1, 2, 3)]
     with ProcessPoolExecutor(workers) as ex:

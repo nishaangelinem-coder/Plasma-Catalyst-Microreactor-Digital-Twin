@@ -66,7 +66,7 @@ def test_final_design_circulates():
     from sim.load_design import load_design
     from sim.circulator import sparams
     des, p = load_design()
-    S = sparams(des, np.array([1.0e9]), 6)[0, 6]
+    S = sparams(des, np.array([1.0e9]), 40)[0, 40]
     fwd = [S[1, 0], S[2, 1], S[0, 2]]; rev = [S[0, 1], S[1, 2], S[2, 0]]
     IL = -db(np.array(fwd)).max(); ISO = -db(np.array(rev)).min()
     assert IL < 6.0 and ISO > 18.0

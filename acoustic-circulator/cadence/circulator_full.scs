@@ -2,7 +2,7 @@
 // Replace nmos65/pmos65 by the PDK's nch_rf/pch_rf and keep W/L; resonator and passives as in circulator_core.scs.
 simulator lang=spectre
 global 0 vdd!
-parameters vdd=1.2 fm=4.500000e+07 tclk=1/(6*fm) Wsw=202.7u
+parameters vdd=1.2 fm=4.500000e+07 tclk=1/(6*fm) Wsw=211.2u
 
 Vdd  (vdd!  0) vsource dc=vdd
 Vclk (clk 0) vsource type=pulse val0=0 val1=vdd period=tclk width=tclk/2 rise=40p fall=40p

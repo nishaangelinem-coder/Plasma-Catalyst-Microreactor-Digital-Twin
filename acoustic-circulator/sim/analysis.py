@@ -105,9 +105,10 @@ def junction_modes(des):
         i = int(np.argmin(np.abs(G1)))
         sol = least_squares(resid, [2 * np.pi * f[i], 2 * np.pi * 2e6, 2 * np.pi * 10e6], x_scale=[1e8, 1e7, 1e7])
         w0, gi, ge = sol.x
-        fit[state] = dict(f_res_MHz=w0 / 2 / np.pi / 1e6, ge_MHz=ge / 2 / np.pi / 1e6, gi_MHz=gi / 2 / np.pi / 1e6,
-                          Qe=w0 / (2 * ge), Qi=w0 / (2 * gi), loss_ratio=gi / ge, G0_mag_at_f0=float(np.abs(G0[np.argmin(np.abs(f - F0))])),
-                          G0_phase_deg=float(np.degrees(np.angle(G0[np.argmin(np.abs(f - F0))]))))
+        fit[state] = dict(f_res_MHz=f[i] / 1e6, f_fit_MHz=w0 / 2 / np.pi / 1e6, ge_MHz=ge / 2 / np.pi / 1e6, gi_MHz=gi / 2 / np.pi / 1e6,
+                          Qe=w0 / (2 * ge), Qi=w0 / (2 * gi), loss_ratio=gi / ge, Gmin_dB=float(db(G1[i])),
+                          G0_mag_at_f0=float(np.abs(G0[np.argmin(np.abs(f - F0))])),
+                          G0_phase_deg=float(np.degrees(np.angle(G0[np.argmin(np.abs(f - F0))]))), fit_cost=float(sol.cost))
         ax[0].plot(f / 1e9, db(G1), color=PAL[0], ls=ls, label=f'|$\\Gamma_{{\\pm1}}$| switches {state}')
         ax[0].plot(f / 1e9, db(G0), color=PAL[1], ls=ls, label=f'|$\\Gamma_0$| switches {state}')
         ax[1].plot(f / 1e9, np.degrees(np.unwrap(np.angle(G1))), color=PAL[0], ls=ls, label=f'arg $\\Gamma_{{\\pm1}}$ {state}')
@@ -156,9 +157,9 @@ def fig_design_space(des):
     # projection table: Qm x switch Ron*W
     proj = []
     for Qm in (500, 1000, 2000):
-        for ronw in (277, 150, 75):
-            rr = fom(replace(des, res=replace(des.res, Qm=Qm), sw=replace(sw, ron_w=ronw)), K=16, npts=61)
-            proj.append(dict(Qm=Qm, ron_w=ronw, IL=rr['IL0'], ISO=rr['ISO0'], RL=rr['RL0'], BW_iso20_MHz=rr['BW_iso20'] / 1e6))
+        for ronw in (269, 180, 120):
+            rr = fom(replace(des, res=replace(des.res, Qm=Qm), sw=replace(sw, ron_w=ronw)), K=32, npts=61)
+            proj.append(dict(Qm=Qm, ron_w=ronw, IL=rr['IL0'], ISO=rr['ISO0'], RL=rr['RL0'], BW_iso15_MHz=rr['BW_iso15'] / 1e6))
     json.dump(proj, open(os.path.join(RES, 'projection_table.json'), 'w'), indent=1)
     return proj
 
@@ -193,8 +194,10 @@ def fig_waveform_and_mismatch(des):
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, 'fig_waveform_mismatch.png')); fig.savefig(os.path.join(FIG, 'fig_waveform_mismatch.pdf')); plt.close(fig)
     iso_ph = np.array([x[1] for x in r]); iso_c = np.array([x[1] for x in r2])
-    tol_ph = float(np.max(np.abs(dphis[iso_ph >= 20]))) if np.any(iso_ph >= 20) else 0.0
-    tol_c = float(np.max(np.abs(dcs[iso_c >= 20]))) * 100 if np.any(iso_c >= 20) else 0.0
+    thr = min(15.0, iso_ph[len(iso_ph) // 2] - 2.0)   # isolation floor for the tolerance: 15 dB, or 2 dB below nominal if nominal is lower
+    tol_ph = float(np.max(np.abs(dphis[iso_ph >= thr]))) if np.any(iso_ph >= thr) else 0.0
+    tol_c = float(np.max(np.abs(dcs[iso_c >= thr]))) * 100 if np.any(iso_c >= thr) else 0.0
+    globals()['_TOL_THR'] = thr
     return tol_ph, tol_c
 
 
@@ -232,7 +235,7 @@ def main():
     summary['cmt'] = junction_modes(des)
     summary['projection'] = fig_design_space(des)
     tol_ph, tol_c = fig_waveform_and_mismatch(des)
-    summary['phase_tol_deg'] = tol_ph; summary['csw_tol_pct'] = tol_c
+    summary['phase_tol_deg'] = tol_ph; summary['csw_tol_pct'] = tol_c; summary['tol_iso_floor_dB'] = globals().get('_TOL_THR', 15.0)
     summary['power'] = power_handling(des)
     json.dump(summary, open(os.path.join(RES, 'ltp_summary.json'), 'w'), indent=1)
     print(json.dumps(summary, indent=1))

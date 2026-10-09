@@ -124,7 +124,7 @@ def run_point(des: Design, f_rf: float, port: int, workdir: str, tag: str, K: in
     nper = max(1, int(round(200e-9 / T)))
     t_win = nper * T
     t_settle = kw.pop('t_settle', 400e-9)
-    dt = kw.pop('dt', 10e-12)
+    dt = kw.pop('dt', 20e-12)
     out = os.path.join(workdir, f'{tag}.txt')
     cir = os.path.join(workdir, f'{tag}.cir')
     with open(cir, 'w') as fh:

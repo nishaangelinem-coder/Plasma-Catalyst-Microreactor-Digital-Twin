@@ -3,8 +3,8 @@
 simulator lang=spectre
 global 0
 parameters fm=4.500000e+07 frf=1.0e9 vdd=1.2 prf=-20 \
-    Csh=3.2553e-12 Csw=4.6773e-12 Cpar=4.6397e-13 Wsw=202.7u Rg=3000 Rb=20000 Cdnw=1.00e-13 \
-    Rs=0.5 R0=0.3 C0=1.2000e-12 Rm=1.12443 Lm=9.482536e-08 Cm=3.0000e-13
+    Csh=3.1816e-12 Csw=5.1236e-12 Cpar=5.2984e-13 Wsw=211.2u Rg=3000 Rb=20000 Cdnw=1.00e-13 \
+    Rs=0.5 R0=0.3 C0=1.2000e-12 Rm=1.12530 Lm=9.497286e-08 Cm=3.0000e-13
 
 // ---- mBVD LiNbO3 resonator (two-terminal) ----
 subckt mbvd (a b)

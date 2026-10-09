@@ -55,3 +55,20 @@
    early netlist used per-finger width and simulated a 300x too resistive switch.
 5. **ngspice integration method**: `method=gear` numerically damps Q = 500 resonators
    and adds ~2 dB apparent loss; `method=trap` with 10 ps steps is required.
+
+
+## Headline numbers (final design, 1.000 GHz)
+
+| quantity | transistor-level ngspice | LTP/PSP design model |
+|---|---|---|
+| insertion loss (worst path) | 5.64 dB | 4.05 dB |
+| isolation (worst path) | 17.9 dB | 27.5 dB |
+| return loss (worst port) | 8.6 dB | 9.0 dB |
+| pump power (drivers + counter) | 1.60 mW | - |
+| pump frequency / reference clock | 45 / 270 MHz | |
+| switch W, C_sw, C_sh, C_par | 211 um, 5.12 pF, 3.18 pF, 0.53 pF | |
+
+These are modest numbers. They are what the physics gives for a Q_m = 500 LiNbO3
+resonator with a hard-switched 65 nm CMOS modulator at 1 GHz; the paper's main
+value is the design methodology, the figure of merit Q_t*Df/f0, the topology
+finding, and the reproducible flow, not a record insertion loss.
