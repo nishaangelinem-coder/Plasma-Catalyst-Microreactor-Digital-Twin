@@ -1,21 +1,21 @@
 # Layout plan: `ring_osc_top` (180-nm CMOS, 1.8 V)
 
-Die area target: 0.55 mm x 0.45 mm (inductor dominated).
+Die area target: 0.75 mm x 0.55 mm (inductor dominated: four differential spirals).
 
 ## Floorplan (left to right, differential axis horizontal)
 
 ```
 +---------------------------------------------------------------------+
 | PAD p1   PAD n1        PAD p2   PAD n2     PAD vdd  PAD gnd  PAD ctl |
-|  [L_out 29.8 nH]        [L_in 29.8 nH]      bias / trim DAC          |
+|  [L_out 29.8 nH]        [L_in 29.8 nH, centre tap]   bias / trim DAC  |
 |      |     |                |     |                                  |
-|   SF drivers   <--  stage 2  <--  CG cascode pair  <-- [tank L_t 40 nH]|
-|   (M4, Mt4)        (M2, Mt2)      (M1, M1c, Mt1)       [C_t + varactor]|
+|   SF drivers <-- stage 2 (M2) <-- CG cascode pair (M1, M1c, Mt1)      |
+|   (M4, Mt4)   [tank 2: L_t2 40 nH, C_t2]   [tank 1: L_t 60 nH, C_t + varactor]|
 |   guard ring       guard ring     guard ring (deep n-well optional)   |
 +---------------------------------------------------------------------+
 ```
 
-* Keep the three inductors >= 50 um apart (edge to edge) and >= 30 um from any
+* Keep the four inductors >= 50 um apart (edge to edge) and >= 30 um from any
   active device; no metal fill inside the inductor keep-out (use the PDK
   `NO_FILL` layer).  Patterned ground shield only if the PDK inductor model
   supports it (raises Q at 1 GHz by 10 to 20 %).
@@ -24,8 +24,11 @@ Die area target: 0.55 mm x 0.45 mm (inductor dominated).
   d1a/d1b and oa/ob (the phase trim can absorb <= 15 deg of residual mismatch).
 * The IDT pads (p1/n1, p2/n2) are 70 um octagonal pads with ESD diodes of
   <= 60 fF each (the budgeted `Cpar_in`); route p2/n2 on top metal only.
-* Tank varactor: accumulation-mode MOS varactor 2 x 60 fF (Cmin) to 2 x 120 fF
-  (Cmax), giving +/- 35 deg of loop phase trim (tank Q = 8).
+* Tank-1 varactor: accumulation-mode MOS varactor 2 x 40 fF (Cmin) to 2 x 90 fF
+  (Cmax), giving about +/- 45 deg of loop phase trim (tank Q = 8); tank 2 gets a
+  3-bit binary capacitor bank (6 x 25 fF) for one-time centring, because its
+  parasitic capacitance (M2 drains, SF gates, coupling) is the least predictable
+  node in the design.
 * Supply: 2 x 10 pF MOS decoupling at vdd, star-connected ground, separate
   substrate contacts ring for the inductors.
 

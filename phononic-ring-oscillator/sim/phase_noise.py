@@ -66,7 +66,7 @@ def allan_deviation_from_L(fm, L_dB, f0, taus):
 # --------------------------------------------------------------------------
 REFERENCES = [
     dict(key="ji2026",      name="Ji et al. 2026 [SiN-LN ring, bench amp.]", f0=1001.15e6, tech="SiN-LN phononic ring", pn={100e3: -159.0}, pdc=None, kind="PnIC"),
-    dict(key="shin2025",    name="Shin et al. 2025 [SAW PnC edge mode]",      f0=1.0e9,     tech="128Y-LN SAW",          pn={10e3: -132.5}, pdc=None, kind="SAW"),
+    dict(key="xi2025",      name="Xi et al. 2025 [SAW PnC edge mode]",      f0=1.0e9,     tech="128Y-LN SAW",          pn={10e3: -132.5}, pdc=None, kind="SAW"),
     dict(key="otis2003",    name="Otis & Rabaey 2003 [FBAR, 0.13-um CMOS]",   f0=1.9e9,     tech="AlN FBAR + CMOS",      pn={100e3: -120.0}, pdc=300e-6, kind="FBAR"),
     dict(key="ostman2006",  name="Östman et al. 2006 [FBAR, SiGe]",           f0=2.1e9,     tech="above-IC AlN FBAR",    pn={1e6: -144.1}, pdc=None, kind="FBAR"),
     dict(key="norling2008", name="Norling et al. 2008 [TFBAR, SiGe]",         f0=2.0e9,     tech="monolithic AlN TFBAR", pn={100e3: -125.0}, pdc=None, kind="FBAR"),

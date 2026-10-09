@@ -56,38 +56,39 @@ All numerical results in this paper are produced by an open-source pipeline (Pyt
 \section{SiN--LN Phononic Ring Resonator and Its Compact Model}\label{sec:model}
 
 \subsection{Device and measured data}
-Fig.~\ref{fig:concept} shows the system. A bus waveguide carries the acoustic wave launched by IDT~1 through a taper into a single-mode SiN strip on LN; an evanescent directional coupler transfers a fraction $\kappa^2$ of the power into the ring; a second coupler drops the circulating wave into the output bus and IDT~2. The measured dominant mode of \cite{ji2026} is at $f_0=\nfzeroMHz$~MHz with $Q_L=\nQL$, $Q_i=\nQi$ and $Q_c=\nQc$ (per coupler, symmetric), and $|S_{21}(f_0)|=-28.2$~dB. The ring radius and the SiN thickness are not reported in the preprint; the model is therefore written in terms of the FSR, and the azimuthal mode number $m=\nNidt\cdot 0+175$ is chosen so that $f_0=m\,\mathrm{FSR}$ with a guided-mode velocity of 3600~m/s, which gives $R=\nradiusum$~$\mu$m and $\mathrm{FSR}=\nFSRMHz$~MHz, consistent with the 7-MHz mode-hopping tuning range observed in \cite{ji2026}. Every result below is reported as a function of these parameters so that it can be re-evaluated when the geometry is known.
+Fig.~\ref{fig:concept} shows the system. A bus waveguide carries the acoustic wave launched by IDT~1 through a taper into a single-mode SiN strip on LN; an evanescent directional coupler transfers a fraction $\kappa^2$ of the power into the ring; a second coupler drops the circulating wave into the output bus and IDT~2. The measured dominant mode of \cite{ji2026} is at $f_0=\nfzeroMHz$~MHz with $Q_L=\nQL$, $Q_i=\nQi$ and $Q_c=\nQc$ (per coupler, symmetric), and $|S_{21}(f_0)|=-28.2$~dB. The ring radius and the SiN thickness are not reported in the preprint; the model is therefore written in terms of the FSR, and the azimuthal mode number $m=\nmaz$ is chosen so that $f_0=m\,\mathrm{FSR}$ with a guided-mode velocity of 3600~m/s, which gives $R=\nradiusum$~$\mu$m and $\mathrm{FSR}=\nFSRMHz$~MHz, consistent with the 7-MHz mode-hopping tuning range observed in \cite{ji2026}. Every result below is reported as a function of these parameters so that it can be re-evaluated when the geometry is known.
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}[>=Stealth, font=\scriptsize, node distance=3mm]
+\begin{tikzpicture}[>=Stealth, font=\scriptsize, scale=0.9, every node/.style={transform shape}]
 % ring and buses
-\draw[line width=1pt] (3.2,0.9) circle (0.55);
-\draw[line width=1pt] (0.0,1.6) -- (6.4,1.6);
-\draw[line width=1pt] (0.0,0.2) -- (6.4,0.2);
-\node at (3.2,0.9) {ring};
-\node[anchor=south] at (1.0,1.65) {bus 1};
-\node[anchor=north] at (5.4,0.15) {bus 2};
-\draw[<->] (3.2,1.47) -- (3.2,1.58); \node[anchor=west] at (3.3,1.5) {$\kappa$};
-\draw[<->] (3.2,0.33) -- (3.2,0.22); \node[anchor=west] at (3.3,0.3) {$\kappa$};
+\draw[line width=1pt] (3.6,1.0) circle (0.6);
+\draw[line width=1pt] (0.6,1.75) -- (6.6,1.75);
+\draw[line width=1pt] (0.6,0.25) -- (6.6,0.25);
+\node at (3.6,1.0) {ring};
+\node[anchor=south west] at (0.7,1.78) {bus 1};
+\node[anchor=north east] at (5.8,0.22) {bus 2};
+\node[anchor=west] at (3.65,1.62) {$\kappa$};
+\node[anchor=west] at (3.65,0.38) {$\kappa$};
 % IDTs
-\foreach \x in {0.15,0.3,0.45,0.6} \draw[line width=0.6pt] (\x,1.35) -- (\x,1.85);
-\foreach \x in {5.8,5.95,6.1,6.25} \draw[line width=0.6pt] (\x,-0.05) -- (\x,0.45);
-\node[anchor=south] at (0.4,1.9) {IDT 1};
-\node[anchor=north] at (6.0,-0.1) {IDT 2};
+\foreach \x in {0.75,0.9,1.05,1.2} \draw[line width=0.6pt] (\x,1.5) -- (\x,2.0);
+\foreach \x in {6.0,6.15,6.3,6.45} \draw[line width=0.6pt] (\x,0.0) -- (\x,0.5);
+\node[anchor=south] at (1.0,2.05) {IDT 1};
+\node[anchor=west] at (6.55,0.25) {IDT 2};
 % CMOS die
-\draw[rounded corners=2pt, fill=gray!10] (0.0,-1.9) rectangle (6.4,-0.6);
-\node[anchor=north west] at (0.05,-0.62) {180-nm CMOS};
-\node[draw, rounded corners=1pt, minimum height=5mm, minimum width=1.3cm] (cg) at (4.9,-1.3) {CG cascode + tank};
-\node[draw, rounded corners=1pt, minimum height=5mm, minimum width=0.9cm, left=of cg] (g2) {gain};
-\node[draw, rounded corners=1pt, minimum height=5mm, minimum width=0.9cm, left=of g2] (sf) {SF drivers};
+\draw[rounded corners=2pt, fill=gray!10] (0.0,-2.4) rectangle (7.2,-0.8);
+\node[anchor=north west] at (0.05,-0.82) {180-nm CMOS};
+\node[draw, fill=white, rounded corners=1pt, minimum height=5mm, text width=1.5cm, align=center] (cg) at (5.9,-1.7) {CG cascode + LC tank};
+\node[draw, fill=white, rounded corners=1pt, minimum height=5mm, text width=1.1cm, align=center] (g2) at (3.6,-1.7) {gain stages};
+\node[draw, fill=white, rounded corners=1pt, minimum height=5mm, text width=1.1cm, align=center] (sf) at (1.4,-1.7) {SF drivers};
 \draw[->] (cg) -- (g2); \draw[->] (g2) -- (sf);
-\draw[->] (sf.west) -| (0.4,-0.6) node[midway, above, xshift=4mm] {\,$L_{\mathrm{out}}\|C_0$};
-\draw[->] (6.0,-0.6) |- (cg.east) node[pos=0.25, right] {$L_{\mathrm{in}}\|C_0$};
-\draw (0.4,1.35) -- (0.4,0.6) -- (0.4,-0.6);
-\draw (6.0,-0.05) -- (6.0,-0.6);
-\node[anchor=west] at (6.45,-1.3) {};
-\draw[dashed] (2.1,-1.9) -- (2.1,-0.6); \node[anchor=north] at (2.1,-1.9) {phase trim / mode select};
+\draw[->] (sf.west) -- ++(-0.4,0) |- (1.0,-0.8);
+\draw (1.0,-0.8) -- (1.0,1.5);
+\draw (6.2,0.0) -- (6.2,-0.8);
+\draw[->] (6.2,-0.8) |- (cg.east);
+\node[anchor=west] at (1.05,-0.45) {$L_{\mathrm{out}}\,\|\,C_0$};
+\node[anchor=east] at (6.15,-0.45) {$L_{\mathrm{in}}\,\|\,C_0$};
+\draw[dashed,->] (3.6,-2.4) -- (cg.south west) ; \node[anchor=north] at (3.6,-2.4) {phase trim / mode select};
 \end{tikzpicture}
 \caption{Transmission-mode oscillator: the SiN--LN ring with its two IDTs closes the loop through a CMOS sustaining amplifier whose port interfaces resonate the IDT static capacitance $C_0$.}
 \label{fig:concept}
@@ -144,7 +145,7 @@ x(t)=\kappa\,v_1(t-\tfrac{\tau_{\mathrm{rt}}}{2})+t\,a\,x(t-\tau_{\mathrm{rt}}),
 i_2(t)=G_m'\,\kappa\sqrt{a}\,x(t-\tfrac{\tau_{\mathrm{rt}}}{2}),
 \label{eq:delay}
 \end{equation}
-where $x$ is the circulating field, $v_1$ the voltage at port~1, $i_2$ the short-circuit current injected into port~2 and $G_m'=G_m/\sqrt{T_{\mathrm{drop}}}$ a scale factor that makes the transfer at $f_0$ identical to the mBVD branch. In the frequency domain (\ref{eq:delay}) is $\kappa^2\sqrt a\,e^{-j\omega\tau_{\mathrm{rt}}/2}/(1-t^2a\,e^{-j\omega\tau_{\mathrm{rt}}})$: a comb of Lorentzians of width $f_0/Q_L$ spaced by the FSR, each carrying the propagation phase $-\omega\tau_{\mathrm{rt}}/2$. Two consequences follow that the BVD branch misses. (i) Adjacent comb modes differ in loop phase by $\pi\,\mathrm{FSR}\,\tau_{\mathrm{rt}}=\pi$: of two neighbouring modes, only one can satisfy the Barkhausen phase condition for a given amplifier phase, and the nearest in-phase competitors are at $f_0\pm2\,\mathrm{FSR}$. (ii) The group delay of the ring, $\tau_g=2Q_L/\omega_0=\ntaurtns\cdot 0+5.7$~$\mu$s at resonance, sets the start-up time constant together with the loop gain. Fig.~\ref{fig:resonator}(a) compares the comb and the single-branch responses in a 50-$\Omega$ system; Fig.~\ref{fig:resonator}(b) shows the design mode.
+where $x$ is the circulating field, $v_1$ the voltage at port~1, $i_2$ the short-circuit current injected into port~2 and $G_m'=G_m/\sqrt{T_{\mathrm{drop}}}$ a scale factor that makes the transfer at $f_0$ identical to the mBVD branch. In the frequency domain (\ref{eq:delay}) is $\kappa^2\sqrt a\,e^{-j\omega\tau_{\mathrm{rt}}/2}/(1-t^2a\,e^{-j\omega\tau_{\mathrm{rt}}})$: a comb of Lorentzians of width $f_0/Q_L$ spaced by the FSR, each carrying the propagation phase $-\omega\tau_{\mathrm{rt}}/2$. Two consequences follow that the BVD branch misses. (i) Adjacent comb modes differ in loop phase by $\pi\,\mathrm{FSR}\,\tau_{\mathrm{rt}}=\pi$: of two neighbouring modes, only one can satisfy the Barkhausen phase condition for a given amplifier phase, and the nearest in-phase competitors are at $f_0\pm2\,\mathrm{FSR}$. (ii) The group delay of the ring, $\tau_g=2Q_L/\omega_0=\ntaug$~$\mu$s at resonance, sets the start-up time constant together with the loop gain. Fig.~\ref{fig:resonator}(a) compares the comb and the single-branch responses in a 50-$\Omega$ system; Fig.~\ref{fig:resonator}(b) shows the design mode.
 
 \begin{figure}[!t]
 \centering
@@ -172,58 +173,43 @@ Fig.~\ref{fig:il} shows the transducer gain of the calibrated resonator at $f_0$
 \end{figure}
 
 \subsection{Transmission-mode differential sustaining amplifier}\label{sec:amp}
-Fig.~\ref{fig:amp} shows the circuit (180-nm bulk CMOS, 1.8~V). Both IDTs are floating and driven differentially. The input is a common-gate (CG) differential pair M1 with cascode devices M1c and a differential LC tank ($L_t=\nLt$~nH, $Q_t=8$, $R_p=\nRptank$~$\Omega$) as the load; the low input impedance $2/g_{m1}=\nRext\cdot0+53$~$\Omega$ keeps the electrical loading of the motional branch small ($R_{\mathrm{ext}}=\nRext$~$\Omega$, $Q_e=\nQe$) and senses the motional current directly. The port-2 inductor $L_{\mathrm{in}}=\nLin$~nH that resonates $C_0$ is centre-tapped and the tap carries the bias current of the CG pair: the noise of the tail current source then appears as a common-mode signal and is rejected, which removed the dominant noise term of the first design iteration (a grounded-tail CG stage had $F=12.8$~dB in transistor-level simulation; the centre-tapped version has $\nngF$~dB). The cascode isolates the tank from the output conductance of M1. Two resistor-loaded differential pairs (M2 with a PMOS current-source assist that carries $\nItwop$~mA of the $\nItwo$~mA bias so that $R_{L2}=\nRLtwo$~$\Omega$ fits the 1.8-V headroom, and M3 with $R_{L3}=\nRLthree$~$\Omega$) provide the remaining gain and the amplitude limiting; source followers M4 drive IDT~1 through the second resonating inductor $L_{\mathrm{out}}$, which removes the reactive current of $C_0$ from the driver. The current budget is $2\times(\nIone+\nItwo+\nIthree+\nIfour)=\nIdc$~mA, i.e. $\nPdc$~mW.
+Fig.~\ref{fig:amp} shows the circuit (180-nm bulk CMOS, 1.8~V). Both IDTs are floating and driven differentially. The input is a common-gate (CG) differential pair M1 with cascode devices M1c and a differential LC tank ($L_t=\nLt$~nH, $Q_t=8$, $R_p=\nRptank$~$\Omega$) as the load; the low input impedance $2/g_{m1}=\nZin$~$\Omega$ keeps the electrical loading of the motional branch small ($R_{\mathrm{ext}}=\nRext$~$\Omega$, $Q_e=\nQe$) and senses the motional current directly. The port-2 inductor $L_{\mathrm{in}}=\nLin$~nH that resonates $C_0$ is centre-tapped and the tap carries the bias current of the CG pair: the noise of the tail current source then appears as a common-mode signal and is rejected, which removed the dominant noise term of the first design iteration (a grounded-tail CG stage had $F=12.8$~dB in transistor-level simulation; the centre-tapped version has $\nngF$~dB). The cascode isolates the tank from the output conductance of M1. A second differential pair M2, loaded by a second LC tank ($L_{t2}=\nLttwo$~nH, $R_{p2}=\nRptanktwo$~$\Omega$), provides the remaining gain and the amplitude limiting; an LC load was chosen over a resistor because a resistor-loaded stage with the gain needed here has its pole near 1~GHz and lags the loop by more than $40^\circ$, which the trim range cannot absorb, whereas a tank contributes zero phase at resonance and only mild selectivity ($Q_{t2}=8$). Source followers M4 drive IDT~1 through the second resonating inductor $L_{\mathrm{out}}$, which removes the reactive current of $C_0$ from the driver. The current budget is $2\times(\nIone+\nItwo+\nIfour)=\nIdc$~mA, i.e. $\nPdc$~mW.
 
 \begin{figure*}[!t]
 \centering
-\begin{circuitikz}[scale=0.78, transform shape, font=\footnotesize]
-% port 2 inductor, centre tapped
-\draw (0,0) node[left]{$p_2$} to[L, l_=$L_{\rm in}/2$] (0,-2) node (ct) {} to[L, l_=$L_{\rm in}/2$] (0,-4) node[left]{$n_2$};
-\draw (0,-2) -- (1,-2) node[nmos, anchor=D, rotate=0] (mt1) {};
-\node at (1.9,-2.6) {M$_{t1}$};
-\draw (mt1.S) -- ++(0,-0.5) node[ground]{};
-\draw (mt1.G) -- ++(-0.6,0) node[left]{$V_{bn}$};
-\draw (0,-2) to[C, l=$C_{ct}$] (0,-2) ;
-% CG pair
-\draw (0,0) -- (2.5,0) node[nmos, anchor=S, rotate=90] (m1a) {};
-\draw (0,-4) -- (2.5,-4) node[nmos, anchor=S, rotate=90] (m1b) {};
-\node at (3.0,0.6) {M$_{1a}$}; \node at (3.0,-3.4) {M$_{1b}$};
-\draw (m1a.G) -- ++(0,0.8) node[above]{$V_{b1}$};
-\draw (m1b.G) -- ++(0,0.8) node[above]{$V_{b1}$};
-% cascode
-\draw (m1a.D) -- ++(0.6,0) node[nmos, anchor=S, rotate=90] (m1ca) {};
-\draw (m1b.D) -- ++(0.6,0) node[nmos, anchor=S, rotate=90] (m1cb) {};
-\draw (m1ca.G) -- ++(0,0.8) node[above]{$V_{bc}$};
-\draw (m1cb.G) -- ++(0,0.8) node[above]{$V_{bc}$};
-% tank
-\draw (m1ca.D) -- ++(1.2,0) coordinate (d1a);
-\draw (m1cb.D) -- ++(1.2,0) coordinate (d1b);
-\draw (d1a) to[L, l=$L_t/2$] ++(0,-1.6) coordinate (vddt) to[L, l=$L_t/2$] (d1b);
-\draw (vddt) -- ++(0.9,0) node[right]{$V_{DD}$};
-\draw ($(d1a)+(-0.5,0)$) to[vC, l=$C_t$ (trim)] ($(d1b)+(-0.5,0)$);
-% gain stages as blocks
-\draw (d1a) -- ++(1.6,0) coordinate (s2in);
-\draw (d1b) -- ++(1.6,0) coordinate (s2inb);
-\draw[rounded corners] ($(s2in)+(0,0.5)$) rectangle ($(s2inb)+(2.4,-0.5)$);
-\node at ($(s2in)+(1.2,-2)$) {\shortstack{M$_2$, PMOS assist\\$R_{L2}$ \nRLtwo\,$\Omega$}};
-\draw ($(s2in)+(2.4,0)$) -- ++(0.8,0) coordinate (s3in);
-\draw ($(s2inb)+(2.4,0)$) -- ++(0.8,0) coordinate (s3inb);
-\draw[rounded corners] ($(s3in)+(0,0.5)$) rectangle ($(s3inb)+(2.0,-0.5)$);
-\node at ($(s3in)+(1.0,-2)$) {\shortstack{M$_3$\\$R_{L3}$ \nRLthree\,$\Omega$}};
-\draw ($(s3in)+(2.0,0)$) -- ++(0.8,0) coordinate (s4in);
-\draw ($(s3inb)+(2.0,0)$) -- ++(0.8,0) coordinate (s4inb);
-\draw[rounded corners] ($(s4in)+(0,0.5)$) rectangle ($(s4inb)+(1.6,-0.5)$);
-\node at ($(s4in)+(0.8,-2)$) {\shortstack{M$_4$\\SF drivers}};
-% output port with Lout
-\draw ($(s4in)+(1.6,0)$) to[C, l=$C_c$] ++(1.4,0) coordinate (p1) node[right]{$p_1$};
-\draw ($(s4inb)+(1.6,0)$) to[C, l=$C_c$] ++(1.4,0) coordinate (n1) node[right]{$n_1$};
-\draw ($(p1)+(0.9,0)$) to[L, l=$L_{\rm out}$] ($(n1)+(0.9,0)$);
+\begin{circuitikz}[scale=0.85, transform shape, font=\footnotesize, >=Stealth]
+\ctikzset{bipoles/length=0.8cm}
+% ---- port 2 with centre-tapped L_in and tail current source ----
+\node[left] at (0,1.2) {$p_2$}; \node[left] at (0,-1.2) {$n_2$};
+\draw (0,1.2) to[L, l_=$L_{\rm in}/2$] (0,0) to[L, l_=$L_{\rm in}/2$] (0,-1.2);
+\draw (0,0) -- (0.9,0) to[I, l_=$2I_1$] (0.9,-1.6) node[ground]{};
+\draw (0.9,0) to[C, l=$C_{ct}$] (1.9,0) -- (1.9,-0.3) node[ground]{};
+\draw (0,1.2) -- (2.6,1.2); \draw (0,-1.2) -- (2.6,-1.2);
+% ---- stage 1 box ----
+\draw[rounded corners, fill=gray!8] (2.6,-1.9) rectangle (6.0,1.9);
+\node[align=center] at (4.3,0.95) {\textbf{Stage 1}\\ common-gate pair M$_1$\\ + cascode M$_{1c}$};
+\node[align=center] at (4.3,-0.8) {LC tank $L_t$ = \nLt\,nH, $Q_t$ = 8\\ $C_t$ varactor = phase trim\\ $Z_{T1}=R_p$ = \nRptank\,$\Omega$};
+\draw (3.1,-1.9) -- (3.1,-2.2) node[below]{$V_{b1}$}; \draw (4.3,-1.9) -- (4.3,-2.2) node[below]{$V_{bc}$}; \draw (5.5,-1.9) -- (5.5,-2.2) node[below]{$V_{\rm trim}$};
+\draw (6.0,0.6) -- (6.8,0.6); \draw (6.0,-0.6) -- (6.8,-0.6);
+% ---- stage 2 ----
+\draw[rounded corners, fill=gray!8] (6.8,-1.9) rectangle (10.4,1.9);
+\node[align=center] at (8.6,0.95) {\textbf{Stage 2}\\ diff. pair M$_2$\\ $I_2$ = \nItwo\,mA};
+\node[align=center] at (8.6,-0.8) {LC tank $L_{t2}$ = \nLttwo\,nH, $Q_{t2}$ = 8\\ $R_{p2}$ = \nRptanktwo\,$\Omega$\\ (limiting stage)};
+\draw (10.4,0.6) -- (11.2,0.6); \draw (10.4,-0.6) -- (11.2,-0.6);
+% ---- stage 3: SF drivers ----
+\draw[rounded corners, fill=gray!8] (11.2,-1.9) rectangle (13.6,1.9);
+\node[align=center] at (12.4,0.6) {\textbf{Stage 3}\\ source followers M$_4$};
+\node[align=center] at (12.4,-0.9) {$R_{\rm out}=1/g_{m4}$\\ $I_4$ = \nIfour\,mA};
+% ---- output port with coupling caps and L_out ----
+\draw (13.6,1.2) to[C, l=$C_c$] (15.0,1.2) -- (16.0,1.2) node[right]{$p_1$};
+\draw (13.6,-1.2) to[C, l=$C_c$] (15.0,-1.2) -- (16.0,-1.2) node[right]{$n_1$};
+\draw (15.5,1.2) to[L, l=$L_{\rm out}$] (15.5,-1.2);
 \end{circuitikz}
-\caption{Transmission-mode sustaining amplifier (one of the two symmetric halves of each stage is drawn for the CG cascode). The motional current from IDT~2 enters the common-gate pair through the centre-tapped $C_0$-resonating inductor $L_{\rm in}$; the stage-1 tank with its trim varactor $C_t$ sets the loop phase; the driver output resonates $C_0$ of IDT~1 with $L_{\rm out}$.}
+\caption{Transmission-mode sustaining amplifier (block-level schematic; the complete transistor-level netlist is in the released Spectre and ngspice files). The motional current from IDT~2 enters the common-gate pair through the centre-tapped $C_0$-resonating inductor $L_{\rm in}$, whose tap carries the bias current $2I_1$; the stage-1 tank with its trim varactor $C_t$ sets the loop phase; the driver output resonates $C_0$ of IDT~1 with $L_{\rm out}$.}
 \label{fig:amp}
 \end{figure*}
 
-A behavioural model of the chain, $Z_T(f)=k_{\mathrm{impl}}\,Z_{\mathrm{tank}}(f)A_2A_3A_4$ with first-order poles at each node, is used for design exploration; its gain is calibrated to the transistor-level simulation through the single factor $k_{\mathrm{impl}}=\nkimpl$~dB, which collects the loading of the tank by the cascode and stage-2 capacitances, the finite PMOS output resistance and the source-follower loss. The noise and resonator parts of the behavioural model need no calibration: the circuit-derived loop noise factor of Section~\ref{sec:noise} ($\nFmodel$~dB) agrees with the transistor-level value ($\nngF$~dB) within 0.3~dB.
+A behavioural model of the chain, $Z_T(f)=k_{\mathrm{impl}}\,Z_{t1}(f)\,g_{m2}Z_{t2}(f)\,A_4$ with a first-order pole for the source follower, is used for design exploration; its gain is calibrated to the transistor-level simulation through the single factor $k_{\mathrm{impl}}=\nkimpl$~dB, which collects the loading of the two tanks by the device and coupling capacitances, their detuning after trim and the source-follower loss. The noise and resonator parts of the behavioural model need no calibration: the circuit-derived loop noise factor of Section~\ref{sec:noise} ($\nFmodel$~dB) agrees with the transistor-level value ($\nngF$~dB) within 0.3~dB.
 
 \subsection{Phase trim and mode selection}\label{sec:mode}
 The loop phase at $f_0$ is zeroed with a varactor on the stage-1 tank (a detuning $\delta$ shifts the phase by $-\arctan(2Q_t\delta)$, so $\pm10$\,\% of $C_t$ gives $\pm58^\circ$) and by the choice of the loop polarity, which costs nothing in a differential amplifier. The nominal design needs $\ntrim^\circ$ of trim; over the Monte Carlo population of Section~\ref{sec:mc} the requirement spans $\nmcTrimMin^\circ$ to $\nmcTrimMax^\circ$, inside the varactor range. Fig.~\ref{fig:loop}(b) shows the loop gain across the comb computed with the delay-element model: the odd-order neighbours ($k=\pm1,\pm3,\dots$) have $180^\circ$ loop phase and cannot oscillate, so the nearest in-phase competitor is at $k=\nmodeCompK$ ($\nmodeCompMHz$~MHz from $f_0$) with a margin of only $\nmodeMargin$~dB against the IDT envelope of the baseline $N=\nNidt$ finger pairs. This small margin explains the mode hopping used for tuning in \cite{ji2026}. Fig.~\ref{fig:modemargin} shows the margin versus $N$: the first null of $\mathrm{sinc}^2[N(f-f_0)/f_0]$ falls on $f_0\pm2\,\mathrm{FSR}$ when
@@ -256,7 +242,7 @@ other resonator resistances ($R_s$, $R_0$, driver $R_{\rm out}$) & $\nFpartresot
 $L_{\rm in}$ loss ($Q_L=\nQLind$) & $\nFpartLin$\\
 CG pair channel noise & $\nFpartCG$\\
 stage-1 tank loss & $\nFparttank$\\
-stage-2 input-referred & $\nFpartstagetwo$\\
+stage-2 input-referred (tank 2 and M2) & $\nFpartstagetwo$\\
 driver excess noise & $\nFpartdriver$\\
 \midrule
 total $F$ & $\nFmodel$\\
@@ -269,7 +255,7 @@ transistor-level (ngspice, per-generator) & $\nngF$\\
 The pre-layout results are obtained with the behavioural model calibrated as described above and with transistor-level ngspice simulation of the complete loop using generic 180-nm BSIM3v3 model cards; the Spectre/foundry-PDK run of Section~\ref{sec:flow} replaces them for the post-layout version.
 
 \subsection{Open loop, start-up and steady state}
-Fig.~\ref{fig:loop}(a) shows the open-loop gain with the loop broken at port~1 and terminated by replicas of the driver and port impedances. The transistor-level loop gain at $f_0$ is $\nngTzero$~dB with the loop phase trimmed to $\nngPhase^\circ$ by the tank capacitance ($C_t=\nngCt$~fF); the behavioural model reproduces the shape of the response once calibrated. The linear start-up time constant is $\tau=2Q_e/[\omega_0(|T|-1)]=\ntauStart$~$\mu$s, and the transient simulation of Fig.~\ref{fig:startup}(a) reaches 90\,\% of the final envelope at $\nngTstart$~$\mu$s. In steady state (Fig.~\ref{fig:startup}(b)) the oscillator runs at $\nngFosc$~MHz ($\nngDf$~kHz from the resonator centre, within the trim resolution), the differential swing at IDT~1 is $\nngVpone$~V, the motional current is $\nngIm$~mA peak and the power dissipated in $R_m$, i.e. the acoustic power delivered to the ring, is $\nngPrm$~dBm. The second and third harmonics at the resonator port are $\nngHDtwo$ and $\nngHDthree$~dBc: the ring itself filters the limiting-stage distortion.
+Fig.~\ref{fig:loop}(a) shows the open-loop gain with the loop broken at port~1 and terminated by replicas of the driver and port impedances. The transistor-level loop gain at $f_0$ is $\nngTzero$~dB with the loop phase trimmed to $\nngPhase^\circ$ by the stage-1 tank capacitance ($C_t=\nngCt$~fF; $C_{t2}=\nngCttwo$~fF, $L_{\rm in}$ tuned to $\nngLin$~nH for the actual port-2 capacitance); the behavioural model reproduces the shape of the response once calibrated. The linear start-up time constant is $\tau=2Q_e/[\omega_0(|T|-1)]=\ntauStart$~$\mu$s, and the transient simulation of Fig.~\ref{fig:startup}(a) reaches 90\,\% of the final envelope at $\nngTstart$~$\mu$s. In steady state (Fig.~\ref{fig:startup}(b)) the oscillator runs at $\nngFosc$~MHz ($\nngDf$~kHz from the resonator centre, within the trim resolution), the differential swing at IDT~1 is $\nngVpone$~V, the motional current is $\nngIm$~mA peak and the power dissipated in $R_m$, i.e. the acoustic power delivered to the ring, is $\nngPrm$~dBm. The second and third harmonics at the resonator port are $\nngHDtwo$ and $\nngHDthree$~dBc: the ring itself filters the limiting-stage distortion.
 
 \begin{figure*}[!t]
 \centering
@@ -365,7 +351,7 @@ Norling \textit{et al.} 2008 \cite{norling2008} & monolithic AlN TFBAR, SiGe & 2
 \end{table*}
 
 \section{Cadence Implementation Flow}\label{sec:flow}
-The Verilog-A cell, the Spectre netlists of the amplifier and of the two testbenches, and the OCEAN scripts are released with the manuscript. The open-loop testbench breaks the loop with an \texttt{iprobe} at the CG input, the lowest-impedance node, and runs \texttt{stb} over $\pm60$~MHz to reproduce Fig.~\ref{fig:loop}; the oscillator testbench runs a 60-$\mu$s transient, a shooting PSS with \texttt{tstab} equal to the transient length (the loaded $Q$ makes a cold PSS start fail) and a Pnoise sweep from 100~Hz to 10~MHz with \texttt{noisetype=pm} at the IDT~1 port. Corner (tt/ss/ff/sf/fs, $-40/27/85^\circ$C, $\pm10$\,\% supply) and Monte Carlo scripts mirror Section~\ref{sec:mc}. The layout plan places the three inductors with 50-$\mu$m keep-outs, common-centroid differential pairs, 70-$\mu$m IDT pads with 60-fF ESD devices and a two-bit stage-2 bias trim in a $0.55\times0.45$~mm$^2$ core; Calibre DRC, LVS (the resonator as an LVS box bound to four pads) and xRC extraction run from the provided scripts, after which the PSS/Pnoise testbench is re-run on the extracted view and the post-layout column of Table~\ref{tab:cmp} is filled by the same data pipeline. The transistor-level pre-layout numbers of Section~\ref{sec:results} were obtained with generic BSIM3v3 model cards; the foundry PDK (SCL, TSMC or UMC 180~nm) is substituted through a single wrapper file, so the flow is PDK-agnostic.
+The Verilog-A cell, the Spectre netlists of the amplifier and of the two testbenches, and the OCEAN scripts are released with the manuscript. The open-loop testbench breaks the loop with an \texttt{iprobe} at the CG input, the lowest-impedance node, and runs \texttt{stb} over $\pm60$~MHz to reproduce Fig.~\ref{fig:loop}; the oscillator testbench runs a 60-$\mu$s transient, a shooting PSS with \texttt{tstab} equal to the transient length (the loaded $Q$ makes a cold PSS start fail) and a Pnoise sweep from 100~Hz to 10~MHz with \texttt{noisetype=pm} at the IDT~1 port. Corner (tt/ss/ff/sf/fs, $-40/27/85^\circ$C, $\pm10$\,\% supply) and Monte Carlo scripts mirror Section~\ref{sec:mc}. The layout plan places the four inductors with 50-$\mu$m keep-outs, common-centroid differential pairs, 70-$\mu$m IDT pads with 60-fF ESD devices, a varactor on tank~1 and a three-bit capacitor bank on tank~2 (whose parasitic capacitance is the least predictable node: the transistor-level run needed $C_{t2}$ far below the nominal value) and a two-bit stage-2 bias trim in a $0.75\times0.55$~mm$^2$ core; Calibre DRC, LVS (the resonator as an LVS box bound to four pads) and xRC extraction run from the provided scripts, after which the PSS/Pnoise testbench is re-run on the extracted view and the post-layout column of Table~\ref{tab:cmp} is filled by the same data pipeline. The transistor-level pre-layout numbers of Section~\ref{sec:results} were obtained with generic BSIM3v3 model cards; the foundry PDK (SCL, TSMC or UMC 180~nm) is substituted through a single wrapper file, so the flow is PDK-agnostic.
 
 \section{Conclusion}
 A phononic ring resonator on SiN--LN is a two-port transmission element with a comb of modes and a vanishing effective coupling, and it has to be treated as such. The extended mBVD--delay model proposed here is derived from four measured quantities, carries the propagation phase and the mode comb, runs in Spectre PSS/Pnoise as a noise-generating Verilog-A cell, and makes the three decisive design facts quantitative: half of the measured 28-dB loss is recoverable on chip, the Pierce family is excluded, and the mode-selection margin is set by the IDT pair count through $N\approx f_0/2\,\mathrm{FSR}$. The transmission-mode CMOS sustaining amplifier with centre-tapped $C_0$-resonating port inductors reaches a loop noise factor near 6.7~dB and a predicted $\nPNonezerozerok$~\dBc\ at 100~kHz for $\nPdc$~mW, within 1~dB of the bench demonstration on the same resonator and 25~dB beyond FBAR--CMOS oscillators, with a $\nmcYield$\,\% start-up yield over process and resonator variations. The released Cadence flow carries the design to layout, DRC/LVS, extraction and post-layout phase-noise verification; measured results on a bonded SiN--LN/CMOS assembly are the next step.

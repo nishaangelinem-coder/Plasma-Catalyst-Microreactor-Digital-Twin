@@ -83,10 +83,8 @@ def device_sizes(amp: AmpDesign):
     W1, vg1 = size_for(amp.I1, amp.gm_id1)
     W2, vg2 = size_for(amp.I2, amp.gm_id2)
     W4, vg4 = size_for(amp.I4, amp.gm_id4)
-    W3, vg3 = size_for(amp.I3, amp.gm_id3)
-    return dict(W1=W1, W2=W2, W3=W3, W4=W4, L=0.18e-6, vgs1=vg1, vgs2=vg2, vgs4=vg4,
-                Wt1=tail_width(amp.I1), Wt2=tail_width(2 * amp.I2), Wt3=tail_width(2 * amp.I3), Wt4=tail_width(amp.I4),
-                Wp2=tail_width(amp.I2p, vgs=0.9, model="pch"))
+    return dict(W1=W1, W2=W2, W4=W4, L=0.18e-6, vgs1=vg1, vgs2=vg2, vgs4=vg4,
+                Wt1=tail_width(amp.I1), Wt2=tail_width(2 * amp.I2), Wt4=tail_width(amp.I4))
 
 
 def resonator_subckt(p: RingParams):
@@ -107,13 +105,15 @@ def resonator_subckt(p: RingParams):
     return "\n".join(lines)
 
 
-def amplifier_core(p: RingParams, amp: AmpDesign, Ct, polarity):
+def amplifier_core(p: RingParams, amp: AmpDesign, Ct, polarity, Ct2=None):
     """Sustaining amplifier.  Inputs: port-2 nodes p2/n2.  Outputs: oa/ob."""
     d = device_sizes(amp)
     w0 = 2 * np.pi * p.f0
     rLin = w0 * amp.L_in / amp.Q_Lin
     rLout = w0 * amp.L_out / amp.Q_Lout
     rLt = w0 * (amp.L_t / 2) / amp.Q_t
+    rLt2 = w0 * (amp.L_t2 / 2) / amp.Q_t2
+    Ct2 = tank_cap2(amp, p) if Ct2 is None else Ct2
     # polarity: which drain feeds which stage-2 gate
     ga, gb = ("d1a", "d1b") if polarity > 0 else ("d1b", "d1a")
     return f"""
@@ -123,7 +123,6 @@ Vb1 vb1 0 {0.45 + d['vgs1']:.3f}
 Vb2 vb2 0 {0.40 + d['vgs2']:.3f}
 Vbn vbn 0 {VBN}
 Vbc vbc 0 1.30
-Vbp vbp 0 0.90
 * ---- port-2 resonating inductor (Q={amp.Q_Lin}), CENTRE-TAPPED: its tap feeds the
 * ---- CG bias current, so the tail-current-source noise is common-mode ----
 Lina p2 lina {amp.L_in/2}
@@ -145,7 +144,7 @@ Rta lta d1a {rLt}
 Ltb vdd ltb {amp.L_t/2}
 Rtb ltb d1b {rLt}
 Ct d1a d1b {Ct}
-* ---- stage 2: resistor-loaded differential pair (AC coupled) ----
+* ---- stage 2: differential pair with a second LC tank (AC coupled) ----
 Cc2a {ga} g2a 2p
 Cc2b {gb} g2b 2p
 Rb2a g2a vb2 5k
@@ -153,24 +152,14 @@ Rb2b g2b vb2 5k
 M2a d2a g2a s2 0 nch W={d['W2']:.3e} L={d['L']:.2e}
 M2b d2b g2b s2 0 nch W={d['W2']:.3e} L={d['L']:.2e}
 Mt2 s2 vbn 0 0 nch W={d['Wt2']:.3e} L=0.36e-6
-RL2a vdd d2a {amp.RL2}
-RL2b vdd d2b {amp.RL2}
-* PMOS current-source assist: carries I2p of the stage-2 bias so RL2 can be larger
-M5a d2a vbp vdd vdd pch W={d['Wp2']:.3e} L=0.36e-6
-M5b d2b vbp vdd vdd pch W={d['Wp2']:.3e} L=0.36e-6
-* ---- stage 3: second resistor-loaded differential pair ----
-Cc3a d2a g3a 2p
-Cc3b d2b g3b 2p
-Rb3a g3a vb2 5k
-Rb3b g3b vb2 5k
-M3a d3a g3a s3 0 nch W={d['W3']:.3e} L={d['L']:.2e}
-M3b d3b g3b s3 0 nch W={d['W3']:.3e} L={d['L']:.2e}
-Mt3 s3 vbn 0 0 nch W={d['Wt3']:.3e} L=0.36e-6
-RL3a vdd d3a {amp.RL3}
-RL3b vdd d3b {amp.RL3}
+Lt2a vdd lt2a {amp.L_t2/2}
+Rt2a lt2a d2a {rLt2}
+Lt2b vdd lt2b {amp.L_t2/2}
+Rt2b lt2b d2b {rLt2}
+Ct2 d2a d2b {Ct2}
 * ---- stage 4: source-follower drivers ----
-M4a vdd d3a oa 0 nch W={d['W4']:.3e} L={d['L']:.2e}
-M4b vdd d3b ob 0 nch W={d['W4']:.3e} L={d['L']:.2e}
+M4a vdd d2a oa 0 nch W={d['W4']:.3e} L={d['L']:.2e}
+M4b vdd d2b ob 0 nch W={d['W4']:.3e} L={d['L']:.2e}
 Mt4a oa vbn 0 0 nch W={d['Wt4']:.3e} L=0.36e-6
 Mt4b ob vbn 0 0 nch W={d['Wt4']:.3e} L=0.36e-6
 """
@@ -192,8 +181,12 @@ def tank_cap(amp: AmpDesign, p: RingParams, Cdev=0.25e-12):
     return max(1 / ((2 * np.pi * p.f0 * (1 + amp.tank_detune)) ** 2 * amp.L_t) - Cdev, 50e-15)
 
 
+def tank_cap2(amp: AmpDesign, p: RingParams, Cdev=0.30e-12):
+    return max(1 / ((2 * np.pi * p.f0) ** 2 * amp.L_t2) - Cdev, 50e-15)
+
+
 # --------------------------------------------------------------------------
-def netlist_openloop(p, amp, Ct, polarity):
+def netlist_openloop(p, amp, Ct, polarity, Ct2=None):
     """Loop broken at port 1: drive the resonator with a differential source
     through replica driver impedances; load the real drivers with a replica of
     port 1 (C0 || L_out || R0).  Loop gain = V(oa,ob)/V(src)."""
@@ -208,7 +201,7 @@ Esa sa 0 src 0 0.5
 Esb sb 0 src 0 -0.5
 Roa sa p1 {r_out}
 Rob sb n1 {r_out}
-{amplifier_core(p, amp, Ct, polarity)}
+{amplifier_core(p, amp, Ct, polarity, Ct2)}
 * replica of port 1 as the driver load
 Cr1 oa orx {p.C0}
 Rr1 orx ob 1m
@@ -239,20 +232,20 @@ quit
 """
 
 
-def netlist_closedloop(p, amp, Ct, polarity, tstop=40e-6, tstep=25e-12):
+def netlist_closedloop(p, amp, Ct, polarity, tstop=40e-6, tstep=20e-12, Ct2=None):
     return f"""* closed-loop transient start-up of the phononic ring oscillator
 .include {HERE/'models_180nm.lib'}
 {resonator_subckt(p)}
 Xr p1 n1 p2 n2 ring
 {port1_network(amp, p)}
-{amplifier_core(p, amp, Ct, polarity)}
+{amplifier_core(p, amp, Ct, polarity, Ct2)}
 * drivers -> port 1 (AC coupled)
 Cca oa p1 10p
 Ccb ob n1 10p
 * motional-current sense (series with chain inside Xr: use Vsm)
 * start-up kick: 1-ns current pulse into port 1
-Ikick 0 p1 pulse(0 50u 1n 10p 10p 1n 1)
-.option reltol=1e-4 abstol=1e-12 vntol=1e-7 method=gear maxord=2
+Ikick 0 p1 pulse(0 5m 1n 10p 10p 0.4n 1)
+.option reltol=1e-4 abstol=1e-14 vntol=1e-9 method=trap
 .control
 set filetype=ascii
 tran {tstep} {tstop} 0 {tstep}
@@ -285,6 +278,7 @@ def read_wrdata(path, ncols):
 def analyse_openloop(p):
     f, (mag, ph) = read_wrdata(WORK / "openloop_ac.txt", 2)
     i0 = np.argmin(abs(f - p.f0))
+    ph = np.degrees(ph)                       # ngspice ph() returns radians
     ph_u = np.unwrap(np.deg2rad(ph))
     # zero-phase crossing nearest f0
     z = np.where(np.diff(np.sign(ph_u)) != 0)[0]
@@ -366,47 +360,58 @@ def main(quick=False):
     p, amp = default_design()
     Ct = tank_cap(amp, p)
     res = {}
-    # ---- choose polarity from the open-loop phase and tune the tank to zero phase ----
-    best = None
-    for pol in (+1, -1):
-        rc, log = run(netlist_openloop(p, amp, Ct, pol), f"openloop_pol{pol:+d}")
-        if rc != 0:
-            print(log.read_text()[-2000:]); raise SystemExit("ngspice failed")
-        a = analyse_openloop(p)
-        a["polarity"] = pol
-        print("open loop", pol, a)
-        if best is None or abs(a["T0_phase_deg"]) < abs(best["T0_phase_deg"]):
-            best = a
-    pol = best["polarity"]
-    # ---- tune L_in to the actual port-2 capacitance (C0 + pads + CG/tail parasitics) ----
+    # ---- 1. L_in: tune to the actual port-2 capacitance (C0 + pads + CG/tail parasitics) ----
+    def ol(a_, Ct1, Ct2, pol):
+        run(netlist_openloop(p, a_, Ct1, pol, Ct2), "openloop_tune")
+        return analyse_openloop(p)
+    Ct2_best = tank_cap2(amp, p)
     bestL, bestT = amp.L_in, -99
     for Lin in np.linspace(0.70, 1.05, 8) * amp.L_in:
-        rc, log = run(netlist_openloop(replace(amp, L_in=Lin), p, Ct, pol) if False else netlist_openloop(p, replace(amp, L_in=Lin), Ct, pol), "openloop_lin")
-        a = analyse_openloop(p)
-        print(f"  L_in = {Lin*1e9:.1f} nH -> T0 = {a['T0_dB']:.2f} dB")
+        a = ol(replace(amp, L_in=Lin), Ct, Ct2_best, +1)
+        print(f"  L_in = {Lin*1e9:.1f} nH -> |T0| = {a['T0_dB']:.2f} dB, phase {a['T0_phase_deg']:.1f}")
         if a["T0_dB"] > bestT:
             bestT, bestL = a["T0_dB"], Lin
     amp = replace(amp, L_in=bestL)
-    rc, log = run(netlist_openloop(p, amp, Ct, pol), "openloop_lin")
-    best = analyse_openloop(p); best["polarity"] = pol; best["L_in"] = bestL
-    # phase trim with the tank varactor: detune so that phase(f0) -> 0 (2 iterations)
-    Ct_trim = Ct
-    for it in range(3):
-        ph = best["T0_phase_deg"]
-        # dphi/dCt ~ -2 Q_t * (dC/2C) ... use numeric secant on detune
-        dC = -np.tan(np.deg2rad(ph)) / amp.Q_t * Ct_trim / 2
-        Ct_trim = Ct_trim + dC
-        rc, log = run(netlist_openloop(p, amp, Ct_trim, pol), "openloop_trim")
-        best = analyse_openloop(p); best["polarity"] = pol; best["Ct"] = Ct_trim
-        print("trim", it, best)
-        if abs(best["T0_phase_deg"]) < 2:
+    # ---- 2. second tank: maximise |T0| ----
+    bestT = -99
+    for C2 in np.linspace(0.15, 1.6, 16) * tank_cap2(amp, p):
+        a = ol(amp, Ct, C2, +1)
+        print(f"  Ct2 = {C2*1e15:.0f} fF -> |T0| = {a['T0_dB']:.2f} dB, phase {a['T0_phase_deg']:.1f}")
+        if a["T0_dB"] > bestT:
+            bestT, Ct2_best = a["T0_dB"], C2
+    # ---- 3. polarity ----
+    cand = []
+    for pol in (+1, -1):
+        a = ol(amp, Ct, Ct2_best, pol); a["polarity"] = pol; cand.append(a)
+        print("  polarity", pol, a)
+    best = min(cand, key=lambda a: abs(a["T0_phase_deg"]))
+    pol = best["polarity"]
+    # ---- 4. phase trim with the stage-1 tank varactor: scan then secant ----
+    Ct_trim, bestph = Ct, 999
+    for C1 in np.linspace(0.6, 1.5, 10) * Ct:
+        a = ol(amp, C1, Ct2_best, pol)
+        if abs(a["T0_phase_deg"]) < abs(bestph) and a["T0_dB"] > 0:
+            bestph, Ct_trim, best = a["T0_phase_deg"], C1, a
+    for it in range(4):
+        if abs(best["T0_phase_deg"]) < 1.5:
             break
+        dC = 0.03 * Ct_trim
+        a2 = ol(amp, Ct_trim + dC, Ct2_best, pol)
+        slope = (a2["T0_phase_deg"] - best["T0_phase_deg"]) / dC
+        if slope == 0:
+            break
+        Ct_trim = Ct_trim - best["T0_phase_deg"] / slope
+        best = ol(amp, Ct_trim, Ct2_best, pol)
+        print("  trim", it, Ct_trim, best)
+    run(netlist_openloop(p, amp, Ct_trim, pol, Ct2_best), "openloop")      # final open-loop files
+    best = analyse_openloop(p); best["polarity"] = pol; best["Ct"] = Ct_trim; best["Ct2"] = Ct2_best; best["L_in"] = amp.L_in
+    print("final open loop:", best)
     res["openloop"] = best
     res["noise"] = analyse_noise()
     print("noise:", res["noise"])
     # ---- closed loop ----
     tstop = 12e-6 if quick else 40e-6
-    rc, log = run(netlist_closedloop(p, amp, Ct_trim, pol, tstop=tstop), "closedloop")
+    rc, log = run(netlist_closedloop(p, amp, Ct_trim, pol, tstop=tstop, Ct2=Ct2_best), "closedloop")
     if rc != 0:
         print(log.read_text()[-2000:]); raise SystemExit("ngspice closed-loop failed")
     tr = analyse_transient(p, amp)
@@ -414,15 +419,15 @@ def main(quick=False):
     print("transient:", res["transient"])
     np.savetxt(ROOT / "paper" / "data" / "ngspice_startup_envelope.csv", np.c_[tr["env_t"], tr["env"]], delimiter=",", header="t_s,v_port1_env_V", comments="")
     np.savetxt(ROOT / "paper" / "data" / "ngspice_steady_state.csv", np.c_[tr["ss_t"], tr["ss_v"], tr["ss_im"]], delimiter=",", header="t_s,v_port1_V,i_motional_A", comments="")
-    res["design"] = dict(Ct=Ct_trim, polarity=pol, L_in=amp.L_in, **device_sizes(amp))
+    res["design"] = dict(Ct=Ct_trim, Ct2=Ct2_best, polarity=pol, L_in=amp.L_in, **device_sizes(amp))
     (ROOT / "results" / "ngspice_results.json").write_text(json.dumps(res, indent=2, default=float))
     # element values for the Spectre netlists
     d = device_sizes(amp); m = p.mbvd()
     (ROOT / "cadence" / "netlists" / "design_values.scs").write_text(f"""// design_values.scs -- generated by sim/ngspice_osc.py  (do not edit by hand)
 parameters f0={p.f0:.6e} Rm={m['Rm']:.6e} Lm={m['Lm']:.6e} Cm={m['Cm']:.6e} C0={p.C0:.3e} R0={p.R0:.3e} Rs={p.Rs:.3e}
 parameters Lin={amp.L_in:.4e} Lout={amp.L_out:.4e} Lt={amp.L_t:.4e} Ct={Ct_trim:.4e} QL={amp.Q_Lin}
-parameters W1={d['W1']:.3e} W2={d['W2']:.3e} W3={d['W3']:.3e} W4={d['W4']:.3e} Wp2={d['Wp2']:.3e} Wt1={d['Wt1']:.3e} Wt2={d['Wt2']:.3e} Wt3={d['Wt3']:.3e} Wt4={d['Wt4']:.3e} Lg={d['L']:.2e} RL2={amp.RL2} RL3={amp.RL3} vb1={0.45 + d['vgs1']:.3f} vb2={0.40 + d['vgs2']:.3f} vbn={VBN}
-parameters I1={amp.I1:.3e} I2={amp.I2:.3e} I2p={amp.I2p:.3e} I3={amp.I3:.3e} I4={amp.I4:.3e} vdd={amp.vdd} polarity={pol}
+parameters W1={d['W1']:.3e} W2={d['W2']:.3e} W4={d['W4']:.3e} Wt1={d['Wt1']:.3e} Wt2={d['Wt2']:.3e} Wt4={d['Wt4']:.3e} Lg={d['L']:.2e} Lt2={amp.L_t2:.4e} Ct2={Ct2_best:.4e} vb1={0.45 + d['vgs1']:.3f} vb2={0.40 + d['vgs2']:.3f} vbn={VBN}
+parameters I1={amp.I1:.3e} I2={amp.I2:.3e} I4={amp.I4:.3e} vdd={amp.vdd} polarity={pol}
 """)
     return res
 

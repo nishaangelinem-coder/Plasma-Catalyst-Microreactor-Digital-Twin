@@ -29,9 +29,9 @@ def sample_design(rng, base_p: RingParams, base_amp: AmpDesign):
                   I1=base_amp.I1 * (1 + rng.normal(0, 0.08)),
                   I2=base_amp.I2 * (1 + rng.normal(0, 0.08)),
                   I4=base_amp.I4 * (1 + rng.normal(0, 0.08)),
-                  L_in=base_amp.L_in * kL, L_out=base_amp.L_out * kL, L_t=base_amp.L_t * kL,
+                  L_in=base_amp.L_in * kL, L_out=base_amp.L_out * kL, L_t=base_amp.L_t * kL, L_t2=base_amp.L_t2 * kL,
                   Q_Lin=base_amp.Q_Lin * (1 + rng.normal(0, 0.15)),
-                  Q_t=base_amp.Q_t * (1 + rng.normal(0, 0.15)),
+                  Q_t=base_amp.Q_t * (1 + rng.normal(0, 0.15)), Q_t2=base_amp.Q_t2 * (1 + rng.normal(0, 0.15)),
                   vdd=base_amp.vdd * (1 + rng.normal(0, 0.03)))
     return p, amp
 

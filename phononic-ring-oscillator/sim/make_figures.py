@@ -75,12 +75,15 @@ def main():
         f0MHz=p.f0 / 1e6, Qi=p.Qi, Qc=p.Qc, QL=p.QL, Qe=s["Qe"], ILmeas=p.IL_meas_dB, Tdrop=-m["Tdrop_dB"], ILidt=p.IL_meas_dB + m["Tdrop_dB"],
         Rm=m["Rm"], LmH=m["Lm"] * 1e3, CmaF=m["Cm"] * 1e18, C0pF=p.C0 * 1e12, R0k=p.R0 / 1e3, Rs=p.Rs, keff=m["keff2"] * 1e6,
         FSRMHz=p.fsr / 1e6, radiusum=p.radius * 1e6, taurtns=p.tau_rt * 1e9, art=a, tcp=t, kappa2=k2 * 100, Ga0mS=p.Ga0 * 1e3, Nidt=p.N_idt,
-        Lin=amp.L_in * 1e9, Lt=amp.L_t * 1e9, QLind=amp.Q_Lin, I1=amp.I1 * 1e3, I2=amp.I2 * 1e3, I2p=amp.I2p * 1e3, I4=amp.I4 * 1e3,
-        RL2=amp.RL2, I3=amp.I3 * 1e3, RL3=amp.RL3, gm3=amp.gm3 * 1e3, Pdc=amp.P_dc * 1e3, Idc=amp.P_dc / amp.vdd * 1e3, vdd=amp.vdd, gm1=amp.gm1 * 1e3, gm2=amp.gm2 * 1e3, gm4=amp.gm4 * 1e3,
+        Lin=amp.L_in * 1e9, Lt=amp.L_t * 1e9, QLind=amp.Q_Lin, I1=amp.I1 * 1e3, I2=amp.I2 * 1e3, I4=amp.I4 * 1e3,
+        Lttwo=amp.L_t2 * 1e9, Rptanktwo=amp.Rp_tank2, Pdc=amp.P_dc * 1e3, Idc=amp.P_dc / amp.vdd * 1e3, vdd=amp.vdd, gm1=amp.gm1 * 1e3, gm2=amp.gm2 * 1e3, gm4=amp.gm4 * 1e3,
         ZTideal=s_ideal["ZT0"], ZTeff=s["ZT0"], T0ideal=s_ideal["T0_dB"], T0=s["T0_dB"], kimpl=20 * np.log10(k_impl), trim=amp.phase_trim_deg,
         Rext=s["Rext"], Fmodel=nf_model["F_dB"], Fused=F_used_dB, Ps=ps["P_dBm"], Vport1=ps["V_port1"],
     ))
     numbers["Rptank"] = amp.Rp_tank
+    numbers["taug"] = 2 * p.QL / p.w0 * 1e6
+    numbers["Zin"] = amp.Zin_diff
+    numbers["maz"] = p.m_az
     for k, v in nf_model["parts_rel"].items():
         numbers[f"Fpart{k.replace('_', '')}"] = 10 * np.log10(v) if v > 0 else -99
     lb = loop_loss_budget(p, amp); numbers.update(loopLoss=lb["loop_loss_dB"], loopLossNoL=lb["loop_loss_noL_dB"])
@@ -129,7 +132,7 @@ def main():
     print("fig loop gain")
     f_n = np.linspace(p.f0 - 400e3, p.f0 + 400e3, 8001)
     T_n = loop_gain(p, amp, f_n)
-    fig, ax = plt.subplots(1, 2, figsize=(W2, 2.4))
+    fig, ax = plt.subplots(1, 2, figsize=(W2, 2.4)); fig.subplots_adjust(wspace=0.55)
     ax[0].plot((f_n - p.f0) / 1e3, 20 * np.log10(abs(T_n)), color=C["blue"], label="model (calibrated)")
     axp = ax[0].twinx(); axp.plot((f_n - p.f0) / 1e3, np.degrees(np.angle(T_n)), color=C["green"], ls=":"); axp.set_ylim(-180, 180)
     axp.set_ylabel("loop phase (deg)", color=C["green"]); axp.grid(False); axp.spines["top"].set_visible(False)
@@ -139,14 +142,15 @@ def main():
         axp.plot((d[:, 0] - p.f0) / 1e3, d[:, 3], color=C["orange"], ls="--", lw=0.8)
     if cad and "stb_loopgain" in cad:
         dd = np.array(cad["stb_loopgain"]); ax[0].plot((dd[:, 0] - p.f0) / 1e3, dd[:, 1], color=C["purple"], ls="-.", label="Spectre stb")
-    ax[0].axhline(0, color=C["mute"], lw=0.8); ax[0].set(xlabel="$f - f_0$ (kHz)", ylabel="$|T|$ (dB)", ylim=(-30, 15)); ax[0].legend(loc="lower left")
+    ymax = 20 * np.log10(abs(T_n)).max() + 5
+    ax[0].axhline(0, color=C["mute"], lw=0.8); ax[0].set(xlabel="$f - f_0$ (kHz)", ylabel="$|T|$ (dB)", ylim=(-30, ymax)); ax[0].legend(loc="lower left")
     ax[0].text(0.02, 0.95, "(a)", transform=ax[0].transAxes, va="top")
     f_c, T_c, rows = mode_selection(p, amp)
     ax[1].plot((f_c - p.f0) / 1e6, 20 * np.log10(abs(T_c)), color=C["blue"], lw=0.8)
     ok = [r for r in rows if r["phase_ok"]]; bad = [r for r in rows if not r["phase_ok"] and r["T_dB"] > -20]
     ax[1].plot([(r["f"] - p.f0) / 1e6 for r in ok], [r["T_dB"] for r in ok], "o", color=C["verm"], ms=4, label="phase condition met")
     ax[1].plot([(r["f"] - p.f0) / 1e6 for r in bad], [r["T_dB"] for r in bad], "x", color=C["mute"], ms=4, label="phase condition fails ($\\pm 180^\\circ$)")
-    ax[1].axhline(0, color=C["mute"], lw=0.8); ax[1].set(xlabel="$f - f_0$ (MHz)", ylabel="$|T|$ at comb modes (dB)", ylim=(-40, 15), xlim=(-45, 45))
+    ax[1].axhline(0, color=C["mute"], lw=0.8); ax[1].set(xlabel="$f - f_0$ (MHz)", ylabel="$|T|$ at comb modes (dB)", ylim=(-40, ymax), xlim=(-45, 45))
     ax[1].legend(loc="lower center"); ax[1].text(0.02, 0.95, "(b)", transform=ax[1].transAxes, va="top")
     savefig(fig, "fig_loopgain")
     comp = sorted([r for r in ok if r["k"] != 0], key=lambda r: r["margin_dB"])
@@ -198,13 +202,13 @@ def main():
         numbers.update(ngT0=ng["openloop"]["T0_dB"], ngPhase=ng["openloop"]["T0_phase_deg"], ngFosc=tr["f_osc"] / 1e6,
                        ngDf=(tr["f_osc"] - p.f0) / 1e3, ngVp1=tr["v_port1_peak_ss"], ngIm=tr["Im_peak"] * 1e3, ngPrm=tr["P_Rm_dBm"],
                        ngTstart=tr["t_startup_90"] * 1e6, ngHD2=tr["hd2_dBc"], ngHD3=tr["hd3_dBc"], ngTHD=tr["thd_pct"],
-                       ngF=ng["noise"].get("F_dB", float("nan")), ngCt=ng["design"]["Ct"] * 1e15)
+                       ngF=ng["noise"].get("F_dB", float("nan")), ngCt=ng["design"]["Ct"] * 1e15, ngCttwo=ng["design"]["Ct2"] * 1e15, ngLin=ng["design"]["L_in"] * 1e9)
 
     # ======================= Fig: phase noise ==========================================
     print("fig phase noise")
     fm = np.logspace(2, 7, 501)
     Qe, F_lin, P = s["Qe"], 10 ** (F_used_dB / 10), ps["P_W"]
-    fig, ax = plt.subplots(figsize=(W1, 2.6))
+    fig, ax = plt.subplots(figsize=(W1, 3.4))
     for fc, col, ls in [(10e3, C["sky"], ":"), (30e3, C["blue"], "-"), (100e3, C["purple"], "--")]:
         L = leeson(fm, p.f0, Qe, F_lin, P, fc)
         ax.plot(fm, L, color=col, ls=ls, label=f"this work, $f_c$ = {fc/1e3:.0f} kHz")
@@ -217,7 +221,7 @@ def main():
     if cad and "pnoise_nominal" in cad:
         dd = np.array(cad["pnoise_nominal"]); ax.plot(dd[:, 0], dd[:, 1], "-", color=C["verm"], lw=1.6, label="Spectre Pnoise")
     ax.set(xscale="log", xlabel="offset frequency (Hz)", ylabel="$\\mathcal{L}(\\Delta f)$ (dBc/Hz)", ylim=(-175, -70), xlim=(1e2, 1e7))
-    ax.legend(loc="upper right", fontsize=5.8, ncol=1)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), fontsize=6, ncol=2)
     savefig(fig, "fig_phase_noise")
     for fc in (10e3, 30e3, 100e3):
         L = leeson(np.array([1e3, 10e3, 100e3, 1e6]), p.f0, Qe, F_lin, P, fc)
@@ -241,7 +245,7 @@ def main():
     fig, ax = plt.subplots(1, 2, figsize=(W2, 2.2))
     Qs = np.array([3, 5, 8, 12, 20, 30, 50]); pn100 = []; pn1k = []; Fl = []
     for Q in Qs:
-        a2 = replace(amp, Q_Lin=Q, Q_Lout=Q, Q_t=Q)
+        a2 = replace(amp, Q_Lin=Q, Q_Lout=Q, Q_t=Q, Q_t2=Q)
         a2, _ = auto_phase_trim(p, a2)
         nf = loop_noise_factor(p, a2); Fl.append(nf["F_dB"])
         L, _ = oscillator_phase_noise(p, a2, np.array([1e3, 100e3]), fc_eff=30e3)
@@ -315,8 +319,12 @@ def main():
     # ======================= numbers.tex ===============================================
     def fmt(v):
         if isinstance(v, (int, np.integer)): return str(v)
-        if isinstance(v, float) and (abs(v) >= 1000 or (abs(v) < 0.01 and v != 0)): return f"{v:.4g}"
-        return f"{v:.2f}" if isinstance(v, float) else str(v)
+        if isinstance(v, (float, np.floating)):
+            if abs(v) >= 1000: return f"{v:,.0f}"
+            if abs(v) < 0.01 and v != 0:
+                m, e = f"{v:.2e}".split("e"); return f"{m}\\times10^{{{int(e)}}}"
+            return f"{v:.2f}"
+        return str(v)
     with open(ROOT / "paper" / "numbers.tex", "w") as fh:
         fh.write("% auto-generated by sim/make_figures.py -- do not edit\n")
         D = {"0": "zero", "1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "nine"}

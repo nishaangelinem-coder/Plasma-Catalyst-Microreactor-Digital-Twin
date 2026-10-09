@@ -42,12 +42,10 @@ class AmpDesign:
     I1: float = 3.0e-3;  gm_id1: float = 10.0
     L_t: float = 60e-9;  Q_t: float = 8.0;  tank_detune: float = 0.0   # differential tank L, Q, (f_t-f0)/f0
     C_t_par: float = 0.35e-12                        # parasitic + varactor capacitance (differential)
-    # ---- stage 2: resistor-loaded differential pair ----
-    I2: float = 3.0e-3;  gm_id2: float = 10.0;  RL2: float = 500.0;  fp2: float = 3.0e9
-    I2p: float = 2.0e-3;  ro_p: float = 3.0e3            # PMOS current-source assist (DC) and its r_o (AC load)
+    # ---- stage 2: differential pair with a second LC tank (zero phase at resonance) ----
+    I2: float = 3.0e-3;  gm_id2: float = 10.0
+    L_t2: float = 40e-9;  Q_t2: float = 8.0;  tank2_detune: float = 0.0
     k_impl: float = 1.0                                   # implementation factor on Z_T (calibrated from transistor-level sim)
-    # ---- stage 3: second resistor-loaded differential pair ----
-    I3: float = 2.0e-3;  gm_id3: float = 10.0;  RL3: float = 200.0;  fp3: float = 3.0e9
     # ---- stage 4: source-follower drivers ----
     I4: float = 2.0e-3;  gm_id4: float = 10.0;  fp4: float = 5.0e9
     # ---- misc ----
@@ -61,38 +59,37 @@ class AmpDesign:
     @property
     def gm2(self): return self.gm_id2 * self.I2
     @property
-    def gm3(self): return self.gm_id3 * self.I3
-    @property
     def gm4(self): return self.gm_id4 * self.I4
     @property
     def Zin_diff(self): return 2.0 / self.gm1
     @property
     def Zout_diff(self): return 2.0 / self.gm4
     @property
-    def A2(self): return self.gm2 * (self.RL2 * self.ro_p / (self.RL2 + self.ro_p))
+    def Rp_tank2(self): return self.Q_t2 * 2 * np.pi * 1.00115e9 * self.L_t2
     @property
-    def A3(self): return self.gm3 * self.RL3
+    def A2(self): return self.gm2 * self.Rp_tank2
     @property
     def A4(self): return 0.85
     @property
-    def P_dc(self): return self.vdd * 2 * (self.I1 + self.I2 + self.I3 + self.I4)
+    def P_dc(self): return self.vdd * 2 * (self.I1 + self.I2 + self.I4)
     @property
     def Rp_tank(self): return self.Q_t * 2 * np.pi * 1.00115e9 * self.L_t
 
-    def Z_tank(self, f, f0):
+    def Z_tank(self, f, f0, which=1):
         """Differential parallel-RLC tank tuned to f0*(1+detune)."""
         f = np.asarray(f, float)
         w = 2 * np.pi * f
-        ft = f0 * (1 + self.tank_detune)
-        Ct = 1 / ((2 * np.pi * ft) ** 2 * self.L_t)
-        Rp = self.Q_t * 2 * np.pi * ft * self.L_t
-        Y = 1 / Rp + 1j * w * Ct + 1 / (1j * w * self.L_t)
+        L, Q, det = (self.L_t, self.Q_t, self.tank_detune) if which == 1 else (self.L_t2, self.Q_t2, self.tank2_detune)
+        ft = f0 * (1 + det)
+        Ct = 1 / ((2 * np.pi * ft) ** 2 * L)
+        Rp = Q * 2 * np.pi * ft * L
+        Y = 1 / Rp + 1j * w * Ct + 1 / (1j * w * L)
         return 1 / Y
 
     def ZT(self, f, f0):
         """Differential transimpedance V_out,diff / I_in,diff of the chain."""
         f = np.asarray(f, float)
-        H = self.k_impl * self.Z_tank(f, f0) * self.A2 / (1 + 1j * f / self.fp2) * self.A3 / (1 + 1j * f / self.fp3) * self.A4 / (1 + 1j * f / self.fp4)
+        H = self.k_impl * self.Z_tank(f, f0) * self.gm2 * self.Z_tank(f, f0, 2) * self.A4 / (1 + 1j * f / self.fp4)
         return self.polarity * H * np.exp(1j * np.deg2rad(self.phase_trim_deg))
 
 
@@ -164,7 +161,7 @@ def loop_gain_summary(p: RingParams, amp: AmpDesign):
     return dict(T0_mag=abs(T0), T0_dB=20 * np.log10(abs(T0)), T0_phase_deg=np.degrees(np.angle(T0)),
                 Rext=Rext, Qe=Qe, ZT0=abs(amp.ZT(np.array([p.f0]), p.f0)[0]), Rp_tank=amp.Rp_tank,
                 P_dc_mW=amp.P_dc * 1e3, I_dc_mA=amp.P_dc / amp.vdd * 1e3,
-                gm1_mS=amp.gm1 * 1e3, gm2_mS=amp.gm2 * 1e3, gm3_mS=amp.gm3 * 1e3, gm4_mS=amp.gm4 * 1e3,
+                gm1_mS=amp.gm1 * 1e3, gm2_mS=amp.gm2 * 1e3, gm4_mS=amp.gm4 * 1e3,
                 polarity=amp.polarity, phase_trim_deg=amp.phase_trim_deg)
 
 
@@ -234,7 +231,7 @@ def loop_noise_factor(p: RingParams, amp: AmpDesign, f=None):
     S_cg = 4 * kB * T_K * GAMMA * abs(Ysrc + 0.0) ** 2 / gm_d        # CG channel noise referred to input
     ZT1 = abs(amp.Z_tank(f, p.f0)[0])
     S_tank = 4 * kB * T_K / ZT1 / div                                 # tank loss, input-referred
-    v_n2 = 2 * 4 * kB * T_K * (GAMMA / amp.gm2 + (1 / amp.RL2 + GAMMA * amp.I2p * 10.0) / amp.gm2 ** 2)
+    v_n2 = 2 * 4 * kB * T_K * (GAMMA / amp.gm2 + 1 / (amp.gm2 ** 2 * amp.Rp_tank2))
     S_st2 = v_n2 / ZT1 ** 2 / div
     parts = dict(Rm=S_ref, res_other=S_res - S_ref, L_in=S_lin, driver=S_drv_x, CG=S_cg, tank=S_tank, stage2=S_st2)
     tot = sum(parts.values())
