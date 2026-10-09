@@ -1,0 +1,39 @@
+Csh=3 Csw=1 W=200 Cpar=0.5 fm=10: f_op=965.0 IL=5.43 ISO=29.8 RL=7.2 cost=7.05
+Csh=3 Csw=1 W=200 Cpar=0.5 fm=20: f_op=964.5 IL=4.06 ISO=16.8 RL=12.2 cost=8.57
+Csh=3 Csw=1 W=1000 Cpar=0.0 fm=20: f_op=974.0 IL=4.75 ISO=37.6 RL=7.6 cost=6.22
+Csh=3 Csw=2 W=200 Cpar=0.5 fm=35: f_op=960.0 IL=3.55 ISO=19.6 RL=12.0 cost=7.26
+Csh=3 Csw=2 W=500 Cpar=0.0 fm=60: f_op=972.5 IL=5.23 ISO=26.2 RL=6.0 cost=8.19
+Csh=3 Csw=2 W=500 Cpar=0.5 fm=10: f_op=958.0 IL=5.75 ISO=34.2 RL=6.5 cost=7.45
+Csh=3 Csw=2 W=500 Cpar=0.5 fm=20: f_op=957.0 IL=3.56 ISO=21.3 RL=11.3 cost=6.90
+Csh=3 Csw=2 W=500 Cpar=0.5 fm=35: f_op=957.0 IL=3.29 ISO=12.9 RL=17.7 cost=8.41
+Csh=3 Csw=2 W=1000 Cpar=0.0 fm=35: f_op=965.5 IL=3.69 ISO=36.1 RL=9.1 cost=4.88
+Csh=3 Csw=2 W=1000 Cpar=0.0 fm=60: f_op=965.5 IL=3.67 ISO=15.9 RL=14.1 cost=8.09
+Csh=3 Csw=2 W=1000 Cpar=0.5 fm=20: f_op=954.0 IL=3.40 ISO=12.1 RL=18.6 cost=8.76
+Csh=3 Csw=4 W=200 Cpar=0.5 fm=60: f_op=956.5 IL=3.46 ISO=18.5 RL=12.9 cost=7.33
+Csh=3 Csw=4 W=500 Cpar=0.5 fm=35: f_op=952.5 IL=3.12 ISO=22.5 RL=11.6 cost=6.05
+Csh=3 Csw=4 W=500 Cpar=0.5 fm=60: f_op=952.5 IL=3.14 ISO=13.0 RL=17.0 cost=8.25
+Csh=3 Csw=4 W=1000 Cpar=0.0 fm=60: f_op=959.0 IL=3.35 ISO=26.6 RL=10.5 cost=5.28
+Csh=3 Csw=4 W=1000 Cpar=0.5 fm=10: f_op=950.0 IL=5.74 ISO=25.0 RL=7.3 cost=8.77
+Csh=3 Csw=4 W=1000 Cpar=0.5 fm=20: f_op=949.0 IL=3.42 ISO=19.5 RL=12.3 cost=7.11
+Csh=3 Csw=4 W=1000 Cpar=0.5 fm=35: f_op=948.5 IL=2.97 ISO=12.6 RL=16.6 cost=8.19
+Csh=6 Csw=2 W=200 Cpar=0.5 fm=60: f_op=959.5 IL=5.39 ISO=26.8 RL=7.5 cost=7.86
+Csh=6 Csw=2 W=500 Cpar=0.5 fm=35: f_op=956.5 IL=4.63 ISO=46.8 RL=7.6 cost=6.11
+Csh=6 Csw=2 W=1000 Cpar=0.0 fm=60: f_op=965.0 IL=5.70 ISO=30.7 RL=5.8 cost=7.54
+Csh=6 Csw=2 W=1000 Cpar=0.5 fm=20: f_op=953.5 IL=4.45 ISO=39.5 RL=8.1 cost=5.83
+Csh=6 Csw=2 W=1000 Cpar=0.5 fm=35: f_op=953.5 IL=4.27 ISO=16.4 RL=12.4 cost=8.88
+Csh=6 Csw=4 W=200 Cpar=1.5 fm=10: f_op=941.5 IL=6.31 ISO=32.8 RL=6.0 cost=8.10
+Csh=6 Csw=4 W=200 Cpar=1.5 fm=20: f_op=941.0 IL=4.54 ISO=19.5 RL=10.2 cost=8.64
+Csh=6 Csw=4 W=500 Cpar=0.5 fm=60: f_op=952.5 IL=4.25 ISO=30.0 RL=8.2 cost=5.61
+Csh=6 Csw=4 W=500 Cpar=1.5 fm=10: f_op=940.0 IL=5.28 ISO=26.4 RL=7.7 cost=7.82
+Csh=6 Csw=4 W=500 Cpar=1.5 fm=20: f_op=940.0 IL=3.92 ISO=15.9 RL=13.7 cost=8.42
+Csh=6 Csw=4 W=1000 Cpar=0.5 fm=60: f_op=948.5 IL=3.77 ISO=16.9 RL=13.4 cost=8.02
+Csh=10 Csw=2 W=500 Cpar=1.5 fm=10: f_op=941.5 IL=6.91 ISO=41.8 RL=5.3 cost=8.84
+Csh=10 Csw=4 W=1000 Cpar=0.5 fm=60: f_op=947.0 IL=6.17 ISO=27.2 RL=5.2 cost=8.97
+Csh=10 Csw=4 W=1000 Cpar=1.5 fm=20: f_op=936.5 IL=5.34 ISO=29.1 RL=7.4 cost=7.13
+TOP5
+{'Csh': 0.0, 'Csw': 0.0, 'W': 1000.0, 'Cpar': 0.0, 'fm': 35000000.0, 'f_op': 965500000.0, 'IL': 3.689, 'ISO': 36.119, 'RL': 9.066, 'cost': 4.875, 'sense': -1.0, 'Qm': 500.0}
+{'Csh': 0.0, 'Csw': 0.0, 'W': 1000.0, 'Cpar': 0.0, 'fm': 60000000.0, 'f_op': 959000000.0, 'IL': 3.354, 'ISO': 26.562, 'RL': 10.545, 'cost': 5.276, 'sense': -1.0, 'Qm': 500.0}
+{'Csh': 0.0, 'Csw': 0.0, 'W': 500.0, 'Cpar': 0.0, 'fm': 60000000.0, 'f_op': 952500000.0, 'IL': 4.245, 'ISO': 30.042, 'RL': 8.156, 'cost': 5.614, 'sense': -1.0, 'Qm': 500.0}
+{'Csh': 0.0, 'Csw': 0.0, 'W': 1000.0, 'Cpar': 0.0, 'fm': 20000000.0, 'f_op': 953500000.0, 'IL': 4.45, 'ISO': 39.456, 'RL': 8.076, 'cost': 5.834, 'sense': -1.0, 'Qm': 500.0}
+{'Csh': 0.0, 'Csw': 0.0, 'W': 500.0, 'Cpar': 0.0, 'fm': 35000000.0, 'f_op': 952500000.0, 'IL': 3.123, 'ISO': 22.499, 'RL': 11.641, 'cost': 6.046, 'sense': -1.0, 'Qm': 500.0}
+time 406.72476959228516

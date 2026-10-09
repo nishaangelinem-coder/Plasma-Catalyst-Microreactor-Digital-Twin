@@ -1,0 +1,55 @@
+// STM acoustic circulator - series-mode resonant junction core (Spectre)
+// Auto-generated from results/design_final.json. Units SI. Direction = -1 (phase order of the pumps).
+simulator lang=spectre
+global 0
+parameters fm=4.000000e+07 frf=1.0e9 vdd=1.2 prf=-20 \
+    Csh=3.9105e-12 Csw=7.7785e-12 Cpar=0.0000e+00 Wsw=1865.1u \
+    Rs=0.5 R0=0.3 C0=1.2000e-12 Rm=1.11687 Lm=9.355421e-08 Cm=3.0000e-13
+
+// ---- mBVD LiNbO3 resonator (two-terminal) ----
+subckt mbvd (a b)
+  Rs (a ri) resistor r=Rs
+  R0 (ri c0) resistor r=R0
+  C0 (c0 b) capacitor c=C0
+  Rm (ri m1) resistor r=Rm
+  Lm (m1 m2) inductor l=Lm
+  Cm (m2 b) capacitor c=Cm
+ends mbvd
+
+// ---- three-phase ideal square-wave pump on the switch gates (0 / 120 / 240 deg) ----
+Vg0 (vg0 0) vsource type=pulse val0=0 val1=vdd period=1/fm width=0.5/fm rise=60p fall=60p delay=0.75/fm
+Vg1 (vg1 0) vsource type=pulse val0=0 val1=vdd period=1/fm width=0.5/fm rise=60p fall=60p delay=0.75/fm+2/(3*fm)
+Vg2 (vg2 0) vsource type=pulse val0=0 val1=vdd period=1/fm width=0.5/fm rise=60p fall=60p delay=0.75/fm+1/(3*fm)
+Rstar (star 0) resistor r=10k
+// ---- branch 1 ----
+PORT1 (p1 0) port r=50 num=1 type=sine freq=frf dbm=prf
+Csh1 (p1 0) capacitor c=Csh
+Xres1 (p1 m1) mbvd
+Rb1 (m1 0) resistor r=50k
+Csw1 (m1 d1) capacitor c=Csw          // PDK: mimcap
+Msw1 (d1 vg0 star 0) nch_rf w=Wsw l=65n  // wide multi-finger switch; stack 2 for higher power handling
+Rd1 (d1 0) resistor r=50k
+
+// ---- branch 2 ----
+PORT2 (p2 0) port r=50 num=2 type=sine freq=frf dbm=prf
+Csh2 (p2 0) capacitor c=Csh
+Xres2 (p2 m2) mbvd
+Rb2 (m2 0) resistor r=50k
+Csw2 (m2 d2) capacitor c=Csw          // PDK: mimcap
+Msw2 (d2 vg1 star 0) nch_rf w=Wsw l=65n  // wide multi-finger switch; stack 2 for higher power handling
+Rd2 (d2 0) resistor r=50k
+
+// ---- branch 3 ----
+PORT3 (p3 0) port r=50 num=3 type=sine freq=frf dbm=prf
+Csh3 (p3 0) capacitor c=Csh
+Xres3 (p3 m3) mbvd
+Rb3 (m3 0) resistor r=50k
+Csw3 (m3 d3) capacitor c=Csw          // PDK: mimcap
+Msw3 (d3 vg2 star 0) nch_rf w=Wsw l=65n  // wide multi-finger switch; stack 2 for higher power handling
+Rd3 (d3 0) resistor r=50k
+
+// ---- analyses ----
+pss  pss  fund=fm  harms=50  errpreset=conservative  method=gear2only  tstab=500n  maxacfreq=12G
+psp  psp  sweeptype=absolute start=0.9G stop=1.1G lin=201 ports=[PORT1 PORT2 PORT3] portharmsvec=[0 0 0] donoise=no
+// sidebands: repeat psp with portharmsvec=[1 0 0] and [-1 0 0]
+// power handling: qpss/hb with prf swept, monitor V(d1,star) across the OFF switch

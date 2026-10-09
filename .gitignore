@@ -1,3 +1,11 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+acoustic-circulator/spice/runs/
+acoustic-circulator/paper/*.aux
+acoustic-circulator/paper/*.log
+acoustic-circulator/paper/*.bbl
+acoustic-circulator/paper/*.blg
+acoustic-circulator/paper/*.out
+acoustic-circulator/sim/__pycache__/
+acoustic-circulator/tests/__pycache__/

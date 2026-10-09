@@ -1,0 +1,28 @@
+* Testbench: 3-phase clock generator + varactor drivers (standalone)
+.include cmos_blocks.lib
+.param vdd=1.2 vddm=1.0 fm=25meg
+.param tclk={1/(6*fm)}
+Vdd  vdd  0 dc {vdd}
+Vddm vddm 0 dc {vddm}
+Vclk clk 0 dc 0 pulse(0 {vdd} 0 40p 40p {tclk/2-40p} {tclk})
+Vrst rstn 0 dc 0 pulse(0 {vdd} {3.5*tclk} 50p 50p 1 2)
+Xpg clk rstn ph0 ph120 ph240 vdd 0 phasegen
+Xd0 ph0   vt0 vdd vddm 0 vdrv
+Xd1 ph120 vt1 vdd vddm 0 vdrv
+Xd2 ph240 vt2 vdd vddm 0 vdrv
+* load: decoupling MIM (10 pF) + varactor (~1.4 pF) per phase
+C0 vt0 0 11.4p
+C1 vt1 0 11.4p
+C2 vt2 0 11.4p
+.tran 20p 400n
+.control
+run
+wrdata tb_phasegen_out.txt v(clk) v(ph0) v(ph120) v(ph240) v(vt0) v(vt1) v(vt2) i(Vdd) i(Vddm)
+meas tran pvdd  AVG i(Vdd)  from=200n to=400n
+meas tran pvddm AVG i(Vddm) from=200n to=400n
+meas tran t0 WHEN v(vt0)=0.5 RISE=4
+meas tran t1 WHEN v(vt1)=0.5 RISE=4
+meas tran t2 WHEN v(vt2)=0.5 RISE=4
+meas tran tr0 TRIG v(vt0) VAL=0.1 RISE=4 TARG v(vt0) VAL=0.9 RISE=4
+.endc
+.end

@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/dist-packages/scipy/optimize/_differentialevolution.py", line 1395, in _calculate_population_energies
+    calc_energies = list(
+        self._mapwrapper(self.func, parameters_pop[0:S])
+    )
+  File "/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py", line 529, in __call__
+    return self.f(x, *self.args)
+           ~~~~~~^^^^^^^^^^^^^^^
+  File "/tmp/topo_test.py", line 52, in cost
+    IL,ISO,RL=evaluate(topo,x); return IL.mean()+0.3*np.maximum(0,30-ISO).mean()+0.2*np.maximum(0,15-RL).mean()
+              ~~~~~~~~^^^^^^^^
+  File "/tmp/topo_test.py", line 44, in evaluate
+    S=np.array([net.solve(ff,fm,K)[K] for ff in f])
+                ~~~~~~~~~^^^^^^^^^
+  File "/home/user/Plasma-Catalyst-Microreactor-Digital-Twin/acoustic-circulator/sim/ltp.py", line 108, in solve
+    lu = np.linalg.inv(Y)  # small systems; direct inverse is fine
+  File "/usr/local/lib/python3.13/dist-packages/numpy/linalg/_linalg.py", line 659, in inv
+    ainv = _umath_linalg.inv(a, signature=signature)
+  File "/usr/local/lib/python3.13/dist-packages/numpy/linalg/_linalg.py", line 144, in _raise_linalgerror_singular
+    raise LinAlgError("Singular matrix")
+numpy.linalg.LinAlgError: Singular matrix
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/topo_test.py", line 56, in <module>
+    r=differential_evolution(cost,bounds,args=(topo,),seed=1,maxiter=100,popsize=20,tol=1e-10,polish=False)
+  File "/usr/local/lib/python3.13/dist-packages/scipy/_lib/_util.py", line 306, in wrapper
+    return fun(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/scipy/optimize/_differentialevolution.py", line 533, in differential_evolution
+    ret = solver.solve()
+  File "/usr/local/lib/python3.13/dist-packages/scipy/optimize/_differentialevolution.py", line 1219, in solve
+    self._calculate_population_energies(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.population[self.feasible]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/scipy/optimize/_differentialevolution.py", line 1402, in _calculate_population_energies
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: The map-like callable must be of the form f(func, iterable), returning a sequence of numbers the same length as 'iterable'

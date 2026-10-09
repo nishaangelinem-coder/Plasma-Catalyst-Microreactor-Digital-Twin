@@ -1,0 +1,19 @@
+* Varactor C-V characterisation: small-signal capacitance vs gate-well voltage
+* Behavioural A-MOS varactor model used in the circulator (per unit cell); in Virtuoso use the PDK nmoscap_rf.
+.param cmax=2.0p cmin=0.8p v0=0.25 vs=0.22 rv=1.5
+Vg g 0 dc 0 ac 1
+Rv g a {rv}
+C1 a 0 C={cmin + (cmax-cmin)*0.5*(1+tanh((v(a)-v0)/vs))}
+.control
+let vlist = vector(31)*0.05 - 0.5
+set appendwrite
+foreach v -0.5 -0.4 -0.3 -0.2 -0.1 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+  alter Vg dc = $v
+  op
+  ac lin 1 1G 1G
+  let cap = -imag(i(Vg))/(2*pi*1e9)
+  let q = imag(v(g)/i(Vg))/real(v(g)/i(Vg))
+  print $v cap q
+end
+.endc
+.end

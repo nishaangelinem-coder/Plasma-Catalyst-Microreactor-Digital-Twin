@@ -1,0 +1,69 @@
+// STM acoustic circulator - full transistor-level testbench (Spectre)
+// Replace nmos65/pmos65 by the PDK's nch_rf/pch_rf and keep W/L; resonator and passives as in circulator_core.scs.
+simulator lang=spectre
+global 0 vdd!
+parameters vdd=1.2 fm=4.000000e+07 tclk=1/(6*fm) Wsw=1865.1u
+
+Vdd  (vdd!  0) vsource dc=vdd
+Vclk (clk 0) vsource type=pulse val0=0 val1=vdd period=tclk width=tclk/2 rise=40p fall=40p
+Vrst (rstn 0) vsource type=pulse val0=0 val1=vdd delay=3.5*tclk rise=50p fall=50p width=1 period=2
+
+subckt inv (in out vdd vss)
+  parameters wn=0.4u wp=0.8u
+  Mp (out in vdd vdd) pch_rf w=wp l=65n
+  Mn (out in vss vss) nch_rf w=wn l=65n
+ends inv
+subckt nand2 (a b out vdd vss)
+  parameters wn=0.8u wp=0.8u
+  Mpa (out a vdd vdd) pch_rf w=wp l=65n
+  Mpb (out b vdd vdd) pch_rf w=wp l=65n
+  Mna (out a x vss) nch_rf w=wn l=65n
+  Mnb (x b vss vss) nch_rf w=wn l=65n
+ends nand2
+subckt tgate (in out c cb vdd vss)
+  Mn (in c out vss) nch_rf w=0.4u l=65n
+  Mp (in cb out vdd) pch_rf w=0.4u l=65n
+ends tgate
+subckt dff_rn (d clk clkb rstn q qb vdd vss)
+  XT1 (d m1 clkb clk vdd vss) tgate
+  XI1 (m1 m2 vdd vss) inv
+  XN1 (m2 rstn m3 vdd vss) nand2
+  XT2 (m3 m1 clk clkb vdd vss) tgate
+  XT3 (m2 s1 clk clkb vdd vss) tgate
+  XI3 (s1 q vdd vss) inv
+  XI4 (q s2 vdd vss) inv
+  XT4 (s2 s1 clkb clk vdd vss) tgate
+  XI5 (q qb vdd vss) inv
+ends dff_rn
+subckt phasegen (clk rstn ph0 ph120 ph240 vdd vss)
+  XIc1 (clk ckb0 vdd vss) inv wn=0.8u wp=1.6u
+  XIc2 (ckb0 ck vdd vss) inv wn=1.6u wp=3.2u
+  XIc3 (ck ckb vdd vss) inv wn=1.6u wp=3.2u
+  XF0 (qb2 ck ckb rstn q0 qb0 vdd vss) dff_rn
+  XF1 (q0 ck ckb rstn q1 qb1 vdd vss) dff_rn
+  XF2 (q1 ck ckb rstn q2 qb2 vdd vss) dff_rn
+  XB0a (q0 n0 vdd vss) inv
+  XB0b (n0 ph0 vdd vss) inv wn=0.8u wp=1.6u
+  XB1a (q2 n1 vdd vss) inv
+  XB1b (n1 ph120 vdd vss) inv wn=0.8u wp=1.6u
+  XB2a (qb1 n2 vdd vss) inv
+  XB2b (n2 ph240 vdd vss) inv wn=0.8u wp=1.6u
+ends phasegen
+subckt vdrv (in out vdd vss)
+  XD1 (in d1 vdd vss) inv wn=0.6u wp=1.2u
+  XD2 (d1 d2 vdd vss) inv wn=1.8u wp=3.6u
+  XD3 (d2 d3 vdd vss) inv wn=5.4u wp=10.8u
+  XD4 (d3 d4 vdd vss) inv wn=16u wp=32u
+  XD5 (d4 out vdd vss) inv wn=48u wp=96u
+ends vdrv
+
+Xpg (clk rstn ph0 ph120 ph240 vdd! 0) phasegen
+Xd0 (ph0 vg0 vdd! 0) vdrv
+Xd1 (ph240 vg1 vdd! 0) vdrv
+Xd2 (ph120 vg2 vdd! 0) vdrv
+// ... branches identical to circulator_core.scs with the gates vg0..vg2 driven here ...
+include "circulator_core.scs" section=branches
+
+tran tran stop=1u errpreset=conservative
+pss pss fund=fm harms=60 errpreset=conservative tstab=500n
+psp psp sweeptype=absolute start=0.9G stop=1.1G lin=201 ports=[PORT1 PORT2 PORT3] portharmsvec=[0 0 0]

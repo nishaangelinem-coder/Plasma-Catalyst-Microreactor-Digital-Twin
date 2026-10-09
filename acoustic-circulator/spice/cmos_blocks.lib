@@ -1,0 +1,70 @@
+* ===========================================================================
+*  CMOS building blocks for the STM acoustic circulator driver (65 nm class)
+*  - inv      : static CMOS inverter (sizable)
+*  - nand2    : 2-input NAND
+*  - tgate    : transmission gate
+*  - dff_rn   : master-slave transmission-gate D flip-flop, active-low reset
+*  - phasegen : 3-stage Johnson (twisted-ring) counter, divide-by-6,
+*               outputs PH0 / PH120 / PH240 (50 % duty, 120 deg apart)
+*  - vdrv     : tapered inverter chain varactor driver on the VDDM rail
+* ===========================================================================
+.include ../models/cmos65_bsim4.lib
+
+.subckt inv in out vdd vss wn=0.4u wp=0.8u
+Mp out in vdd vdd pmos65 w={wp} l=65n
+Mn out in vss vss nmos65 w={wn} l=65n
+.ends
+
+.subckt nand2 a b out vdd vss wn=0.8u wp=0.8u
+Mpa out a vdd vdd pmos65 w={wp} l=65n
+Mpb out b vdd vdd pmos65 w={wp} l=65n
+Mna out a  x  vss nmos65 w={wn} l=65n
+Mnb x   b vss vss nmos65 w={wn} l=65n
+.ends
+
+.subckt tgate in out c cb vdd vss wn=0.4u wp=0.4u
+Mn in c  out vss nmos65 w={wn} l=65n
+Mp in cb out vdd pmos65 w={wp} l=65n
+.ends
+
+* positive-edge triggered DFF with asynchronous-in-master active-low reset
+.subckt dff_rn d clk clkb rstn q qb vdd vss
+XT1 d  m1 clkb clk vdd vss tgate
+XI1 m1 m2 vdd vss inv
+XN1 m2 rstn m3 vdd vss nand2
+XT2 m3 m1 clk clkb vdd vss tgate
+XT3 m2 s1 clk clkb vdd vss tgate
+XI3 s1 q  vdd vss inv
+XI4 q  s2 vdd vss inv
+XT4 s2 s1 clkb clk vdd vss tgate
+XI5 q  qb vdd vss inv
+.ends
+
+* 3-phase generator: clock in at 6*fm, outputs at fm
+.subckt phasegen clk rstn ph0 ph120 ph240 vdd vss
+* local clock buffering (clk / clkb with matched delay)
+XIc1 clk   ckb0 vdd vss inv wn=0.8u wp=1.6u
+XIc2 ckb0  ck   vdd vss inv wn=1.6u wp=3.2u
+XIc3 ck    ckb  vdd vss inv wn=1.6u wp=3.2u
+XIc4 ckb0  ckd  vdd vss inv wn=1.6u wp=3.2u
+* twisted ring: D0 = Qb2, D1 = Q0, D2 = Q1
+XF0 qb2 ck ckb rstn q0 qb0 vdd vss dff_rn
+XF1 q0  ck ckb rstn q1 qb1 vdd vss dff_rn
+XF2 q1  ck ckb rstn q2 qb2 vdd vss dff_rn
+* phase mapping: Q0 -> 0 deg, Q2 -> 120 deg, Qb1 -> 240 deg  (two inversions for equal delay)
+XB0a q0  n0 vdd vss inv
+XB0b n0  ph0 vdd vss inv wn=0.8u wp=1.6u
+XB1a q2  n1 vdd vss inv
+XB1b n1  ph120 vdd vss inv wn=0.8u wp=1.6u
+XB2a qb1 n2 vdd vss inv
+XB2b n2  ph240 vdd vss inv wn=0.8u wp=1.6u
+.ends
+
+* varactor driver: VDD-domain input, tapered chain on VDDM (<= VDD) rail
+.subckt vdrv in out vdd vddm vss
+XD1 in  d1 vdd  vss inv wn=0.6u  wp=1.2u
+XD2 d1  d2 vddm vss inv wn=1.8u  wp=3.6u
+XD3 d2  d3 vddm vss inv wn=5.4u  wp=10.8u
+XD4 d3  d4 vddm vss inv wn=16u   wp=32u
+XD5 d4  out vddm vss inv wn=48u  wp=96u
+.ends

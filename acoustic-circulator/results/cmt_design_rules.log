@@ -1,0 +1,15 @@
+wm/ge= 2.0: kappa/ge= -2.68 dw/ge= 2.80 f_op/ge=  2.73  IL=3.01 dB ISO=35.0 dB RL=12.0 dB
+wm/ge= 3.0: kappa/ge=  4.21 dw/ge= 3.02 f_op/ge= -4.27  IL=1.85 dB ISO=35.0 dB RL=15.1 dB
+wm/ge= 4.0: kappa/ge=  5.93 dw/ge= 3.30 f_op/ge= -5.98  IL=1.34 dB ISO=35.0 dB RL=17.7 dB
+wm/ge= 5.0: kappa/ge= -7.91 dw/ge= 3.58 f_op/ge=  7.97  IL=1.04 dB ISO=35.0 dB RL=20.0 dB
+wm/ge= 7.0: kappa/ge=-10.05 dw/ge= 4.15 f_op/ge= 10.12  IL=0.75 dB ISO=35.0 dB RL=21.6 dB
+wm/ge=10.0: kappa/ge=-12.00 dw/ge= 4.82 f_op/ge= 12.10  IL=0.53 dB ISO=35.0 dB RL=24.4 dB
+wm/ge=15.0: kappa/ge=-12.00 dw/ge= 5.59 f_op/ge= 12.28  IL=0.39 dB ISO=35.0 dB RL=25.9 dB
+best wm/ge 15 {'kappa': np.float64(-11.999998368029102), 'dw': np.float64(5.585831300949601), 'fop': np.float64(12.277859071648248), 'IL': np.float64(0.38774802549607623), 'ISO': np.float64(35.00000112180174), 'RL': np.float64(25.85032749810102)}
+gi/ge=0: sine IL=0.39 ISO=35.0 | square IL=0.40 ISO=34.2
+gi/ge=0.02: sine IL=0.56 ISO=34.3 | square IL=0.57 ISO=33.8
+gi/ge=0.05: sine IL=0.82 ISO=31.3 | square IL=0.83 ISO=31.2
+gi/ge=0.1: sine IL=1.23 ISO=27.2 | square IL=1.24 ISO=27.2
+gi/ge=0.2: sine IL=2.04 ISO=22.7 | square IL=2.05 ISO=22.8
+gi/ge=0.3: sine IL=2.80 ISO=20.4 | square IL=2.81 ISO=20.4
+gi/ge=0.5: sine IL=4.20 ISO=18.1 | square IL=4.21 ISO=18.1

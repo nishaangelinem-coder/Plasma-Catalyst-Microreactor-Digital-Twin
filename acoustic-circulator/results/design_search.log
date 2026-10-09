@@ -1,0 +1,38 @@
+{
+ "topo": "A",
+ "element": "varactor",
+ "Qm": 500.0,
+ "x": [
+  6e-12,
+  1.9638682373857816e-12,
+  0.5999999368404287,
+  9862194.853013631,
+  0.3
+ ],
+ "f_op": 978800000.0,
+ "IL": 5.29568726392979,
+ "ISO": 5.316902447327414,
+ "RL": 15.002343181013622,
+ "cost": 12.700616529731565,
+ "time_s": 434.9200232028961
+}
+{
+ "topo": "B",
+ "element": "varactor",
+ "Qm": 500.0,
+ "x": [
+  3.999999692421957e-12,
+  6e-14,
+  0.5997070579006265,
+  17584385.010166943,
+  1.4076175681940082
+ ],
+ "f_op": 1029150000.0,
+ "IL": 3.905790834554867,
+ "ISO": 12.42114135680757,
+ "RL": 14.977128065668126,
+ "cost": 9.18402281437897,
+ "time_s": 421.4872395992279
+}
+/usr/lib/python3.13/multiprocessing/resource_tracker.py:479: UserWarning: resource_tracker: There appear to be 6 leaked semaphore objects to clean up at shutdown: {'/mp-k8pi66le', '/mp-4jcutt03', '/mp-khmh5uri', '/mp-i4_hz9_m', '/mp-vlssldim', '/mp-5xbfis69'}
+  warnings.warn(
