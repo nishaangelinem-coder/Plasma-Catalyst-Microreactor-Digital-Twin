@@ -186,11 +186,12 @@ def main():
         print("fig startup")
         env = np.loadtxt(DAT / "ngspice_startup_envelope.csv", delimiter=",", skiprows=1)
         ss = np.loadtxt(DAT / "ngspice_steady_state.csv", delimiter=",", skiprows=1)
-        fig, ax = plt.subplots(1, 2, figsize=(W2, 2.2))
+        fig, ax = plt.subplots(2, 1, figsize=(W1, 4.2)); fig.subplots_adjust(hspace=0.45)
         ax[0].plot(env[:, 0] * 1e6, env[:, 1], color=C["blue"])
         tr = ng["transient"]
         ax[0].axvline(tr["t_startup_90"] * 1e6, color=C["verm"], ls="--", lw=0.8)
-        ax[0].text(tr["t_startup_90"] * 1e6 + 0.5, 0.05, f"90 % at {tr['t_startup_90']*1e6:.1f} $\\mu$s", color=C["verm"], fontsize=6.5)
+        ax[0].text(tr["t_startup_90"] * 1e6 + 0.5, 0.15, f"90 % at {tr['t_startup_90']*1e6:.2f} $\\mu$s", color=C["verm"], fontsize=6.5)
+        ax[0].set_xlim(0, 12)
         ax[0].set(xlabel="time ($\\mu$s)", ylabel="port-1 envelope (V, diff. peak)"); ax[0].text(0.02, 0.95, "(a)", transform=ax[0].transAxes, va="top")
         tt = ss[:, 0]; sel = tt > tt[-1] - 4e-9
         ax[1].plot((tt[sel] - tt[sel][0]) * 1e9, ss[sel, 1], color=C["blue"], label="$v_{p1}-v_{n1}$")
@@ -199,8 +200,8 @@ def main():
         ax[1].set(xlabel="time (ns)", ylabel="port-1 voltage (V)"); ax[1].text(0.02, 0.95, "(b)", transform=ax[1].transAxes, va="top")
         ax[1].annotate(f"$f$ = {tr['f_osc']/1e6:.3f} MHz\nHD2 = {tr['hd2_dBc']:.0f} dBc, HD3 = {tr['hd3_dBc']:.0f} dBc", xy=(0.35, 0.04), xycoords="axes fraction", fontsize=6.5)
         savefig(fig, "fig_startup")
-        numbers.update(ngT0=ng["openloop"]["T0_dB"], ngPhase=ng["openloop"]["T0_phase_deg"], ngFosc=tr["f_osc"] / 1e6,
-                       ngDf=(tr["f_osc"] - p.f0) / 1e3, ngVp1=tr["v_port1_peak_ss"], ngIm=tr["Im_peak"] * 1e3, ngPrm=tr["P_Rm_dBm"],
+        numbers.update(ngT0=ng["openloop"]["T0_dB"], ngPhase=round(ng["openloop"]["T0_phase_deg"], 2), ngFosc=tr["f_osc"] / 1e6,
+                       ngDf=tr.get("df_osc_vs_resonator", tr["f_osc"] - p.f0) / 1e3, ngWarp=tr.get("trap_warping_kHz", 0.0), ngHstep=tr.get("h_mean_ps", 20.0), ngFoscCorr=tr.get("f_osc_corrected", tr["f_osc"]) / 1e6, ngVp1=tr["v_port1_peak_ss"], ngIm=tr["Im_peak"] * 1e3, ngPrm=tr["P_Rm_dBm"],
                        ngTstart=tr["t_startup_90"] * 1e6, ngHD2=tr["hd2_dBc"], ngHD3=tr["hd3_dBc"], ngTHD=tr["thd_pct"],
                        ngF=ng["noise"].get("F_dB", float("nan")), ngCt=ng["design"]["Ct"] * 1e15, ngCttwo=ng["design"]["Ct2"] * 1e15, ngLin=ng["design"]["L_in"] * 1e9)
 

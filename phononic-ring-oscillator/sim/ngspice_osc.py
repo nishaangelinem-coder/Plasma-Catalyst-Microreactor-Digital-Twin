@@ -325,11 +325,13 @@ def analyse_noise():
 def analyse_transient(p, amp):
     ts, (vds, vos, im) = read_wrdata(WORK / "tran_ss.txt", 3)
     t, vd, vo = ts, vds, vos
-    # envelope: block maxima over 100-ns windows
-    nb = 100e-9 / (t[1] - t[0])
-    n = int(len(t) // nb)
-    env_t = t[: n * int(nb)].reshape(n, int(nb)).mean(1)
-    env = abs(vd[: n * int(nb)]).reshape(n, int(nb)).max(1)
+    # envelope: resample to a uniform 0.5-ns grid, then block maxima over 100-ns windows
+    tu = np.arange(0, t[-1], 0.1e-9)
+    vu = np.interp(tu, t, vd)
+    nb = 1000
+    n = len(tu) // nb
+    env_t = tu[: n * nb].reshape(n, nb).mean(1)
+    env = abs(vu[: n * nb]).reshape(n, nb).max(1)
     vfinal = env[-10:].mean()
     i90 = np.argmax(env > 0.9 * vfinal)
     out = dict(v_port1_peak=float(vfinal), t_startup_90=float(env_t[i90]), env_t=env_t, env=env)
@@ -341,6 +343,7 @@ def analyse_transient(p, amp):
     zc = np.where((s[:-1] < 0) & (s[1:] > 0))[0]
     tz = ts[zc] - vds[zc] * (ts[zc + 1] - ts[zc]) / (vds[zc + 1] - vds[zc])
     per = np.diff(tz)
+    per = per[abs(per - np.median(per)) < 0.2 * np.median(per)]   # drop glitch crossings
     f_osc = 1 / per.mean()
     # FFT for harmonics (window an integer number of periods)
     N = int(len(tz) - 2)
@@ -357,7 +360,7 @@ def analyse_transient(p, amp):
     out.update(f_osc=float(f_osc), f_jitter_period_ps=float(per.std() * 1e12), thd_pct=float(100 * thd),
                hd2_dBc=float(20 * np.log10(h[1] / h[0])), hd3_dBc=float(20 * np.log10(h[2] / h[0])),
                v_port1_peak_ss=float((vds.max() - vds.min()) / 2), v_out_peak=float((vos.max() - vos.min()) / 2),
-               Im_peak=float(Im_pk), P_Rm_W=float(P_rm), P_Rm_dBm=float(10 * np.log10(P_rm / 1e3)),
+               Im_peak=float(Im_pk), P_Rm_W=float(P_rm), P_Rm_dBm=float(10 * np.log10(P_rm / 1e-3)),
                ss_t=ts, ss_v=vds, ss_im=im)
     return out
 
