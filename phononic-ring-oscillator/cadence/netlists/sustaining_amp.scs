@@ -36,15 +36,19 @@ parameters polarity=-1
     Rpd  (g2y g2a) resistor r=(polarity>0 ? 1T : 1m)
     Rb2a (g2a vb2) resistor r=5k
     Rb2b (g2b vb2) resistor r=5k
-    M2a  (d2a g2a s2 gnd) nmos_1p8 w=W2 l=Lg
-    M2b  (d2b g2b s2 gnd) nmos_1p8 w=W2 l=Lg
+    M2a  (d2ai g2a s2 gnd) nmos_1p8 w=W2 l=Lg
+    M2b  (d2bi g2b s2 gnd) nmos_1p8 w=W2 l=Lg
+    M2ca (d2a vbc d2ai gnd) nmos_1p8 w=W2 l=Lg     // cascode: no Miller path between tanks
+    M2cb (d2b vbc d2bi gnd) nmos_1p8 w=W2 l=Lg
     Mt2  (s2 vbn gnd gnd) nmos_1p8 w=Wt2 l=360n
     Lt2a (vdd d2a) ind_q L=Lt2/2 Q=QL
     Lt2b (vdd d2b) ind_q L=Lt2/2 Q=QL
     Ct2  (d2a d2b) capacitor c=Ct2
     // ---------- stage 4: source-follower drivers ----------
-    M4a  (vdd d2a oa gnd) nmos_1p8 w=W4 l=Lg
-    M4b  (vdd d2b ob gnd) nmos_1p8 w=W4 l=Lg
+    Rg4a (d2a g4a) resistor r=100                  // follower stability (negative Rin)
+    Rg4b (d2b g4b) resistor r=100
+    M4a  (vdd g4a oa gnd) nmos_1p8 w=W4 l=Lg
+    M4b  (vdd g4b ob gnd) nmos_1p8 w=W4 l=Lg
     Mt4a (oa vbn gnd gnd) nmos_1p8 w=Wt4 l=360n
     Mt4b (ob vbn gnd gnd) nmos_1p8 w=Wt4 l=360n
     Cca  (oa p1) capacitor c=10p

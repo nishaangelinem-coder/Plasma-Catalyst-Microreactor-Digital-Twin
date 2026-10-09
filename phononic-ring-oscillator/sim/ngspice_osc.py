@@ -149,8 +149,11 @@ Cc2a {ga} g2a 2p
 Cc2b {gb} g2b 2p
 Rb2a g2a vb2 5k
 Rb2b g2b vb2 5k
-M2a d2a g2a s2 0 nch W={d['W2']:.3e} L={d['L']:.2e}
-M2b d2b g2b s2 0 nch W={d['W2']:.3e} L={d['L']:.2e}
+M2a d2ai g2a s2 0 nch W={d['W2']:.3e} L={d['L']:.2e}
+M2b d2bi g2b s2 0 nch W={d['W2']:.3e} L={d['L']:.2e}
+* cascode: removes the Cgd (Miller) path between the two tanks (tuned-input/tuned-output instability)
+M2ca d2a vbc d2ai 0 nch W={d['W2']:.3e} L={d['L']:.2e}
+M2cb d2b vbc d2bi 0 nch W={d['W2']:.3e} L={d['L']:.2e}
 Mt2 s2 vbn 0 0 nch W={d['Wt2']:.3e} L=0.36e-6
 Lt2a vdd lt2a {amp.L_t2/2}
 Rt2a lt2a d2a {rLt2}
@@ -158,8 +161,11 @@ Lt2b vdd lt2b {amp.L_t2/2}
 Rt2b lt2b d2b {rLt2}
 Ct2 d2a d2b {Ct2}
 * ---- stage 4: source-follower drivers ----
-M4a vdd d2a oa 0 nch W={d['W4']:.3e} L={d['L']:.2e}
-M4b vdd d2b ob 0 nch W={d['W4']:.3e} L={d['L']:.2e}
+* gate resistors de-Q the follower's negative input resistance (capacitive load + inductive gate node)
+Rg4a d2a g4a 100
+Rg4b d2b g4b 100
+M4a vdd g4a oa 0 nch W={d['W4']:.3e} L={d['L']:.2e}
+M4b vdd g4b ob 0 nch W={d['W4']:.3e} L={d['L']:.2e}
 Mt4a oa vbn 0 0 nch W={d['Wt4']:.3e} L=0.36e-6
 Mt4b ob vbn 0 0 nch W={d['Wt4']:.3e} L=0.36e-6
 """
