@@ -1,0 +1,36 @@
+// pdk_wrap.scs -- ONE-TIME EDIT: map the generic device names used by the
+// testbenches to the foundry PDK models.  Everything else in cadence/ is PDK-agnostic.
+//
+// Examples (uncomment / adapt one block):
+//   SCL 180 nm   : model names  nfet / pfet   in  $PDK/models/spectre/scl180.scs  section tt
+//   TSMC 180 nm  : nch / pch                  in  $PDK/models/spectre/toplevel.scs section tt_lib
+//   UMC 180 nm   : N_18_MM / P_18_MM          in  $PDK/models/spectre/L180_MM.scs  section tt
+simulator lang=spectre
+
+// ---- generic 1.8-V NMOS wrapper (drain gate source bulk) ----
+subckt nmos_1p8 (d g s b)
+parameters w=10u l=180n m=1
+    M0 (d g s b) nfet w=w l=l m=1     // <-- PDK NMOS model name here
+ends nmos_1p8
+
+// ---- generic 1.8-V PMOS wrapper ----
+subckt pmos_1p8 (d g s b)
+parameters w=10u l=180n m=1
+    M0 (d g s b) pfet w=w l=l m=1     // <-- PDK PMOS model name here
+ends pmos_1p8
+
+// ---- inductor wrapper: PDK spiral, EM-model (n-port), or lumped with Q ----
+// Lumped default: series r = 2*pi*f0*L/Q.  Replace by the PDK spiral p-cell for
+// post-layout accuracy (and set Q from its EM/pcell model).
+subckt ind_q (a b)
+parameters L=10n Q=8 f0=1.00115G
+    L0 (a x) inductor l=L
+    R0 (x b) resistor r=2*3.14159265*f0*L/Q
+ends ind_q
+
+// ---- MOS varactor for the tank phase trim (accumulation-mode, PDK pcell) ----
+subckt varactor_trim (a b ctl)
+parameters C0=100f Cmax=200f
+    // simplest behavioural stand-in: linear C(ctl); replace by the PDK varactor
+    C0 (a b) capacitor c=C0
+ends varactor_trim

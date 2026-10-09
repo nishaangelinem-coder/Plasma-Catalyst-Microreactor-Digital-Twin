@@ -1,0 +1,13 @@
+results/ngspice/*.txt
+results/ngspice/*.cir
+results/ngspice/*.log
+results/ngspice/check/
+results/*.log
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/figures/*.png
+__pycache__/
+sim/__pycache__/

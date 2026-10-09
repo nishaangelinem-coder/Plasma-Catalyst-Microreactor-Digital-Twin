@@ -1,0 +1,50 @@
+// ring_osc_tb.scs -- Spectre testbench: SiN-LN phononic ring oscillator
+// Analyses: transient start-up, PSS (shooting), Pnoise (pm), and a tstab check.
+// Run:  cd cadence/netlists && spectre +aps +mt=4 ring_osc_tb.scs -format psfascii -raw ../results/ring_osc_tb.raw
+simulator lang=spectre
+global 0
+include "design_values.scs"
+include "pdk_wrap.scs"
+include "sustaining_amp.scs"
+ahdl_include "../../veriloga/phononic_ring_resonator.va"
+// PDK model library (path/section set in scripts/env.sh and substituted by run_spectre.sh)
+include "$PDK_MODEL_FILE" section=$PDK_SECTION
+
+parameters temp_c=27 vdd_v=vdd res_mode=0
+
+// ---------------- resonator (Verilog-A, calibrated to Ji et al. 2026) ----------------
+Xr (p1 0 p2 0) phononic_ring_resonator mode=res_mode f0=f0 C0=C0 R0=R0 Rs=Rs \
+     Qi=22393 Qc=179680 fsr=5.7209e6 tcf=-70e-6
+// NOTE: the IDTs are floating; '0' here is the differential return of each
+// port only through the amplifier.  For a fully floating drive use the
+// four-node instance below instead and tie n1/n2 to the amplifier nodes:
+//   Xr (p1 n1 p2 n2) phononic_ring_resonator ...
+
+// ---------------- sustaining amplifier ----------------
+Vdd (vdd 0) vsource dc=vdd_v
+Xa  (p1 n1 p2 n2) sustaining_amp polarity=polarity
+// differential returns
+Rn1 (n1 0) resistor r=1m
+Rn2 (n2 0) resistor r=1m
+
+// start-up kick
+Ikick (0 p1) isource type=pulse val0=0 val1=50u delay=1n rise=10p fall=10p width=1n
+
+// ---------------- options ----------------
+opt1 options temp=temp_c tnom=27 reltol=1e-4 vabstol=1e-7 iabstol=1e-12 save=selected
+save p1 p2 n1 n2 Xa.d1a Xa.d1b Xa.oa Xa.ob Vdd:p
+
+// ---------------- analyses ----------------
+// 1. transient start-up (Q_e ~ 16.6k -> tau ~ 2.7 us; 60 us reaches steady state)
+tran1 tran stop=60u maxstep=25p errpreset=conservative method=gear2only
+
+// 2. PSS: shooting, start from the end of the transient (tstab) for fast convergence
+pss1 pss fund=f0 harms=15 tstab=60u errpreset=moderate method=shooting \
+     maxacfreq=20G saveinit=yes annotate=status
+
+// 3. Pnoise: phase-modulation noise at the resonator port, 100 Hz - 10 MHz
+pnoise1 (p1 n1) pnoise sweeptype=relative relharmnum=1 start=100 stop=10M dec=10 \
+     maxsideband=15 noisetype=pm annotate=status
+
+// 4. (optional) periodic AC / loop-gain check on the PSS operating point
+// pac1 pac start=f0-200k stop=f0+200k lin=401 maxsideband=1

@@ -1,0 +1,32 @@
+;; run_pss_pnoise.ocn -- nominal PSS + Pnoise of the phononic ring oscillator
+;; usage: ocean -nograph -replay run_pss_pnoise.ocn   (after sourcing scripts/env.sh)
+;; writes: cadence/results/pnoise_nominal.csv, cadence/results/pss_summary.csv
+simulator( 'spectre )
+design( "../netlists/ring_osc_tb.scs" )
+resultsDir( "../results/psf_nominal" )
+modelFile( list( getShellEnvVar("PDK_MODEL_FILE") getShellEnvVar("PDK_SECTION") ) )
+analysis('tran ?stop "60u" ?maxstep "25p" ?errpreset "conservative")
+analysis('pss ?fund "f0" ?harms "15" ?tstab "60u" ?errpreset "moderate" ?method "shooting" ?saveinit "yes")
+analysis('pnoise ?sweeptype "relative" ?relharmnum "1" ?start "100" ?stop "10M" ?dec "10"
+         ?maxsideband "15" ?noisetype "pm" ?p "p1" ?n "n1")
+temp( 27 )
+run()
+
+;; ---- phase noise export ----
+selectResult( 'pnoise )
+pn = phaseNoise( 1 "pss_fd" ?result "pnoise" )
+fp = outfile( "../results/pnoise_nominal.csv" "w" )
+fprintf( fp "offset_Hz,L_dBcHz\n" )
+foreach( f list(100 1e3 10e3 100e3 1e6 10e6)
+  fprintf( fp "%g,%g\n" f value( pn f ) ) )
+close( fp )
+
+;; ---- PSS summary: fundamental frequency, swing at port 1, supply current ----
+selectResult( 'pss_fd )
+vfund = value( mag( v("p1" ?result "pss_fd") - v("n1" ?result "pss_fd") ) 1 )
+idc   = value( mag( i("Vdd:p" ?result "pss_fd") ) 0 )
+fp = outfile( "../results/pss_summary.csv" "w" )
+fprintf( fp "f_osc_Hz,v_port1_peak_V,I_dc_A\n" )
+fprintf( fp "%g,%g,%g\n" getData("fund" ?result "pss_fd") 2*vfund idc )
+close( fp )
+printf("PSS/Pnoise done: see cadence/results/\n")

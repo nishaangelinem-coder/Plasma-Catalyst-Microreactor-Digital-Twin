@@ -1,0 +1,19 @@
+* Generic 180-nm bulk-CMOS BSIM3v3 model cards for open-source reproduction.
+* NOT a foundry PDK: parameters are representative of a 1.8-V, 180-nm process
+* (tox = 4.1 nm, Vth ~ 0.42 V, ft ~ 50 GHz).  Replace with the foundry library in Cadence.
+.model nch nmos level=49 version=3.3.0
++ tox=4.1e-9 nch=2.3e17 vth0=0.42 k1=0.55 k2=0.02 k3=10 dvt0=1.5 dvt1=0.4 dvt2=-0.1
++ u0=330 ua=1.0e-9 ub=2.0e-18 uc=-2e-11 vsat=1.1e5 a0=1.2 ags=0.3 b0=1e-7 b1=1e-7
++ rdsw=180 prwg=0 prwb=0 wr=1 wint=0 lint=1.5e-8 xj=1e-7 nfactor=1.4 voff=-0.1
++ eta0=0.02 etab=-0.05 dsub=0.5 pclm=1.0 pdiblc1=0.1 pdiblc2=0.01 drout=0.5 pscbe1=4e8 pscbe2=1e-5
++ cgdo=4e-10 cgso=4e-10 cgbo=1e-12 cj=1.0e-3 cjsw=2.0e-10 cjswg=3e-10 pb=0.8 mj=0.4 pbsw=0.8 mjsw=0.3
++ capmod=2 xpart=0.5 cgdl=1e-10 cgsl=1e-10 ckappa=0.6 cf=0 clc=1e-7 cle=0.6
++ noimod=2 kf=0 af=1 ef=1 noia=1e20 noib=5e4 noic=-1.4e-12 em=4.1e7
+.model pch pmos level=49 version=3.3.0
++ tox=4.1e-9 nch=4.0e17 vth0=-0.42 k1=0.6 k2=0.0 k3=10 dvt0=1.5 dvt1=0.4 dvt2=-0.1
++ u0=110 ua=1.2e-9 ub=1.5e-18 uc=-3e-11 vsat=9e4 a0=1.1 ags=0.3
++ rdsw=300 wint=0 lint=2.0e-8 xj=1e-7 nfactor=1.4 voff=-0.12
++ eta0=0.02 etab=-0.05 dsub=0.5 pclm=1.0 pdiblc1=0.1 pdiblc2=0.01 drout=0.5 pscbe1=4e8 pscbe2=1e-5
++ cgdo=3.5e-10 cgso=3.5e-10 cgbo=1e-12 cj=1.1e-3 cjsw=2.5e-10 cjswg=3e-10 pb=0.8 mj=0.4 pbsw=0.8 mjsw=0.3
++ capmod=2 xpart=0.5 cgdl=1e-10 cgsl=1e-10 ckappa=0.6 cf=0 clc=1e-7 cle=0.6
++ noimod=2 kf=0 af=1 ef=1 noia=1e20 noib=5e4 noic=-1.4e-12 em=4.1e7

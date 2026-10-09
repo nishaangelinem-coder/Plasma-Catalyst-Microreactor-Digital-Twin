@@ -1,0 +1,32 @@
+;; run_montecarlo.ocn -- resonator/inductor/supply Monte Carlo (200 runs)
+;; Transistor mismatch MC is run in ADE XL with the PDK statistical models;
+;; this script covers the dominant resonator-side variations, mirroring sim/monte_carlo.py.
+simulator( 'spectre )
+design( "../netlists/ring_osc_tb.scs" )
+resultsDir( "../results/psf_mc" )
+modelFile( list( getShellEnvVar("PDK_MODEL_FILE") getShellEnvVar("PDK_SECTION") ) )
+procedure( gauss(s) s*sqrt(-2*log(random(1.0)+1e-12))*cos(2*3.14159265*random(1.0)) )
+srandom( 1 )
+fp = outfile( "../results/mc_resonator.csv" "w" )
+fprintf( fp "run,Qi,Qc,f0_Hz,C0_F,Lscale,vdd_V,f_osc_Hz,PN_1k_dBcHz,PN_100k_dBcHz\n" )
+for( i 1 200
+  Qi = 22393*exp(gauss(0.20))  Qc = 179680*exp(gauss(0.30))
+  f0s = 1.00115e9*(1+gauss(500e-6))  C0s = 0.85e-12*(1+gauss(0.10))
+  Ls = 1+gauss(0.08)  vs = 1.8*(1+gauss(0.03))
+  desVar( "f0" f0s ) desVar( "C0" C0s ) desVar( "vdd_v" vs )
+  desVar( "Lin" 29.8e-9*Ls ) desVar( "Lout" 29.8e-9*Ls ) desVar( "Lt" 40e-9*Ls )
+  ;; Qi/Qc are instance parameters of Xr: override through netlist parameters
+  desVar( "Qi_mc" Qi ) desVar( "Qc_mc" Qc )
+  analysis('pss ?fund "f0" ?harms "15" ?tstab "60u" ?errpreset "moderate" ?method "shooting")
+  analysis('pnoise ?sweeptype "relative" ?relharmnum "1" ?start "100" ?stop "10M" ?dec "10"
+           ?maxsideband "15" ?noisetype "pm" ?p "p1" ?n "n1")
+  if( run() then
+    selectResult( 'pnoise ) pn = phaseNoise( 1 "pss_fd" ?result "pnoise" )
+    selectResult( 'pss_fd )
+    fprintf( fp "%d,%g,%g,%g,%g,%g,%g,%g,%g,%g\n" i Qi Qc f0s C0s Ls vs
+             getData("fund" ?result "pss_fd") value(pn 1e3) value(pn 100e3) )
+  else fprintf( fp "%d,%g,%g,%g,%g,%g,%g,NaN,NaN,NaN\n" i Qi Qc f0s C0s Ls vs ) )
+)
+close( fp )
+;; NOTE: add  "parameters Qi_mc=22393 Qc_mc=179680"  to ring_osc_tb.scs and use
+;; Qi=Qi_mc Qc=Qc_mc on the Xr instance when running this script.

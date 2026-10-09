@@ -1,0 +1,8 @@
+work,f0_MHz,technology,PN_1k,PN_10k,PN_100k,PN_1M,Pdc_mW,FoM_100k
+This work (model, pre-layout),1001.15,SiN-LN ring + 180-nm CMOS,-115.7,-144.1,-158.6,-160.0,36.00000000000001,223.1
+Ji et al. 2026 [SiN-LN ring, bench amp.],1001.15,SiN-LN phononic ring,,,-159.0,,,
+Shin et al. 2025 [SAW PnC edge mode],1000.00,128Y-LN SAW,,-132.5,,,,
+Otis & Rabaey 2003 [FBAR, 0.13-um CMOS],1900.00,AlN FBAR + CMOS,,,-120.0,,0.3,210.8
+Östman et al. 2006 [FBAR, SiGe],2100.00,above-IC AlN FBAR,,,,-144.1,,
+Norling et al. 2008 [TFBAR, SiGe],2000.00,monolithic AlN TFBAR,,,-125.0,,,
+100-MHz SC-cut OCXO, x10 multiplied,1000.00,quartz (scaled +20 dB),-145.0,-155.0,-160.0,,,

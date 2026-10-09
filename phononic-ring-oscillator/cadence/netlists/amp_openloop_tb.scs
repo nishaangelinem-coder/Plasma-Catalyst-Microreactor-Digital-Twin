@@ -1,0 +1,23 @@
+// amp_openloop_tb.scs -- open-loop gain (stb), noise factor and AC of the loop
+// The loop is broken with an iprobe at the TIA input (port 2), the point of
+// lowest impedance, so the stb analysis gives the true loop gain T(f).
+simulator lang=spectre
+global 0
+include "design_values.scs"
+include "pdk_wrap.scs"
+include "sustaining_amp.scs"
+ahdl_include "../../veriloga/phononic_ring_resonator.va"
+include "$PDK_MODEL_FILE" section=$PDK_SECTION
+parameters temp_c=27 vdd_v=vdd
+
+Xr  (p1 0 p2x 0) phononic_ring_resonator mode=0 f0=f0 C0=C0 R0=R0 Rs=Rs Qi=22393 Qc=179680 fsr=5.7209e6
+Iprb (p2x p2) iprobe
+Vdd (vdd 0) vsource dc=vdd_v
+Xa  (p1 n1 p2 n2) sustaining_amp polarity=polarity
+Rn1 (n1 0) resistor r=1m
+Rn2 (n2 0) resistor r=1m
+
+opt1 options temp=temp_c tnom=27
+stb1 stb probe=Iprb start=f0-60M stop=f0+60M lin=120001 annotate=status
+stbz stb probe=Iprb start=f0-400k stop=f0+400k lin=8001
+noise1 (p1 n1) noise start=f0-1k stop=f0+1k lin=3 iprobe=Iprb   // output noise at port 1 with loop open at the probe

@@ -1,0 +1,189 @@
+// ============================================================================
+//  phononic_ring_resonator.va
+//
+//  Verilog-A compact model of a two-port SiN-on-LN phononic ring resonator
+//  (IDT -> taper -> bus waveguide -> coupler -> ring -> coupler -> bus -> IDT)
+//  for CMOS sustaining-amplifier co-design.
+//
+//  Topology: "extended modified Butterworth-Van Dyke (mBVD) + delay element"
+//
+//   p1 --Rs--+-- i1                                  i2 --+--Rs-- p2
+//            |         I1 = Ym(s) (V1 - V2)               |
+//      C0 || R0        I2 = Ym(s) (V2 - V1)          C0 || R0
+//            |                                            |
+//   n1 ------+                                            +------ n2
+//
+//  The device is a TRUE FLOATING 4-TERMINAL element: each port's current
+//  returns through its own n-terminal, so the IDT bus-bars can be driven
+//  differentially by the CMOS amplifier (no common-ground assumption).
+//
+//  * C0, R0, Rs            : static IDT capacitance, dielectric loss, electrode
+//                            resistance (classic mBVD parasitics, per port).
+//  * Ym(s), mode = 0       : extended mBVD - dominant mode as a series Lm-Cm-Rm
+//                            branch DERIVED from the physical ring parameters
+//                            (f0, Qi, Qc, FSR, Ga0, eta_t) + up to 3 spurious
+//                            LCR branches.
+//  * Ym(s), mode = 1       : mBVD parasitics + DELAY ELEMENT: the ring is a
+//                            recirculating delay loop  x(t) = k*v(t-tau/2)
+//                            + t*a*x(t-tau), implemented with absdelay().
+//                            Reproduces the full mode comb (FSR = v/L), the
+//                            phase slope / group delay and the finite memory
+//                            of the ring, which a single-branch mBVD cannot.
+//                            Required for mode-selection and start-up studies.
+//  * Thermal drift         : TCF applied to f0 and FSR; optional self-heating.
+//  * Noise                 : thermal noise of all resistive elements and an
+//                            optional 1/f term on Rm (resonator flicker), so
+//                            Spectre Pnoise sees the resonator as a noise source.
+//
+//  Default parameters reproduce the measured SiN-LN ring of Ji et al.,
+//  arXiv:2603.27711 (2026): f0 = 1001.15 MHz, Q_L = 17 925, Q_i = 22 393,
+//  Q_c = 179 680, |S21(f0)| = -28.2 dB in 50 ohm.
+//  Ga0 is calibrated by sim/ring_model.py (calibrate_to_measurement).
+//
+//  Licence: MIT.  Project: PnIC-CMOS co-design (Dept. of ECE, VCET).
+// ============================================================================
+
+`include "constants.vams"
+`include "disciplines.vams"
+
+module phononic_ring_resonator(p1, n1, p2, n2);
+
+inout p1, n1, p2, n2;
+electrical p1, n1, p2, n2;
+
+// ------------------------------- parameters --------------------------------
+parameter integer mode  = 0;                       // 0: ext. mBVD   1: mBVD + delay comb
+// --- physical ring parameters ---
+parameter real f0      = 1001.15e6  from (0:inf);  // dominant mode [Hz]
+parameter real Qi      = 22393      from (0:inf);  // intrinsic Q
+parameter real Qc      = 179680     from (0:inf);  // coupling Q (each of 2 symmetric couplers)
+parameter real fsr     = 5.73e6     from (0:inf);  // free spectral range v/L [Hz]
+parameter real tcf     = -70e-6;                   // temperature coefficient [1/K]
+parameter real T0      = 300;                      // reference temperature [K]
+// --- IDT / transduction ---
+parameter real C0      = 0.85e-12   from (0:inf);  // IDT static capacitance [F]
+parameter real R0      = 2.0e3      from (0:inf);  // dielectric-loss resistance [ohm]
+parameter real Rs      = 4.0        from [0:inf);  // electrode/bus series resistance [ohm]
+parameter real Lidt    = 0.0        from [0:inf);  // bond/route inductance [H]
+parameter real Ga0     = 5.7845e-3  from (0:inf);  // IDT radiation conductance at f0 [S] (calibrated)
+parameter real eta_t   = 0.40       from (0:1];    // IDT->waveguide->ring power efficiency
+// --- optional overrides of the derived mBVD motional branch (<=0: derive) ---
+parameter real Rm_ovr  = -1;   parameter real Lm_ovr = -1;  parameter real Cm_ovr = -1;
+// --- spurious modes (Qs<=0 disables) : frequency, Q, coupling relative to main ---
+parameter real fs1 = 1005.25e6;  parameter real Qs1 = 6000;  parameter real ks1 = 0.08;
+parameter real fs2 = 993.55e6;   parameter real Qs2 = 4500;  parameter real ks2 = 0.05;
+parameter real fs3 = 0;          parameter real Qs3 = 0;     parameter real ks3 = 0;
+// --- noise ---
+parameter real kf_res  = 0.0       from [0:inf);  // resonator 1/f coefficient on Rm
+parameter real af_res  = 1.0       from (0:2];
+// --- self-heating ---
+parameter real Rth     = 0.0       from [0:inf);  // thermal resistance [K/W] (0 = off)
+parameter real tau_th  = 10e-6     from (0:inf);  // thermal time constant [s]
+
+// ------------------------------- internals ---------------------------------
+electrical i1, i2;                   // port nodes after Rs
+electrical ma, mc, md;               // main motional chain  ma-Lm-mc-Cm-md-Rm-gnd
+electrical s1a, s1c, s1d;            // spurious chains
+electrical s2a, s2c, s2d;
+electrical s3a, s3c, s3d;
+electrical d12, d21;                 // delay-loop states (ring field, fwd / rev)
+electrical th;                       // self-heating node, V(th) = delta-T [K]
+
+real w0, Tj, df_T, f0T, fsrT, tau_rt, a_rt, t_cp, kappa2, sqk, sqa;
+real Rm, Lm, Cm, QL, Gm, Tdrop;
+real Lm1, Cm1, Rm1, Lm2, Cm2, Rm2, Lm3, Cm3, Rm3, ws1, ws2, ws3;
+real v1, v2, pdis, i_main, i_s1, i_s2, i_s3, i_c12, i_c21;
+
+analog begin
+    // ---------------- derived quantities (temperature-dependent) -------------
+    Tj   = $temperature + ((Rth > 0) ? V(th) : 0.0);
+    df_T = tcf * (Tj - T0);
+    f0T  = f0  * (1.0 + df_T);
+    fsrT = fsr * (1.0 + df_T);
+    w0   = 2.0*`M_PI*f0T;
+    QL   = 1.0 / (1.0/Qi + 2.0/Qc);
+
+    tau_rt = 1.0 / fsrT;                                 // L / v
+    a_rt   = exp(-`M_PI * f0T / (Qi * fsrT));            // round-trip field attenuation
+    kappa2 = (2.0*`M_PI*f0T*tau_rt) / Qc;                // coupler power cross-coupling
+    t_cp   = sqrt(1.0 - kappa2);
+    sqk    = sqrt(kappa2);
+    sqa    = sqrt(a_rt);
+    Tdrop  = kappa2*kappa2*a_rt / pow(1.0 - t_cp*t_cp*a_rt, 2);   // drop-port power transfer
+    Gm     = Ga0 * eta_t * sqrt(Tdrop);                            // port-to-port motional conductance
+    Rm     = (Rm_ovr > 0) ? Rm_ovr : 1.0/Gm;
+    Lm     = (Lm_ovr > 0) ? Lm_ovr : QL*Rm/w0;
+    Cm     = (Cm_ovr > 0) ? Cm_ovr : 1.0/(w0*w0*Lm);
+
+    ws1 = 2*`M_PI*fs1*(1+df_T);  ws2 = 2*`M_PI*fs2*(1+df_T);  ws3 = 2*`M_PI*fs3*(1+df_T);
+    Rm1 = (Qs1 > 0) ? Rm/ks1 : 1e12;  Lm1 = (Qs1 > 0) ? Qs1*Rm1/ws1 : 1e-3;  Cm1 = (Qs1 > 0) ? 1.0/(ws1*ws1*Lm1) : 1e-15;
+    Rm2 = (Qs2 > 0) ? Rm/ks2 : 1e12;  Lm2 = (Qs2 > 0) ? Qs2*Rm2/ws2 : 1e-3;  Cm2 = (Qs2 > 0) ? 1.0/(ws2*ws2*Lm2) : 1e-15;
+    Rm3 = (Qs3 > 0) ? Rm/ks3 : 1e12;  Lm3 = (Qs3 > 0) ? Qs3*Rm3/ws3 : 1e-3;  Cm3 = (Qs3 > 0) ? 1.0/(ws3*ws3*Lm3) : 1e-15;
+
+    // ---------------- port parasitics (per port, floating) -------------------
+    V(p1, i1) <+ Rs * I(p1, i1) + Lidt * ddt(I(p1, i1)) + white_noise(4*`P_K*Tj*Rs, "Rs1");
+    V(p2, i2) <+ Rs * I(p2, i2) + Lidt * ddt(I(p2, i2)) + white_noise(4*`P_K*Tj*Rs, "Rs2");
+    I(i1, n1) <+ C0 * ddt(V(i1, n1)) + V(i1, n1)/R0 + white_noise(4*`P_K*Tj/R0, "R01");
+    I(i2, n2) <+ C0 * ddt(V(i2, n2)) + V(i2, n2)/R0 + white_noise(4*`P_K*Tj/R0, "R02");
+
+    v1 = V(i1, n1);
+    v2 = V(i2, n2);
+
+    // ---------------- dominant mode: series Lm-Cm-Rm chain -------------------
+    // The chain is driven by (v1 - v2); its current is copied into both ports.
+    // This gives Y11 = Y22 = Ym, Y12 = Y21 = -Ym with floating return paths.
+    if (mode == 0) begin
+        V(ma)     <+ v1 - v2;
+        V(ma, mc) <+ Lm * ddt(I(ma, mc));
+        I(mc, md) <+ Cm * ddt(V(mc, md));
+        V(md)     <+ Rm * I(md)
+                   + white_noise(4*`P_K*Tj*Rm, "Rm_thermal")
+                   + flicker_noise(kf_res*Rm*Rm, af_res, "Rm_flicker");
+        i_main = I(ma, mc);
+        V(d12) <+ 0.0;  V(d21) <+ 0.0;
+        i_c12 = 0.0;  i_c21 = 0.0;
+    end else begin
+        // ------------- delay element: recirculating ring loop ---------------
+        //  forward field  x12(t) = sqk * v1(t - tau/2) + t*a * x12(t - tau)
+        //  drop current   i2 = Gm/sqrt(Tdrop) * sqk*sqa * x12(t - tau/2)
+        //  (identical peak transfer Gm at f0; full FSR comb elsewhere)
+        V(d12) <+ sqk * absdelay(v1, tau_rt/2.0, tau_rt)
+                + t_cp * a_rt * absdelay(V(d12), tau_rt, tau_rt);
+        V(d21) <+ sqk * absdelay(v2, tau_rt/2.0, tau_rt)
+                + t_cp * a_rt * absdelay(V(d21), tau_rt, tau_rt);
+        i_c12 = (Gm/sqrt(Tdrop)) * sqk * sqa * absdelay(V(d12), tau_rt/2.0, tau_rt);
+        i_c21 = (Gm/sqrt(Tdrop)) * sqk * sqa * absdelay(V(d21), tau_rt/2.0, tau_rt);
+        // self-admittance through the ring (input-side through port) is
+        // dominated by C0; the drop path is the transfer term only.
+        V(ma) <+ 0.0;  V(md) <+ 0.0;  I(mc, md) <+ 0.0; V(ma, mc) <+ 0.0;
+        i_main = 0.0;
+    end
+
+    // ---------------- spurious modes (series LCR chains) ---------------------
+    V(s1a) <+ v1 - v2;  V(s1a, s1c) <+ Lm1*ddt(I(s1a, s1c));  I(s1c, s1d) <+ Cm1*ddt(V(s1c, s1d));  V(s1d) <+ Rm1*I(s1d) + white_noise(4*`P_K*Tj*Rm1, "Rs1m");
+    V(s2a) <+ v1 - v2;  V(s2a, s2c) <+ Lm2*ddt(I(s2a, s2c));  I(s2c, s2d) <+ Cm2*ddt(V(s2c, s2d));  V(s2d) <+ Rm2*I(s2d) + white_noise(4*`P_K*Tj*Rm2, "Rs2m");
+    V(s3a) <+ v1 - v2;  V(s3a, s3c) <+ Lm3*ddt(I(s3a, s3c));  I(s3c, s3d) <+ Cm3*ddt(V(s3c, s3d));  V(s3d) <+ Rm3*I(s3d) + white_noise(4*`P_K*Tj*Rm3, "Rs3m");
+    i_s1 = I(s1a, s1c);  i_s2 = I(s2a, s2c);  i_s3 = I(s3a, s3c);
+
+    // ---------------- port current injection (reciprocal) --------------------
+    // mode 0: I1 = +Ichain, I2 = -Ichain (chain driven by v1-v2)
+    // mode 1: I2 = -i_c12 (from v1), I1 = -i_c21 (from v2)
+    I(i1, n1) <+ i_main + i_s1 + i_s2 + i_s3 - i_c21;
+    I(i2, n2) <+ -(i_main + i_s1 + i_s2 + i_s3) - i_c12;
+
+    // ---------------- self-heating -------------------------------------------
+    pdis = (mode == 0) ? Rm * i_main * i_main : Rm * i_c12 * i_c12;
+    if (Rth > 0)
+        I(th) <+ V(th)/Rth + (tau_th/Rth)*ddt(V(th)) - pdis;
+    else
+        V(th) <+ 0.0;
+
+    // ---------------- report derived values once ----------------------------
+    @(initial_step) begin
+        $strobe("phononic_ring_resonator: f0=%g Hz QL=%g Qi=%g Qc=%g FSR=%g Hz mode=%d", f0T, QL, Qi, Qc, fsrT, mode);
+        $strobe("phononic_ring_resonator: derived mBVD Rm=%g ohm Lm=%g H Cm=%g F C0=%g F keff2=%g Tdrop=%g dB",
+                Rm, Lm, Cm, C0, Cm/C0, 10*log(Tdrop)/log(10));
+        $strobe("phononic_ring_resonator: ring loop tau_rt=%g s a=%g t=%g kappa2=%g", tau_rt, a_rt, t_cp, kappa2);
+    end
+end
+endmodule

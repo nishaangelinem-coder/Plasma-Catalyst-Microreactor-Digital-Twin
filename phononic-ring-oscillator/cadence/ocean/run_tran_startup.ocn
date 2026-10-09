@@ -1,0 +1,12 @@
+;; run_tran_startup.ocn -- transient start-up, writes envelope and steady-state window
+simulator( 'spectre )
+design( "../netlists/ring_osc_tb.scs" )
+resultsDir( "../results/psf_tran" )
+modelFile( list( getShellEnvVar("PDK_MODEL_FILE") getShellEnvVar("PDK_SECTION") ) )
+analysis('tran ?stop "60u" ?maxstep "25p" ?errpreset "conservative")
+run()
+selectResult( 'tran )
+vd = v("p1") - v("n1")
+ocnPrint( ?output "../results/tran_port1.csv" ?numberNotation 'scientific vd )
+printf( "steady-state frequency (last 2 us): %g Hz\n" frequency( clip( vd 58u 60u ) ) )
+printf( "swing (last 2 us): %g V peak\n" ymax( clip( vd 58u 60u ) ) )
