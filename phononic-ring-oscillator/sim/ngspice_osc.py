@@ -410,7 +410,7 @@ def main(quick=False):
     res["noise"] = analyse_noise()
     print("noise:", res["noise"])
     # ---- closed loop ----
-    tstop = 12e-6 if quick else 40e-6
+    tstop = 12e-6 if quick else 32e-6
     rc, log = run(netlist_closedloop(p, amp, Ct_trim, pol, tstop=tstop, Ct2=Ct2_best), "closedloop")
     if rc != 0:
         print(log.read_text()[-2000:]); raise SystemExit("ngspice closed-loop failed")
