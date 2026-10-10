@@ -42,3 +42,12 @@ figures/         publication figures (300 dpi PNG)
 docs/            RESEARCH_REPORT.md
 tests/           unit tests
 ```
+
+
+## Second study in this repository: photon-to-phonon neonatal brain monitor
+
+`neonatal_photoacoustic_monitor/` contains an independent, fully reproducible in-silico
+design study of a wearable / bedside **photoacoustic monitor of neonatal cerebral
+venous oxygenation and brain temperature** (transfontanelle, superior sagittal sinus),
+with its own package (`p2pneo`), experiments, results, figures and the full paper in
+`neonatal_photoacoustic_monitor/docs/`. See its README for details.

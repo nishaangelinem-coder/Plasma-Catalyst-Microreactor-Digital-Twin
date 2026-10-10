@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+neonatal_photoacoustic_monitor/results/fluence_table_smoke.npz
+neonatal_photoacoustic_monitor/results/*.log
+neonatal_photoacoustic_monitor/docs/*.docx
