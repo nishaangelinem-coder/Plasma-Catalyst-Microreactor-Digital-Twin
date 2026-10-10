@@ -18,6 +18,10 @@ LAYER_COL = {"scalp": "#f5cba7", "fontanelle": "#d7bde2", "bone": "#d5d8dc", "cs
 
 
 def save(fig, name):
+    try:
+        fig.tight_layout()
+    except Exception:
+        pass
     fig.savefig(os.path.join(FIG, name), bbox_inches="tight"); plt.close(fig); print("wrote", name)
 
 
@@ -86,9 +90,10 @@ def fig1():
     a.set_xticks(range(3)); a.set_xticklabels(srcs); a.set_yscale("log"); a.axhline(10, color="k", ls="--", lw=0.8)
     a.set_ylabel("sinus-gate SNR, 10-s frame"); a.set_title("(c) Source/transducer SNR at 0.1 W/cm² thermal cap"); a.legend()
     a = ax[1, 1]
-    best = pd.concat([E1c[E1c.K == k].head(3) for k in (2, 3, 4)])
-    a.barh(range(len(best)), best.crlb_so2 * 100, color=["#95a5a6"] * 3 + ["#5dade2"] * 3 + ["#c0392b"] * 3)
-    a.set_yticks(range(len(best))); a.set_yticklabels(best.wavelengths); a.invert_yaxis()
+    chosen = "/".join(map(str, common.DEFAULT_LAMS))
+    best = pd.concat([E1c[E1c.K == k].head(3) for k in (2, 3, 4)] + [E1c[E1c.wavelengths == chosen]])
+    a.barh(range(len(best)), best.crlb_so2 * 100, color=["#95a5a6"] * 3 + ["#5dade2"] * 3 + ["#c0392b"] * 3 + ["#922b21"])
+    a.set_yticks(range(len(best))); a.set_yticklabels(list(best.wavelengths[:-1]) + [chosen + " (used)"]); a.invert_yaxis()
     a.set_xlabel("CRLB of sO2 (% abs.), bedside, 10-s frame"); a.set_title("(d) Wavelength-set selection (best 3 per K)")
     save(fig, "fig1_optical_design.png")
     # supplementary: CRLB vs sO2 and bone
@@ -111,8 +116,8 @@ def fig2():
     a = ax[0, 1]
     d = E2[(E2.pulse_ns == 8) & (E2.bone_cm == 0.0)]
     a.plot(d.fc_MHz, d.crosstalk_scalp_into_sinus * 100, "s-", color="#c0392b"); a.set_xlabel("centre frequency (MHz)")
-    a.set_ylabel("scalp leakage into sinus gate (%)"); a.set_title("(b) Depth selectivity"); a.set_yscale("log")
-    a2 = a.twinx(); a2.plot(d.fc_MHz, d.axial_res_mm, "^--", color="#2980b9"); a2.set_ylabel("axial resolution (mm)", color="#2980b9")
+    a.set_ylabel("scalp leakage into sinus gate (%)"); a.set_title("(b) Depth selectivity"); a.set_ylim(0, 12)
+    a2 = a.twinx(); a2.plot(d.fc_MHz, 1545.0 / (2 * 0.7 * d.fc_MHz * 1e6) * 1e3, "^--", color="#2980b9"); a2.set_ylabel("axial resolution (mm)", color="#2980b9"); a2.set_ylim(0, 1.3)
     a = ax[1, 0]
     for pulse in (8, 80, 150, 300):
         d = E2[(E2.pulse_ns == pulse) & (E2.bone_cm == 0.0)]; a.plot(d.fc_MHz, d.A_sinus, "o-", label=f"{pulse} ns pulse")

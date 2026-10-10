@@ -1,0 +1,8 @@
+{
+  "best_wavelengths_4": "690/800/850/940",
+  "crlb_so2_best4": 0.012735996762707452,
+  "E1d_max_abs_err_model_pct_z<=1cm": 4.7788153959200885,
+  "E1d_max_abs_err_pert_pct_z<=1cm": 4.072740184975188,
+  "echo_sens_deep_ns_per_C": -16.387931244813608,
+  "echo_sens_sup_ns_per_C": -3.2747386606900237
+}

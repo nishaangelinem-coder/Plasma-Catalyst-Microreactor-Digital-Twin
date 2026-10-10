@@ -33,6 +33,7 @@ def simulate(layer_names, thick_cm, mua_z, phi_z, z_cm, I_avg_Wcm2, q_elec_Wcm2=
     rho = np.array([THERMAL[n][0] for n in names]); cp = np.array([THERMAL[n][1] for n in names])
     k = np.array([THERMAL[n][2] for n in names]); w = perf_scale * np.array([THERMAL[n][3] for n in names])
     Q = I_avg_Wcm2 * np.interp(z, z_cm, mua_z * phi_z, right=0.0) * 1e6       # W/m^3
+    qe = [0.0]                                                                  # electronic heating, off during equilibration
     # baseline temperature profile (no source): solve steady state first
     T = np.full(nz, T_core)
     def step(T, dt):
@@ -41,7 +42,7 @@ def simulate(layer_names, thick_cm, mua_z, phi_z, z_cm, I_avg_Wcm2, q_elec_Wcm2=
         d2 = np.zeros(nz)
         d2[1:-1] = (flux[1:] * (T[2:] - T[1:-1]) - flux[:-1] * (T[1:-1] - T[:-2])) / dz ** 2
         # top boundary: -k dT/dz = h (T_amb - T) + q_elec  (ghost node)
-        qtop = h_top * (T_amb - T[0]) + q_elec_Wcm2 * 1e4
+        qtop = h_top * (T_amb - T[0]) + qe[0] * 1e4
         d2[0] = (flux[0] * (T[1] - T[0]) / dz + qtop) / dz
         Tn = T + dt * (d2 + w * RHO_B * C_B * (T_core - T) + Q) / (rho * cp)
         Tn[-1] = T_core
@@ -52,7 +53,7 @@ def simulate(layer_names, thick_cm, mua_z, phi_z, z_cm, I_avg_Wcm2, q_elec_Wcm2=
     Qs = Q.copy(); Q = np.zeros(nz)
     for _ in range(int(3600 / dt)):
         T = step(T, dt)
-    Q = Qs
+    Q = Qs; qe[0] = q_elec_Wcm2
     nsteps = int(t_end_s / dt)
     rec = max(1, nsteps // 400)
     ts, Tskin, Tcx = [], [], []

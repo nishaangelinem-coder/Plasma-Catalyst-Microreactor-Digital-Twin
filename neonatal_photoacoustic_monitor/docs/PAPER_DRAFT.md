@@ -164,7 +164,37 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 *Fig. 1. Optical design. (a) On-axis fluence per unit incident fluence versus depth over the open fontanelle for a 5-mm beam radius (layers shaded). (b) Fluence at the sinus surface at 800 nm versus bone thickness and beam radius. (c) Sinus-gate SNR for a 10-s frame at 800 nm for the three source classes and three transducers at the 0.1 W/cm² thermal cap (dashed line: SNR 10). (d) Cramér–Rao bound of the venous saturation for the three best wavelength sets of two, three and four wavelengths.*
 
-{{E1_TEXT}}
+**Fluence.** Over the open fontanelle, with a 5-mm beam radius, the fluence at the surface of the sinus (4 mm depth) is 0.44–0.49 times the incident fluence between 690 and 900 nm and 0.39 at 940 nm (Fig. 1(a); Table VI). The low scattering of the neonatal layers makes the first 4 mm almost transparent; inside the blood the fluence falls by an order of magnitude within a millimetre, which is why the sinus signal is a leading-edge signal (Section V-B). One millimetre of bone under the probe costs 4 % of the sinus fluence at 800 nm, 2 mm cost 35 % and 3 mm cost 46 % (Fig. 1(b)); a 3-mm beam radius halves the sinus fluence relative to 5 mm, and 7.5 mm gains another 24 %, so the illumination should fill the fontanelle. The perturbation model reproduces independent Monte Carlo runs at saturations between the table nodes within 1.7 % down to 7 mm and within 4.8 % at 10 mm (Table VI, E1d); the larger deviations at 15–20 mm are dominated by the Monte Carlo variance of the reference runs themselves.
+
+**Table VI. E1 readings at 800 nm over the open fontanelle (beam radius 5 mm) and perturbation-model verification.**
+
+| Quantity | Value |
+|---|---|
+| Fluence at sinus surface / 10 mm / 20 mm (per incident fluence) | 0.49 / 0.011 / 0.0008 |
+| Sinus fluence with 1 / 2 / 3 mm bone | 0.47 / 0.32 / 0.27 |
+| Sinus fluence with 3 / 5 / 7.5 mm beam radius | 0.29 / 0.49 / 0.61 |
+| Derated single-pulse exposure limit at 690 / 800 / 850 / 900 nm (mJ/cm²) | 9.6 / 15.8 / 20.0 / 25.1 |
+| Initial pressure at the sinus edge, 10 mJ/cm² laser / 0.5 mJ/cm² laser diode / 0.05 mJ/cm² LED (Pa) | 2086 / 104 / 10.4 |
+| Max. perturbation-model error vs direct Monte Carlo, z ≤ 7 mm / 10 mm / 20 mm | 1.7 % / 4.8 % / 11 % |
+
+**Sources under the exposure and thermal limits.** With all three sources set to the same 0.1 W/cm² average irradiance (Table II), the compact laser at 2.5 Hz per wavelength gives a sinus-gate SNR of 500 per 10-s frame with the single-element probe, the laser-diode stack at 50 Hz gives 100 and the LED array at 500 Hz gives 29 (Fig. 1(c), Table VII), the ratios that (1) predicts. The CMUT patch roughly doubles each figure; the piezo-polymer patch divides it by three. At 2-s frames, needed for the preterm use case, the LED array with the polymer patch falls below SNR 10 (4.5), whereas every laser-diode and laser combination stays above 17. The single-pulse limit is binding only for the compact laser at 690 nm (9.6 mJ/cm² derated), so the 690-nm line of the laser is run at that value.
+
+**Table VII. E1b sinus-gate SNR per frame at 800 nm (0.1 W/cm² average irradiance, open fontanelle, 10 mJ/cm² / 0.5 mJ/cm² / 0.05 mJ/cm² per pulse).**
+
+| Source | Transducer | 2-s frame | 10-s frame | 30-s frame |
+|---|---|---|---|---|
+| Compact laser | single-element PZT 8 mm | 219 | 497 | 843 |
+| Compact laser | flexible PVDF patch | 79 | 162 | 292 |
+| Compact laser | CMUT patch | 411 | 961 | 1686 |
+| Laser-diode stack | single-element PZT 8 mm | 47 | 103 | 181 |
+| Laser-diode stack | flexible PVDF patch | 17 | 35 | 61 |
+| Laser-diode stack | CMUT patch | 91 | 189 | 339 |
+| LED array | single-element PZT 8 mm | 13 | 29 | 50 |
+| LED array | flexible PVDF patch | 4.5 | 11 | 18 |
+| LED array | CMUT patch | 26 | 62 | 100 |
+
+**Wavelengths.** The Cramér–Rao bound of the venous saturation (bedside device, 10-s frame, 65 % saturation, 2 % model floor per channel) is 1.9 % for the best pair (690/800 nm) and 3.6 % for the common 750/800-nm pair; three wavelengths bring it to 1.4 % and four to 1.27 % (690/800/850/940 nm). Every one of the ten best sets contains 690 nm, because deoxy-haemoglobin absorbs seven times more than oxy-haemoglobin there, whereas the conventional 750/800/850/900-nm set gives 2.2 %. The set used in all later experiments, 690/800/850/900 nm, is within 7 % of the optimum (1.36 %) and avoids the 940-nm water band, whose absorption is itself temperature dependent; across saturations of 45–85 % and 0–3 mm of bone its bound stays between 0.9 and 2.1 % (Fig. S1). In a separate check on 16 random subjects the same set also gave the lowest structural error of the four candidate sets (1.1 % RMSE against 1.6 % for 750/800/850/900 nm), so the sensitivity of 690 nm to deoxy-haemoglobin outweighs its larger fluence-model sensitivity.
+
 
 ### B. E2 – Acoustic design
 
@@ -172,7 +202,12 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 *Fig. 2. Acoustic design at 800 nm with the compact laser. (a) Sinus-gate SNR per 10-s frame versus transducer centre frequency for 0–3 mm of bone under the probe. (b) Leakage of the scalp signal into the sinus gate and axial resolution versus centre frequency. (c) Sinus-gate amplitude versus centre frequency for 8–300-ns optical pulses. (d) Temperature-equivalent noise of the deep differential echo shift versus the number of pulse-echo lines averaged per frame.*
 
-{{E2_TEXT}}
+**Centre frequency.** Because the fluence inside the blood decays within a millimetre, the sinus produces a leading-edge signal whose spectrum extends to several megahertz, and the scalp produces a surface signal of similar bandwidth. Over the open fontanelle the sinus-gate SNR per 10-s frame is highest at 1 MHz (1540), passes through a minimum at 3 MHz (470, where the step-up at the CSF–sinus boundary and the step-down at the membrane–CSF boundary 1 mm above it partly cancel) and recovers at 5–7.5 MHz (1240–1130) (Fig. 2(a)). Bone changes the picture: with 2 mm of bone the SNR at 5 MHz falls eight-fold to 163 while at 1 MHz it falls only three-fold to 555, and with 3 mm of bone only the 1–1.5-MHz elements keep an SNR above 100. The leakage of the scalp signal into the sinus gate is 7–8 % at every centre frequency (Fig. 2(b)), i.e. the gate separation is set by the 4-mm distance between the two sources and the sub-millimetre axial resolution, not by the frequency. The 3-MHz element used in E3–E5 is therefore a conservative choice; a 1–1.5-MHz element would raise the SNR two- to three-fold and tolerate a partly ossified window, which is the design recommendation of Section VI.
+
+**Optical pulse width.** At 1–2 MHz the 80–300-ns pulses of LED and laser-diode sources cost less than 15 % of amplitude relative to an 8-ns laser pulse; at 3 MHz a 300-ns pulse loses 67 %, and at 5 MHz even an 80-ns pulse loses a third (Fig. 2(c)). Long-pulse sources therefore belong with low-frequency elements, which is consistent with the ossification result above.
+
+**Echo-shift thermometry.** The two-way time through the deep segment (CSF, sinus and 9 mm of brain) changes by −16.4 ns/°C and that through the superficial segment by −3.3 ns/°C. With the pad and scalp echoes as references, the differential shift of the deep segment is measured with a standard deviation of 0.29 ns when 100 lines at 30 dB single-line SNR are averaged (18 mK), 0.96 ns at 24 dB (59 mK) and 1.4 ns at 20 dB (88 mK) (Fig. 2(d)); ten lines, as in a 2-s frame, give 84–280 mK. The thermometric precision of the echo channel is therefore not limited by electronic noise but by the non-thermal displacement nuisance (5 ns, i.e. 0.3 °C-equivalent, in the virtual neonate), which is what the fusion with the Grüneisen channel is for.
+
 
 ### C. E3 – Static accuracy over subjects
 
