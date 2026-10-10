@@ -158,9 +158,9 @@ def fig3():
 
 
 # ------------------------------------------------------------------ Fig 4 traces
-def fig4():
-    s1 = np.load(os.path.join(RES, "E4_trace_S1_bedside_seed10.npz"), allow_pickle=True)
-    s2 = np.load(os.path.join(RES, "E4_trace_S2_bedside_seed10.npz"), allow_pickle=True)
+def fig4(seed=11, name="fig4_closed_traces.png"):
+    s1 = np.load(os.path.join(RES, f"E4_trace_S1_bedside_seed{seed}.npz"), allow_pickle=True)
+    s2 = np.load(os.path.join(RES, f"E4_trace_S2_bedside_seed{seed}.npz"), allow_pickle=True)
     fig, ax = plt.subplots(4, 1, figsize=(7.2, 8.0), sharex=False)
     t = s1["t"] / 3600
     a = ax[0]
@@ -192,7 +192,11 @@ def fig4():
     for ev in s2["events"]:
         a.axvspan(ev[0] / 60, ev[1] / 60, color="#f9e79f", alpha=0.6, lw=0)
     a.set_xlabel("time (min)"); a.set_ylabel("sO2 (%)"); a.legend(ncol=3, loc="lower left"); a.set_title("(d) S2 intermittent hypoxaemia (preterm pattern), bedside device")
-    fig.tight_layout(); save(fig, "fig4_closed_traces.png")
+    fig.tight_layout(); save(fig, name)
+
+
+def figS2():
+    fig4(seed=10, name="figS2_worst_case_subject.png")
 
 
 # ------------------------------------------------------------------ Fig 5 benchmark
@@ -203,11 +207,15 @@ def fig5():
               ("S2-bedside", "sO2", "(c) S2 bedside: sO2 RMSE (% abs.)"), ("S1-wearable", "T", "(d) S1 wearable (LD + CMUT patch): brain-T RMSE (°C)")]
     for a, (sc, q, title) in zip(ax.ravel(), panels):
         d = E4[(E4.scenario == sc) & (E4.quantity == q)]
-        g = d.groupby("method").rmse.agg(["mean", "std"]).reindex([m for m in (common.METHODS_SO2 if q == "sO2" else common.METHODS_T) if m in d.method.unique()])
-        a.barh(range(len(g)), g["mean"], xerr=g["std"], color=[C.get(m, "#999") for m in g.index], capsize=2)
-        a.set_yticks(range(len(g))); a.set_yticklabels(g.index); a.invert_yaxis(); a.set_title(title)
+        g = d.groupby("method").rmse.agg(med="median", q1=lambda x: x.quantile(0.25), q3=lambda x: x.quantile(0.75)).reindex(
+            [m for m in (common.METHODS_SO2 if q == "sO2" else common.METHODS_T) if m in d.method.unique()])
+        a.barh(range(len(g)), g["med"], xerr=[g["med"] - g["q1"], g["q3"] - g["med"]], color=[C.get(m, "#999") for m in g.index], capsize=2)
+        a.set_yticks(range(len(g))); a.set_yticklabels(g.index); a.invert_yaxis(); a.set_title(title + ", median [IQR]")
         if q == "T":
-            a.set_xscale("log")
+            a.set_xscale("log"); a.set_xlim(0.05, 20)
+            for i, m in enumerate(g.index):
+                if g.loc[m, "med"] > 20:
+                    a.text(15, i, f"{g.loc[m, 'med']:.0f} →", va="center", ha="right", fontsize=6)
     fig.tight_layout(); save(fig, "fig5_benchmark.png")
 
 
@@ -254,7 +262,7 @@ def fig7():
 
 
 if __name__ == "__main__":
-    which = sys.argv[1:] or ["0", "1", "2", "3", "4", "5", "6", "7"]
+    which = sys.argv[1:] or ["0", "1", "2", "3", "4", "5", "6", "7", "S2"]
     for w in which:
         try:
             globals()[f"fig{w}"]()

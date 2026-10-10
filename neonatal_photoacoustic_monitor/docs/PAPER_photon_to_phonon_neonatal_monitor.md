@@ -1,6 +1,6 @@
 # A Wearable/Bedside Photon-to-Phonon Monitor for Simultaneous Neonatal Cerebral Venous Oxygenation and Brain Temperature: Transfontanelle Photoacoustic Design Exploration and In-Silico Validation
 
-**M. Nisha Angeline**
+**M. Nisha Angeline**, *Senior Member, IEEE* (to be confirmed)
 
 Department of Electronics and Communication Engineering, Velalar College of Engineering and Technology, Thindal, Erode, Tamil Nadu, India. E-mail: nishavlsidesign@gmail.com
 
@@ -18,11 +18,11 @@ Department of Electronics and Communication Engineering, Velalar College of Engi
 
 ## I. Introduction
 
-Therapeutic hypothermia (TH) is the only neuroprotective treatment with proven benefit for term neonates with moderate or severe hypoxic-ischaemic encephalopathy (HIE): cooling to a core temperature of 33.5 °C for 72 h followed by slow rewarming reduces death and disability [@Shankaran2005; @Azzopardi2009; @Jacobs2013]. Deeper or longer cooling does not help [@Shankaran2014], and magnetic-resonance thermometry shows that the injured neonatal brain is systematically warmer than the rectum and that the gradient varies between infants and over time [@Wu2014; @Owji2017]. The organ that the therapy targets is therefore controlled through a surrogate that can be off by up to a degree. Cerebral oxygenation is in a similar position. Regional cerebral oxygen saturation (rScO2) by near-infrared spectroscopy (NIRS) is widely used in neonatal intensive care [@Garvey2018], but it averages a mixed arterial/venous compartment, is contaminated by scalp and skull, differs by 10–15 % between devices and sensors [@Dix2013], has an in-vivo precision of about 2.6 % [@Kleiser2018], and treatment guided by it did not improve outcome in the largest trial to date [@HyttelSorensen2015; @Hansen2023]. Preterm infants add a second use case: intermittent hypoxaemia, with desaturations lasting tens of seconds [@DiFiore2019], under impaired cerebrovascular autoregulation [@Rhee2018].
+Therapeutic hypothermia (TH) is the only neuroprotective treatment with proven benefit for term neonates with moderate or severe hypoxic-ischaemic encephalopathy (HIE): cooling to a core temperature of 33.5 °C for 72 h followed by slow rewarming reduces death and disability [1–3]. Deeper or longer cooling does not help [4], and magnetic-resonance thermometry shows that the injured neonatal brain is systematically warmer than the rectum and that the gradient varies between infants and over time [5, 6]. The organ that the therapy targets is therefore controlled through a surrogate that can be off by up to a degree. Cerebral oxygenation is in a similar position. Regional cerebral oxygen saturation (rScO2) by near-infrared spectroscopy (NIRS) is widely used in neonatal intensive care [7], but it averages a mixed arterial/venous compartment, is contaminated by scalp and skull, differs by 10–15 % between devices and sensors [8], has an in-vivo precision of about 2.6 % [9], and treatment guided by it did not improve outcome in the largest trial to date [10, 11]. Preterm infants add a second use case: intermittent hypoxaemia, with desaturations lasting tens of seconds [12], under impaired cerebrovascular autoregulation [13].
 
-Photoacoustic (optoacoustic) sensing converts photons into phonons: a nanosecond near-infrared pulse absorbed by haemoglobin heats the blood by millikelvins, the thermo-elastic expansion launches an ultrasonic wave, and the wave is recorded by an ultrasound transducer [@XuWang2006; @Beard2011; @WangHu2012]. Because the initial pressure is proportional to the optical absorption, the spectrum of the signal gives the oxygen saturation of the blood that generated it [@Cox2012], with ultrasonic rather than optical depth resolution. Because the conversion efficiency, the Grüneisen parameter, grows almost linearly with temperature in water-rich tissue and in blood, the amplitude also encodes temperature [@Larina2005; @Shah2008; @Pramanik2009; @Petrova2013; @Petrova2014], and the speed of sound read by pulse-echo gives an independent thermometric channel [@Bamber1979; @Seip1995; @Yao2013]. Both properties have been demonstrated in the neonatal setting: optoacoustic monitoring of the superior sagittal sinus (SSS) through the anterior fontanelle has been performed in newborns [@Petrov2012b] and validated against blood-gas oximetry in neonatal piglets [@Kang2018], including with light-emitting-diode (LED) excitation [@Kang2020], and transfontanelle photoacoustic imaging systems have been built and tested in sheep [@Manwar2022; @Manwar2023; @Benavides2023]. Stretchable ultrasound and photoacoustic patches have meanwhile reached deep-tissue haemodynamic monitoring in moving subjects and, in one case, haemoglobin and core-temperature imaging [@Wang2018; @Wang2021; @Gao2022; @Hu2023; @Lin2023].
+Photoacoustic (optoacoustic) sensing converts photons into phonons: a nanosecond near-infrared pulse absorbed by haemoglobin heats the blood by millikelvins, the thermo-elastic expansion launches an ultrasonic wave, and the wave is recorded by an ultrasound transducer [14–16]. Because the initial pressure is proportional to the optical absorption, the spectrum of the signal gives the oxygen saturation of the blood that generated it [17], with ultrasonic rather than optical depth resolution. Because the conversion efficiency, the Grüneisen parameter, grows almost linearly with temperature in water-rich tissue and in blood, the amplitude also encodes temperature [18–22], and the speed of sound read by pulse-echo gives an independent thermometric channel [23–25]. Both properties have been demonstrated in the neonatal setting: optoacoustic monitoring of the superior sagittal sinus (SSS) through the anterior fontanelle has been performed in newborns [26] and validated against blood-gas oximetry in neonatal piglets [27], including with light-emitting-diode (LED) excitation [28], and transfontanelle photoacoustic imaging systems have been built and tested in sheep [29–31]. Stretchable ultrasound and photoacoustic patches have meanwhile reached deep-tissue haemodynamic monitoring in moving subjects and, in one case, haemoglobin and core-temperature imaging [32–36].
 
-What is missing is a device-level design that brings these elements together for the neonate: a monitor that gives *venous cerebral* oxygen saturation and *brain* temperature at the same time, continuously, through the fontanelle, within the optical, acoustic and thermal exposure limits of a 3-kg infant, in a form that can be either a bedside probe or a battery-powered patch, and an estimation algorithm that separates the two quantities from the confounders that corrupt each of them in practice: optical fluence that changes with saturation (spectral colouring) [@Cox2012; @Hochuli2019], the gel-coupling gain that changes with every movement, the amount of blood in the acoustic gate, the scalp temperature which differs from the brain by several degrees under a cooling cap, and sub-millimetre tissue displacement that shifts echoes as much as a degree of temperature would.
+What is missing is a device-level design that brings these elements together for the neonate: a monitor that gives *venous cerebral* oxygen saturation and *brain* temperature at the same time, continuously, through the fontanelle, within the optical, acoustic and thermal exposure limits of a 3-kg infant, in a form that can be either a bedside probe or a battery-powered patch, and an estimation algorithm that separates the two quantities from the confounders that corrupt each of them in practice: optical fluence that changes with saturation (spectral colouring) [17, 37], the gel-coupling gain that changes with every movement, the amount of blood in the acoustic gate, the scalp temperature which differs from the brain by several degrees under a cooling cap, and sub-millimetre tissue displacement that shifts echoes as much as a degree of temperature would.
 
 This paper makes the following contributions.
 
@@ -40,16 +40,16 @@ Table I summarises the approaches that bear on the problem.
 
 | Family | Representative work | What it gives | Limitation for the neonatal use case |
 |---|---|---|---|
-| Continuous-wave NIRS cerebral oximetry (spatially resolved or multi-distance) | [@Garvey2018; @Dix2013; @Kleiser2018; @HyttelSorensen2015; @Hansen2023] | rScO2 of a mixed compartment, trend | 10–15 % inter-device offsets, extracerebral contamination, no depth selectivity, no temperature, no outcome benefit when used for treatment |
-| Rectal / oesophageal / zero-heat-flux thermometry | [@Atallah2016; @Lyon2011] | Core or skin-surface temperature | Brain–rectal gradient of 0.2–1 °C that varies with injury and cooling [@Wu2014; @Owji2017] |
-| MR-spectroscopy thermometry | [@Wu2014; @Owji2017] | Absolute brain temperature | Snapshot only, transport of a cooled infant |
-| Optoacoustic SSS oximetry | [@Petrov2012; @Petrov2012b; @Kang2018; @Kang2020] | Venous sO2 of the sagittal sinus, validated vs blood gas | Two wavelengths, no fluence model, no temperature, laboratory lasers or LED prototypes without coupling-gain control |
-| Transfontanelle PA imaging | [@Manwar2022; @Manwar2023; @Benavides2023] | Images of haemorrhage and oxygenation | Cart-based tomographic systems, not continuous monitoring; no thermometry |
-| Quantitative spectroscopic PA | [@Cox2012; @Tzoumas2016; @Hochuli2019; @Kirchner2018] | Fluence-corrected sO2 | Imaging-oriented; no temporal filtering or coupling control; not applied to the neonate |
-| PA thermometry | [@Larina2005; @Shah2008; @Pramanik2009; @Yao2013; @Petrova2014] | Relative or absolute temperature from Γ(T) and c(T) | Assumes stable coupling and constant blood content; not combined with oximetry in one estimator |
-| Low-cost PA sources | [@Hariri2018; @Zhu2018; @Zhu2020; @Xia2018; @Upputuri2018; @Erfanzadeh2019] | LED/laser-diode systems, cm-scale depth with averaging | Not evaluated under neonatal thermal limits; no design rule for the PRF/energy trade-off under an average-power cap |
-| Wearable ultrasound / PA patches | [@Wang2018; @Wang2021; @Hu2023; @Lin2023; @Gao2022] | Conformal arrays, haemoglobin and core temperature in adults | Not neonatal, not fontanelle-coupled, no joint oxygenation–temperature estimator with fluence model |
-| Kalman fusion of physiological channels | [@Kalman1960; @Li2008; @Buller2013] | Robust fusion of asynchronous noisy channels | Not applied to photoacoustic channels |
+| Continuous-wave NIRS cerebral oximetry (spatially resolved or multi-distance) | [7–11] | rScO2 of a mixed compartment, trend | 10–15 % inter-device offsets, extracerebral contamination, no depth selectivity, no temperature, no outcome benefit when used for treatment |
+| Rectal / oesophageal / zero-heat-flux thermometry | [38, 39] | Core or skin-surface temperature | Brain–rectal gradient of 0.2–1 °C that varies with injury and cooling [5, 6] |
+| MR-spectroscopy thermometry | [5, 6] | Absolute brain temperature | Snapshot only, transport of a cooled infant |
+| Optoacoustic SSS oximetry | [26–28, 40] | Venous sO2 of the sagittal sinus, validated vs blood gas | Two wavelengths, no fluence model, no temperature, laboratory lasers or LED prototypes without coupling-gain control |
+| Transfontanelle PA imaging | [29–31] | Images of haemorrhage and oxygenation | Cart-based tomographic systems, not continuous monitoring; no thermometry |
+| Quantitative spectroscopic PA | [17, 37, 41, 42] | Fluence-corrected sO2 | Imaging-oriented; no temporal filtering or coupling control; not applied to the neonate |
+| PA thermometry | [18–20, 22, 25] | Relative or absolute temperature from Γ(T) and c(T) | Assumes stable coupling and constant blood content; not combined with oximetry in one estimator |
+| Low-cost PA sources | [43–48] | LED/laser-diode systems, cm-scale depth with averaging | Not evaluated under neonatal thermal limits; no design rule for the PRF/energy trade-off under an average-power cap |
+| Wearable ultrasound / PA patches | [32–36] | Conformal arrays, haemoglobin and core temperature in adults | Not neonatal, not fontanelle-coupled, no joint oxygenation–temperature estimator with fluence model |
+| Kalman fusion of physiological channels | [49–51] | Robust fusion of asynchronous noisy channels | Not applied to photoacoustic channels |
 
 The gap is therefore not a single missing technology but the absence of (i) a joint model in which saturation, blood content, temperature of the blood, temperature of the scalp and coupling gain are all unknown and all enter the same photoacoustic amplitude; (ii) a second thermometric channel (speed of sound) with a different nuisance structure that makes the two temperatures identifiable; (iii) a design study that sets the source energy, pulse-repetition frequency, wavelengths and transducer frequency from the safety limits and the anatomy of the neonate rather than from what a laboratory laser happens to provide; and (iv) an evaluation protocol with hidden subject-specific parameters and clinically realistic disturbances, so that the quoted accuracy reflects structural model error and not only noise.
 
@@ -57,13 +57,13 @@ The gap is therefore not a single missing technology but the absence of (i) a jo
 
 ### A. Measurement principle and probe
 
-Fig. 0(a) shows the probe on the anterior fontanelle. The fontanelle is the natural acoustic window of the neonate, used daily for cranial ultrasound [@Dudink2020], and the superior sagittal sinus runs on the midline directly beneath it, 4–7 mm below the skin. The sinus is a 3–5-mm-wide blood-filled channel, so it is the strongest and best-defined photoacoustic absorber in the field of view, and its blood is cerebral venous blood, whose saturation reflects the balance between cerebral oxygen delivery and consumption more directly than a mixed regional saturation does [@Petrov2012; @Kang2018].
+Fig. 0(a) shows the probe on the anterior fontanelle. The fontanelle is the natural acoustic window of the neonate, used daily for cranial ultrasound [52], and the superior sagittal sinus runs on the midline directly beneath it, 4–7 mm below the skin. The sinus is a 3–5-mm-wide blood-filled channel, so it is the strongest and best-defined photoacoustic absorber in the field of view, and its blood is cerebral venous blood, whose saturation reflects the balance between cerebral oxygen delivery and consumption more directly than a mixed regional saturation does [27, 40].
 
-The probe contains (i) two near-infrared emitters on either side of (ii) an ultrasound element (3 MHz, 70 % bandwidth, 8 mm aperture for the bedside probe; a 6-mm capacitive-micromachined (CMUT) or piezo-polymer patch element for the wearable), (iii) a 1-mm acoustic stand-off pad that also carries (iv) a small black polymer *reference absorber* in the illuminated field, and (v) a thermistor at the pad–skin interface. Light at four wavelengths is time-multiplexed. Each frame (2–20 s) the device records the averaged photoacoustic A-line at every wavelength, one pulse-echo A-line, the reference-absorber amplitude and the thermistor value. From the A-lines it reads two depth gates placed by the pulse-echo line: a *scalp gate* at 0.3–1.5 mm and a *sinus gate* on the leading edge of the sinus. The sinus gate spectrum gives the venous saturation; the amplitude at the isosbestic wavelength (800 nm) is proportional to the Grüneisen parameter of blood, i.e. to its temperature [@Petrova2014]; the differential shift of the deep echo relative to the superficial echo measures the change of speed of sound in the tissue between them; the reference absorber measures the coupling gain; and the thermistor anchors the scalp temperature. The chain of Fig. 0(b) turns these into cerebral venous sO2, brain temperature, the brain–scalp gradient and a coupling-quality index with 95 % intervals.
+The probe contains (i) two near-infrared emitters on either side of (ii) an ultrasound element (3 MHz, 70 % bandwidth, 8 mm aperture for the bedside probe; a 6-mm capacitive-micromachined (CMUT) or piezo-polymer patch element for the wearable), (iii) a 1-mm acoustic stand-off pad that also carries (iv) a small black polymer *reference absorber* in the illuminated field, and (v) a thermistor at the pad–skin interface. Light at four wavelengths is time-multiplexed. Each frame (2–20 s) the device records the averaged photoacoustic A-line at every wavelength, one pulse-echo A-line, the reference-absorber amplitude and the thermistor value. From the A-lines it reads two depth gates placed by the pulse-echo line: a *scalp gate* at 0.3–1.5 mm and a *sinus gate* on the leading edge of the sinus. The sinus gate spectrum gives the venous saturation; the amplitude at the isosbestic wavelength (800 nm) is proportional to the Grüneisen parameter of blood, i.e. to its temperature [22]; the differential shift of the deep echo relative to the superficial echo measures the change of speed of sound in the tissue between them; the reference absorber measures the coupling gain; and the thermistor anchors the scalp temperature. The chain of Fig. 0(b) turns these into cerebral venous sO2, brain temperature, the brain–scalp gradient and a coupling-quality index with 95 % intervals.
 
 ### B. Source classes and the exposure-limited trade-off
 
-Three source classes were considered (Table II): an LED array (100-ns pulses, 0.05 mJ/cm² per pulse on the skin [@Hariri2018; @Zhu2020]), a pulsed laser-diode stack (80 ns, 0.5 mJ/cm² [@Upputuri2018]) and a compact Q-switched or fibre laser with four lines (8 ns, 10 mJ/cm²). Two limits apply to every class. The ANSI Z136.1 skin limits for 700–1050 nm are a single-pulse maximum permissible exposure (MPE) of 20·C_A mJ/cm² (31.7 mJ/cm² at 800 nm, C_A = 10^{0.002(λ−700)}) and an average irradiance of 0.2·C_A W/cm² for exposures longer than 10 s [@ANSI2022]; we derate both by 2 for the neonate. The second limit is thermal: the Pennes model of Section IV shows that an insulating patch over a cooled infant should not deposit more than about 0.1 W/cm² of average irradiance if the scalp is to stay within 1 °C of its unperturbed value (Section V-F). With an average-power cap I_cap, per-pulse fluence F_0 and pulse-repetition frequency f_p satisfy F_0 f_p ≤ I_cap. Since the single-frame signal is proportional to F_0 and the noise falls as (f_p T)^{−1/2} after averaging over a frame of length T,
+Three source classes were considered (Table II): an LED array (100-ns pulses, 0.05 mJ/cm² per pulse on the skin [43, 45]), a pulsed laser-diode stack (80 ns, 0.5 mJ/cm² [47]) and a compact Q-switched or fibre laser with four lines (8 ns, 10 mJ/cm²). Two limits apply to every class. The ANSI Z136.1 skin limits for 700–1050 nm are a single-pulse maximum permissible exposure (MPE) of 20·C_A mJ/cm² (31.7 mJ/cm² at 800 nm, C_A = 10^{0.002(λ−700)}) and an average irradiance of 0.2·C_A W/cm² for exposures longer than 10 s [53]; we derate both by 2 for the neonate. The second limit is thermal: the Pennes model of Section IV shows that an insulating patch over a cooled infant should not deposit more than about 0.1 W/cm² of average irradiance if the scalp is to stay within 1 °C of its unperturbed value (Section V-F). With an average-power cap I_cap, per-pulse fluence F_0 and pulse-repetition frequency f_p satisfy F_0 f_p ≤ I_cap. Since the single-frame signal is proportional to F_0 and the noise falls as (f_p T)^{−1/2} after averaging over a frame of length T,
 
 SNR ∝ F_0 √(f_p T) ≤ I_cap √T / √f_p,   (1)
 
@@ -82,13 +82,13 @@ so, under an average-power cap, *the lowest pulse-repetition frequency that stil
 
 ### C. Wavelengths, centre frequency and operating modes
 
-Eight candidate wavelengths between 690 and 940 nm were screened by the Cramér–Rao bound of the venous saturation (Section V-A); 800 nm is always included because it is the isosbestic point at which the amplitude of the sinus gate depends on temperature and blood content but not on saturation [@Petrova2014]. The transducer centre frequency trades the sharpness of the sinus edge signal and the scalp–sinus separation against the frequency-dependent attenuation of any bone that has formed under the probe (Section V-B). Two operating modes result: a *bedside* mode (compact laser, single element, 10-s frames, mains-powered) and a *wearable* mode (laser-diode stack or LED array, CMUT patch, 10-s frames duty-cycled to 25 %, battery-powered); the preterm intermittent-hypoxaemia use case runs the bedside mode at 2-s frames.
+Eight candidate wavelengths between 690 and 940 nm were screened by the Cramér–Rao bound of the venous saturation (Section V-A); 800 nm is always included because it is the isosbestic point at which the amplitude of the sinus gate depends on temperature and blood content but not on saturation [22]. The transducer centre frequency trades the sharpness of the sinus edge signal and the scalp–sinus separation against the frequency-dependent attenuation of any bone that has formed under the probe (Section V-B). Two operating modes result: a *bedside* mode (compact laser, single element, 10-s frames, mains-powered) and a *wearable* mode (laser-diode stack or LED array, CMUT patch, 10-s frames duty-cycled to 25 %, battery-powered); the preterm intermittent-hypoxaemia use case runs the bedside mode at 2-s frames.
 
 ## IV. Methods
 
 ### A. Virtual neonate (hidden truth)
 
-**Head model.** The tissue under the probe is a layered half-space (Table III): scalp, fontanelle membrane (or bone when the fontanelle is partly ossified or the probe is off the window), cerebrospinal fluid (CSF), the sinus (whole blood) and brain parenchyma. Thicknesses and optical properties follow the neonatal values of Fukui et al. and Dehaes et al. [@Fukui2003; @Dehaes2011] and the review of Jacques [@Jacques2013]; whole-blood absorption uses the Prahl compilation of the oxy- and deoxy-haemoglobin extinction coefficients (Gratzer/Kollias data, as in [@Matcher1995]) with 2.3 mM haemoglobin and the whole-blood scattering of [@Bosschaart2014]; water absorption is from [@Hale1973].
+**Head model.** The tissue under the probe is a layered half-space (Table III): scalp, fontanelle membrane (or bone when the fontanelle is partly ossified or the probe is off the window), cerebrospinal fluid (CSF), the sinus (whole blood) and brain parenchyma. Thicknesses and optical properties follow the neonatal values of Fukui et al. and Dehaes et al. [54, 55] and the review of Jacques [56]; whole-blood absorption uses the Prahl compilation of the oxy- and deoxy-haemoglobin extinction coefficients (Gratzer/Kollias data, as in [57]) with 2.3 mM haemoglobin and the whole-blood scattering of [58]; water absorption is from [59].
 
 **Table III. Layered head model (nominal values; the virtual neonate randomises them as in Table IV).**
 
@@ -101,15 +101,15 @@ Eight candidate wavelengths between 690 and 940 nm were screened by the Cramér�
 | Sinus (whole blood) | 3.0 | 4.2 | 7, 0.8 | 2300 | 0.80 | 1584, 1.5 | 0.20, 1.2 | 3.2 |
 | Brain | ∞ | 0.15 | 6.5, 1.0 | 50 | 0.80 | 1546, 1.6 | 0.60, 1.1 | 3.0 |
 
-**Light transport.** Fluence was computed with an MCML-type Monte Carlo code [@MCML1995] written for this study (numba-compiled, Henyey–Greenstein scattering, Fresnel boundary at the skin, 10⁵ photon packets per configuration) that records, in addition to the absorbed energy per (r, z) bin, the first and second moments of the path length the contributing photons have travelled in every layer. The pencil-beam Green's functions were tabulated for 8 wavelengths × 4 bone thicknesses (0, 1, 2, 3 mm) × 3 scattering scales (0.8, 1.0, 1.2) × 3 sinus saturations (0.45, 0.65, 0.85) = 288 configurations, and the on-axis fluence of the flat-top 5-mm beam was obtained by integrating the pencil response over the beam. Any other state is reached by trilinear interpolation of the logarithmic fluence and of the partial path lengths across the grid, followed by the Beer–Lambert perturbation Φ(z) = Φ₀(z) exp(−Σ_j Δμ_{a,j} ⟨L_j(z)⟩ + ½ Σ_j Δμ_{a,j}² Var L_j(z)) for the residual change of absorption of layer j. The second-order term is used by the virtual neonate only; the estimator's model (Section IV-B) uses the first-order term and the population values of Table III, so that the two differ structurally. The model was verified against independent Monte Carlo runs at saturations between the grid nodes (Section V-A).
+**Light transport.** Fluence was computed with an MCML-type Monte Carlo code [60] written for this study (numba-compiled, Henyey–Greenstein scattering, Fresnel boundary at the skin, 10⁵ photon packets per configuration) that records, in addition to the absorbed energy per (r, z) bin, the first and second moments of the path length the contributing photons have travelled in every layer. The pencil-beam Green's functions were tabulated for 8 wavelengths × 4 bone thicknesses (0, 1, 2, 3 mm) × 3 scattering scales (0.8, 1.0, 1.2) × 3 sinus saturations (0.45, 0.65, 0.85) = 288 configurations, and the on-axis fluence of the flat-top 5-mm beam was obtained by integrating the pencil response over the beam. Any other state is reached by trilinear interpolation of the logarithmic fluence and of the partial path lengths across the grid, followed by the Beer–Lambert perturbation Φ(z) = Φ₀(z) exp(−Σ_j Δμ_{a,j} ⟨L_j(z)⟩ + ½ Σ_j Δμ_{a,j}² Var L_j(z)) for the residual change of absorption of layer j. The second-order term is used by the virtual neonate only; the estimator's model (Section IV-B) uses the first-order term and the population values of Table III, so that the two differ structurally. The model was verified against independent Monte Carlo runs at saturations between the grid nodes (Section V-A).
 
-**Photon-to-phonon conversion and acoustics.** The initial pressure is p₀(z) = Γ(T(z)) μ_a(z) Φ(z) F₀, with Γ(T) = Γ₃₇[1 + k_Γ(T − 37 °C)], Γ₃₇ = 0.20, and the layer-specific slopes of Table III, which bracket the 2–4 %/°C reported for water-rich tissue and blood [@Larina2005; @Pramanik2009; @Petrova2013; @Petrova2014]. Within the sinus p₀ is multiplied by the lateral fill factor f_v of the vessel within the aperture. For a laterally wide source and depths within the near field of the element, propagation is one-dimensional: the pressure at the probe is p(t) = ½ p₀(z = ct) [@Beard2011], computed in the frequency domain with the layer-wise frequency-dependent attenuation α₀ f^y and sound speeds c_j(T) = c_{j,0} + k_{c,j}(T − 37 °C) of Table III [@Bamber1979; @Fry1978; @Mohammadi2019], a 1-mm stand-off delay, the optical pulse spectrum (sinc of the pulse width, which penalises 100–300-ns LED and laser-diode pulses) and a Gaussian transducer band-pass. Noise is band-limited white noise with a single-shot in-band rms of the noise-equivalent pressure of Table II, scaled by the square root of the noise bandwidth and averaged over the pulses of the frame. The device DSP reads the mean Hilbert envelope in the two gates and estimates its own noise floor from the signal-free end of the A-line.
+**Photon-to-phonon conversion and acoustics.** The initial pressure is p₀(z) = Γ(T(z)) μ_a(z) Φ(z) F₀, with Γ(T) = Γ₃₇[1 + k_Γ(T − 37 °C)], Γ₃₇ = 0.20, and the layer-specific slopes of Table III, which bracket the 2–4 %/°C reported for water-rich tissue and blood [18, 20–22]. Within the sinus p₀ is multiplied by the lateral fill factor f_v of the vessel within the aperture. For a laterally wide source and depths within the near field of the element, propagation is one-dimensional: the pressure at the probe is p(t) = ½ p₀(z = ct) [15], computed in the frequency domain with the layer-wise frequency-dependent attenuation α₀ f^y and sound speeds c_j(T) = c_{j,0} + k_{c,j}(T − 37 °C) of Table III [23, 61, 62], a 1-mm stand-off delay, the optical pulse spectrum (sinc of the pulse width, which penalises 100–300-ns LED and laser-diode pulses) and a Gaussian transducer band-pass. Noise is band-limited white noise with a single-shot in-band rms of the noise-equivalent pressure of Table II, scaled by the square root of the noise bandwidth and averaged over the pulses of the frame. The device DSP reads the mean Hilbert envelope in the two gates and estimates its own noise floor from the signal-free end of the A-line.
 
 **Pulse-echo channel.** The pulse-echo A-line is synthesised with the same band-pass from three reflectors: the pad–skin interface, the scalp–membrane interface and a deep speckle window at 13–17 mm. The device cross-correlates each window with the first frame (parabolic sub-sample interpolation) and forms *differential* shifts Δτ_s (superficial segment) and Δτ_b (deep segment), which cancel the whole-line jitter produced by probe motion. A non-thermal nuisance (tissue pulsation and slow displacement: an Ornstein–Uhlenbeck process of 5 ns standard deviation and 10-min correlation time plus 1.5 ns white noise) is added to the deep echo by the virtual neonate.
 
-**Reference absorber, thermistor and NIRS comparator.** The reference absorber returns g·(1 − 0.001(T_probe − 37)) with a single-shot SNR of 200, where g is the coupling gain. The thermistor reads the pad–skin interface, which the virtual neonate keeps 0.3–1.0 °C above the scalp dermis, with 0.1 °C noise. The NIRS comparator is an *empirical* model of a commercial cerebral oximeter, not a physics simulation: rScO2 = (1 − w)[0.75 sO2_v + 0.25 SaO2] + w sO2_scalp + b + ε, with extracerebral weight w ~ U(0.15, 0.35), device/sensor offset b ~ U(−6, +6) % [@Dix2013] and ε of 2.6 % standard deviation per 10-s frame [@Kleiser2018].
+**Reference absorber, thermistor and NIRS comparator.** The reference absorber returns g·(1 − 0.001(T_probe − 37)) with a single-shot SNR of 200, where g is the coupling gain. The thermistor reads the pad–skin interface, which the virtual neonate keeps 0.3–1.0 °C above the scalp dermis, with 0.1 °C noise. The NIRS comparator is an *empirical* model of a commercial cerebral oximeter, not a physics simulation: rScO2 = (1 − w)[0.75 sO2_v + 0.25 SaO2] + w sO2_scalp + b + ε, with extracerebral weight w ~ U(0.15, 0.35), device/sensor offset b ~ U(−6, +6) % [8] and ε of 2.6 % standard deviation per 10-s frame [9].
 
-**Subjects and scenarios.** Each held-out subject draws the hidden parameters of Table IV. Scenario S1 (therapeutic hypothermia, 10 h, 20-s frames) cools the core from 37 to 33.5 °C with a 25-min time constant, holds it, and rewarms at 0.5 °C/h from 4 h; the brain is 0.2–0.8 °C warmer than the core with a gradient that grows with cooling [@Wu2014], the scalp is 1–3 °C colder than the core (cooling cap and ambient), the venous saturation drifts around 68 % with two desaturations of 12–22 % lasting 1.5–4 min, a seizure-like episode at 6.5 h raises brain temperature by 0.4 °C, blood content by 8 % and saturation by 5 % for 15 min, movements occur about every 30 min and each reduces the coupling gain by 5–40 % with slow partial recovery. Scenario S2 (preterm intermittent hypoxaemia, 45 min, 2-s frames) contains twelve desaturations of 8–25 % lasting 20–90 s [@DiFiore2019] at a stable temperature, with movements every ~7 min.
+**Subjects and scenarios.** Each held-out subject draws the hidden parameters of Table IV. Scenario S1 (therapeutic hypothermia, 10 h, 20-s frames) cools the core from 37 to 33.5 °C with a 25-min time constant, holds it, and rewarms at 0.5 °C/h from 4 h; the brain is 0.2–0.8 °C warmer than the core with a gradient that grows with cooling [5], the scalp is 1–3 °C colder than the core (cooling cap and ambient), the venous saturation drifts around 68 % with two desaturations of 12–22 % lasting 1.5–4 min, a seizure-like episode at 6.5 h raises brain temperature by 0.4 °C, blood content by 8 % and saturation by 5 % for 15 min, movements occur about every 30 min and each reduces the coupling gain by 5–40 % with slow partial recovery. Scenario S2 (preterm intermittent hypoxaemia, 45 min, 2-s frames) contains twelve desaturations of 8–25 % lasting 20–90 s [12] at a stable temperature, with movements every ~7 min.
 
 **Table IV. Hidden subject-specific parameters of the virtual neonate (uniform ranges).**
 
@@ -131,13 +131,13 @@ The state is x = [sO2_v, ln f_v, T_b, sO2_s, ln HbT_s, T_s, ln g]ᵀ: venous sat
 
 z = [ln A_s(λ_k), ln A_b(λ_k) (k = 1…4), Δτ_s, Δτ_b, ln A_ref, T_skin]ᵀ,   (2)
 
-and the measurement model h(x) runs the *nominal* forward model: population head of Table III with the superficial thickness set to the sinus depth measured by the pulse-echo line (the geometry is "ultrasound-guided"), first-order fluence perturbation, nominal Γ(T) and c(T), the same plane-wave acoustics, transducer response and gating as the device (implemented as a precomputed linear map from p₀(z) to the gate envelopes so that one evaluation costs 0.1 ms), differential echo shifts relative to the anchors, ln A_ref = ln g + ln(1 − 0.001(T_probe − 37)) and T_skin = T_probe − 0.65 °C. Each channel's noise variance is the measured noise floor divided by the amplitude (log domain) plus a 2 % model floor; the echo channels use 3 and 4 ns; the reference absorber 1 %; the thermistor channel 0.35 °C. The states follow random walks with per-frame standard deviations of 0.6 % (sO2), 0.4 % (ln f_v, ln HbT_s), 0.012 °C (T_b), 0.02 °C (T_s) and 0.4 % (ln g) for 10-s frames, scaled with the frame length. The filter is the standard EKF [@Kalman1960] with a numerical Jacobian (forward differences, eight model evaluations per frame) and Joseph-form covariance update. Before the update, the normalised innovation of each channel is tested against the 99 % χ²₁ quantile (6.63); channels that fail have their variance inflated by their normalised innovation squared (capped at 100), which is what protects the estimate when a movement changes the coupling or displaces the tissue in a single frame [@Li2008]. Temperatures are *anchored* at the first frame: T_b(0) = rectal temperature + 0.4 °C (the population mean brain–rectal gradient) and T_s(0) from the thermistor; both anchors are wrong by up to ±0.5 °C for a given subject, which is why absolute and relative (change from baseline) errors are both reported. The device also reports ±1.96σ intervals from the filter covariance.
+and the measurement model h(x) runs the *nominal* forward model: population head of Table III with the superficial thickness set to the sinus depth measured by the pulse-echo line (the geometry is "ultrasound-guided"), first-order fluence perturbation, nominal Γ(T) and c(T), the same plane-wave acoustics, transducer response and gating as the device (implemented as a precomputed linear map from p₀(z) to the gate envelopes so that one evaluation costs 0.1 ms), differential echo shifts relative to the anchors, ln A_ref = ln g + ln(1 − 0.001(T_probe − 37)) and T_skin = T_probe − 0.65 °C. Each channel's noise variance is the measured noise floor divided by the amplitude (log domain) plus a 2 % model floor; the echo channels use 3 and 4 ns; the reference absorber 1 %; the thermistor channel 0.35 °C. The states follow random walks with per-frame standard deviations of 0.6 % (sO2), 0.4 % (ln f_v, ln HbT_s), 0.012 °C (T_b), 0.02 °C (T_s) and 0.4 % (ln g) for 10-s frames, scaled with the frame length. The filter is the standard EKF [49] with a numerical Jacobian (forward differences, eight model evaluations per frame) and Joseph-form covariance update. Before the update, the normalised innovation of each channel is tested against the 99 % χ²₁ quantile (6.63); channels that fail have their variance inflated by their normalised innovation squared (capped at 100), which is what protects the estimate when a movement changes the coupling or displaces the tissue in a single frame [50]. Temperatures are *anchored* at the first frame: T_b(0) = rectal temperature + 0.4 °C (the population mean brain–rectal gradient) and T_s(0) from the thermistor; both anchors are wrong by up to ±0.5 °C for a given subject, which is why absolute and relative (change from baseline) errors are both reported. The device also reports ±1.96σ intervals from the filter covariance.
 
 The two thermometric channels have complementary nuisance structures. The Grüneisen channel (ln A_b at 800 nm) is corrupted by the coupling gain, by the blood content of the gate and by the fluence, each of which the filter observes elsewhere (reference absorber, spectral consistency across the four wavelengths, scalp gate). The echo channel is immune to all three but is corrupted by tissue displacement and by the unknown value of dc/dT. Neither channel alone identifies the brain temperature in the presence of a movement; together, with the thermistor fixing the scalp, they do.
 
 ### C. Baselines and ablations
 
-*Oxygenation:* (B1) the empirical NIRS rScO2 comparator; (B2) linear spectral unmixing of the sinus gate at the four wavelengths without fluence correction, the method of [@Petrov2012; @Kang2018] extended to four wavelengths; (B3) fluence-compensated unmixing, i.e. (B2) iterated with the nominal Monte-Carlo fluence model (four fixed-point iterations) but without scalp estimation, temporal filtering or echo channel [@Cox2012]. *Temperature:* (B4) the rectal probe (true core temperature + 0.1 °C noise); (B5) the scalp thermistor; (B6) classical photoacoustic amplitude thermometry, ΔT = (A/A₀ − 1)/k_Γ at 800 nm in the sinus gate [@Shah2008; @Pramanik2009]; (B7) echo-shift thermometry from the deep differential shift alone with the nominal dc/dT [@Seip1995]. *Ablations* of the proposed filter: without the echo channel, without the reference absorber, without fluence correction (fluence frozen at the nominal state), and without depth gating (one gate spanning 0.3–10 mm).
+*Oxygenation:* (B1) the empirical NIRS rScO2 comparator; (B2) linear spectral unmixing of the sinus gate at the four wavelengths without fluence correction, the method of [27, 40] extended to four wavelengths; (B3) fluence-compensated unmixing, i.e. (B2) iterated with the nominal Monte-Carlo fluence model (four fixed-point iterations) but without scalp estimation, temporal filtering or echo channel [17]. *Temperature:* (B4) the rectal probe (true core temperature + 0.1 °C noise); (B5) the scalp thermistor; (B6) classical photoacoustic amplitude thermometry, ΔT = (A/A₀ − 1)/k_Γ at 800 nm in the sinus gate [19, 20]; (B7) echo-shift thermometry from the deep differential shift alone with the nominal dc/dT [24]. *Ablations* of the proposed filter: without the echo channel, without the reference absorber, without fluence correction (fluence frozen at the nominal state), and without depth gating (one gate spanning 0.3–10 mm).
 
 ### D. Experiments
 
@@ -160,7 +160,7 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 ### A. E1 – Optical design
 
-![](../figures/fig1_optical_design.png)
+![Fig. 1](../figures/fig1_optical_design.png)
 
 *Fig. 1. Optical design. (a) On-axis fluence per unit incident fluence versus depth over the open fontanelle for a 5-mm beam radius (layers shaded). (b) Fluence at the sinus surface at 800 nm versus bone thickness and beam radius. (c) Sinus-gate SNR for a 10-s frame at 800 nm for the three source classes and three transducers at the 0.1 W/cm² thermal cap (dashed line: SNR 10). (d) Cramér–Rao bound of the venous saturation for the three best wavelength sets of two, three and four wavelengths.*
 
@@ -198,7 +198,7 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 ### B. E2 – Acoustic design
 
-![](../figures/fig2_acoustic_design.png)
+![Fig. 2](../figures/fig2_acoustic_design.png)
 
 *Fig. 2. Acoustic design at 800 nm with the compact laser. (a) Sinus-gate SNR per 10-s frame versus transducer centre frequency for 0–3 mm of bone under the probe. (b) Leakage of the scalp signal into the sinus gate and axial resolution versus centre frequency. (c) Sinus-gate amplitude versus centre frequency for 8–300-ns optical pulses. (d) Temperature-equivalent noise of the deep differential echo shift versus the number of pulse-echo lines averaged per frame.*
 
@@ -211,7 +211,7 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 ### C. E3 – Static accuracy over subjects
 
-![](../figures/fig3_static_accuracy.png)
+![Fig. 3](../figures/fig3_static_accuracy.png)
 
 *Fig. 3. Static accuracy over 16 held-out subjects × 4 random states (bedside device, 10-s frames, last 20 frames of a 12-min recording averaged). (a) Estimated versus true venous sO2 for NIRS, linear unmixing, fluence-compensated unmixing and the proposed filter. (b) Bland–Altman plot for sO2. (c), (d) The same for brain temperature with the rectal probe, echo-shift-only and amplitude-only thermometry.*
 
@@ -235,15 +235,15 @@ Over 64 subject–state combinations spanning 40–90 % venous saturation and 32
 
 ### D. E4 – Dynamic clinical scenarios
 
-![](../figures/fig4_closed_traces.png)
+![Fig. 4](../figures/fig4_closed_traces.png)
 
 *Fig. 4. Typical held-out subject (seed 11; sO2 RMSE 0.7 %, temperature RMSE 0.44 °C). (a) S1 therapeutic hypothermia, venous sO2: truth, proposed filter with 95 % band, NIRS and linear unmixing; desaturation events shaded. (b) S1 brain temperature: truth, proposed filter, rectal probe, echo-shift-only and amplitude-only thermometry during cooling, maintenance, rewarming and the seizure-like episode at 6.5 h. (c) Brain–scalp gradient and coupling gain (true and estimated) across movement events. (d) S2 intermittent hypoxaemia at 2-s frames.*
 
-![](../figures/figS2_worst_case_subject.png)
+![Fig. S2](../figures/figS2_worst_case_subject.png)
 
 *Fig. S2. Worst-case held-out subject (seed 10: 0.8 mm of bone under the probe, sinus-gate SNR 156): the filter and fluence-compensated unmixing carry a constant positive bias while linear unmixing does not, illustrating the ossification limit quantified in E5.*
 
-![](../figures/fig5_benchmark.png)
+![Fig. 5](../figures/fig5_benchmark.png)
 
 *Fig. 5. Benchmark over 16 held-out subjects (median and interquartile range of the per-subject RMSE; Table XI gives mean ± SD). (a) S1 bedside, sO2. (b) S1 bedside, brain temperature. (c) S2 bedside, sO2. (d) S1 wearable (laser-diode stack + CMUT patch), brain temperature.*
 
@@ -297,7 +297,7 @@ Fig. 4 shows a typical held-out subject and Fig. 5 the benchmark; Table XI lists
 
 ### E. E5 – Sensitivity
 
-![](../figures/fig6_sensitivity.png)
+![Fig. 6](../figures/fig6_sensitivity.png)
 
 *Fig. 6. Sensitivity of the sO2 (top) and brain-temperature (bottom) RMSE in the 6-h hypothermia scenario (8 subjects per setting) to bone under the probe, noise power, the true/assumed Grüneisen slope, the true/assumed speed-of-sound coefficient and the sinus fill factor.*
 
@@ -316,7 +316,7 @@ Fig. 6 and Table XII give the RMSE of the 6-h hypothermia scenario on 8 subjects
 
 ### F. E6 – Thermal safety and power budget
 
-![](../figures/fig7_thermal_safety.png)
+![Fig. 7](../figures/fig7_thermal_safety.png)
 
 *Fig. 7. Pennes bioheat model of the tissue under the probe. (a) Scalp temperature rise after 20 min versus average NIR irradiance for an insulating patch and an open probe, with and without 50 mW/cm² of electronic self-heating. (b) Cortical temperature rise for the cooled infant.*
 
@@ -357,7 +357,7 @@ Two of the three outputs of the device exist only because of the joint estimatio
 
 ### C. Relation to published measurements
 
-The simulated venous saturations and their accuracy can be compared with the piglet validation of transfontanelle sagittal-sinus photoacoustics, which reported root-mean-square errors below 10 % against blood-gas co-oximetry with two wavelengths and no fluence model [@Kang2018; @Kang2020], and with the 60–80 % sinus saturations measured optoacoustically in human newborns [@Petrov2012b]. The temperature resolution is in line with the 0.15 °C sensitivity of photoacoustic thermometry at 2-s averaging [@Pramanik2009] and the 0.6 °C absolute accuracy of combined Grüneisen/speed-of-sound thermometry at 9 mm depth [@Yao2013]; the present filter achieves its accuracy relative to an anchor, which is the clinically available rectal probe, and its contribution is the continuous tracking of the brain–core and brain–scalp differences that MR thermometry shows to be clinically relevant [@Wu2014; @Owji2017]. The NIRS comparator reproduces the inter-device offsets and precision of the literature [@Dix2013; @Kleiser2018] by construction, so the comparison in Fig. 3 and Fig. 5 is a comparison with the published behaviour of cerebral oximeters, not with a simulated optical instrument.
+The simulated venous saturations and their accuracy can be compared with the piglet validation of transfontanelle sagittal-sinus photoacoustics, which reported root-mean-square errors below 10 % against blood-gas co-oximetry with two wavelengths and no fluence model [27, 28], and with the 60–80 % sinus saturations measured optoacoustically in human newborns [26]. The temperature resolution is in line with the 0.15 °C sensitivity of photoacoustic thermometry at 2-s averaging [20] and the 0.6 °C absolute accuracy of combined Grüneisen/speed-of-sound thermometry at 9 mm depth [25]; the present filter achieves its accuracy relative to an anchor, which is the clinically available rectal probe, and its contribution is the continuous tracking of the brain–core and brain–scalp differences that MR thermometry shows to be clinically relevant [5, 6]. The NIRS comparator reproduces the inter-device offsets and precision of the literature [8, 9] by construction, so the comparison in Fig. 3 and Fig. 5 is a comparison with the published behaviour of cerebral oximeters, not with a simulated optical instrument.
 
 ### D. Limitations
 
@@ -365,7 +365,7 @@ The study is in-silico. Its limitations are those of its models. (i) Light trans
 
 ### E. Validation plan
 
-The results define the targets for hardware validation: (1) phantom tests with a blood-filled 4-mm channel at 4–7 mm depth under a layered scalp/membrane phantom at 33–39 °C, with controlled saturation (tonometry) and temperature, to calibrate k_Γ and dc/dT and to verify the ±2 % and ±0.2 °C static targets; (2) coupling and motion tests on the phantom to verify the reference-absorber gain correction and the differential echo-shift immunity; (3) a neonatal piglet study with graded hypoxia and whole-body cooling against sagittal-sinus blood gases and an implanted brain thermistor, following [@Kang2018]; (4) a first-in-human observational study in cooled infants against rectal temperature and arterial/venous blood gases, with MR thermometry where available [@Wu2014], under IEC 60601 applied-part temperature limits [@IEC60601] and the photobiological limits of [@ANSI2022; @IEC62471].
+The results define the targets for hardware validation: (1) phantom tests with a blood-filled 4-mm channel at 4–7 mm depth under a layered scalp/membrane phantom at 33–39 °C, with controlled saturation (tonometry) and temperature, to calibrate k_Γ and dc/dT and to verify the ±2 % and ±0.2 °C static targets; (2) coupling and motion tests on the phantom to verify the reference-absorber gain correction and the differential echo-shift immunity; (3) a neonatal piglet study with graded hypoxia and whole-body cooling against sagittal-sinus blood gases and an implanted brain thermistor, following [27]; (4) a first-in-human observational study in cooled infants against rectal temperature and arterial/venous blood gases, with MR thermometry where available [5], under IEC 60601 applied-part temperature limits [63] and the photobiological limits of [53, 64].
 
 ## VII. Conclusion
 
@@ -381,4 +381,130 @@ The author thanks the open-source communities behind NumPy, SciPy, Numba and Mat
 
 ## References
 
-<<REFERENCES>>
+[1] S. Shankaran, A. R. Laptook, R. A. Ehrenkranz, et al., "Whole-body hypothermia for neonates with hypoxic-ischemic encephalopathy," *N. Engl. J. Med.*, vol. 353, no. 15, pp. 1574–1584, 2005, doi: 10.1056/NEJMcps050929.
+
+[2] D. V. Azzopardi, B. Strohm, A. D. Edwards, et al., "Moderate hypothermia to treat perinatal asphyxial encephalopathy," *N. Engl. J. Med.*, vol. 361, no. 14, pp. 1349–1358, 2009, doi: 10.1056/NEJMoa0900854.
+
+[3] S. E. Jacobs, M. Berg, R. Hunt, W. O. Tarnow-Mordi, T. E. Inder, and P. G. Davis, "Cooling for newborns with hypoxic ischaemic encephalopathy," *Cochrane Database Syst. Rev.*, no. 1, Art. no. CD003311, 2013, doi: 10.1002/14651858.CD003311.pub3.
+
+[4] S. Shankaran, A. R. Laptook, A. Pappas, et al., "Effect of depth and duration of cooling on deaths in the NICU among neonates with hypoxic ischemic encephalopathy: A randomized clinical trial," *JAMA*, vol. 312, no. 24, pp. 2629–2639, 2014, doi: 10.1001/jama.2014.16058.
+
+[5] T.-W. Wu, C. McLean, P. Friedlich, et al., "Brain temperature in neonates with hypoxic-ischemic encephalopathy during therapeutic hypothermia," *J. Pediatr.*, vol. 165, no. 6, pp. 1129–1134, 2014, doi: 10.1016/j.jpeds.2014.07.022.
+
+[6] Z. P. Owji, G. Gilbert, C. Saint-Martin, and P. Wintermark, "Brain temperature is increased during the first days of life in asphyxiated newborns: Developing brain injury despite hypothermia treatment," *AJNR Am. J. Neuroradiol.*, vol. 38, no. 11, pp. 2180–2186, 2017, doi: 10.3174/ajnr.A5350.
+
+[7] A. A. Garvey and E. M. Dempsey, "Applications of near infrared spectroscopy in the neonate," *Curr. Opin. Pediatr.*, vol. 30, no. 2, pp. 209–215, 2018, doi: 10.1097/MOP.0000000000000599 (DOI to be verified).
+
+[8] L. M. L. Dix, F. van Bel, W. Baerts, and P. M. A. Lemmers, "Comparing near-infrared spectroscopy devices and their sensors for monitoring regional cerebral oxygen saturation in the neonate," *Pediatr. Res.*, vol. 74, no. 5, pp. 557–563, 2013, doi: 10.1038/pr.2013.133.
+
+[9] S. Kleiser, D. Ostojic, N. Nasseri, et al., "In vivo precision assessment of a near-infrared spectroscopy-based tissue oximeter (OxyPrem v1.3) in neonates considering systemic hemodynamic fluctuations," *J. Biomed. Opt.*, vol. 23, no. 6, Art. no. 067003, 2018, doi: 10.1117/1.JBO.23.6.067003.
+
+[10] S. Hyttel-Sorensen, A. Pellicer, T. Alderliesten, et al., "Cerebral near infrared spectroscopy oximetry in extremely preterm infants: phase II randomised clinical trial," *BMJ*, vol. 350, Art. no. g7635, 2015, doi: 10.1136/bmj.g7635.
+
+[11] M. L. Hansen, A. Pellicer, S. Hyttel-Sørensen, et al., "Cerebral oximetry monitoring in extremely preterm infants," *N. Engl. J. Med.*, vol. 388, no. 16, pp. 1501–1511, 2023, doi: 10.1056/NEJMoa2207554.
+
+[12] J. M. Di Fiore, P. M. MacFarlane, and R. J. Martin, "Intermittent hypoxemia in preterm infants," *Clin. Perinatol.*, vol. 46, no. 3, pp. 553–565, 2019, doi: 10.1016/j.clp.2019.05.006.
+
+[13] C. J. Rhee, C. S. da Costa, T. Austin, K. M. Brady, M. Czosnyka, and J. K. Lee, "Neonatal cerebrovascular autoregulation," *Pediatr. Res.*, vol. 84, no. 5, pp. 602–610, 2018, doi: 10.1038/s41390-018-0141-6.
+
+[14] M. Xu and L. V. Wang, "Photoacoustic imaging in biomedicine," *Rev. Sci. Instrum.*, vol. 77, no. 4, Art. no. 041101, 2006, doi: 10.1063/1.2195024.
+
+[15] P. Beard, "Biomedical photoacoustic imaging," *Interface Focus*, vol. 1, no. 4, pp. 602–631, 2011, doi: 10.1098/rsfs.2011.0028.
+
+[16] L. V. Wang and S. Hu, "Photoacoustic tomography: In vivo imaging from organelles to organs," *Science*, vol. 335, no. 6075, pp. 1458–1462, 2012, doi: 10.1126/science.1216210.
+
+[17] B. Cox, J. G. Laufer, S. R. Arridge, and P. C. Beard, "Quantitative spectroscopic photoacoustic imaging: a review," *J. Biomed. Opt.*, vol. 17, no. 6, Art. no. 061202, 2012, doi: 10.1117/1.JBO.17.6.061202.
+
+[18] I. V. Larina, K. V. Larin, and R. O. Esenaliev, "Real-time optoacoustic monitoring of temperature in tissues," *J. Phys. D: Appl. Phys.*, vol. 38, no. 15, pp. 2633–2639, 2005, doi: 10.1088/0022-3727/38/15/015 (DOI to be verified).
+
+[19] J. Shah, S. Park, S. Aglyamov, et al., "Photoacoustic imaging and temperature measurement for photothermal cancer therapy," *J. Biomed. Opt.*, vol. 13, no. 3, Art. no. 034024, 2008, doi: 10.1117/1.2940362.
+
+[20] M. Pramanik and L. V. Wang, "Thermoacoustic and photoacoustic sensing of temperature," *J. Biomed. Opt.*, vol. 14, no. 5, Art. no. 054024, 2009, doi: 10.1117/1.3247155.
+
+[21] E. Petrova, S. Ermilov, R. Su, V. Nadvoretskiy, A. Conjusteau, and A. Oraevsky, "Using optoacoustic imaging for measuring the temperature dependence of Grüneisen parameter in optically absorbing solutions," *Opt. Express*, vol. 21, no. 21, pp. 25077–25090, 2013, doi: 10.1364/OE.21.025077.
+
+[22] E. V. Petrova, A. A. Oraevsky, and S. A. Ermilov, "Red blood cell as a universal optoacoustic sensor for non-invasive temperature monitoring," *Appl. Phys. Lett.*, vol. 105, no. 9, Art. no. 094103, 2014, doi: 10.1063/1.4894635.
+
+[23] J. C. Bamber and C. R. Hill, "Ultrasonic attenuation and propagation speed in mammalian tissues as a function of temperature," *Ultrasound Med. Biol.*, vol. 5, no. 2, pp. 149–157, 1979, doi: 10.1016/0301-5629(79)90083-8 (DOI to be verified).
+
+[24] R. Seip and E. S. Ebbini, "Noninvasive estimation of tissue temperature response to heating fields using diagnostic ultrasound," *IEEE Trans. Biomed. Eng.*, vol. 42, no. 8, pp. 828–839, 1995, doi: 10.1109/10.398644.
+
+[25] J. Yao, H. Ke, S. Tai, Y. Zhou, and L. V. Wang, "Absolute photoacoustic thermometry in deep tissue," *Opt. Lett.*, vol. 38, no. 24, pp. 5228–5231, 2013, doi: 10.1364/OL.38.005228.
+
+[26] I. Y. Petrov, K. E. Wynne, Y. Petrov, et al., "Noninvasive, optoacoustic monitoring of cerebral venous blood oxygenation in newborns," *Proc. SPIE*, vol. 8223, Art. no. 82231M, 2012, doi: 10.1117/12.914657.
+
+[27] J. Kang, E. M. Boctor, S. Adams, et al., "Validation of noninvasive photoacoustic measurements of sagittal sinus oxyhemoglobin saturation in hypoxic neonatal piglets," *J. Appl. Physiol.*, vol. 125, no. 4, pp. 983–989, 2018, doi: 10.1152/japplphysiol.00184.2018.
+
+[28] J. Kang, R. C. Koehler, S. Adams, E. M. Graham, and E. M. Boctor, "Light-emitting diode-based transcranial photoacoustic measurement of sagittal sinus oxyhemoglobin saturation in hypoxic neonatal piglets," bioRxiv, 2020 (preprint), doi: 10.1101/2020.08.22.262451.
+
+[29] R. Manwar, L. S. McGuire, M. T. Islam, et al., "Transfontanelle photoacoustic imaging for in-vivo cerebral oxygenation measurement," *Sci. Rep.*, vol. 12, 2022, doi: 10.1038/s41598-022-19350-x.
+
+[30] R. Manwar, K. Kratkiewicz, S. Mahmoodkalayeh, et al., "Development and characterization of transfontanelle photoacoustic imaging system for detection of intracranial hemorrhages and measurement of brain oxygenation: Ex-vivo," *Photoacoustics*, vol. 32, Art. no. 100538, 2023, doi: 10.1016/j.pacs.2023.100538.
+
+[31] J. Benavides-Lara, R. Manwar, L. S. McGuire, et al., "Transfontanelle photoacoustic imaging of intraventricular brain hemorrhages in live sheep," *Photoacoustics*, vol. 33, Art. no. 100549, 2023, doi: 10.1016/j.pacs.2023.100549.
+
+[32] C. Wang, X. Li, H. Hu, et al., "Monitoring of the central blood pressure waveform via a conformal ultrasonic device," *Nat. Biomed. Eng.*, vol. 2, no. 9, pp. 687–695, 2018, doi: 10.1038/s41551-018-0287-x.
+
+[33] C. Wang, B. Qi, M. Lin, et al., "Continuous monitoring of deep-tissue haemodynamics with stretchable ultrasonic phased arrays," *Nat. Biomed. Eng.*, vol. 5, no. 7, pp. 749–758, 2021, doi: 10.1038/s41551-021-00763-4.
+
+[34] X. Gao, X. Chen, H. Hu, et al., "A photoacoustic patch for three-dimensional imaging of hemoglobin and core temperature," *Nat. Commun.*, vol. 13, Art. no. 7757, 2022, doi: 10.1038/s41467-022-35455-3.
+
+[35] H. Hu, H. Huang, M. Li, et al., "A wearable cardiac ultrasound imager," *Nature*, vol. 613, no. 7945, pp. 667–675, 2023, doi: 10.1038/s41586-022-05498-z.
+
+[36] M. Lin, Z. Zhang, X. Gao, et al., "A fully integrated wearable ultrasound system to monitor deep tissues in moving subjects," *Nat. Biotechnol.*, 2023, doi: 10.1038/s41587-023-01800-0.
+
+[37] R. Hochuli, L. An, P. C. Beard, and B. T. Cox, "Estimating blood oxygenation from photoacoustic images: can a simple linear spectroscopic inversion ever work?," *J. Biomed. Opt.*, vol. 24, no. 12, Art. no. 121914, 2019, doi: 10.1117/1.JBO.24.12.121914.
+
+[38] L. Atallah, E. Bongers, B. Lamichhane, and S. Bambang-Oetomo, "Unobtrusive monitoring of neonatal brain temperature using a zero-heat-flux sensor matrix," *IEEE J. Biomed. Health Inform.*, vol. 20, no. 1, pp. 100–107, 2016, doi: 10.1109/JBHI.2014.2385103 (DOI to be verified).
+
+[39] A. J. Lyon and Y. Freer, "Goals and options in keeping preterm babies warm," *Arch. Dis. Child. Fetal Neonatal Ed.*, vol. 96, no. 1, pp. F71–F74, 2011, doi: 10.1136/adc.2009.161158.
+
+[40] I. Y. Petrov, Y. Petrov, D. S. Prough, et al., "Optoacoustic monitoring of cerebral venous blood oxygenation though intact scalp in large animals," *Opt. Express*, vol. 20, no. 4, pp. 4159–4167, 2012, doi: 10.1364/OE.20.004159.
+
+[41] S. Tzoumas, A. Nunes, I. Olefir, et al., "Eigenspectra optoacoustic tomography achieves quantitative blood oxygenation imaging deep in tissues," *Nat. Commun.*, vol. 7, Art. no. 12121, 2016, doi: 10.1038/ncomms12121.
+
+[42] T. Kirchner, J. Gröhl, and L. Maier-Hein, "Context encoding enables machine learning-based quantitative photoacoustics," *J. Biomed. Opt.*, vol. 23, no. 5, Art. no. 056008, 2018, doi: 10.1117/1.JBO.23.5.056008.
+
+[43] A. Hariri, J. Lemaster, J. Wang, et al., "The characterization of an economic and portable LED-based photoacoustic imaging system to facilitate molecular imaging," *Photoacoustics*, vol. 9, pp. 10–20, 2018, doi: 10.1016/j.pacs.2017.11.001.
+
+[44] Y. Zhu, G. Xu, J. Yuan, et al., "Light emitting diodes based photoacoustic imaging and potential clinical applications," *Sci. Rep.*, vol. 8, Art. no. 9885, 2018, doi: 10.1038/s41598-018-28131-4.
+
+[45] Y. Zhu, T. Feng, Q. Cheng, et al., "Towards clinical translation of LED-based photoacoustic imaging: A review," *Sensors*, vol. 20, no. 9, Art. no. 2484, 2020, doi: 10.3390/s20092484.
+
+[46] W. Xia, M. Kuniyil Ajith Singh, E. Maneas, et al., "Handheld real-time LED-based photoacoustic and ultrasound imaging system for accurate visualization of clinical metal needles and superficial vasculature to guide minimally invasive procedures," *Sensors*, vol. 18, no. 5, Art. no. 1394, 2018, doi: 10.3390/s18051394.
+
+[47] P. K. Upputuri and M. Pramanik, "Fast photoacoustic imaging systems using pulsed laser diodes: a review," *Biomed. Eng. Lett.*, vol. 8, no. 2, pp. 167–181, 2018, doi: 10.1007/s13534-018-0060-9.
+
+[48] M. Erfanzadeh and Q. Zhu, "Photoacoustic imaging with low-cost sources; A review," *Photoacoustics*, vol. 14, pp. 1–11, 2019, doi: 10.1016/j.pacs.2019.01.004.
+
+[49] R. E. Kalman, "A new approach to linear filtering and prediction problems," *J. Basic Eng.*, vol. 82, no. 1, pp. 35–45, 1960, doi: 10.1115/1.3662552.
+
+[50] Q. Li, R. G. Mark, and G. D. Clifford, "Robust heart rate estimation from multiple asynchronous noisy sources using signal quality indices and a Kalman filter," *Physiol. Meas.*, vol. 29, no. 1, pp. 15–32, 2008, doi: 10.1088/0967-3334/29/1/002.
+
+[51] M. J. Buller, W. J. Tharion, S. N. Cheuvront, et al., "Estimation of human core temperature from sequential heart rate observations," *Physiol. Meas.*, vol. 34, no. 7, pp. 781–798, 2013, doi: 10.1088/0967-3334/34/7/781 (DOI to be verified).
+
+[52] J. Dudink, S. J. Steggerda, S. Horsch, et al., "State-of-the-art neonatal cerebral ultrasound: technique and reporting," *Pediatr. Res.*, vol. 87, Suppl. 1, pp. 3–12, 2020, doi: 10.1038/s41390-020-0776-y.
+
+[53] ANSI Z136.1-2022, *American National Standard for Safe Use of Lasers*. Orlando, FL, USA: Laser Institute of America, 2022.
+
+[54] Y. Fukui, Y. Ajichi, and E. Okada, "Monte Carlo prediction of near-infrared light propagation in realistic adult and neonatal head models," *Appl. Opt.*, vol. 42, no. 16, pp. 2881–2887, 2003, doi: 10.1364/AO.42.002881.
+
+[55] M. Dehaes, P. E. Grant, D. D. Sliva, et al., "Assessment of the frequency-domain multi-distance method to evaluate the brain optical properties: Monte Carlo simulations from neonate to adult," *Biomed. Opt. Express*, vol. 2, no. 3, pp. 552–567, 2011, doi: 10.1364/BOE.2.000552.
+
+[56] S. L. Jacques, "Optical properties of biological tissues: a review," *Phys. Med. Biol.*, vol. 58, no. 11, pp. R37–R61, 2013, doi: 10.1088/0031-9155/58/11/R37.
+
+[57] S. J. Matcher, C. E. Elwell, C. E. Cooper, M. Cope, and D. T. Delpy, "Performance comparison of several published tissue near-infrared spectroscopy algorithms," *Anal. Biochem.*, vol. 227, no. 1, pp. 54–68, 1995, doi: 10.1006/abio.1995.1252.
+
+[58] N. Bosschaart, G. J. Edelman, M. C. G. Aalders, T. G. van Leeuwen, and D. J. Faber, "A literature review and novel theoretical approach on the optical properties of whole blood," *Lasers Med. Sci.*, vol. 29, no. 2, pp. 453–479, 2014, doi: 10.1007/s10103-013-1446-7.
+
+[59] G. M. Hale and M. R. Querry, "Optical constants of water in the 200-nm to 200-µm wavelength region," *Appl. Opt.*, vol. 12, no. 3, pp. 555–563, 1973, doi: 10.1364/AO.12.000555 (DOI to be verified).
+
+[60] L. Wang, S. L. Jacques, and L. Zheng, "MCML—Monte Carlo modeling of light transport in multi-layered tissues," *Comput. Methods Programs Biomed.*, vol. 47, no. 2, pp. 131–146, 1995, doi: 10.1016/0169-2607(95)01640-F.
+
+[61] F. J. Fry and J. E. Barger, "Acoustical properties of the human skull," *J. Acoust. Soc. Am.*, vol. 63, no. 5, pp. 1576–1590, 1978, doi: 10.1121/1.381852.
+
+[62] L. Mohammadi, H. Behnam, J. Tavakkoli, and M. R. N. Avanaki, "Skull's photoacoustic attenuation and dispersion modeling with deterministic ray-tracing: Towards real-time aberration correction," *Sensors*, vol. 19, no. 2, Art. no. 345, 2019, doi: 10.3390/s19020345.
+
+[63] IEC 60601-1, *Medical electrical equipment – Part 1: General requirements for basic safety and essential performance* (applied-part surface temperature limits), and IEC 60601-2-19 (infant incubators). Geneva, Switzerland: IEC.
+
+[64] IEC 62471:2006, *Photobiological safety of lamps and lamp systems*. Geneva, Switzerland: IEC, 2006.

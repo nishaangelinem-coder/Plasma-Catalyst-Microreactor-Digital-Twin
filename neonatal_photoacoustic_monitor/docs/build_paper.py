@@ -7,7 +7,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 src = open(os.path.join(HERE, "PAPER_DRAFT.md"), encoding="utf-8").read()
 order = []
 def repl(m):
-    keys = [k.strip() for k in m.group(1).split(",")]
+    keys = [k.strip().lstrip("@") for k in re.split(r"[;,]", m.group(1)) if k.strip()]
     nums = []
     for k in keys:
         if k not in REFS:
@@ -32,7 +32,7 @@ out_md = os.path.join(HERE, "PAPER_photon_to_phonon_neonatal_monitor.md")
 open(out_md, "w", encoding="utf-8").write(body)
 print("markdown written:", out_md, f"({len(order)} references, {len(body.split())} words)")
 docx = out_md.replace(".md", ".docx")
-subprocess.run(["pandoc", out_md, "-o", docx, "--resource-path", os.path.join(HERE, ".."), "--toc=false"], check=True, cwd=HERE)
+subprocess.run(["pandoc", os.path.basename(out_md), "-o", os.path.basename(docx), f"--resource-path=.:..:{os.path.join(HERE, '..', 'figures')}"], check=True, cwd=HERE)
 print("docx written:", docx)
 r = subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", HERE, docx], capture_output=True, text=True)
 print(r.stdout[-300:], r.stderr[-300:])
