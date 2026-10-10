@@ -243,7 +243,30 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 *Fig. 7. Pennes bioheat model of the tissue under the probe. (a) Scalp temperature rise after 20 min versus average NIR irradiance for an insulating patch and an open probe, with and without 50 mW/cm² of electronic self-heating. (b) Cortical temperature rise for the cooled infant.*
 
-{{E6_TEXT}}
+**Optical heating.** In the Pennes model the scalp under an insulating patch warms by 0.37 °C per 20 mW/cm² of average near-infrared irradiance after 20 min (0.33 °C under an open probe), i.e. 0.93 °C at 50 mW/cm², 1.86 °C at the 0.1 W/cm² assumed in Table II and 6.0 °C at the undated ANSI average-power limit of 0.32 W/cm² (Fig. 7(a), Table VIII); 90 % of the rise is reached within 5 min. The cortex of a cooled infant warms by 0.29 °C at 50 mW/cm² and 0.57 °C at 0.1 W/cm² (Fig. 7(b)), which is not negligible against a 33.5 °C target, and the absolute skin temperature stays below the 41 °C applied-part limit of IEC 60601-1 in every case (35.3 °C at 0.1 W/cm² for the cooled infant). A 1 °C scalp limit therefore corresponds to a continuous average irradiance of about 50 mW/cm², or to the 0.1 W/cm² of Table II at a duty cycle of 50 % or less. Since the SNR under an average-power cap scales with the square root of the cap (1), halving it divides the SNRs of Table VII by 1.4; the ×4 noise-power setting of E5 covers this case with margin.
+
+**Electronic heating.** Heat from the driver and front-end that reaches the skin is the larger hazard: 20 mW/cm² conducted into the scalp raises it by 2.4 °C and 50 mW/cm² by 6 °C, independently of the optical load (Table VIII), because the insulated contact can shed heat only by conduction into the tissue. The patch must therefore conduct its dissipation to the air side, and the heat flux into the skin must be kept below about 5 mW/cm² (0.6 °C), which the thermistor at the pad–skin interface can verify continuously.
+
+**Table VIII. E6 scalp temperature rise after 20 min (Pennes model, 37 °C infant; cooled infant within 0.1 °C of these values).**
+
+| Average irradiance (W/cm²) | Insulated patch | Insulated patch + 20 mW/cm² electronics | Open probe | Cortex rise, cooled infant |
+|---|---|---|---|---|
+| 0.02 | 0.37 | 2.79 | 0.33 | 0.11 |
+| 0.05 | 0.93 | 3.35 | 0.83 | 0.29 |
+| 0.10 | 1.86 | 4.28 | 1.66 | 0.57 |
+| 0.20 | 3.73 | 6.15 | 3.32 | 1.14 |
+| 0.32 | 5.97 | 8.39 | 5.32 | 1.83 |
+
+**Power budget.** With a 30 % wall-plug efficiency the laser-diode stack draws 0.26 W for four wavelengths at 50 Hz each and the full patch (front end, ADC, controller and radio at 0.25 W) 0.51 W, or 0.32 W when the source runs 25 % of the time: 14 h and 23 h on a 7.4-Wh battery (Table IX). The LED array is less efficient at the same average irradiance (0.77 W, 9.6 h) because of its lower wall-plug efficiency, and the compact laser at 2 % efficiency (4.2 W) is a mains-powered bedside device. The duty-cycled laser-diode patch is thus the wearable configuration carried into E4: 25 % duty reduces the average irradiance to 25 mW/cm² (0.46 °C scalp rise) and still delivers the 10-s-frame SNR of Table VII whenever the source is on.
+
+**Table IX. E6 wearable power budget (four wavelengths, 5-mm beam radius, 0.1 W/cm² while the source is on, 0.25 W for electronics).**
+
+| Source | Wall-plug eff. | Optical energy per pulse (mJ) | Source power (W) | Total, continuous (W) | Battery life, continuous (h) | Total, 25 % duty (W) | Battery life, 25 % duty (h) |
+|---|---|---|---|---|---|---|---|
+| LED array | 0.15 | 0.039 | 0.52 | 0.77 | 9.6 | 0.38 | 19 |
+| Laser-diode stack | 0.30 | 0.39 | 0.26 | 0.51 | 14 | 0.32 | 23 |
+| Compact laser | 0.02 | 7.9 | 3.9 | 4.2 | 1.8 (mains) | 1.2 | 6.0 |
+
 
 ## VI. Discussion
 

@@ -240,7 +240,7 @@ def fig7():
     fig, ax = plt.subplots(1, 2, figsize=(7.2, 2.8))
     a = ax[0]
     for contact in ("insulated patch", "open probe"):
-        for q in (0.0, 0.05):
+        for q in (0.0, 0.02):
             d = E6[(E6.contact == contact) & (E6.q_elec_Wcm2 == q) & (E6.T_core == 37.0)]
             a.plot(d.I_avg_Wcm2, d.dT_skin_20min, "o-" if q == 0 else "s--", label=f"{contact}, electronics {q*1e3:.0f} mW/cm²")
     a.axhline(1.0, color="k", ls=":", lw=0.8); a.axvline(0.1, color="#c0392b", ls=":", lw=0.8)
