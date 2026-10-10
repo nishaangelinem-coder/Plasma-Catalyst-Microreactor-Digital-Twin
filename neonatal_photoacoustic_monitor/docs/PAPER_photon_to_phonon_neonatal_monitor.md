@@ -1,6 +1,6 @@
 # A Wearable/Bedside Photon-to-Phonon Monitor for Simultaneous Neonatal Cerebral Venous Oxygenation and Brain Temperature: Transfontanelle Photoacoustic Design Exploration and In-Silico Validation
 
-**M. Nisha Angeline**, *Senior Member, IEEE* (to be confirmed)
+**M. Nisha Angeline**
 
 Department of Electronics and Communication Engineering, Velalar College of Engineering and Technology, Thindal, Erode, Tamil Nadu, India. E-mail: nishavlsidesign@gmail.com
 
@@ -160,7 +160,7 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 ### A. E1 – Optical design
 
-![Fig. 1](../figures/fig1_optical_design.png)
+![](../figures/fig1_optical_design.png)
 
 *Fig. 1. Optical design. (a) On-axis fluence per unit incident fluence versus depth over the open fontanelle for a 5-mm beam radius (layers shaded). (b) Fluence at the sinus surface at 800 nm versus bone thickness and beam radius. (c) Sinus-gate SNR for a 10-s frame at 800 nm for the three source classes and three transducers at the 0.1 W/cm² thermal cap (dashed line: SNR 10). (d) Cramér–Rao bound of the venous saturation for the three best wavelength sets of two, three and four wavelengths.*
 
@@ -198,7 +198,7 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 ### B. E2 – Acoustic design
 
-![Fig. 2](../figures/fig2_acoustic_design.png)
+![](../figures/fig2_acoustic_design.png)
 
 *Fig. 2. Acoustic design at 800 nm with the compact laser. (a) Sinus-gate SNR per 10-s frame versus transducer centre frequency for 0–3 mm of bone under the probe. (b) Leakage of the scalp signal into the sinus gate and axial resolution versus centre frequency. (c) Sinus-gate amplitude versus centre frequency for 8–300-ns optical pulses. (d) Temperature-equivalent noise of the deep differential echo shift versus the number of pulse-echo lines averaged per frame.*
 
@@ -211,7 +211,7 @@ All readings are in `results/` of the repository; figures are produced by `exper
 
 ### C. E3 – Static accuracy over subjects
 
-![Fig. 3](../figures/fig3_static_accuracy.png)
+![](../figures/fig3_static_accuracy.png)
 
 *Fig. 3. Static accuracy over 16 held-out subjects × 4 random states (bedside device, 10-s frames, last 20 frames of a 12-min recording averaged). (a) Estimated versus true venous sO2 for NIRS, linear unmixing, fluence-compensated unmixing and the proposed filter. (b) Bland–Altman plot for sO2. (c), (d) The same for brain temperature with the rectal probe, echo-shift-only and amplitude-only thermometry.*
 
@@ -235,15 +235,15 @@ Over 64 subject–state combinations spanning 40–90 % venous saturation and 32
 
 ### D. E4 – Dynamic clinical scenarios
 
-![Fig. 4](../figures/fig4_closed_traces.png)
+![](../figures/fig4_closed_traces.png)
 
 *Fig. 4. Typical held-out subject (seed 11; sO2 RMSE 0.7 %, temperature RMSE 0.44 °C). (a) S1 therapeutic hypothermia, venous sO2: truth, proposed filter with 95 % band, NIRS and linear unmixing; desaturation events shaded. (b) S1 brain temperature: truth, proposed filter, rectal probe, echo-shift-only and amplitude-only thermometry during cooling, maintenance, rewarming and the seizure-like episode at 6.5 h. (c) Brain–scalp gradient and coupling gain (true and estimated) across movement events. (d) S2 intermittent hypoxaemia at 2-s frames.*
 
-![Fig. S2](../figures/figS2_worst_case_subject.png)
+![](../figures/figS2_worst_case_subject.png)
 
 *Fig. S2. Worst-case held-out subject (seed 10: 0.8 mm of bone under the probe, sinus-gate SNR 156): the filter and fluence-compensated unmixing carry a constant positive bias while linear unmixing does not, illustrating the ossification limit quantified in E5.*
 
-![Fig. 5](../figures/fig5_benchmark.png)
+![](../figures/fig5_benchmark.png)
 
 *Fig. 5. Benchmark over 16 held-out subjects (median and interquartile range of the per-subject RMSE; Table XI gives mean ± SD). (a) S1 bedside, sO2. (b) S1 bedside, brain temperature. (c) S2 bedside, sO2. (d) S1 wearable (laser-diode stack + CMUT patch), brain temperature.*
 
@@ -297,7 +297,7 @@ Fig. 4 shows a typical held-out subject and Fig. 5 the benchmark; Table XI lists
 
 ### E. E5 – Sensitivity
 
-![Fig. 6](../figures/fig6_sensitivity.png)
+![](../figures/fig6_sensitivity.png)
 
 *Fig. 6. Sensitivity of the sO2 (top) and brain-temperature (bottom) RMSE in the 6-h hypothermia scenario (8 subjects per setting) to bone under the probe, noise power, the true/assumed Grüneisen slope, the true/assumed speed-of-sound coefficient and the sinus fill factor.*
 
@@ -316,7 +316,7 @@ Fig. 6 and Table XII give the RMSE of the 6-h hypothermia scenario on 8 subjects
 
 ### F. E6 – Thermal safety and power budget
 
-![Fig. 7](../figures/fig7_thermal_safety.png)
+![](../figures/fig7_thermal_safety.png)
 
 *Fig. 7. Pennes bioheat model of the tissue under the probe. (a) Scalp temperature rise after 20 min versus average NIR irradiance for an insulating patch and an open probe, with and without 50 mW/cm² of electronic self-heating. (b) Cortical temperature rise for the cooled infant.*
 
